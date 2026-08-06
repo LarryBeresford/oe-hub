@@ -171,10 +171,32 @@
   .org-role { font-size:10.5px; color:#999; margin-top:2px; }
   @media(max-width:700px){ .org-cols { flex-direction:column; } }
 
+  /* ── SIDEBAR COLGABLE (manual, boton en la topbar) ── */
+  .sidebar { transition: width 0.18s ease; overflow: hidden; }
+  .main { transition: margin-left 0.18s ease; }
+  body.sidebar-collapsed .sidebar { width: 68px; }
+  body.sidebar-collapsed .main { margin-left: 68px; }
+  body.sidebar-collapsed .logo-text,
+  body.sidebar-collapsed .nav-label,
+  body.sidebar-collapsed .nav-direct span:last-child,
+  body.sidebar-collapsed .sidebar-footer { display:none; }
+  body.sidebar-collapsed .sidebar-logo { justify-content:center; padding:20px 0 16px; }
+  body.sidebar-collapsed .nav-direct { justify-content:center; padding:10px 0; }
+
+  .sidebar-toggle {
+    background:none; border:1px solid var(--border); border-radius:8px;
+    width:32px; height:32px; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; color:var(--dark); flex-shrink:0; margin-right:12px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .sidebar-toggle:hover { border-color: var(--yellow); background: var(--yellow-bg); }
+  .sidebar-toggle svg { width:18px; height:18px; stroke:currentColor; }
+
   @media(max-width:800px){
     .sidebar { width: 72px; }
     .logo-text, .nav-label, .nav-direct span:last-child { display:none; }
     .main { margin-left: 72px; }
+    .sidebar-toggle { display:none; }
   }
 </style>
 </head>
@@ -202,6 +224,9 @@
 <main class="main">
   <div class="topbar">
     <div class="topbar-breadcrumb">
+      <button class="sidebar-toggle" onclick="toggleSidebar()" title="Contraer/expandir menu" aria-label="Contraer/expandir menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+      </button>
       <span class="bc-current" id="bcCurrent">Inicio</span>
     </div>
   </div>
@@ -325,6 +350,10 @@
 <script>
   const LABELS = { inicio:'Inicio', proyectos:'Proyectos', boletines:'Boletines', directorio:'Directorio', indicadores:'Indicadores' };
   let activeBtn = null;
+
+  function toggleSidebar() {
+    document.body.classList.toggle('sidebar-collapsed');
+  }
 
   function go(pageId, btn) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
