@@ -364,6 +364,14 @@
     if (btn) { btn.classList.add('active'); activeBtn = btn; }
 
     document.getElementById('bcCurrent').textContent = LABELS[pageId] || pageId;
+
+    // El Directorio siempre se ve con el sidebar contraido (mas ancho, igual
+    // que en el newsletter); en cualquier otra seccion vuelve a expandirse.
+    if (pageId === 'directorio') {
+      document.body.classList.add('sidebar-collapsed');
+    } else {
+      document.body.classList.remove('sidebar-collapsed');
+    }
   }
 </script>
 </body>
