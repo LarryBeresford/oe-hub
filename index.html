@@ -145,12 +145,31 @@
   .quick-card-title { font-size:14px; font-weight:800; color:var(--dark); margin-bottom:4px; }
   .quick-card-sub { font-size:12px; color:#999; line-height:1.5; }
 
-  /* Team grid (Directorio) */
-  .team-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; }
-  .member-card { background: var(--white); border:1px solid var(--border); border-radius:10px; padding:16px; display:flex; align-items:center; gap:11px; }
-  .member-avatar { width:44px;height:44px; border-radius:50%; object-fit:cover; border:2px solid var(--yellow); flex-shrink:0; }
-  .member-name { font-size:13px; font-weight:700; color:var(--dark); }
-  .member-role { font-size:11px; color:#999; margin-top:1px; }
+  /* Directorio — organigrama agrupado por equipo (mismo criterio que el boletin) */
+  .org-top { text-align:center; margin-bottom:2px; }
+  .org-top-card {
+    display:inline-flex; align-items:center; gap:12px;
+    background: var(--white); border:1px solid var(--border); border-top:3px solid var(--yellow);
+    border-radius:10px; padding:14px 22px;
+  }
+  .org-top-avatar { width:52px; height:52px; border-radius:50%; object-fit:cover; border:2px solid var(--yellow); flex-shrink:0; }
+  .org-top-name { font-size:14px; font-weight:800; color:var(--dark); text-align:left; }
+  .org-top-role { font-size:11px; color:#999; margin-top:2px; text-align:left; }
+  .org-connector { width:2px; height:22px; background:var(--yellow); margin:0 auto 20px; }
+  .org-cols { display:flex; gap:16px; flex-wrap:wrap; }
+  .org-col { flex:1; min-width:190px; }
+  .org-col-label {
+    font-size:10px; font-weight:800; letter-spacing:.12em; text-transform:uppercase;
+    color:#999; text-align:center; margin-bottom:10px;
+  }
+  .org-member {
+    background: var(--white); border:1px solid var(--border); border-radius:10px;
+    padding:14px 12px; text-align:center; margin-bottom:10px;
+  }
+  .org-avatar { width:48px; height:48px; border-radius:50%; object-fit:cover; border:2px solid var(--yellow); margin:0 auto 8px; display:block; }
+  .org-name { font-size:12.5px; font-weight:700; color:var(--dark); }
+  .org-role { font-size:10.5px; color:#999; margin-top:2px; }
+  @media(max-width:700px){ .org-cols { flex-direction:column; } }
 
   @media(max-width:800px){
     .sidebar { width: 72px; }
@@ -255,16 +274,34 @@
         <div class="page-title">Directorio</div>
         <div class="page-desc">Equipo de Excelencia Operacional MLM.</div>
       </div>
-      <div class="team-grid">
-        <div class="member-card"><img class="member-avatar" src="https://i.imgur.com/fA8JHId.jpg"/><div><div class="member-name">Miguel Hernández</div><div class="member-role">Sr Manager · OE</div></div></div>
-        <div class="member-card"><img class="member-avatar" src="https://i.imgur.com/UcM3gqc.jpg"/><div><div class="member-name">Steven Seedorf</div><div class="member-role">Manager · SVC + LM</div></div></div>
-        <div class="member-card"><img class="member-avatar" src="https://i.imgur.com/i3epbGL.jpg"/><div><div class="member-name">Mariana Novoa</div><div class="member-role">Manager · XD, SC + FM</div></div></div>
-        <div class="member-card"><img class="member-avatar" src="https://i.imgur.com/MH4N1CU.jpg"/><div><div class="member-name">Ana Vargas</div><div class="member-role">Supervisor · SVC+LM</div></div></div>
-        <div class="member-card"><img class="member-avatar" src="https://i.imgur.com/uDq0p1w.jpeg"/><div><div class="member-name">Germán Gonzalo Ramírez</div><div class="member-role">Supervisor · XD, SC+FM</div></div></div>
-        <div class="member-card"><img class="member-avatar" src="https://i.imgur.com/f6C6n8t.jpg"/><div><div class="member-name">Eduardo García</div><div class="member-role">Supervisor · XD, SC+FM</div></div></div>
-        <div class="member-card"><img class="member-avatar" src="https://i.imgur.com/dCfmGI5.jpeg"/><div><div class="member-name">Laura Chávez</div><div class="member-role">Supervisor · Quality</div></div></div>
-        <div class="member-card"><img class="member-avatar" src="https://i.imgur.com/NHcV4RN.jpg"/><div><div class="member-name">Juan Carlos García</div><div class="member-role">Supervisor · Quality</div></div></div>
-        <div class="member-card"><img class="member-avatar" src="https://i.imgur.com/nE4Yfj6.jpg"/><div><div class="member-name">Ricardo Almanza</div><div class="member-role">Supervisor · Gestión</div></div></div>
+      <div class="org-top">
+        <div class="org-top-card">
+          <img class="org-top-avatar" src="https://i.imgur.com/fA8JHId.jpg"/>
+          <div><div class="org-top-name">Miguel Hernández</div><div class="org-top-role">Sr Manager · OE</div></div>
+        </div>
+      </div>
+      <div class="org-connector"></div>
+      <div class="org-cols">
+        <div class="org-col">
+          <div class="org-col-label">SVC+LM</div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/UcM3gqc.jpg"/><div class="org-name">Steven Seedorf</div><div class="org-role">Manager</div></div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/MH4N1CU.jpg"/><div class="org-name">Ana Vargas</div><div class="org-role">Supervisor</div></div>
+        </div>
+        <div class="org-col">
+          <div class="org-col-label">XD, SC+FM</div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/i3epbGL.jpg"/><div class="org-name">Mariana Novoa</div><div class="org-role">Manager</div></div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/uDq0p1w.jpeg"/><div class="org-name">Germán Gonzalo Ramírez</div><div class="org-role">Supervisor</div></div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/f6C6n8t.jpg"/><div class="org-name">Eduardo García</div><div class="org-role">Supervisor</div></div>
+        </div>
+        <div class="org-col">
+          <div class="org-col-label">Quality</div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/dCfmGI5.jpeg"/><div class="org-name">Laura Chávez</div><div class="org-role">Supervisor</div></div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/NHcV4RN.jpg"/><div class="org-name">Juan Carlos García</div><div class="org-role">Supervisor</div></div>
+        </div>
+        <div class="org-col">
+          <div class="org-col-label">Gestión</div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/nE4Yfj6.jpg"/><div class="org-name">Ricardo Almanza</div><div class="org-role">Supervisor</div></div>
+        </div>
       </div>
     </div>
 
