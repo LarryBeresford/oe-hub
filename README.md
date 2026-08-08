@@ -8,13 +8,15 @@ Este es un repositorio **separado** de `motor-oe` (la app de Streamlit que gener
 los boletines mensuales). El hub y el generador de boletines son proyectos
 independientes que conviven en el mismo equipo.
 
-## Estado actual (Sprint 1 — Cimientos y diseño)
+## Estado actual (Sprint 2 — Contenido y portafolio, en curso)
 
 - [x] Shell de navegación (sidebar + topbar + páginas) adaptado del diseño de referencia aprobado.
 - [x] Arquitectura de secciones: Inicio, Proyectos, Boletines, Directorio, Indicadores.
 - [x] Directorio poblado con el equipo real de OE.
-- [ ] Proyectos, Boletines e Indicadores: placeholders "en construcción" — se conectan en Sprints 2 y 3.
-- [ ] Repositorio en GitHub + despliegue en Vercel.
+- [x] Repositorio en GitHub + despliegue en Vercel (https://oe-hub-mu.vercel.app/).
+- [x] Boletines: los 3 newsletters de julio 2026 (First Mile, Service Center, Quality) enlazados desde `boletines/2026-07/`. Para agregar un mes nuevo: copiar los 3 HTML del motor a una carpeta `boletines/AAAA-MM/` y agregar sus tarjetas en la página Boletines de `index.html`.
+- [ ] Proyectos: pendiente de la tabla de portafolio (ver `Propuesta_Datos_Indicadores_OE_Hub.docx`).
+- [ ] Indicadores: placeholder "en construcción" — se conecta en el Sprint 3.
 
 ## Correr en local
 

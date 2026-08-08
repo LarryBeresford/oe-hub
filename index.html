@@ -118,6 +118,32 @@
   .coming-soon-title { font-size:15px; font-weight:700; color:#CCC; margin-bottom:5px; }
   .coming-soon-sub { font-size:12px; }
 
+  /* Boletines */
+  .bulletin-month-group { margin-bottom:30px; }
+  .bulletin-month-label {
+    font-size:11px; font-weight:800; letter-spacing:0.15em; text-transform:uppercase;
+    color:#999; margin-bottom:12px; padding-left:2px;
+  }
+  .bulletin-grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
+    gap:14px;
+  }
+  .bulletin-card {
+    background: var(--white); border:1px solid var(--border); border-top:3px solid var(--yellow);
+    border-radius:12px; padding:22px; text-decoration:none; display:block;
+    transition: box-shadow 0.15s, transform 0.15s;
+  }
+  .bulletin-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.08); transform: translateY(-2px); }
+  .bulletin-card-icon svg { width:24px; height:24px; stroke: var(--yellow-dark); margin-bottom:12px; }
+  .bulletin-card-title { font-size:15px; font-weight:800; color:var(--dark); margin-bottom:4px; }
+  .bulletin-card-sub { font-size:12px; color:#999; margin-bottom:16px; }
+  .bulletin-card-link {
+    font-size:12px; font-weight:700; color: var(--yellow-dark);
+    display:flex; align-items:center; gap:5px;
+  }
+  .bulletin-card-link svg { width:13px; height:13px; stroke:var(--yellow-dark); }
+
   /* Home */
   .home-hero {
     background: var(--dark);
@@ -285,10 +311,29 @@
         <div class="page-title">Boletines</div>
         <div class="page-desc">Histórico de newsletters mensuales por área.</div>
       </div>
-      <div class="coming-soon">
-        <div class="coming-soon-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
-        <div class="coming-soon-title">Contenido en construcción</div>
-        <div class="coming-soon-sub">El histórico de boletines se conecta en el Sprint 2.</div>
+
+      <div class="bulletin-month-group">
+        <div class="bulletin-month-label">Julio 2026</div>
+        <div class="bulletin-grid">
+          <a class="bulletin-card" href="boletines/2026-07/Boletin_FirstMile.html" target="_blank" rel="noopener">
+            <div class="bulletin-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M8 12h8M8 16h8M8 8h3"/></svg></div>
+            <div class="bulletin-card-title">First Mile</div>
+            <div class="bulletin-card-sub">Boletín mensual de Excelencia Operacional</div>
+            <div class="bulletin-card-link">Ver boletín <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
+          </a>
+          <a class="bulletin-card" href="boletines/2026-07/Boletin_ServiceCenter.html" target="_blank" rel="noopener">
+            <div class="bulletin-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M8 12h8M8 16h8M8 8h3"/></svg></div>
+            <div class="bulletin-card-title">Service Center</div>
+            <div class="bulletin-card-sub">Boletín mensual de Excelencia Operacional</div>
+            <div class="bulletin-card-link">Ver boletín <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
+          </a>
+          <a class="bulletin-card" href="boletines/2026-07/Boletin_Quality.html" target="_blank" rel="noopener">
+            <div class="bulletin-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M8 12h8M8 16h8M8 8h3"/></svg></div>
+            <div class="bulletin-card-title">Quality</div>
+            <div class="bulletin-card-sub">Boletín mensual de Excelencia Operacional</div>
+            <div class="bulletin-card-link">Ver boletín <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
+          </a>
+        </div>
       </div>
     </div>
 
