@@ -3,142 +3,270 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>OE MLM Hub — Vista previa estilo MTM</title>
+<title>OE MLM Hub — Vista previa v2</title>
 <style>
   :root {
-    --yellow: #FFE600; --yellow-dark:#C8B600; --yellow-bg:#FFFBEA;
-    --dark:#111; --dark2:#1A1A1A; --white:#FFF; --border:#E2E2E2; --light-bg:#F7F7F5;
+    --yellow: #FFD001;
+    --yellow-dark: #E6BB00;
+    --yellow-bg: #FFFBEA;
+    --dark: #1A1A1A;
+    --light-bg: #F5F5F5;
+    --white: #FFFFFF;
+    --border: #E2E2E2;
+    --sidebar-w: 260px;
   }
-  * { box-sizing:border-box; margin:0; padding:0; }
-  body { font-family:'Segoe UI', system-ui, -apple-system, sans-serif; background:var(--light-bg); color:var(--dark); }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--light-bg);
+    color: var(--dark);
+    display: flex;
+    min-height: 100vh;
+  }
 
   .preview-banner {
-    background:var(--dark); color:var(--yellow); font-size:11px; font-weight:700;
-    letter-spacing:.08em; text-align:center; padding:6px 10px; text-transform:uppercase;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    background: var(--dark); color: var(--yellow);
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    text-align: center; padding: 6px 10px; text-transform: uppercase;
+  }
+  .preview-shift { margin-top: 27px; }
+
+  .sidebar {
+    width: var(--sidebar-w);
+    background: var(--dark);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 27px; left: 0;
+    height: calc(100vh - 27px);
+    z-index: 100;
+    border-right: 4px solid var(--yellow);
+    transition: width 0.18s ease;
+    overflow: hidden;
   }
 
-  .brand-line { height:3px; background:linear-gradient(90deg, var(--yellow-dark), var(--yellow), var(--yellow-dark)); }
+  .sidebar-logo {
+    padding: 20px 18px 16px;
+    border-bottom: 1px solid #2a2a2a;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    flex-shrink: 0;
+    background: none; border: none; cursor: pointer; width: 100%; text-align: left;
+  }
+
+  .logo-mark {
+    width: 36px; height: 36px;
+    background: var(--yellow);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 17px; color: var(--dark);
+    flex-shrink: 0;
+  }
+
+  .logo-text { font-size: 14px; font-weight: 800; color: var(--white); letter-spacing: 0.03em; }
+
+  .sidebar-nav { flex: 1; padding: 8px 0 12px; overflow-y:auto; }
+
+  .nav-label {
+    font-size: 9px; font-weight: 700; color: #555;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 14px 16px 5px;
+  }
+
+  .nav-direct {
+    width: 100%; display: flex; align-items: center; gap: 9px;
+    padding: 10px 16px;
+    background: none; border: none;
+    border-left: 3px solid transparent;
+    color: #AAAAAA; font-size: 13px; font-weight: 600;
+    font-family: inherit; cursor: pointer; text-align: left;
+    transition: all 0.15s;
+  }
+  .nav-direct:hover { color: var(--white); background: rgba(255,255,255,0.04); }
+  .nav-direct.active { color: var(--yellow); border-left-color: var(--yellow); background: rgba(255,208,1,0.06); }
+  .nav-icon { width: 17px; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+  .nav-icon svg { width:16px; height:16px; stroke: currentColor; }
+  .nav-chevron { margin-left:auto; width:12px; flex-shrink:0; transition: transform 0.15s; }
+  .nav-chevron svg { width:12px; height:12px; stroke: currentColor; }
+  .nav-group.open .nav-chevron { transform: rotate(90deg); }
+
+  .nav-sub { max-height:0; overflow:hidden; transition: max-height 0.18s ease; }
+  .nav-group.open + .nav-sub { max-height:200px; }
+  .nav-sub-item {
+    width:100%; display:flex; align-items:center; gap:9px;
+    padding: 8px 16px 8px 42px; background:none; border:none;
+    color:#888; font-size:12.5px; font-weight:600; font-family:inherit;
+    cursor:pointer; text-align:left; border-left:3px solid transparent;
+    transition: all 0.15s;
+  }
+  .nav-sub-item:hover { color: var(--white); background: rgba(255,255,255,0.04); }
+  .nav-sub-item.active { color: var(--yellow); border-left-color: var(--yellow); background: rgba(255,208,1,0.06); }
+
+  .sidebar-footer {
+    padding: 12px 16px; border-top: 1px solid #2a2a2a;
+    font-size: 10px; color: #444; flex-shrink:0;
+  }
+
+  .main { margin-left: var(--sidebar-w); flex:1; display:flex; flex-direction:column; min-height:100vh; transition: margin-left 0.18s ease; }
 
   .topbar {
-    background:var(--dark); color:var(--white); display:flex; align-items:center;
-    justify-content:space-between; padding:14px 28px; flex-wrap:wrap; gap:10px;
+    background: var(--white); border-bottom: 1px solid var(--border);
+    padding: 0 28px; height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top:27px; z-index:50;
   }
-  .topbar-brand { display:flex; align-items:center; gap:10px; font-weight:800; font-size:14px; }
-  .topbar-brand .mark { background:var(--yellow); color:var(--dark); font-weight:900; font-size:11px; padding:4px 8px; border-radius:4px; }
-  .topbar-right { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-  .topbar-link { color:#ccc; font-size:12px; font-weight:700; text-decoration:none; display:flex; align-items:center; gap:5px; }
-  .topbar-link:hover { color:var(--yellow); }
-  .topbar-badge { background:var(--yellow); color:var(--dark); font-size:11px; font-weight:900; padding:5px 12px; border-radius:14px; }
-  .lang-pill { display:flex; border:1px solid #444; border-radius:14px; overflow:hidden; }
-  .lang-pill button { background:none; border:none; color:#aaa; font-size:11px; font-weight:700; padding:5px 10px; cursor:pointer; }
-  .lang-pill button.active { background:var(--yellow); color:var(--dark); }
+  .topbar-breadcrumb { font-size:12px; color:#999; display:flex; align-items:center; gap:5px; }
+  .bc-current { color: var(--dark); font-weight:700; }
 
-  .chipnav { background:var(--white); border-bottom:1px solid var(--border); padding:12px 28px; display:flex; gap:8px; flex-wrap:wrap; }
-  .chipnav a {
-    display:flex; align-items:center; gap:6px; background:var(--light-bg); border:1px solid var(--border);
-    border-radius:18px; padding:7px 14px; font-size:12.5px; font-weight:700; color:var(--dark); text-decoration:none;
+  .lang-toggle {
+    display:flex; align-items:center; gap:2px;
+    background: var(--light-bg); border:1px solid var(--border); border-radius:8px; padding:3px;
   }
-  .chipnav a:hover { border-color:var(--yellow-dark); background:var(--yellow-bg); }
-
-  .wrap { max-width:1080px; margin:0 auto; padding:36px 28px 60px; }
-
-  .hero { text-align:center; max-width:640px; margin:0 auto 30px; }
-  .hero-eyebrow { font-size:12px; font-weight:800; color:var(--yellow-dark); text-transform:uppercase; letter-spacing:.08em; margin-bottom:10px; }
-  .hero-title { font-size:34px; font-weight:900; color:var(--dark); margin-bottom:12px; line-height:1.1; }
-  .hero-sub { font-size:14.5px; color:#666; line-height:1.6; }
-
-  .video-block {
-    max-width:640px; margin:0 auto 46px; background:var(--dark); border-radius:14px; overflow:hidden;
-    border:1px solid #222;
+  .lang-btn {
+    border:none; background:none; font-size:11px; font-weight:700; color:#999;
+    padding:5px 10px; border-radius:6px; cursor:pointer; font-family:inherit;
   }
-  .video-block-label { padding:12px 18px; font-size:12.5px; font-weight:800; color:var(--yellow); display:flex; align-items:center; gap:8px; }
-  .video-block-frame {
-    aspect-ratio:16/9; background:#0d0d0d; display:flex; align-items:center; justify-content:center;
-    color:#666; font-size:12px; text-align:center; padding:16px;
+  .lang-btn.active { background: var(--dark); color: var(--yellow); }
+
+  .content { padding: 28px 32px; flex:1; }
+  .page { display:none; }
+  .page.active { display:block; }
+
+  .page-header { margin-bottom:24px; }
+  .page-eyebrow { font-size:10px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color: var(--yellow-dark); margin-bottom:4px; }
+  .page-title { font-size:24px; font-weight:800; color: var(--dark); line-height:1.2; }
+  .page-desc { font-size:13px; color:#999; margin-top:5px; }
+
+  .coming-soon {
+    background: var(--white); border: 1px dashed var(--border);
+    border-radius:12px; padding:56px 32px; text-align:center; color:#BBB;
   }
-  .video-block-frame svg { width:36px; height:36px; stroke:var(--yellow); margin-bottom:8px; }
+  .coming-soon-icon { margin-bottom:14px; display:flex; justify-content:center; }
+  .coming-soon-icon svg { width:34px; height:34px; stroke:#CCC; }
+  .coming-soon-title { font-size:15px; font-weight:700; color:#CCC; margin-bottom:5px; }
+  .coming-soon-sub { font-size:12px; }
 
-  .pulse-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:46px; }
-  @media(max-width:750px){ .pulse-row{ grid-template-columns:1fr; } }
-  .pulse-card { background:var(--white); border:1px solid var(--border); border-radius:14px; padding:18px 20px; }
-  .pulse-card-title { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.1em; color:#999; margin-bottom:12px; }
-  .pulse-item { display:flex; gap:10px; padding:9px 0; border-bottom:1px solid var(--border); font-size:12.5px; }
-  .pulse-item:last-child { border-bottom:none; }
-  .pulse-item-dot { width:6px; height:6px; border-radius:50%; background:var(--yellow); margin-top:5px; flex-shrink:0; }
-  .pulse-item b { display:block; color:#999; font-size:10.5px; text-transform:uppercase; margin-bottom:1px; }
-  .pulse-date-chip { background:var(--yellow-bg); color:var(--yellow-dark); font-weight:800; font-size:10.5px; border-radius:6px; padding:6px 8px; text-align:center; min-width:42px; height:fit-content; }
-
-  .catalog-label { text-align:center; font-size:13px; color:#888; margin-bottom:34px; }
-  .catalog-label b { color:var(--dark); }
-
-  .group { margin-bottom:44px; scroll-margin-top:70px; }
-  .group-title { display:flex; align-items:center; gap:11px; font-size:15px; font-weight:900; color:var(--dark); margin-bottom:18px; }
-  .group-title .emoji {
-    font-size:16px; width:32px; height:32px; border-radius:9px; background:var(--yellow-bg);
-    display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;
+  .bulletin-month-group { margin-bottom:30px; }
+  .bulletin-month-label {
+    font-size:11px; font-weight:800; letter-spacing:0.15em; text-transform:uppercase;
+    color:#999; margin-bottom:12px; padding-left:2px;
   }
-
-  .group.panel { background:var(--white); border:1px solid var(--border); border-radius:18px; padding:28px 28px 30px; box-shadow:0 1px 3px rgba(0,0,0,.03); }
-
-  .group.accent-blue .emoji { background:#F6DFA0; }
-  .group.accent-blue .card-badge { background:#F6DFA0; color:#8F6E00; }
-  .group.accent-blue .card { border-top-color:#8F6E00; }
-
-  .group.accent-green .emoji { background:#FBE7B8; }
-  .group.accent-green .card-badge { background:#FBE7B8; color:#A67C00; }
-  .group.accent-green .card { border-top-color:#A67C00; }
-  .group.accent-green .org-top-card { border-top-color:#A67C00; }
-  .group.accent-green .org-avatar, .group.accent-green .org-top-avatar { border-color:#A67C00; }
-  .group.accent-green .org-connector { background:#A67C00; }
-  .group.accent-green .org-mail a, .group.accent-green .org-top-mail a { color:#A67C00; }
-  .group.accent-green .org-avatar-initials { background:#FBE7B8; border-color:#A67C00; color:#A67C00; }
-
-  .group.accent-purple .emoji { background:#F0D584; }
-  .group.accent-purple .card-badge { background:#F0D584; color:#705400; }
-  .group.accent-purple .card { border-top-color:#705400; }
-
-  .group.accent-orange .emoji { background:#FFF6D0; }
-  .group.accent-orange .card-badge { background:#FFF6D0; color:#B79400; }
-  .group.accent-orange .card { border-top-color:#B79400; }
-
-  .card-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:16px; }
-  .card {
-    background:var(--white); border:1px solid var(--border); border-top:3px solid var(--yellow); border-radius:14px; padding:20px;
-    text-decoration:none; color:inherit; display:flex; flex-direction:column; transition:box-shadow .15s, transform .15s;
+  .bulletin-grid, .tool-grid, .story-grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
+    gap:14px;
   }
-  .card:hover { box-shadow:0 10px 24px rgba(0,0,0,.09); transform:translateY(-3px); }
-  .card-icon { font-size:22px; margin-bottom:10px; }
-  .card-badge { display:inline-block; font-size:9.5px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:var(--yellow-dark); background:var(--yellow-bg); padding:3px 8px; border-radius:4px; margin-bottom:9px; align-self:flex-start; }
-  .card-title { font-size:15px; font-weight:800; color:var(--dark); margin-bottom:5px; line-height:1.3; }
-  .card-desc { font-size:12.5px; color:#888; line-height:1.5; margin-bottom:12px; flex:1; }
-  .card-tags { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:14px; }
-  .card-tags span { font-size:10px; font-weight:700; color:#999; background:var(--light-bg); border:1px solid var(--border); padding:3px 7px; border-radius:10px; }
-  .card-link { font-size:12px; font-weight:800; color:var(--dark); display:flex; align-items:center; gap:5px; }
-  .card-link svg { width:12px; height:12px; stroke:var(--yellow-dark); }
-
-  .session-list { margin:2px 0 14px; border-top:1px dashed var(--border); padding-top:8px; }
-  .session-list a {
-    display:flex; justify-content:space-between; align-items:center; gap:8px;
-    font-size:11.5px; font-weight:700; color:var(--dark); text-decoration:none;
-    padding:6px 2px; border-bottom:1px solid var(--border);
+  .bulletin-card, .tool-card {
+    background: var(--white); border:1px solid var(--border); border-top:3px solid var(--yellow);
+    border-radius:12px; padding:22px; text-decoration:none; display:block;
+    transition: box-shadow 0.15s, transform 0.15s;
   }
-  .session-list a:last-child { border-bottom:none; }
-  .session-list a:hover { color:var(--yellow-dark); }
-  .session-list a .sd { color:#999; font-weight:600; }
-  .session-list a svg { width:11px; height:11px; stroke:var(--yellow-dark); flex-shrink:0; }
-
-  .stats-row { display:flex; gap:14px; flex-wrap:wrap; justify-content:center; margin-bottom:10px; }
-  .stat-chip {
-    background:var(--white); border:1px solid var(--border); border-radius:14px; padding:16px 24px;
-    text-align:center; min-width:132px;
+  .bulletin-card:hover, .tool-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.08); transform: translateY(-2px); }
+  .bulletin-card-icon svg, .tool-card-icon svg { width:24px; height:24px; stroke: var(--yellow-dark); margin-bottom:12px; }
+  .bulletin-card-title, .tool-card-title { font-size:15px; font-weight:800; color:var(--dark); margin-bottom:4px; }
+  .bulletin-card-sub, .tool-card-sub { font-size:12px; color:#999; margin-bottom:16px; }
+  .bulletin-card-link, .tool-card-link {
+    font-size:12px; font-weight:700; color: var(--yellow-dark);
+    display:flex; align-items:center; gap:5px;
   }
-  .stat-num { font-size:22px; font-weight:900; color:var(--dark); }
-  .stat-label { font-size:10px; color:#999; text-transform:uppercase; letter-spacing:.05em; margin-top:4px; }
-  .stats-caption { text-align:center; font-size:11px; color:#aaa; margin-bottom:40px; }
+  .bulletin-card-link svg, .tool-card-link svg { width:13px; height:13px; stroke:var(--yellow-dark); }
 
-  .story-card { padding:0; overflow:hidden; }
+  .routine-tabs { display:flex; gap:8px; margin-bottom:22px; flex-wrap:wrap; }
+  .routine-tab {
+    padding:9px 18px; border-radius:8px; border:1px solid var(--border); background:var(--white);
+    font-size:12.5px; font-weight:700; color:#999; cursor:pointer; font-family:inherit;
+  }
+  .routine-tab.active { background: var(--dark); color: var(--yellow); border-color: var(--dark); }
+  .routine-panel { display:none; }
+  .routine-panel.active { display:block; }
+  .routine-placeholder {
+    background: var(--white); border:1px dashed var(--border); border-radius:12px;
+    padding:32px; color:#999; font-size:13px; line-height:1.7;
+  }
+  .routine-placeholder b { color: var(--dark); }
+
+  .home-hero {
+    background: var(--dark);
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    border-left: 5px solid var(--yellow);
+    display:flex; gap:28px; align-items:center; flex-wrap:wrap;
+  }
+  .home-hero-text { flex: 1 1 320px; }
+  .home-hero-eyebrow { font-size:10px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--yellow); margin-bottom:8px; }
+  .home-hero-title { font-size:26px; font-weight:900; color:var(--white); line-height:1.15; margin-bottom:8px; }
+  .home-hero-sub { font-size:13px; color:#999; line-height:1.6; }
+  .home-hero-video {
+    flex: 1 1 260px; max-width:320px; aspect-ratio: 16/9; background:#0d0d0d;
+    border-radius:10px; border:1px solid #333; display:flex; align-items:center; justify-content:center;
+    color:#555; font-size:11px; text-align:center; padding:12px;
+  }
+  .home-hero-video svg { width:34px; height:34px; stroke:var(--yellow); margin-bottom:8px; }
+
+  .section-title {
+    font-size:11px; font-weight:800; letter-spacing:0.14em; text-transform:uppercase;
+    color:#999; margin: 30px 0 12px;
+  }
+  .section-title:first-of-type { margin-top:0; }
+
+  .quick-grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+    gap:14px;
+  }
+  .quick-card {
+    background: var(--white); border:1px solid var(--border); border-radius:12px;
+    padding:20px; cursor:pointer; transition: box-shadow 0.15s, transform 0.15s; text-align:left;
+  }
+  .quick-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.08); transform: translateY(-2px); }
+  .quick-card-icon { margin-bottom:12px; }
+  .quick-card-icon svg { width:24px; height:24px; stroke: var(--yellow-dark); }
+  .quick-card-title { font-size:14px; font-weight:800; color:var(--dark); margin-bottom:4px; }
+  .quick-card-sub { font-size:12px; color:#999; line-height:1.5; }
+
+  .two-col { display:grid; grid-template-columns: 1.3fr 1fr; gap:16px; }
+  @media(max-width:850px){ .two-col { grid-template-columns:1fr; } }
+  .list-card { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:6px 0; }
+  .list-item { display:flex; gap:12px; padding:14px 20px; border-bottom:1px solid var(--border); }
+  .list-item:last-child { border-bottom:none; }
+  .list-item-dot { width:7px; height:7px; border-radius:50%; background:var(--yellow); margin-top:6px; flex-shrink:0; }
+  .list-item-date { font-size:10.5px; font-weight:700; color:#999; text-transform:uppercase; letter-spacing:.04em; }
+  .list-item-text { font-size:13px; color:var(--dark); margin-top:2px; line-height:1.4; }
+  .date-item { display:flex; align-items:center; gap:12px; padding:14px 20px; border-bottom:1px solid var(--border); }
+  .date-item:last-child { border-bottom:none; }
+  .date-chip {
+    background: var(--yellow-bg); color:var(--yellow-dark); font-weight:800; font-size:11px;
+    border-radius:8px; padding:8px 10px; text-align:center; min-width:52px; line-height:1.2;
+  }
+  .date-item-text { font-size:12.5px; color:var(--dark); line-height:1.4; }
+
+  .story-card {
+    background: var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden;
+  }
   .story-photo { width:100%; height:120px; object-fit:cover; display:block; background:#eee; }
-  .story-body { padding:16px 18px; }
+  .story-body { padding:16px; }
+  .story-tag {
+    display:inline-block; font-size:9.5px; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--yellow-dark); background:var(--yellow-bg); padding:3px 8px; border-radius:4px; margin-bottom:8px;
+  }
+  .story-title { font-size:13.5px; font-weight:800; color:var(--dark); line-height:1.35; margin-bottom:4px; }
+  .story-area { font-size:11px; color:#999; }
+
+  .gestion-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; }
+  .gestion-card {
+    background:var(--white); border:1px solid var(--border); border-top:3px solid var(--yellow); border-radius:14px;
+    padding:26px; cursor:pointer; text-align:left;
+  }
+  .gestion-card:hover { box-shadow:0 6px 20px rgba(0,0,0,.08); }
+  .gestion-card-title { font-size:16px; font-weight:800; margin-bottom:6px; }
+  .gestion-card-sub { font-size:12.5px; color:#999; margin-bottom:14px; line-height:1.5; }
+  .gestion-card-link { font-size:12px; font-weight:700; color:var(--yellow-dark); display:flex; align-items:center; gap:5px; }
+  .gestion-card-link svg { width:13px; height:13px; stroke:var(--yellow-dark); }
 
   .org-top { text-align:center; margin-bottom:2px; }
   .org-top-card {
@@ -168,7 +296,8 @@
   .org-mail { margin-top:6px; }
   .org-mail a {
     font-size:9.5px; font-weight:700; color:var(--yellow-dark); text-decoration:none;
-    word-break:break-all; display:inline-block;
+    border:1px solid var(--yellow); border-radius:6px; padding:3px 6px; display:inline-block;
+    word-break: break-all; max-width: 148px;
   }
   .region-note {
     margin-top:18px; font-size:11.5px; color:#999; background:var(--yellow-bg); border-radius:8px;
@@ -177,7 +306,7 @@
   @media(max-width:700px){ .org-cols { flex-direction:column; } }
 
   .mgmt-row { display:flex; gap:14px; flex-wrap:wrap; max-width:640px; margin:0 auto; justify-content:center; }
-  .mgmt-row .org-member { flex:0 1 140px; }
+  .mgmt-row .org-member { flex:0 1 150px; }
   .org-avatar-initials {
     width:48px; height:48px; border-radius:50%; background:var(--yellow-bg); border:2px solid var(--yellow);
     display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px;
@@ -185,337 +314,479 @@
   }
   @media(max-width:600px){ .mgmt-row { flex-direction:column; } }
 
-  #suggestions { scroll-margin-top:70px; }
-  .suggest-panel { background:var(--dark2); border-radius:16px; padding:34px 36px; color:var(--white); }
-  .suggest-icon { font-size:22px; margin-bottom:10px; }
-  .suggest-title { font-size:20px; font-weight:900; margin-bottom:6px; }
-  .suggest-sub { font-size:13px; color:#aaa; margin-bottom:22px; }
-  .suggest-field { margin-bottom:14px; }
-  .suggest-field label { display:block; font-size:11px; font-weight:700; color:#bbb; text-transform:uppercase; letter-spacing:.04em; margin-bottom:6px; }
-  .suggest-field input, .suggest-field select, .suggest-field textarea {
-    width:100%; background:#252525; border:1px solid #3a3a3a; border-radius:8px; color:var(--white);
+  .suggest-card {
+    background:var(--dark); border-radius:14px; padding:30px 34px; margin-top:8px;
+  }
+  .suggest-title { color:var(--white); font-size:18px; font-weight:800; margin-bottom:4px; }
+  .suggest-sub { color:#999; font-size:12.5px; margin-bottom:20px; }
+  .suggest-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
+  @media(max-width:700px){ .suggest-row { grid-template-columns:1fr; } }
+  .suggest-field label { display:block; font-size:11px; font-weight:700; color:#999; margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em; }
+  .suggest-field select, .suggest-field input, .suggest-field textarea {
+    width:100%; background:#262626; border:1px solid #3a3a3a; color:var(--white); border-radius:8px;
     padding:10px 12px; font-size:13px; font-family:inherit;
   }
   .suggest-field textarea { min-height:80px; resize:vertical; }
-  .suggest-row2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-  @media(max-width:600px){ .suggest-row2{ grid-template-columns:1fr; } }
   .suggest-submit {
-    background:var(--yellow); color:var(--dark); border:none; border-radius:8px; padding:12px 22px;
-    font-size:13px; font-weight:900; cursor:pointer; margin-top:6px;
+    background:var(--yellow); color:var(--dark); border:none; border-radius:8px; padding:11px 22px;
+    font-size:13px; font-weight:800; cursor:pointer; font-family:inherit;
   }
-  .suggest-confirm { display:none; margin-top:14px; background:#1e3a24; color:#7fdb8f; border-radius:8px; padding:12px 16px; font-size:12.5px; }
+  .suggest-confirm { display:none; color:var(--yellow); font-size:12.5px; font-weight:700; margin-top:12px; }
   .suggest-confirm.show { display:block; }
-  .suggest-note { text-align:center; font-size:11.5px; color:#999; margin-top:18px; }
 
-  .footer { text-align:center; padding:30px; color:#999; font-size:12px; }
-  .footer b { color:var(--dark); }
+  .learn-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+  .learn-card { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:20px; }
+  .learn-card-title { font-size:14px; font-weight:800; margin-bottom:6px; }
+  .learn-card-sub { font-size:12px; color:#999; line-height:1.5; }
+
+  body.sidebar-collapsed .sidebar { width: 68px; }
+  body.sidebar-collapsed .main { margin-left: 68px; }
+  body.sidebar-collapsed .logo-text,
+  body.sidebar-collapsed .nav-label,
+  body.sidebar-collapsed .nav-direct span:last-child,
+  body.sidebar-collapsed .nav-chevron,
+  body.sidebar-collapsed .nav-sub,
+  body.sidebar-collapsed .sidebar-footer { display:none; }
+  body.sidebar-collapsed .sidebar-logo { justify-content:center; padding:20px 0 16px; }
+  body.sidebar-collapsed .nav-direct { justify-content:center; padding:10px 0; }
+
+  .sidebar-toggle {
+    background:none; border:1px solid var(--border); border-radius:8px;
+    width:32px; height:32px; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; color:var(--dark); flex-shrink:0; margin-right:12px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .sidebar-toggle:hover { border-color: var(--yellow); background: var(--yellow-bg); }
+  .sidebar-toggle svg { width:18px; height:18px; stroke:currentColor; }
+
+  @media(max-width:800px){
+    .sidebar { width: 72px; }
+    .logo-text, .nav-label, .nav-direct span:last-child, .nav-chevron, .nav-sub { display:none; }
+    .main { margin-left: 72px; }
+    .sidebar-toggle { display:none; }
+  }
 </style>
 </head>
 <body>
 
-<div class="brand-line"></div>
-<div class="preview-banner">Vista previa — opción inspirada en el Hub de MTM</div>
+<div class="preview-banner">VISTA PREVIA — estructura de ejemplo, datos de muestra donde se indica</div>
 
-<div class="topbar">
-  <div class="topbar-brand"><span class="mark">OE</span> Mercado Libre · Excelencia Operacional</div>
-  <div class="topbar-right">
-    <div class="lang-pill">
-      <button class="active" onclick="setLang('es')">ES</button>
-      <button onclick="setLang('other')">EN / PT</button>
+<aside class="sidebar">
+  <button class="sidebar-logo" onclick="go('inicio', this)">
+    <div class="logo-mark">OE</div>
+    <div class="logo-text">OE MLM Hub</div>
+  </button>
+
+  <nav class="sidebar-nav" id="sidebarNav">
+    <div class="nav-label">Excelencia Operacional</div>
+
+    <button class="nav-direct active" onclick="go('inicio', this)">
+      <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/></svg></span>
+      <span>Inicio</span>
+    </button>
+
+    <button class="nav-direct nav-group" id="navGestion" onclick="toggleGroup('navGestion')">
+      <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7Z"/></svg></span>
+      <span>Gestión</span>
+      <span class="nav-chevron"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+    </button>
+    <div class="nav-sub">
+      <button class="nav-sub-item" onclick="go('proyectos', this)"><span>Proyectos</span></button>
+      <button class="nav-sub-item" onclick="go('indicadores', this)"><span>Indicadores</span></button>
     </div>
-    <a class="topbar-link" href="#suggestions">💡 Sugerencias</a>
-    <span class="topbar-badge">OE MLM</span>
-  </div>
-</div>
 
-<div class="chipnav">
-  <a href="#pulso">📰 Pulso del equipo</a>
-  <a href="#rutinas">📊 Rutinas</a>
-  <a href="#gestion">📁 Gestión</a>
-  <a href="#directorio">👥 Directorio</a>
-  <a href="#equipo-rich">🤝 Management</a>
-  <a href="#aprendizaje">📚 Aprendizaje</a>
-  <a href="#herramientas">🛠 Herramientas</a>
-</div>
-
-<div class="wrap">
-
-  <div class="hero">
-    <div class="hero-eyebrow">⚙️ Excelencia Operacional · MLM</div>
-    <div class="hero-title">OE MLM Hub</div>
-    <div class="hero-sub">OE impulsa la mejora continua en First Mile, Service Center y Quality: estandariza procesos, da seguimiento a proyectos e indicadores, y comparte los resultados del equipo cada mes.</div>
-  </div>
-
-  <div class="video-block">
-    <div class="video-block-label">▶ Conoce el área OE</div>
-    <div class="video-block-frame">
-      <div>
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l6-3.5-6-3.5Z"/></svg><br/>
-        Video "Conoce el área OE" (pendiente: reemplazar con el mp4 real)
-      </div>
+    <button class="nav-direct nav-group" id="navRutinas" onclick="toggleGroup('navRutinas')">
+      <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M8 12h8M8 16h8M8 8h3"/></svg></span>
+      <span>Rutinas</span>
+      <span class="nav-chevron"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+    </button>
+    <div class="nav-sub">
+      <button class="nav-sub-item" onclick="go('rutinas', this); setTimeout(()=>routineTab('bbr'),0)"><span>BBR</span></button>
+      <button class="nav-sub-item" onclick="go('rutinas', this); setTimeout(()=>routineTab('wbr'),0)"><span>WBR</span></button>
+      <button class="nav-sub-item" onclick="go('rutinas', this); setTimeout(()=>routineTab('nl'),0)"><span>NL (Newsletter)</span></button>
     </div>
-  </div>
 
-  <div class="stats-row">
-    <div class="stat-chip"><div class="stat-num">3</div><div class="stat-label">Rutinas activas</div></div>
-    <div class="stat-chip"><div class="stat-num">150+</div><div class="stat-label">En lista de difusión</div></div>
-    <div class="stat-chip"><div class="stat-num">6</div><div class="stat-label">Líderes en directorio</div></div>
-    <div class="stat-chip"><div class="stat-num">3</div><div class="stat-label">Success stories del mes</div></div>
-  </div>
-  <div class="stats-caption">Cifras de ejemplo — se conectarán a datos reales</div>
+    <button class="nav-direct" onclick="go('directorio', this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="8" r="3.2"/><path d="M20 19v-1a3.8 3.8 0 0 0-2.7-3.6"/><path d="M14.3 4.2A3.2 3.2 0 0 1 16.2 10.8"/></svg></span><span>Directorio</span></button>
 
-  <div id="pulso" class="group">
-    <div class="pulse-row">
-      <div class="pulse-card">
-        <div class="pulse-card-title">Novedades</div>
-        <div class="pulse-item"><div class="pulse-item-dot"></div><div><b>12 Ago 2026</b>Se estandarizó el Form y Sheet de Quality (v2.1): % de avance ahora es un desplegable.</div></div>
-        <div class="pulse-item"><div class="pulse-item-dot"></div><div><b>05 Ago 2026</b>Laura Chávez se unió al equipo de Quality como Supervisor MRSC.</div></div>
-        <div class="pulse-item"><div class="pulse-item-dot"></div><div><b>31 Jul 2026</b>Julio cerró con 100% de auditorías operativas completadas en Quality.</div></div>
-      </div>
-      <div class="pulse-card">
-        <div class="pulse-card-title">Fechas relevantes</div>
-        <div class="pulse-item"><div class="pulse-date-chip">21<br/>AGO</div><div>Focales actualizan su proyecto (penúltimo viernes)</div></div>
-        <div class="pulse-item"><div class="pulse-date-chip">24<br/>AGO</div><div>Supervisores cargan el Form (último lunes)</div></div>
-        <div class="pulse-item"><div class="pulse-date-chip">07<br/>SEP</div><div>Publicación del boletín a todo MLM</div></div>
-      </div>
+    <button class="nav-direct" onclick="go('management', this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7a2 2 0 0 1 2-2h3l1-1h4l1 1h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7Z"/><path d="M4 12h16"/></svg></span><span>Management</span></button>
+
+    <button class="nav-direct" onclick="go('aprendizaje', this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 3 8.5 12 13l9-4.5L12 4Z"/><path d="M6.5 10.6V15c0 1.4 2.5 3 5.5 3s5.5-1.6 5.5-3v-4.4"/></svg></span><span>Aprendizaje Continuo</span></button>
+  </nav>
+  <div class="sidebar-footer">v0.2 · Vista previa</div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-breadcrumb">
+      <button class="sidebar-toggle" onclick="toggleSidebar()" title="Contraer/expandir menu" aria-label="Contraer/expandir menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+      </button>
+      <span class="bc-current" id="bcCurrent">Inicio</span>
+    </div>
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="langEs" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" id="langOther" onclick="setLang('other')">EN / PT</button>
     </div>
   </div>
 
-  <div class="catalog-label">Explora el <b>OE MLM Hub</b> — rutinas, proyectos, directorio y herramientas del equipo.</div>
+  <div class="content">
 
-  <div class="group panel">
-    <div class="group-title"><span class="emoji">🌟</span> Success Stories del mes</div>
-    <div class="card-grid">
-      <a class="card story-card" href="#" onclick="return false;">
-        <img class="story-photo" src="https://i.imgur.com/CveUAYR.jpeg"/>
-        <div class="story-body">
-          <div class="card-badge">Quality</div>
-          <div class="card-title">SCC1: Operación Modelo con 93% de calificación PEL</div>
-          <div class="card-desc">Cierre Q2 · Programas de Excelencia</div>
+    <div class="page active" id="page-inicio">
+
+      <div class="home-hero">
+        <div class="home-hero-text">
+          <div class="home-hero-eyebrow">Excelencia Operacional · MLM</div>
+          <div class="home-hero-title">Qué es OE</div>
+          <div class="home-hero-sub">OE (Excelencia Operacional) impulsa la mejora continua en First Mile, Service Center y Quality: estandariza procesos, da seguimiento a proyectos e indicadores, y comparte los resultados del equipo cada mes.</div>
         </div>
-      </a>
-      <a class="card story-card" href="#" onclick="return false;">
-        <img class="story-photo" src="https://i.imgur.com/gvdjGYw.png"/>
-        <div class="story-body">
-          <div class="card-badge">Quality</div>
-          <div class="card-title">Auditoría de SCH1: 100% de adherencia en Despacho</div>
-          <div class="card-desc">Posicionamiento en Auditorías</div>
+        <div class="home-hero-video">
+          <div>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l6-3.5-6-3.5Z"/></svg>
+            <div>Video "Conoce el área OE"<br/>(pendiente: reemplazar con el mp4 real)</div>
+          </div>
         </div>
-      </a>
-      <a class="card story-card" href="#" onclick="return false;">
-        <img class="story-photo" src="https://i.imgur.com/J1voWxO.png"/>
-        <div class="story-body">
-          <div class="card-badge">First Mile</div>
-          <div class="card-title">Cumplimiento de Mensuales Operativas al 100% en julio</div>
-          <div class="card-desc">Resultados del Cierre</div>
-        </div>
-      </a>
-    </div>
-  </div>
-
-  <div id="rutinas" class="group">
-    <div class="group-title"><span class="emoji">📊</span> Rutinas</div>
-    <div class="card-grid">
-      <div class="card">
-        <div class="card-icon">🗓️</div>
-        <div class="card-badge">Mensual</div>
-        <div class="card-title">MBR — Monthly Business Review</div>
-        <div class="card-desc">Compromisos, overview de proyectos por área y deep dives (Quality, Auditorías, PET).</div>
-        <div class="session-list">
-          <a href="#" onclick="return false;">Julio 2026 <span class="sd"></span><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
-          <a href="#" onclick="return false;">Junio 2026 <span class="sd"></span><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
-          <a href="#" onclick="return false;">Abril 2026 <span class="sd"></span><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
-          <a href="#" onclick="return false;">Marzo 2026 <span class="sd"></span><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
-          <a href="#" onclick="return false;">Q1 2026 · Plan de acción <span class="sd"></span><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
-        </div>
-        <a class="card-link" href="#" onclick="return false;">Ver histórico completo <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
       </div>
-      <div class="card">
-        <div class="card-icon">📆</div>
-        <div class="card-badge">Bisemanal</div>
-        <div class="card-title">BBR — Bi-weekly Business Review</div>
-        <div class="card-desc">Safety briefing, cápsula temática rotativa y deep dive de proyectos por área.</div>
-        <div class="session-list">
-          <a href="#" onclick="return false;">Semana 32 · Deep dive XD, SC + FM <span class="sd"></span><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
-          <a href="#" onclick="return false;">Semana 30 · Deep dive SVC + LM <span class="sd"></span><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
-        </div>
-        <a class="card-link" href="#" onclick="return false;">Ver histórico completo <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
+
+      <div class="section-title">Accesos rápidos</div>
+      <div class="quick-grid">
+        <button class="quick-card" onclick="go('proyectos', null); openGroupFor('navGestion')">
+          <div class="quick-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7Z"/></svg></div>
+          <div class="quick-card-title">Gestión</div>
+          <div class="quick-card-sub">Proyectos e indicadores del equipo, en un solo lugar.</div>
+        </button>
+        <button class="quick-card" onclick="go('rutinas', null); openGroupFor('navRutinas')">
+          <div class="quick-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M8 12h8M8 16h8M8 8h3"/></svg></div>
+          <div class="quick-card-title">Rutinas</div>
+          <div class="quick-card-sub">BBR, WBR y el Newsletter mensual.</div>
+        </button>
+        <button class="quick-card" onclick="go('directorio', document.querySelectorAll('.nav-direct')[3])">
+          <div class="quick-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="8" r="3.2"/><path d="M20 19v-1a3.8 3.8 0 0 0-2.7-3.6"/><path d="M14.3 4.2A3.2 3.2 0 0 1 16.2 10.8"/></svg></div>
+          <div class="quick-card-title">Directorio</div>
+          <div class="quick-card-sub">Líderes de OE por región, con correo directo.</div>
+        </button>
+        <button class="quick-card" onclick="go('aprendizaje', document.querySelectorAll('.nav-direct')[5])">
+          <div class="quick-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 3 8.5 12 13l9-4.5L12 4Z"/><path d="M6.5 10.6V15c0 1.4 2.5 3 5.5 3s5.5-1.6 5.5-3v-4.4"/></svg></div>
+          <div class="quick-card-title">Aprendizaje Continuo</div>
+          <div class="quick-card-sub">Guías, cursos y material de referencia.</div>
+        </button>
       </div>
-      <a class="card" href="#" onclick="return false;">
-        <div class="card-icon">📰</div>
-        <div class="card-badge">Mensual</div>
-        <div class="card-title">NL — Newsletter</div>
-        <div class="card-desc">Boletín mensual de First Mile, Service Center, Quality y Gestión.</div>
-        <div class="card-tags"><span>FM | XD | SC | TOM</span><span>Service Center</span><span>Quality</span><span>Gestión</span></div>
-        <div class="card-link">Ver boletines <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
-      </a>
-    </div>
-  </div>
 
-  <div id="gestion" class="group panel accent-blue">
-    <div class="group-title"><span class="emoji">📁</span> Gestión</div>
-    <div class="card-grid">
-      <a class="card" href="#" onclick="return false;">
-        <div class="card-icon">📌</div>
-        <div class="card-badge">Portafolio</div>
-        <div class="card-title">Proyectos</div>
-        <div class="card-desc">Portafolio de iniciativas de First Mile, Service Center y Quality con % de avance.</div>
-        <div class="card-tags"><span>First Mile</span><span>Service Center</span><span>Quality</span></div>
-        <div class="card-link">Ver proyectos <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
-      </a>
-      <a class="card" href="#" onclick="return false;">
-        <div class="card-icon">📈</div>
-        <div class="card-badge">Dashboard</div>
-        <div class="card-title">Indicadores</div>
-        <div class="card-desc">% de avance, proyectos en riesgo, top proyectos, resultados PET y comparativa entre áreas.</div>
-        <div class="card-tags"><span>PET</span><span>Riesgo</span><span>Comparativa</span></div>
-        <div class="card-link">Ver indicadores <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
-      </a>
-    </div>
-  </div>
-
-  <div id="directorio" class="group accent-green">
-    <div class="group-title"><span class="emoji">👥</span> Directorio de líderes</div>
-    <div class="org-top">
-      <div class="org-top-card">
-        <img class="org-top-avatar" src="https://i.imgur.com/fA8JHId.jpg"/>
+      <div class="two-col">
         <div>
-          <div class="org-top-name">Miguel Hernández</div>
-          <div class="org-top-role">Sr Manager · OE</div>
-          <div class="org-top-mail"><a href="mailto:miguel.hernandezmartinez@mercadolibre.com.mx">miguel.hernandezmartinez@mercadolibre.com.mx</a></div>
+          <div class="section-title">Novedades</div>
+          <div class="list-card">
+            <div class="list-item"><div class="list-item-dot"></div><div><div class="list-item-date">12 Ago 2026</div><div class="list-item-text">Se estandarizó el Form y Sheet de Quality (v2.1): % de avance ahora es un desplegable, ya no texto libre.</div></div></div>
+            <div class="list-item"><div class="list-item-dot"></div><div><div class="list-item-date">05 Ago 2026</div><div class="list-item-text">Laura Chávez se unió al equipo de Quality como Supervisor MRSC.</div></div></div>
+            <div class="list-item"><div class="list-item-dot"></div><div><div class="list-item-date">31 Jul 2026</div><div class="list-item-text">Julio 2026 cerró con 100% de auditorías operativas completadas en Quality.</div></div></div>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="org-connector"></div>
-    <div class="org-cols">
-      <div class="org-col">
-        <div class="org-col-label">SVC + LM</div>
-        <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/UcM3gqc.jpg"/><div class="org-name">Steven Seedorf</div><div class="org-role">Manager</div><div class="org-mail"><a href="mailto:steven.seedorf@mercadolibre.com.mx">steven.seedorf@mercadolibre.com.mx</a></div></div>
-        <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/MH4N1CU.jpg"/><div class="org-name">Ana Vargas</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:ana.vargasfuentes@mercadolibre.com.mx">ana.vargasfuentes@mercadolibre.com.mx</a></div></div>
-      </div>
-      <div class="org-col">
-        <div class="org-col-label">XD, SC + FM</div>
-        <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/i3epbGL.jpg"/><div class="org-name">Mariana Novoa</div><div class="org-role">Manager</div><div class="org-mail"><a href="mailto:mariana.novoa@mercadolibre.com.mx">mariana.novoa@mercadolibre.com.mx</a></div></div>
-        <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/uDq0p1w.jpeg"/><div class="org-name">Germán Gonzalo Ramírez</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:german.ramirezlara@mercadolibre.com.mx">german.ramirezlara@mercadolibre.com.mx</a></div></div>
-        <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/f6C6n8t.jpg"/><div class="org-name">Eduardo García</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:eduardo.egarciamejia@mercadolibre.com.mx">eduardo.egarciamejia@mercadolibre.com.mx</a></div></div>
-      </div>
-      <div class="org-col">
-        <div class="org-col-label">Quality</div>
-        <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/dCfmGI5.jpeg"/><div class="org-name">Laura Chávez</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:laura.chavezdiaz@mercadolibre.com.mx">laura.chavezdiaz@mercadolibre.com.mx</a></div></div>
-        <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/NHcV4RN.jpg"/><div class="org-name">Juan Carlos García</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:garcia.gjuan@mercadolibre.com.mx">garcia.gjuan@mercadolibre.com.mx</a></div></div>
-      </div>
-      <div class="org-col">
-        <div class="org-col-label">Gestión</div>
-        <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/nE4Yfj6.jpg"/><div class="org-name">Ricardo Almanza</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:carlosricardo.almanzaloo@mercadolibre.com.mx">carlosricardo.almanzaloo@mercadolibre.com.mx</a></div></div>
-      </div>
-    </div>
-    <div class="region-note">
-      Nota: mismo agrupamiento por equipo que ya usa el Directorio real (SVC+LM, XD/SC+FM, Quality, Gestión) — sin cambios respecto a la versión anterior.
-    </div>
-  </div>
-
-  <div id="equipo-rich" class="group panel accent-green">
-    <div class="group-title"><span class="emoji">🤝</span> Management — Equipo de Gestión</div>
-    <div class="org-top">
-      <div class="org-top-card">
-        <img class="org-top-avatar" src="https://i.imgur.com/nE4Yfj6.jpg"/>
         <div>
-          <div class="org-top-name">Ricardo Almanza</div>
-          <div class="org-top-role">Supervisor</div>
-          <div class="org-top-mail"><a href="mailto:carlosricardo.almanzaloo@mercadolibre.com.mx">carlosricardo.almanzaloo@mercadolibre.com.mx</a></div>
+          <div class="section-title">Fechas relevantes</div>
+          <div class="list-card">
+            <div class="date-item"><div class="date-chip">21<br/>AGO</div><div class="date-item-text">Focales actualizan su proyecto (penúltimo viernes)</div></div>
+            <div class="date-item"><div class="date-chip">24<br/>AGO</div><div class="date-item-text">Supervisores cargan el Form (último lunes)</div></div>
+            <div class="date-item"><div class="date-chip">07<br/>SEP</div><div class="date-item-text">Publicación del boletín a todo MLM (lunes 2a semana)</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">Success stories</div>
+      <div class="story-grid">
+        <div class="story-card">
+          <img class="story-photo" src="https://i.imgur.com/CveUAYR.jpeg"/>
+          <div class="story-body">
+            <div class="story-tag">Quality</div>
+            <div class="story-title">SCC1 se consolida como Operación Modelo con 93% de calificación PEL</div>
+            <div class="story-area">Cierre Q2 · Programas de Excelencia</div>
+          </div>
+        </div>
+        <div class="story-card">
+          <img class="story-photo" src="https://i.imgur.com/gvdjGYw.png"/>
+          <div class="story-body">
+            <div class="story-tag">Quality</div>
+            <div class="story-title">Auditoría de SCH1: 100% de adherencia en procesos de Despacho</div>
+            <div class="story-area">Posicionamiento en Auditorías</div>
+          </div>
+        </div>
+        <div class="story-card">
+          <img class="story-photo" src="https://i.imgur.com/J1voWxO.png"/>
+          <div class="story-body">
+            <div class="story-tag">First Mile</div>
+            <div class="story-title">Cumplimiento de Mensuales Operativas al 100% en julio</div>
+            <div class="story-area">Resultados del Cierre</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">Repositorio de proyectos</div>
+      <div class="gestion-grid" style="grid-template-columns:1fr">
+        <button class="gestion-card" onclick="go('proyectos', null); openGroupFor('navGestion')">
+          <div class="gestion-card-title">Ver todos los proyectos activos</div>
+          <div class="gestion-card-sub">Portafolio completo de First Mile, Service Center y Quality, con % de avance y estado.</div>
+          <div class="gestion-card-link">Ir a Gestión <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
+        </button>
+      </div>
+
+      <div class="section-title">Herramientas de equipo</div>
+      <div class="tool-grid">
+        <a class="tool-card" href="#" onclick="return false;">
+          <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a1 1 0 0 1 1-1h9l6 6v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/><path d="M14 4v5a1 1 0 0 0 1 1h5"/></svg></div>
+          <div class="tool-card-title">Generador de Boletines</div>
+          <div class="tool-card-sub">App de Streamlit que arma los 3 newsletters a partir de los Excel/Sheets.</div>
+          <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
+        </a>
+        <a class="tool-card" href="#" onclick="return false;">
+          <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M8 12h8M8 16h8M8 8h3"/></svg></div>
+          <div class="tool-card-title">Playbooks (Admin / Supervisores)</div>
+          <div class="tool-card-sub">Guías paso a paso para llenar el Form y para correr el proceso mensual.</div>
+          <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
+        </a>
+        <a class="tool-card" href="#" onclick="return false;">
+          <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10M18 20V4M6 20v-6"/></svg></div>
+          <div class="tool-card-title">Grids clasificados</div>
+          <div class="tool-card-sub">Tableros de KPI y clasificación de operaciones por sitio.</div>
+          <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
+        </a>
+      </div>
+
+      <div class="section-title">Ideas y sugerencias</div>
+      <div class="suggest-card">
+        <div class="suggest-title">¿Tienes una idea o sugerencia?</div>
+        <div class="suggest-sub">Ayuda a mejorar el OE Hub. Tu sugerencia se envía directamente al equipo.</div>
+        <div class="suggest-row">
+          <div class="suggest-field">
+            <label>Área</label>
+            <select id="sugArea"><option>Selecciona el área...</option><option>First Mile</option><option>Service Center</option><option>Quality</option><option>General</option></select>
+          </div>
+          <div class="suggest-field">
+            <label>Tipo de sugerencia</label>
+            <select id="sugTipo"><option>Selecciona el tipo...</option><option>Nueva funcionalidad</option><option>Mejora</option><option>Corrección</option><option>Otro</option></select>
+          </div>
+        </div>
+        <div class="suggest-field" style="margin-bottom:14px">
+          <label>Descripción</label>
+          <textarea id="sugDesc" placeholder="Cuéntanos tu idea..."></textarea>
+        </div>
+        <button class="suggest-submit" onclick="submitSuggestion()">Enviar sugerencia</button>
+        <div class="suggest-confirm" id="sugConfirm">Sugerencia enviada con éxito (vista previa: aquí se conectaría a un Google Sheet vía Apps Script).</div>
+      </div>
+
+    </div>
+
+    <div class="page" id="page-proyectos">
+      <div class="page-header">
+        <div class="page-eyebrow">Gestión</div>
+        <div class="page-title">Proyectos</div>
+        <div class="page-desc">Portafolio de iniciativas de First Mile, Service Center y Quality.</div>
+      </div>
+      <div class="coming-soon">
+        <div class="coming-soon-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
+        <div class="coming-soon-title">Contenido en construcción</div>
+        <div class="coming-soon-sub">El portafolio de proyectos se conecta en el Sprint 2.</div>
+      </div>
+    </div>
+
+    <div class="page" id="page-indicadores">
+      <div class="page-header">
+        <div class="page-eyebrow">Gestión</div>
+        <div class="page-title">Indicadores</div>
+        <div class="page-desc">% de avance, proyectos en riesgo, top proyectos, resultados PET y comparativa entre áreas.</div>
+      </div>
+      <div class="coming-soon">
+        <div class="coming-soon-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
+        <div class="coming-soon-title">Contenido en construcción</div>
+        <div class="coming-soon-sub">El dashboard de indicadores (incluye Resultados PET) se construye en el Sprint 3.</div>
+      </div>
+    </div>
+
+    <div class="page" id="page-rutinas">
+      <div class="page-header">
+        <div class="page-eyebrow">Excelencia Operacional</div>
+        <div class="page-title">Rutinas</div>
+        <div class="page-desc">BBR, WBR y el Newsletter (NL) mensual del equipo.</div>
+      </div>
+
+      <div class="routine-tabs">
+        <button class="routine-tab active" id="tab-bbr" onclick="routineTab('bbr')">BBR</button>
+        <button class="routine-tab" id="tab-wbr" onclick="routineTab('wbr')">WBR</button>
+        <button class="routine-tab" id="tab-nl" onclick="routineTab('nl')">NL (Newsletter)</button>
+      </div>
+
+      <div class="routine-panel active" id="routine-bbr">
+        <div class="routine-placeholder">
+          <b>BBR</b> — espacio en definición. Aquí va la referencia y/o el material de la entrega de resultados tipo BBR del equipo (agenda, link a la sesión, última grabación). Pendiente confirmar con Larry/Ricardo el contenido exacto.
+        </div>
+      </div>
+      <div class="routine-panel" id="routine-wbr">
+        <div class="routine-placeholder">
+          <b>WBR</b> — espacio en definición. Igual que BBR: referencia y material de la entrega de resultados semanal del equipo. Pendiente confirmar contenido exacto.
+        </div>
+      </div>
+      <div class="routine-panel" id="routine-nl">
+        <div class="bulletin-month-group" style="margin-bottom:0">
+          <div class="bulletin-month-label">Julio 2026</div>
+          <div class="bulletin-grid">
+            <a class="bulletin-card" href="boletines/2026-07/Boletin_FirstMile.html" target="_blank" rel="noopener">
+              <div class="bulletin-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M8 12h8M8 16h8M8 8h3"/></svg></div>
+              <div class="bulletin-card-title">First Mile</div>
+              <div class="bulletin-card-sub">Boletín mensual de Excelencia Operacional</div>
+              <div class="bulletin-card-link">Ver boletín <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
+            </a>
+            <a class="bulletin-card" href="boletines/2026-07/Boletin_ServiceCenter.html" target="_blank" rel="noopener">
+              <div class="bulletin-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M8 12h8M8 16h8M8 8h3"/></svg></div>
+              <div class="bulletin-card-title">Service Center</div>
+              <div class="bulletin-card-sub">Boletín mensual de Excelencia Operacional</div>
+              <div class="bulletin-card-link">Ver boletín <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
+            </a>
+            <a class="bulletin-card" href="boletines/2026-07/Boletin_Quality.html" target="_blank" rel="noopener">
+              <div class="bulletin-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M8 12h8M8 16h8M8 8h3"/></svg></div>
+              <div class="bulletin-card-title">Quality</div>
+              <div class="bulletin-card-sub">Boletín mensual de Excelencia Operacional</div>
+              <div class="bulletin-card-link">Ver boletín <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
+            </a>
+          </div>
         </div>
       </div>
     </div>
-    <div class="org-connector"></div>
-    <div class="mgmt-row">
-      <div class="org-member"><div class="org-avatar-initials">MW</div><div class="org-name">Martin Winkler</div><div class="org-role">Analista SR</div><div class="org-mail"><a href="mailto:martin.yanezwinkler@mercadolibre.com.mx">martin.yanezwinkler@mercadolibre.com.mx</a></div></div>
-      <div class="org-member"><div class="org-avatar-initials">MG</div><div class="org-name">Monica Gallardo</div><div class="org-role">Analista SSR</div><div class="org-mail"><a href="mailto:monica.gallardoramirez@mercadolibre.com.mx">monica.gallardoramirez@mercadolibre.com.mx</a></div></div>
-      <div class="org-member"><div class="org-avatar-initials">DH</div><div class="org-name">David Hernandez</div><div class="org-role">Analista SSR</div><div class="org-mail"><a href="mailto:david.hernandezangeles@mercadolibre.com.mx">david.hernandezangeles@mercadolibre.com.mx</a></div></div>
-      <div class="org-member"><div class="org-avatar-initials">LB</div><div class="org-name">Larry Beresford</div><div class="org-role">Analista SSR</div><div class="org-mail"><a href="mailto:larry.beresforddiaz@mercadolibre.com.mx">larry.beresforddiaz@mercadolibre.com.mx</a></div></div>
-    </div>
-  </div>
 
-  <div id="aprendizaje" class="group accent-orange">
-    <div class="group-title"><span class="emoji">📚</span> Aprendizaje Continuo</div>
-    <div class="card-grid">
-      <a class="card" href="#" onclick="return false;">
-        <div class="card-icon">🎓</div>
-        <div class="card-badge">En construcción</div>
-        <div class="card-title">Guías y cursos del equipo</div>
-        <div class="card-desc">Espacio nuevo para cursos, wiki y guías de referencia del equipo OE. Contenido a definir.</div>
-        <div class="card-link">Próximamente <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
-      </a>
-    </div>
-  </div>
-
-  <div id="herramientas" class="group panel accent-purple">
-    <div class="group-title"><span class="emoji">🛠</span> Herramientas de equipo</div>
-    <div class="card-grid">
-      <a class="card" href="#" onclick="return false;">
-        <div class="card-icon">📄</div>
-        <div class="card-badge">App</div>
-        <div class="card-title">Generador de Boletines</div>
-        <div class="card-desc">App de Streamlit que arma los newsletters a partir de los Excel/Sheets.</div>
-        <div class="card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
-      </a>
-      <a class="card" href="#" onclick="return false;">
-        <div class="card-icon">📖</div>
-        <div class="card-badge">Documentación</div>
-        <div class="card-title">Playbooks (Admin / Supervisores)</div>
-        <div class="card-desc">Guías paso a paso para llenar el Form y correr el proceso mensual.</div>
-        <div class="card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
-      </a>
-      <a class="card" href="#" onclick="return false;">
-        <div class="card-icon">📊</div>
-        <div class="card-badge">Tablero</div>
-        <div class="card-title">Grids clasificados</div>
-        <div class="card-desc">Tableros de KPI y clasificación de operaciones por sitio.</div>
-        <div class="card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
-      </a>
-      <a class="card" href="#" onclick="return false;">
-        <div class="card-icon">🖥️</div>
-        <div class="card-badge">Generador</div>
-        <div class="card-title">Generador de Slide Ejecutivo</div>
-        <div class="card-desc">Arma el slide de status de proyectos Lean (KPIs, fases, obstáculos) y lo exporta como HTML.</div>
-        <div class="card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
-      </a>
-    </div>
-  </div>
-
-  <div id="suggestions" class="group">
-    <div class="suggest-panel">
-      <div class="suggest-icon">💡</div>
-      <div class="suggest-title">¿Tienes una idea o sugerencia?</div>
-      <div class="suggest-sub">Ayuda a mejorar el OE Hub. Tu sugerencia se envía directamente al equipo.</div>
-      <div class="suggest-row2">
-        <div class="suggest-field">
-          <label>Área / sección</label>
-          <select id="sugArea"><option>Selecciona el área...</option><option>First Mile</option><option>Service Center</option><option>Quality</option><option>Gestión</option><option>General</option></select>
-        </div>
-        <div class="suggest-field">
-          <label>Tipo de sugerencia</label>
-          <select id="sugTipo"><option>Selecciona el tipo...</option><option>Nueva funcionalidad</option><option>Mejora</option><option>Corrección</option><option>Otro</option></select>
+    <div class="page" id="page-directorio">
+      <div class="page-header">
+        <div class="page-eyebrow">Excelencia Operacional</div>
+        <div class="page-title">Directorio de líderes</div>
+        <div class="page-desc">Equipo de Excelencia Operacional MLM, con correo directo.</div>
+      </div>
+      <div class="org-top">
+        <div class="org-top-card">
+          <img class="org-top-avatar" src="https://i.imgur.com/fA8JHId.jpg"/>
+          <div>
+            <div class="org-top-name">Miguel Hernández</div>
+            <div class="org-top-role">Sr Manager · OE</div>
+            <div class="org-top-mail"><a href="mailto:miguel.hernandezmartinez@mercadolibre.com.mx">miguel.hernandezmartinez@mercadolibre.com.mx</a></div>
+          </div>
         </div>
       </div>
-      <div class="suggest-field">
-        <label>Descripción</label>
-        <textarea id="sugDesc" placeholder="Cuéntanos tu idea..."></textarea>
+      <div class="org-connector"></div>
+      <div class="org-cols">
+        <div class="org-col">
+          <div class="org-col-label">SVC + LM</div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/UcM3gqc.jpg"/><div class="org-name">Steven Seedorf</div><div class="org-role">Manager</div><div class="org-mail"><a href="mailto:steven.seedorf@mercadolibre.com.mx">steven.seedorf@mercadolibre.com.mx</a></div></div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/MH4N1CU.jpg"/><div class="org-name">Ana Vargas</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:ana.vargasfuentes@mercadolibre.com.mx">ana.vargasfuentes@mercadolibre.com.mx</a></div></div>
+        </div>
+        <div class="org-col">
+          <div class="org-col-label">XD, SC + FM</div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/i3epbGL.jpg"/><div class="org-name">Mariana Novoa</div><div class="org-role">Manager</div><div class="org-mail"><a href="mailto:mariana.novoa@mercadolibre.com.mx">mariana.novoa@mercadolibre.com.mx</a></div></div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/uDq0p1w.jpeg"/><div class="org-name">Germán Gonzalo Ramírez</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:german.ramirezlara@mercadolibre.com.mx">german.ramirezlara@mercadolibre.com.mx</a></div></div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/f6C6n8t.jpg"/><div class="org-name">Eduardo García</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:eduardo.egarciamejia@mercadolibre.com.mx">eduardo.egarciamejia@mercadolibre.com.mx</a></div></div>
+        </div>
+        <div class="org-col">
+          <div class="org-col-label">Quality</div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/dCfmGI5.jpeg"/><div class="org-name">Laura Chávez</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:laura.chavezdiaz@mercadolibre.com.mx">laura.chavezdiaz@mercadolibre.com.mx</a></div></div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/NHcV4RN.jpg"/><div class="org-name">Juan Carlos García</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:garcia.gjuan@mercadolibre.com.mx">garcia.gjuan@mercadolibre.com.mx</a></div></div>
+        </div>
+        <div class="org-col">
+          <div class="org-col-label">Gestión</div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/nE4Yfj6.jpg"/><div class="org-name">Ricardo Almanza</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:carlosricardo.almanzaloo@mercadolibre.com.mx">carlosricardo.almanzaloo@mercadolibre.com.mx</a></div></div>
+        </div>
       </div>
-      <button class="suggest-submit" onclick="submitSuggestion()">Enviar sugerencia →</button>
-      <div class="suggest-confirm" id="sugConfirm">✅ Sugerencia enviada con éxito (vista previa: aquí se conectaría a una Google Sheet, sin Apps Script).</div>
-      <div class="suggest-note">Los links de cada herramienta se actualizan a medida que se van conectando. ¿Dudas? Escribe al equipo de OE.</div>
+      <div class="region-note">
+        Nota: mismo agrupamiento por equipo que ya usa el Directorio real (SVC+LM, XD/SC+FM, Quality, Gestión).
+      </div>
     </div>
+
+    <div class="page" id="page-management">
+      <div class="page-header">
+        <div class="page-eyebrow">Excelencia Operacional</div>
+        <div class="page-title">Management — Equipo de Gestión</div>
+        <div class="page-desc">Equipo directo de Ricardo Almanza dentro de Gestión.</div>
+      </div>
+      <div class="org-top">
+        <div class="org-top-card">
+          <img class="org-top-avatar" src="https://i.imgur.com/nE4Yfj6.jpg"/>
+          <div>
+            <div class="org-top-name">Ricardo Almanza</div>
+            <div class="org-top-role">Supervisor</div>
+            <div class="org-top-mail"><a href="mailto:carlosricardo.almanzaloo@mercadolibre.com.mx">carlosricardo.almanzaloo@mercadolibre.com.mx</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="org-connector"></div>
+      <div class="mgmt-row">
+        <div class="org-member"><div class="org-avatar-initials">MW</div><div class="org-name">Martin Winkler</div><div class="org-role">Analista SR</div><div class="org-mail"><a href="mailto:martin.yanezwinkler@mercadolibre.com.mx">martin.yanezwinkler@mercadolibre.com.mx</a></div></div>
+        <div class="org-member"><div class="org-avatar-initials">MG</div><div class="org-name">Monica Gallardo</div><div class="org-role">Analista SSR</div><div class="org-mail"><a href="mailto:monica.gallardoramirez@mercadolibre.com.mx">monica.gallardoramirez@mercadolibre.com.mx</a></div></div>
+        <div class="org-member"><div class="org-avatar-initials">DH</div><div class="org-name">David Hernandez</div><div class="org-role">Analista SSR</div><div class="org-mail"><a href="mailto:david.hernandezangeles@mercadolibre.com.mx">david.hernandezangeles@mercadolibre.com.mx</a></div></div>
+        <div class="org-member"><div class="org-avatar-initials">LB</div><div class="org-name">Larry Beresford</div><div class="org-role">Analista SSR</div><div class="org-mail"><a href="mailto:larry.beresforddiaz@mercadolibre.com.mx">larry.beresforddiaz@mercadolibre.com.mx</a></div></div>
+      </div>
+    </div>
+
+    <div class="page" id="page-aprendizaje">
+      <div class="page-header">
+        <div class="page-eyebrow">Excelencia Operacional</div>
+        <div class="page-title">Aprendizaje Continuo</div>
+        <div class="page-desc">Guías, cursos y material de referencia para el equipo de OE.</div>
+      </div>
+      <div class="learn-grid">
+        <div class="learn-card">
+          <div class="learn-card-title">Guías y playbooks</div>
+          <div class="learn-card-sub">Contenido pendiente de definir contigo — cursos, wiki interna, guías de onboarding, etc.</div>
+        </div>
+        <div class="learn-card">
+          <div class="learn-card-title">Sesiones grabadas</div>
+          <div class="learn-card-sub">Espacio reservado para grabaciones de capacitaciones del equipo.</div>
+        </div>
+        <div class="learn-card">
+          <div class="learn-card-title">Glosario OE</div>
+          <div class="learn-card-sub">Espacio reservado para siglas y términos propios de Excelencia Operacional.</div>
+        </div>
+      </div>
+    </div>
+
   </div>
-
-</div>
-
-<div class="footer"><b>Mercado Libre — Excelencia Operacional MLM</b><br/>OE MLM Hub · Rutinas, Gestión, Directorio y Herramientas del equipo</div>
+</main>
 
 <script>
-  function setLang(lang) {
-    document.querySelectorAll('.lang-pill button').forEach(b => b.classList.remove('active'));
-    event.target.classList.add('active');
+  const LABELS = { inicio:'Inicio', proyectos:'Gestión · Proyectos', indicadores:'Gestión · Indicadores', rutinas:'Rutinas', directorio:'Directorio', management:'Management', aprendizaje:'Aprendizaje Continuo' };
+
+  function toggleSidebar() {
+    document.body.classList.toggle('sidebar-collapsed');
   }
+
+  function toggleGroup(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+
+  function openGroupFor(id) {
+    document.getElementById(id).classList.add('open');
+  }
+
+  function go(pageId, btn) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const el = document.getElementById('page-' + pageId);
+    if (el) el.classList.add('active');
+
+    document.querySelectorAll('.nav-direct, .nav-sub-item').forEach(b => b.classList.remove('active'));
+    if (btn) { btn.classList.add('active'); }
+
+    document.getElementById('bcCurrent').textContent = LABELS[pageId] || pageId;
+
+    if (pageId === 'directorio' || pageId === 'management') {
+      document.body.classList.add('sidebar-collapsed');
+    } else {
+      document.body.classList.remove('sidebar-collapsed');
+    }
+  }
+
+  function routineTab(which) {
+    document.querySelectorAll('.routine-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.routine-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + which).classList.add('active');
+    document.getElementById('routine-' + which).classList.add('active');
+  }
+
+  function setLang(lang) {
+    document.getElementById('langEs').classList.toggle('active', lang === 'es');
+    document.getElementById('langOther').classList.toggle('active', lang !== 'es');
+  }
+
   function submitSuggestion() {
     document.getElementById('sugConfirm').classList.add('show');
   }
