@@ -402,13 +402,11 @@
     </button>
     <div class="nav-sub">
       <button class="nav-sub-item" onclick="go('rutinas', this); setTimeout(()=>routineTab('bbr'),0)"><span>BBR</span></button>
-      <button class="nav-sub-item" onclick="go('rutinas', this); setTimeout(()=>routineTab('wbr'),0)"><span>WBR</span></button>
+      <button class="nav-sub-item" onclick="go('rutinas', this); setTimeout(()=>routineTab('mbr'),0)"><span>MBR</span></button>
       <button class="nav-sub-item" onclick="go('rutinas', this); setTimeout(()=>routineTab('nl'),0)"><span>NL (Newsletter)</span></button>
     </div>
 
     <button class="nav-direct" onclick="go('directorio', this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="8" r="3.2"/><path d="M20 19v-1a3.8 3.8 0 0 0-2.7-3.6"/><path d="M14.3 4.2A3.2 3.2 0 0 1 16.2 10.8"/></svg></span><span>Directorio</span></button>
-
-    <button class="nav-direct" onclick="go('management', this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7a2 2 0 0 1 2-2h3l1-1h4l1 1h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7Z"/><path d="M4 12h16"/></svg></span><span>Management</span></button>
 
     <button class="nav-direct" onclick="go('aprendizaje', this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 3 8.5 12 13l9-4.5L12 4Z"/><path d="M6.5 10.6V15c0 1.4 2.5 3 5.5 3s5.5-1.6 5.5-3v-4.4"/></svg></span><span>Aprendizaje Continuo</span></button>
   </nav>
@@ -437,7 +435,7 @@
         <div class="home-hero-text">
           <div class="home-hero-eyebrow">Excelencia Operacional · MLM</div>
           <div class="home-hero-title">Qué es OE</div>
-          <div class="home-hero-sub">OE (Excelencia Operacional) impulsa la mejora continua en First Mile, Service Center y Quality: estandariza procesos, da seguimiento a proyectos e indicadores, y comparte los resultados del equipo cada mes.</div>
+          <div class="home-hero-sub">OE (Excelencia Operacional) impulsa la mejora continua en FM, XD, SVC y TOM, además de Quality: estandariza procesos, da seguimiento a proyectos e indicadores, y comparte los resultados del equipo cada mes.</div>
         </div>
         <div class="home-hero-video">
           <div>
@@ -457,14 +455,14 @@
         <button class="quick-card" onclick="go('rutinas', null); openGroupFor('navRutinas')">
           <div class="quick-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M8 12h8M8 16h8M8 8h3"/></svg></div>
           <div class="quick-card-title">Rutinas</div>
-          <div class="quick-card-sub">BBR, WBR y el Newsletter mensual.</div>
+          <div class="quick-card-sub">BBR, MBR y el Newsletter mensual.</div>
         </button>
         <button class="quick-card" onclick="go('directorio', document.querySelectorAll('.nav-direct')[3])">
           <div class="quick-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="8" r="3.2"/><path d="M20 19v-1a3.8 3.8 0 0 0-2.7-3.6"/><path d="M14.3 4.2A3.2 3.2 0 0 1 16.2 10.8"/></svg></div>
           <div class="quick-card-title">Directorio</div>
           <div class="quick-card-sub">Líderes de OE por región, con correo directo.</div>
         </button>
-        <button class="quick-card" onclick="go('aprendizaje', document.querySelectorAll('.nav-direct')[5])">
+        <button class="quick-card" onclick="go('aprendizaje', document.querySelectorAll('.nav-direct')[4])">
           <div class="quick-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 3 8.5 12 13l9-4.5L12 4Z"/><path d="M6.5 10.6V15c0 1.4 2.5 3 5.5 3s5.5-1.6 5.5-3v-4.4"/></svg></div>
           <div class="quick-card-title">Aprendizaje Continuo</div>
           <div class="quick-card-sub">Guías, cursos y material de referencia.</div>
@@ -511,7 +509,7 @@
         <div class="story-card">
           <img class="story-photo" src="https://i.imgur.com/J1voWxO.png"/>
           <div class="story-body">
-            <div class="story-tag">First Mile</div>
+            <div class="story-tag">FM · XD · TOM</div>
             <div class="story-title">Cumplimiento de Mensuales Operativas al 100% en julio</div>
             <div class="story-area">Resultados del Cierre</div>
           </div>
@@ -522,7 +520,7 @@
       <div class="gestion-grid" style="grid-template-columns:1fr">
         <button class="gestion-card" onclick="go('proyectos', null); openGroupFor('navGestion')">
           <div class="gestion-card-title">Ver todos los proyectos activos</div>
-          <div class="gestion-card-sub">Portafolio completo de First Mile, Service Center y Quality, con % de avance y estado.</div>
+          <div class="gestion-card-sub">Portafolio completo de FM, XD, SVC, TOM y Quality, con % de avance y estado.</div>
           <div class="gestion-card-link">Ir a Gestión <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
         </button>
       </div>
@@ -556,7 +554,7 @@
         <div class="suggest-row">
           <div class="suggest-field">
             <label>Área</label>
-            <select id="sugArea"><option>Selecciona el área...</option><option>First Mile</option><option>Service Center</option><option>Quality</option><option>General</option></select>
+            <select id="sugArea"><option>Selecciona el área...</option><option>FM</option><option>XD</option><option>SVC</option><option>TOM</option><option>Quality</option><option>General</option></select>
           </div>
           <div class="suggest-field">
             <label>Tipo de sugerencia</label>
@@ -577,7 +575,7 @@
       <div class="page-header">
         <div class="page-eyebrow">Gestión</div>
         <div class="page-title">Proyectos</div>
-        <div class="page-desc">Portafolio de iniciativas de First Mile, Service Center y Quality.</div>
+        <div class="page-desc">Portafolio de iniciativas de FM, XD, SVC, TOM y Quality.</div>
       </div>
       <div class="coming-soon">
         <div class="coming-soon-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
@@ -603,12 +601,12 @@
       <div class="page-header">
         <div class="page-eyebrow">Excelencia Operacional</div>
         <div class="page-title">Rutinas</div>
-        <div class="page-desc">BBR, WBR y el Newsletter (NL) mensual del equipo.</div>
+        <div class="page-desc">BBR, MBR y el Newsletter (NL) mensual del equipo.</div>
       </div>
 
       <div class="routine-tabs">
         <button class="routine-tab active" id="tab-bbr" onclick="routineTab('bbr')">BBR</button>
-        <button class="routine-tab" id="tab-wbr" onclick="routineTab('wbr')">WBR</button>
+        <button class="routine-tab" id="tab-mbr" onclick="routineTab('mbr')">MBR</button>
         <button class="routine-tab" id="tab-nl" onclick="routineTab('nl')">NL (Newsletter)</button>
       </div>
 
@@ -617,9 +615,9 @@
           <b>BBR</b> — espacio en definición. Aquí va la referencia y/o el material de la entrega de resultados tipo BBR del equipo (agenda, link a la sesión, última grabación). Pendiente confirmar con Larry/Ricardo el contenido exacto.
         </div>
       </div>
-      <div class="routine-panel" id="routine-wbr">
+      <div class="routine-panel" id="routine-mbr">
         <div class="routine-placeholder">
-          <b>WBR</b> — espacio en definición. Igual que BBR: referencia y material de la entrega de resultados semanal del equipo. Pendiente confirmar contenido exacto.
+          <b>MBR</b> — espacio en definición. Referencia y material de la entrega de resultados mensual del equipo (agenda, link a la sesión, última grabación). Pendiente confirmar contenido exacto.
         </div>
       </div>
       <div class="routine-panel" id="routine-nl">
@@ -628,13 +626,13 @@
           <div class="bulletin-grid">
             <a class="bulletin-card" href="boletines/2026-07/Boletin_FirstMile.html" target="_blank" rel="noopener">
               <div class="bulletin-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M8 12h8M8 16h8M8 8h3"/></svg></div>
-              <div class="bulletin-card-title">First Mile</div>
+              <div class="bulletin-card-title">FM · XD · TOM</div>
               <div class="bulletin-card-sub">Boletín mensual de Excelencia Operacional</div>
               <div class="bulletin-card-link">Ver boletín <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
             </a>
             <a class="bulletin-card" href="boletines/2026-07/Boletin_ServiceCenter.html" target="_blank" rel="noopener">
               <div class="bulletin-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M8 12h8M8 16h8M8 8h3"/></svg></div>
-              <div class="bulletin-card-title">Service Center</div>
+              <div class="bulletin-card-title">SVC</div>
               <div class="bulletin-card-sub">Boletín mensual de Excelencia Operacional</div>
               <div class="bulletin-card-link">Ver boletín <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
             </a>
@@ -644,6 +642,20 @@
               <div class="bulletin-card-sub">Boletín mensual de Excelencia Operacional</div>
               <div class="bulletin-card-link">Ver boletín <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
             </a>
+          </div>
+        </div>
+
+        <div class="section-title" style="margin-top:26px">Playbook y flujo de fechas / responsables</div>
+        <div class="two-col">
+          <div class="list-card">
+            <div class="list-item"><div class="list-item-dot"></div><div><div class="list-item-date">Focales</div><div class="list-item-text">Actualizan su proyecto en el Form el penúltimo viernes del mes.</div></div></div>
+            <div class="list-item"><div class="list-item-dot"></div><div><div class="list-item-date">Supervisores</div><div class="list-item-text">Cargan y validan las respuestas del Form el último lunes del mes.</div></div></div>
+            <div class="list-item"><div class="list-item-dot"></div><div><div class="list-item-date">OE</div><div class="list-item-text">Corre el motor, arma los 3 boletines y publica a todo MLM el lunes de la 2a semana del mes siguiente.</div></div></div>
+          </div>
+          <div class="tool-card" style="cursor:default">
+            <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M8 12h8M8 16h8M8 8h3"/></svg></div>
+            <div class="tool-card-title">Playbook del proceso NL</div>
+            <div class="tool-card-sub">Guía paso a paso para Focales y Supervisores: cómo llenar el Form y cómo se corre el proceso mensual. Contenido pendiente de compartir link final.</div>
           </div>
         </div>
       </div>
@@ -693,31 +705,6 @@
       </div>
     </div>
 
-    <div class="page" id="page-management">
-      <div class="page-header">
-        <div class="page-eyebrow">Excelencia Operacional</div>
-        <div class="page-title">Management — Equipo de Gestión</div>
-        <div class="page-desc">Equipo directo de Ricardo Almanza dentro de Gestión.</div>
-      </div>
-      <div class="org-top">
-        <div class="org-top-card">
-          <img class="org-top-avatar" src="https://i.imgur.com/nE4Yfj6.jpg"/>
-          <div>
-            <div class="org-top-name">Ricardo Almanza</div>
-            <div class="org-top-role">Supervisor</div>
-            <div class="org-top-mail"><a href="mailto:carlosricardo.almanzaloo@mercadolibre.com.mx">carlosricardo.almanzaloo@mercadolibre.com.mx</a></div>
-          </div>
-        </div>
-      </div>
-      <div class="org-connector"></div>
-      <div class="mgmt-row">
-        <div class="org-member"><div class="org-avatar-initials">MW</div><div class="org-name">Martin Winkler</div><div class="org-role">Analista SR</div><div class="org-mail"><a href="mailto:martin.yanezwinkler@mercadolibre.com.mx">martin.yanezwinkler@mercadolibre.com.mx</a></div></div>
-        <div class="org-member"><div class="org-avatar-initials">MG</div><div class="org-name">Monica Gallardo</div><div class="org-role">Analista SSR</div><div class="org-mail"><a href="mailto:monica.gallardoramirez@mercadolibre.com.mx">monica.gallardoramirez@mercadolibre.com.mx</a></div></div>
-        <div class="org-member"><div class="org-avatar-initials">DH</div><div class="org-name">David Hernandez</div><div class="org-role">Analista SSR</div><div class="org-mail"><a href="mailto:david.hernandezangeles@mercadolibre.com.mx">david.hernandezangeles@mercadolibre.com.mx</a></div></div>
-        <div class="org-member"><div class="org-avatar-initials">LB</div><div class="org-name">Larry Beresford</div><div class="org-role">Analista SSR</div><div class="org-mail"><a href="mailto:larry.beresforddiaz@mercadolibre.com.mx">larry.beresforddiaz@mercadolibre.com.mx</a></div></div>
-      </div>
-    </div>
-
     <div class="page" id="page-aprendizaje">
       <div class="page-header">
         <div class="page-eyebrow">Excelencia Operacional</div>
@@ -726,8 +713,8 @@
       </div>
       <div class="learn-grid">
         <div class="learn-card">
-          <div class="learn-card-title">Guías y playbooks</div>
-          <div class="learn-card-sub">Contenido pendiente de definir contigo — cursos, wiki interna, guías de onboarding, etc.</div>
+          <div class="learn-card-title">Playbook del proceso NL</div>
+          <div class="learn-card-sub">Guía paso a paso para Focales y Supervisores, con el flujo de fechas y responsables del mes (Focales → Supervisores → OE). Contenido pendiente de compartir link final.</div>
         </div>
         <div class="learn-card">
           <div class="learn-card-title">Sesiones grabadas</div>
@@ -737,6 +724,16 @@
           <div class="learn-card-title">Glosario OE</div>
           <div class="learn-card-sub">Espacio reservado para siglas y términos propios de Excelencia Operacional.</div>
         </div>
+        <div class="learn-card">
+          <div class="learn-card-title">Master File OE 2026 MLM</div>
+          <div class="learn-card-sub">Hoja de cálculo maestra compartida por Rich.</div>
+          <a href="https://docs.google.com/spreadsheets/d/1AaCga2v8JP6cvwMYtUdZBwkPEqDwwIIp8tqTJgXkQ84/edit?gid=1008315651#gid=1008315651" target="_blank" rel="noopener" style="font-size:12px;font-weight:700;color:var(--yellow-dark);text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:10px;">Abrir Sheet <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
+        </div>
+        <div class="learn-card">
+          <div class="learn-card-title">Nueva Regionalización TTE MLM</div>
+          <div class="learn-card-sub">Hoja de cálculo de regionalización de transporte compartida por Rich.</div>
+          <a href="https://docs.google.com/spreadsheets/d/1QQXp7LguAHs7CQeYTJki1QBVmMEnIWosHj1hz-X30aM/edit?userstoinvite=juan.lopezpulecio%40mercadolibre.com.mx&sharingaction=manageaccess&role=writer&pli=1&gid=1463053626#gid=1463053626" target="_blank" rel="noopener" style="font-size:12px;font-weight:700;color:var(--yellow-dark);text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:10px;">Abrir Sheet <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
+        </div>
       </div>
     </div>
 
@@ -744,7 +741,7 @@
 </main>
 
 <script>
-  const LABELS = { inicio:'Inicio', proyectos:'Gestión · Proyectos', indicadores:'Gestión · Indicadores', rutinas:'Rutinas', directorio:'Directorio', management:'Management', aprendizaje:'Aprendizaje Continuo' };
+  const LABELS = { inicio:'Inicio', proyectos:'Gestión · Proyectos', indicadores:'Gestión · Indicadores', rutinas:'Rutinas', directorio:'Directorio', aprendizaje:'Aprendizaje Continuo' };
 
   function toggleSidebar() {
     document.body.classList.toggle('sidebar-collapsed');
@@ -768,7 +765,7 @@
 
     document.getElementById('bcCurrent').textContent = LABELS[pageId] || pageId;
 
-    if (pageId === 'directorio' || pageId === 'management') {
+    if (pageId === 'directorio') {
       document.body.classList.add('sidebar-collapsed');
     } else {
       document.body.classList.remove('sidebar-collapsed');
