@@ -326,6 +326,19 @@
   .suggest-confirm { display:none; color:var(--yellow); font-size:12.5px; font-weight:700; margin-top:12px; }
   .suggest-confirm.show { display:block; }
 
+  .orgfull-cols { display:flex; gap:16px; flex-wrap:wrap; align-items:flex-start; }
+  .orgfull-col { flex:1; min-width:230px; background:var(--white); border:1px solid var(--border); border-radius:12px; padding:16px; }
+  .orgfull-col-title { font-size:11px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:#999; text-align:center; margin-bottom:12px; }
+  .orgfull-tier-label { font-size:9px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:#BBB; margin:10px 0 6px; text-align:center; }
+  .orgfull-node { display:flex; align-items:center; gap:8px; padding:7px 8px; border-radius:8px; background:var(--light-bg); margin-bottom:6px; }
+  .orgfull-node.manager { background:var(--yellow-bg); }
+  .orgfull-avatar { width:28px; height:28px; border-radius:50%; object-fit:cover; border:2px solid var(--yellow); flex-shrink:0; }
+  .orgfull-avatar-initials { width:28px; height:28px; border-radius:50%; background:var(--yellow-bg); border:2px solid var(--yellow); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:9.5px; color:var(--yellow-dark); flex-shrink:0; }
+  .orgfull-node.manager .orgfull-avatar-initials { background:var(--white); }
+  .orgfull-name { font-size:11px; font-weight:700; color:var(--dark); line-height:1.25; }
+  .orgfull-role { font-size:9px; color:#999; margin-top:1px; line-height:1.25; }
+  .orgfull-connector { width:2px; height:10px; background:var(--yellow); margin:0 auto; }
+
   .learn-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
   .learn-card { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:20px; }
   .learn-card-title { font-size:14px; font-weight:800; margin-bottom:6px; }
@@ -398,6 +411,8 @@
 
     <button class="nav-direct" onclick="go('directorio', this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="8" r="3.2"/><path d="M20 19v-1a3.8 3.8 0 0 0-2.7-3.6"/><path d="M14.3 4.2A3.2 3.2 0 0 1 16.2 10.8"/></svg></span><span>Directorio</span></button>
 
+    <button class="nav-direct" onclick="go('organigrama', this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.3"/><circle cx="5" cy="19" r="2.3"/><circle cx="12" cy="19" r="2.3"/><circle cx="19" cy="19" r="2.3"/><path d="M12 7.3V13M5 16.7V13h14v3.7M12 13v3.7"/></svg></span><span>Organigrama Completo</span></button>
+
     <button class="nav-direct" onclick="go('slides', this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5Z"/><path d="M9 20h6M12 16v4"/></svg></span><span>Generador de Slides</span></button>
 
     <button class="nav-direct" onclick="go('aprendizaje', this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 3 8.5 12 13l9-4.5L12 4Z"/><path d="M6.5 10.6V15c0 1.4 2.5 3 5.5 3s5.5-1.6 5.5-3v-4.4"/></svg></span><span>Aprendizaje Continuo</span></button>
@@ -454,7 +469,7 @@
           <div class="quick-card-title">Directorio</div>
           <div class="quick-card-sub">Líderes de OE por región, con correo directo.</div>
         </button>
-        <button class="quick-card" onclick="go('aprendizaje', document.querySelectorAll('.nav-direct')[5])">
+        <button class="quick-card" onclick="go('aprendizaje', document.querySelectorAll('.nav-direct')[6])">
           <div class="quick-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 3 8.5 12 13l9-4.5L12 4Z"/><path d="M6.5 10.6V15c0 1.4 2.5 3 5.5 3s5.5-1.6 5.5-3v-4.4"/></svg></div>
           <div class="quick-card-title">Aprendizaje Continuo</div>
           <div class="quick-card-sub">Guías, cursos y material de referencia.</div>
@@ -537,7 +552,7 @@
           <div class="tool-card-sub">Tableros de KPI y clasificación de operaciones por sitio.</div>
           <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
         </a>
-        <a class="tool-card" href="#" onclick="go('slides', document.querySelectorAll('.nav-direct')[4]); return false;">
+        <a class="tool-card" href="#" onclick="go('slides', document.querySelectorAll('.nav-direct')[5]); return false;">
           <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5Z"/><path d="M9 20h6M12 16v4"/></svg></div>
           <div class="tool-card-title">Generador de Slide Ejecutivo</div>
           <div class="tool-card-sub">Arma el slide de status de un proyecto Lean (KPIs, fases, obstáculos) y expórtalo listo para la junta.</div>
@@ -614,8 +629,20 @@
         </div>
       </div>
       <div class="routine-panel" id="routine-mbr">
-        <div class="routine-placeholder">
-          <b>MBR</b> — espacio en definición. Referencia y material de la entrega de resultados mensual del equipo (agenda, link a la sesión, última grabación). Pendiente confirmar contenido exacto.
+        <div class="learn-grid">
+          <div class="learn-card">
+            <div class="learn-card-title">Master File OE 2026 MLM</div>
+            <div class="learn-card-sub">Hoja de cálculo maestra compartida por Rich, usada en el MBR.</div>
+            <a href="https://docs.google.com/spreadsheets/d/1AaCga2v8JP6cvwMYtUdZBwkPEqDwwIIp8tqTJgXkQ84/edit?gid=1008315651#gid=1008315651" target="_blank" rel="noopener" style="font-size:12px;font-weight:700;color:var(--yellow-dark);text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:10px;">Abrir Sheet <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
+          </div>
+          <div class="learn-card">
+            <div class="learn-card-title">Nueva Regionalización TTE MLM</div>
+            <div class="learn-card-sub">Hoja de cálculo de regionalización de transporte compartida por Rich, usada en el MBR.</div>
+            <a href="https://docs.google.com/spreadsheets/d/1QQXp7LguAHs7CQeYTJki1QBVmMEnIWosHj1hz-X30aM/edit?userstoinvite=juan.lopezpulecio%40mercadolibre.com.mx&sharingaction=manageaccess&role=writer&pli=1&gid=1463053626#gid=1463053626" target="_blank" rel="noopener" style="font-size:12px;font-weight:700;color:var(--yellow-dark);text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:10px;">Abrir Sheet <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
+          </div>
+        </div>
+        <div class="routine-placeholder" style="margin-top:14px">
+          <b>MBR</b> — agenda y link a la sesión pendientes de confirmar con Larry/Ricardo.
         </div>
       </div>
       <div class="routine-panel" id="routine-nl">
@@ -703,6 +730,97 @@
       </div>
     </div>
 
+    <div class="page" id="page-organigrama">
+      <div class="page-header">
+        <div class="page-eyebrow">Excelencia Operacional</div>
+        <div class="page-title">Organigrama Completo</div>
+        <div class="page-desc">Estructura de equipo 2026 · Transportation | Operational Excellence. Solo nombre y puesto — sin correo. Vacantes omitidas.</div>
+      </div>
+
+      <div class="org-top">
+        <div class="org-top-card">
+          <img class="org-top-avatar" src="https://i.imgur.com/fA8JHId.jpg"/>
+          <div>
+            <div class="org-top-name">Miguel Hernández</div>
+            <div class="org-top-role">Sr Manager · Heads subregión/proceso</div>
+          </div>
+        </div>
+      </div>
+      <div class="org-connector"></div>
+
+      <div class="orgfull-cols">
+
+        <div class="orgfull-col">
+          <div class="orgfull-col-title">SVC + LM</div>
+          <div class="orgfull-node manager"><img class="orgfull-avatar" src="https://i.imgur.com/UcM3gqc.jpg"/><div><div class="orgfull-name">Steven Seedorf</div><div class="orgfull-role">Manager</div></div></div>
+          <div class="orgfull-connector"></div>
+          <div class="orgfull-tier-label">Supervisor MRS</div>
+          <div class="orgfull-node"><img class="orgfull-avatar" src="https://i.imgur.com/MH4N1CU.jpg"/><div><div class="orgfull-name">Ana Vargas</div><div class="orgfull-role">Supervisor MRS</div></div></div>
+          <div class="orgfull-tier-label">Analistas MRS</div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">OP</div><div><div class="orgfull-name">Oscar Manuel Piña</div><div class="orgfull-role">Ops clock / Productividades</div></div></div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">LS</div><div><div class="orgfull-name">Leticia Salinas</div><div class="orgfull-role">Big Projects / RSC</div></div></div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">LV</div><div><div class="orgfull-name">Luis Ivan Villegas</div><div class="orgfull-role">NTM / Actividades no sistémicas</div></div></div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">JZ</div><div><div class="orgfull-name">Johanna Zambrano</div><div class="orgfull-role">Logistics (Nodeflow) / Large</div></div></div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">EV</div><div><div class="orgfull-name">Esthela Valdez</div><div class="orgfull-role">Precheck In y Gate In</div></div></div>
+          <div class="orgfull-tier-label">Analistas MRN</div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">RG</div><div><div class="orgfull-name">Roberto Guerrero</div><div class="orgfull-role">Sorter</div></div></div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">IG</div><div><div class="orgfull-name">Itzel Gorospe</div><div class="orgfull-role">Sorteo y despacho / Reprocesos</div></div></div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">JR</div><div><div class="orgfull-name">Jorge Gerardo Ruiz</div><div class="orgfull-role">Recibo etiquetado / OV</div></div></div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">MR</div><div><div class="orgfull-name">Miguel Romero</div><div class="orgfull-role">Carga y Gate Out</div></div></div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">DC</div><div><div class="orgfull-name">Daniela Castilleja</div><div class="orgfull-role">Problem Solver</div></div></div>
+          <div class="orgfull-tier-label">Analista Central</div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">RL</div><div><div class="orgfull-name">Raul Leana</div><div class="orgfull-role">Procesos General LM / Estandarización Patios</div></div></div>
+        </div>
+
+        <div class="orgfull-col">
+          <div class="orgfull-col-title">XD, SC + FM</div>
+          <div class="orgfull-node manager"><img class="orgfull-avatar" src="https://i.imgur.com/i3epbGL.jpg"/><div><div class="orgfull-name">Mariana Novoa</div><div class="orgfull-role">Manager</div></div></div>
+          <div class="orgfull-connector"></div>
+          <div class="orgfull-tier-label">Supervisor MRS</div>
+          <div class="orgfull-node"><img class="orgfull-avatar" src="https://i.imgur.com/uDq0p1w.jpeg"/><div><div class="orgfull-name">Germán Gonzalo Ramírez</div><div class="orgfull-role">Supervisor MRS · Problem Solver + SC + H&B</div></div></div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">AA</div><div><div class="orgfull-name">Abdeel Andrés</div><div class="orgfull-role">H&B end to end (Large + Oversize)</div></div></div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">ZV</div><div><div class="orgfull-name">Zita Valdez</div><div class="orgfull-role">Sortation Center | Process Path</div></div></div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">BI</div><div><div class="orgfull-name">Blanca Inzunza</div><div class="orgfull-role">Problem Solver + Mesa de Ayuda</div></div></div>
+          <div class="orgfull-tier-label">Supervisor MRN</div>
+          <div class="orgfull-node"><img class="orgfull-avatar" src="https://i.imgur.com/f6C6n8t.jpg"/><div><div class="orgfull-name">Eduardo García</div><div class="orgfull-role">Supervisor MRN · FOS + YMS + Productividades</div></div></div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">PG</div><div><div class="orgfull-name">Pablo Gallegos</div><div class="orgfull-role">Inbound, Sorteo | Sorter</div></div></div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">GG</div><div><div class="orgfull-name">Galindo García</div><div class="orgfull-role">Tiempos y Movimientos | Manga Air</div></div></div>
+          <div class="orgfull-tier-label">Analistas</div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">JJ</div><div><div class="orgfull-name">Jonatan Juárez</div><div class="orgfull-role">Estandarización Pymes | Capacidades</div></div></div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">PB</div><div><div class="orgfull-name">Patricia Benavides</div><div class="orgfull-role">First Mile | TMED</div></div></div>
+        </div>
+
+        <div class="orgfull-col">
+          <div class="orgfull-col-title">Quality</div>
+          <div class="orgfull-tier-label">Supervisor MRS</div>
+          <div class="orgfull-node"><img class="orgfull-avatar" src="https://i.imgur.com/dCfmGI5.jpeg"/><div><div class="orgfull-name">Laura Chávez</div><div class="orgfull-role">Supervisor MRS</div></div></div>
+          <div class="orgfull-tier-label">Supervisor MRN</div>
+          <div class="orgfull-node"><img class="orgfull-avatar" src="https://i.imgur.com/NHcV4RN.jpg"/><div><div class="orgfull-name">Juan Carlos García</div><div class="orgfull-role">Supervisor MRN</div></div></div>
+          <div class="orgfull-tier-label">Analistas</div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">KH</div><div><div class="orgfull-name">Karen Holguin</div><div class="orgfull-role">Quality Audits</div></div></div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">EN</div><div><div class="orgfull-name">Eduardo Novelo</div><div class="orgfull-role">Quality Audits</div></div></div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">DL</div><div><div class="orgfull-name">David Lumbreras</div><div class="orgfull-role">Quality Audits</div></div></div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">EH</div><div><div class="orgfull-name">Eduardo Hernández</div><div class="orgfull-role">Quality Audits</div></div></div>
+        </div>
+
+        <div class="orgfull-col">
+          <div class="orgfull-col-title">Gestión</div>
+          <div class="orgfull-tier-label">Supervisor</div>
+          <div class="orgfull-node"><img class="orgfull-avatar" src="https://i.imgur.com/nE4Yfj6.jpg"/><div><div class="orgfull-name">Ricardo Almanza</div><div class="orgfull-role">Supervisor</div></div></div>
+          <div class="orgfull-tier-label">Analistas</div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">MW</div><div><div class="orgfull-name">Martin Winkler</div><div class="orgfull-role">Fill Rate</div></div></div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">MG</div><div><div class="orgfull-name">Monica Gallardo</div><div class="orgfull-role">Portafolio MLM</div></div></div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">DH</div><div><div class="orgfull-name">David Hernández</div><div class="orgfull-role">Expansiones</div></div></div>
+          <div class="orgfull-node"><div class="orgfull-avatar-initials">LB</div><div><div class="orgfull-name">Larry Beresford</div><div class="orgfull-role">Portafolio MLM</div></div></div>
+        </div>
+
+      </div>
+
+      <div class="region-note">
+        Nota: Costo &amp; Eficiencia no aparece (Manager vacante). Claudia Ortega (Data Analytics | BI) no se incluyó porque el pptx no deja claro a qué rama reporta — confírmame y la agrego.
+      </div>
+    </div>
+
     <div class="page" id="page-slides">
       <div class="page-header">
         <div class="page-eyebrow">Excelencia Operacional</div>
@@ -733,16 +851,6 @@
           <div class="learn-card-title">Glosario OE</div>
           <div class="learn-card-sub">Espacio reservado para siglas y términos propios de Excelencia Operacional.</div>
         </div>
-        <div class="learn-card">
-          <div class="learn-card-title">Master File OE 2026 MLM</div>
-          <div class="learn-card-sub">Hoja de cálculo maestra compartida por Rich.</div>
-          <a href="https://docs.google.com/spreadsheets/d/1AaCga2v8JP6cvwMYtUdZBwkPEqDwwIIp8tqTJgXkQ84/edit?gid=1008315651#gid=1008315651" target="_blank" rel="noopener" style="font-size:12px;font-weight:700;color:var(--yellow-dark);text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:10px;">Abrir Sheet <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
-        </div>
-        <div class="learn-card">
-          <div class="learn-card-title">Nueva Regionalización TTE MLM</div>
-          <div class="learn-card-sub">Hoja de cálculo de regionalización de transporte compartida por Rich.</div>
-          <a href="https://docs.google.com/spreadsheets/d/1QQXp7LguAHs7CQeYTJki1QBVmMEnIWosHj1hz-X30aM/edit?userstoinvite=juan.lopezpulecio%40mercadolibre.com.mx&sharingaction=manageaccess&role=writer&pli=1&gid=1463053626#gid=1463053626" target="_blank" rel="noopener" style="font-size:12px;font-weight:700;color:var(--yellow-dark);text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:10px;">Abrir Sheet <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
-        </div>
       </div>
     </div>
 
@@ -750,7 +858,7 @@
 </main>
 
 <script>
-  const LABELS = { inicio:'Inicio', proyectos:'Gestión · Proyectos', indicadores:'Gestión · Indicadores', rutinas:'Rutinas', directorio:'Directorio', slides:'Generador de Slides', aprendizaje:'Aprendizaje Continuo' };
+  const LABELS = { inicio:'Inicio', proyectos:'Gestión · Proyectos', indicadores:'Gestión · Indicadores', rutinas:'Rutinas', directorio:'Directorio', organigrama:'Organigrama Completo', slides:'Generador de Slides', aprendizaje:'Aprendizaje Continuo' };
 
   function toggleSidebar() {
     document.body.classList.toggle('sidebar-collapsed');
@@ -774,7 +882,7 @@
 
     document.getElementById('bcCurrent').textContent = LABELS[pageId] || pageId;
 
-    if (pageId === 'directorio') {
+    if (pageId === 'directorio' || pageId === 'organigrama') {
       document.body.classList.add('sidebar-collapsed');
     } else {
       document.body.classList.remove('sidebar-collapsed');
