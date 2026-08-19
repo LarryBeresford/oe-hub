@@ -408,6 +408,8 @@
 
     <button class="nav-direct" onclick="go('directorio', this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="8" r="3.2"/><path d="M20 19v-1a3.8 3.8 0 0 0-2.7-3.6"/><path d="M14.3 4.2A3.2 3.2 0 0 1 16.2 10.8"/></svg></span><span>Directorio</span></button>
 
+    <button class="nav-direct" onclick="go('slides', this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5Z"/><path d="M9 20h6M12 16v4"/></svg></span><span>Generador de Slides</span></button>
+
     <button class="nav-direct" onclick="go('aprendizaje', this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 3 8.5 12 13l9-4.5L12 4Z"/><path d="M6.5 10.6V15c0 1.4 2.5 3 5.5 3s5.5-1.6 5.5-3v-4.4"/></svg></span><span>Aprendizaje Continuo</span></button>
   </nav>
   <div class="sidebar-footer">v0.2 · Vista previa</div>
@@ -462,7 +464,7 @@
           <div class="quick-card-title">Directorio</div>
           <div class="quick-card-sub">Líderes de OE por región, con correo directo.</div>
         </button>
-        <button class="quick-card" onclick="go('aprendizaje', document.querySelectorAll('.nav-direct')[4])">
+        <button class="quick-card" onclick="go('aprendizaje', document.querySelectorAll('.nav-direct')[5])">
           <div class="quick-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 3 8.5 12 13l9-4.5L12 4Z"/><path d="M6.5 10.6V15c0 1.4 2.5 3 5.5 3s5.5-1.6 5.5-3v-4.4"/></svg></div>
           <div class="quick-card-title">Aprendizaje Continuo</div>
           <div class="quick-card-sub">Guías, cursos y material de referencia.</div>
@@ -543,6 +545,12 @@
           <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10M18 20V4M6 20v-6"/></svg></div>
           <div class="tool-card-title">Grids clasificados</div>
           <div class="tool-card-sub">Tableros de KPI y clasificación de operaciones por sitio.</div>
+          <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
+        </a>
+        <a class="tool-card" href="#" onclick="go('slides', document.querySelectorAll('.nav-direct')[4]); return false;">
+          <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5Z"/><path d="M9 20h6M12 16v4"/></svg></div>
+          <div class="tool-card-title">Generador de Slide Ejecutivo</div>
+          <div class="tool-card-sub">Arma el slide de status de un proyecto Lean (KPIs, fases, obstáculos) y expórtalo listo para la junta.</div>
           <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
         </a>
       </div>
@@ -705,6 +713,17 @@
       </div>
     </div>
 
+    <div class="page" id="page-slides">
+      <div class="page-header">
+        <div class="page-eyebrow">Excelencia Operacional</div>
+        <div class="page-title">Generador de Slide Ejecutivo</div>
+        <div class="page-desc">Arma el slide de status de un proyecto Lean (KPIs con tendencia, fases, obstáculos, decisión requerida) y expórtalo listo para la junta.</div>
+      </div>
+      <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 230px); min-height:600px;">
+        <iframe src="herramientas/generador_slide_ejecutivo.html" style="width:100%; height:100%; border:none; display:block;" title="Generador de Slide Ejecutivo"></iframe>
+      </div>
+    </div>
+
     <div class="page" id="page-aprendizaje">
       <div class="page-header">
         <div class="page-eyebrow">Excelencia Operacional</div>
@@ -741,7 +760,7 @@
 </main>
 
 <script>
-  const LABELS = { inicio:'Inicio', proyectos:'Gestión · Proyectos', indicadores:'Gestión · Indicadores', rutinas:'Rutinas', directorio:'Directorio', aprendizaje:'Aprendizaje Continuo' };
+  const LABELS = { inicio:'Inicio', proyectos:'Gestión · Proyectos', indicadores:'Gestión · Indicadores', rutinas:'Rutinas', directorio:'Directorio', slides:'Generador de Slides', aprendizaje:'Aprendizaje Continuo' };
 
   function toggleSidebar() {
     document.body.classList.toggle('sidebar-collapsed');

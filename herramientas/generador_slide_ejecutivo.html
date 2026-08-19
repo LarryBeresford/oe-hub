@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generador de Slide Ejecutivo — Lean Projects</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --yellow: #FFE600; --black: #111; --white: #FFF;
+  --gray: #555; --gray-light: #F4F4F4; --gray-border: #E0E0E0;
+  --gray2: #333; --gray3: #222; --darkbg: #1A1A1A;
+  --green: #00A650; --orange: #FF8C00; --red: #D62828;
+  --font: 'Segoe UI', Arial, sans-serif;
+}
+body { font-family: var(--font); background: #1C1C1C; color: var(--black); min-height: 100vh; display: flex; flex-direction: column; }
+
+/* ── APP HEADER ── */
+.app-bar {
+  background: #000; color: var(--white);
+  display: flex; align-items: center; gap: 14px;
+  padding: 10px 20px; position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+.app-bar .logo { background: var(--yellow); color: #000; font-weight: 900; font-size: 12px; padding: 4px 10px; border-radius: 4px; letter-spacing: 0.5px; }
+.app-bar h1 { font-size: 14px; font-weight: 600; }
+.app-bar .actions { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.btn-primary { background: var(--yellow); color: #000; border: none; padding: 8px 20px; border-radius: 6px; font-weight: 800; font-size: 12px; cursor: pointer; letter-spacing: 0.3px; transition: opacity 0.15s; }
+.btn-primary:hover { opacity: 0.85; }
+.btn-secondary { background: transparent; color: #AAA; border: 1px solid #444; padding: 7px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.15s; font-family: var(--font); }
+.btn-secondary:hover { border-color: var(--yellow); color: var(--yellow); }
+
+/* ── WORKSPACE ── */
+.workspace { display: grid; grid-template-columns: 400px 1fr; flex: 1; overflow: hidden; height: calc(100vh - 48px); }
+
+/* ── FORM PANEL ── */
+.form-panel { background: #F7F7F7; overflow-y: auto; border-right: 1px solid #DDD; }
+.form-section { border-bottom: 1px solid #E8E8E8; padding: 14px 18px; background: var(--white); margin-bottom: 6px; }
+.form-section-title {
+  font-size: 10px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 1.2px; color: #888; margin-bottom: 12px;
+  display: flex; align-items: center; gap: 6px;
+}
+.form-section-title::before { content: ''; display: inline-block; width: 3px; height: 13px; background: var(--yellow); border-radius: 2px; }
+label { display: block; font-size: 10px; font-weight: 700; color: #666; margin: 8px 0 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+label:first-of-type { margin-top: 0; }
+input[type=text], textarea, select {
+  width: 100%; border: 1px solid #DDD; border-radius: 5px;
+  padding: 7px 10px; font-size: 12px; font-family: var(--font);
+  background: var(--white); color: var(--black); resize: vertical;
+  transition: border-color 0.15s;
+}
+input[type=text]:focus, textarea:focus, select:focus { outline: none; border-color: var(--yellow); box-shadow: 0 0 0 2px rgba(255,230,0,0.15); }
+textarea { min-height: 52px; }
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+
+/* STATUS SELECTOR */
+.status-btns { display: flex; gap: 6px; margin-top: 4px; }
+.status-btn {
+  flex: 1; padding: 7px 4px; border-radius: 6px; border: 2px solid #DDD;
+  font-size: 11px; font-weight: 700; cursor: pointer; text-align: center;
+  background: var(--white); transition: all 0.15s; font-family: var(--font);
+}
+.status-btn.sel-green  { border-color: var(--green);  background: #E8F9F1; color: var(--green); }
+.status-btn.sel-orange { border-color: var(--orange); background: #FFF4E8; color: var(--orange); }
+.status-btn.sel-red    { border-color: var(--red);    background: #FDECEA; color: var(--red); }
+
+/* BULLET EDITOR */
+.bullet-list { display: flex; flex-direction: column; gap: 5px; margin-top: 5px; }
+.bullet-row { display: flex; gap: 6px; align-items: flex-start; }
+.bullet-row textarea { flex: 1; min-height: 36px; font-size: 11px; padding: 5px 8px; }
+.remove-btn { background: none; border: 1px solid #DDD; border-radius: 4px; width: 26px; height: 26px; cursor: pointer; font-size: 13px; color: #AAA; flex-shrink: 0; transition: all 0.15s; }
+.remove-btn:hover { border-color: var(--red); color: var(--red); }
+.add-btn { background: none; border: 1px dashed #CCC; border-radius: 5px; padding: 5px 10px; font-size: 11px; color: #999; cursor: pointer; width: 100%; text-align: left; margin-top: 3px; transition: all 0.15s; font-family: var(--font); }
+.add-btn:hover { border-color: var(--yellow); color: #555; }
+
+/* KPI TABLE */
+.kpi-scroll { overflow-x: auto; margin-top: 6px; border-radius: 5px; border: 1px solid #DDD; }
+.kpi-table { width: 100%; border-collapse: collapse; font-size: 10px; min-width: 600px; }
+.kpi-table th { background: #111; color: var(--yellow); padding: 5px 6px; text-align: center; white-space: nowrap; font-size: 9px; }
+.kpi-table th:first-child { text-align: left; min-width: 90px; }
+.kpi-table td { border: 1px solid #EEE; padding: 3px; }
+.kpi-table td:first-child { font-weight: 700; background: #FAFAFA; padding: 3px 6px; }
+.kpi-table td input { border: none; padding: 3px 4px; font-size: 10px; width: 100%; text-align: center; background: transparent; font-family: var(--font); }
+.kpi-table td input:focus { outline: 1px solid var(--yellow); }
+.add-kpi-btn { width: 100%; margin-top: 5px; padding: 5px; font-size: 10px; background: none; border: 1px dashed #CCC; border-radius: 4px; color: #999; cursor: pointer; font-family: var(--font); }
+.add-kpi-btn:hover { border-color: var(--yellow); }
+
+/* PHASES */
+.phase-row { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
+.phase-item { display: flex; flex-direction: column; align-items: center; gap: 3px; flex: 1; min-width: 60px; }
+.phase-item label { font-size: 8px; text-align: center; }
+.phase-dot { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #DDD; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; }
+.phase-dot.done    { background: var(--green);  border-color: var(--green);  color: white; }
+.phase-dot.active  { background: var(--yellow); border-color: #C8B600; color: #000; }
+.phase-dot.pending { background: #EEE; color: #AAA; }
+
+/* ── PREVIEW PANEL ── */
+.preview-panel { background: #D0D0D0; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.preview-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #888; align-self: flex-start; }
+
+/* ══════ THE SLIDE ══════ */
+.slide {
+  width: 100%; max-width: 960px;
+  background: #FFF; border-radius: 4px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  overflow: hidden; font-family: Arial, sans-serif;
+  position: relative;
+}
+/* Yellow left accent bar */
+.slide::before { content: ''; position: absolute; left: 0; top: 0; width: 5px; height: 100%; background: var(--yellow); }
+
+/* SLIDE HEADER — stays dark */
+.sl-header {
+  background: #111; padding: 10px 18px 10px 22px;
+  display: grid; grid-template-columns: auto 1fr auto;
+  align-items: center; gap: 16px;
+}
+.sl-name  { font-size: 24px; font-weight: 900; color: var(--yellow); line-height: 1; letter-spacing: -0.5px; }
+.sl-sub   { font-size: 10px; color: #888; margin-top: 2px; }
+.sl-tac   { font-size: 10px; color: #AAA; text-align: center; border-left: 1px solid #333; padding-left: 16px; }
+.sl-tac strong { display: block; font-size: 11px; color: #EEE; margin-bottom: 1px; }
+.sl-meta  { font-size: 10px; color: #777; border-left: 1px solid #333; padding-left: 16px; text-align: right; }
+.sl-meta strong { display: block; font-size: 15px; color: #FFF; }
+.sl-status-wrap { border-left: 1px solid #333; padding-left: 16px; text-align: center; }
+.sl-pill  { display: inline-flex; align-items: center; gap: 5px; padding: 5px 14px; border-radius: 20px; font-size: 11px; font-weight: 800; white-space: nowrap; }
+.sl-pill.green  { background: var(--green);  color: #FFF; }
+.sl-pill.orange { background: var(--orange); color: #FFF; }
+.sl-pill.red    { background: var(--red);    color: #FFF; }
+.sl-status-lbl  { font-size: 8px; color: #666; margin-top: 3px; }
+
+/* CONTEXT BAND — between header and body */
+.sl-context {
+  background: #FAFAFA; border-bottom: 1px solid #EBEBEB;
+  padding: 8px 22px; display: grid;
+  grid-template-columns: 1fr 1fr; gap: 0;
+}
+.sl-context-block { padding: 0 14px; }
+.sl-context-block:first-child { padding-left: 0; border-right: 1px solid #E8E8E8; }
+.sl-ctx-label { font-size: 7.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: #AAA; margin-bottom: 3px; }
+.sl-ctx-text  { font-size: 9px; color: #444; line-height: 1.5; }
+
+/* SLIDE BODY */
+.sl-body { display: grid; grid-template-columns: 1fr 1px 1fr 1px 1fr; min-height: 340px; }
+.sl-divider { background: #EBEBEB; }
+.sl-col { padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+
+.sl-col-title {
+  font-size: 8px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 1.5px; color: #999;
+  border-bottom: 1.5px solid var(--yellow); padding-bottom: 5px;
+}
+
+/* KPI CARD — white bg */
+.sl-kpi-card {
+  background: #F5F5F5; border-radius: 6px; padding: 8px 10px 6px;
+  border-left: 3px solid transparent; display: flex; flex-direction: column; gap: 4px;
+}
+.sl-kpi-card.good { border-left-color: var(--green); }
+.sl-kpi-card.warn { border-left-color: var(--orange); }
+.sl-kpi-card.bad  { border-left-color: var(--red); }
+.kc-top  { display: flex; justify-content: space-between; align-items: flex-start; }
+.kc-name { font-size: 9px; font-weight: 700; color: #333; }
+.kc-refs { font-size: 8px; color: #999; margin-top: 1px; }
+.kc-val  { font-size: 20px; font-weight: 900; line-height: 1; text-align: right; }
+.kc-delta { font-size: 8px; font-weight: 700; padding: 1px 6px; border-radius: 8px; margin-top: 2px; display: inline-block; }
+.kc-delta.up   { background: #E6F9EE; color: var(--green); }
+.kc-delta.down { background: #FDECEA; color: var(--red); }
+.kc-delta.flat { background: #FFF4E0; color: var(--orange); }
+
+/* SPARKLINE */
+.spark { display: flex; align-items: flex-end; gap: 2px; height: 30px; position: relative; padding: 0 1px; margin-top: 2px; }
+.spark-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+.s-bar { width: 100%; border-radius: 1px 1px 0 0; }
+.s-bar.cur { outline: 1.5px solid #111; outline-offset: 1px; z-index: 2; position: relative; border-radius: 2px 2px 0 0; }
+.s-bar.above { background: #7FCF9F; }
+.s-bar.below { background: #F4A0A0; }
+.s-bar.neutral { background: #A8C4E0; }
+.spark-tline { position: absolute; left: 0; right: 0; border-top: 1px dashed #CCC; pointer-events: none; z-index: 1; }
+.spark-meta { display: flex; justify-content: space-between; font-size: 7px; color: #BBB; margin-top: 1px; }
+.spark-meta .cur-lbl { color: #555; font-weight: 700; }
+
+/* BULLETS */
+.sl-bullet { font-size: 9px; line-height: 1.5; color: #333; padding-left: 12px; position: relative; margin-bottom: 3px; }
+.sl-bullet::before { content: '▸'; position: absolute; left: 0; color: #C8A800; top: 1px; font-size: 8px; }
+.sl-bullet.warn::before  { content: '⚠'; color: var(--orange); }
+.sl-bullet.action::before{ content: '✓'; color: var(--green); }
+
+/* FASE TRACK */
+.sl-fase { display: flex; align-items: flex-start; margin-top: 2px; }
+.sl-fase-node { flex: 1; text-align: center; position: relative; }
+.sl-fase-node::after { content: ''; position: absolute; top: 9px; left: 50%; right: -50%; height: 1.5px; z-index: 0; }
+.sl-fase-node:last-child::after { display: none; }
+.sl-fase-node.done::after   { background: var(--green); }
+.sl-fase-node.active::after { background: linear-gradient(to right, var(--green), #DDD); }
+.sl-fase-node.pending::after{ background: #DDD; }
+.sl-fase-circle { width: 18px; height: 18px; border-radius: 50%; margin: 0 auto 3px; position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 900; }
+.sl-fase-node.done   .sl-fase-circle { background: var(--green); color: #FFF; }
+.sl-fase-node.active .sl-fase-circle { background: var(--yellow); color: #000; border: 1.5px solid #C8B600; }
+.sl-fase-node.pending .sl-fase-circle{ background: #DDD; color: #AAA; }
+.sl-fase-lbl { font-size: 6.5px; color: #AAA; line-height: 1.2; }
+.sl-fase-node.active .sl-fase-lbl { color: #555; font-weight: 700; }
+
+/* DECISION BOX */
+.sl-decision { background: #FFFBE6; border: 1.5px solid var(--yellow); border-radius: 6px; padding: 8px 10px; margin-top: auto; }
+.sl-decision-title { font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #8B6000; margin-bottom: 5px; }
+.sl-decision p { font-size: 9px; color: #555; line-height: 1.5; }
+
+/* SAVING BOX */
+.sl-saving { background: #F0FAF5; border: 1.5px solid var(--green); border-radius: 6px; padding: 8px 10px; }
+.sl-saving-title { font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--green); margin-bottom: 2px; }
+.sl-saving-num   { font-size: 22px; font-weight: 900; color: var(--green); line-height: 1; }
+.sl-saving-sub   { font-size: 8px; color: #555; margin-top: 2px; }
+.sl-saving-vs    { font-size: 7px; color: #999; margin-top: 1px; }
+
+/* STEPS TABLE */
+.sl-steps { width: 100%; border-collapse: collapse; font-size: 8px; }
+.sl-steps tr { border-bottom: 1px solid #EEE; }
+.sl-steps td { padding: 3px 2px; color: #555; }
+.sl-steps td:last-child { color: #333; font-weight: 700; text-align: right; white-space: nowrap; }
+
+/* FOOTER — stays dark */
+.sl-footer { background: #111; padding: 6px 18px 6px 22px; display: flex; align-items: center; gap: 14px; }
+.ft-lbl  { font-size: 8px; color: #555; }
+.ft-name { font-size: 9px; color: #888; }
+.ft-name span { color: #DDD; font-weight: 600; }
+.ft-progress { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.ft-bar { width: 90px; height: 3px; background: #333; border-radius: 2px; overflow: hidden; }
+.ft-fill { height: 100%; background: var(--yellow); border-radius: 2px; }
+.ft-pct  { font-size: 10px; font-weight: 800; color: #DDD; }
+
+/* IMAGE UPLOAD */
+.img-drop {
+  border: 2px dashed #DDD; border-radius: 8px; padding: 16px 12px;
+  text-align: center; cursor: pointer; transition: all 0.15s;
+  position: relative; margin-top: 6px; background: #FAFAFA;
+}
+.img-drop:hover, .img-drop.over { border-color: var(--yellow); background: #FFFCE0; }
+.img-drop input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+.img-drop .img-icon { font-size: 22px; margin-bottom: 4px; }
+.img-drop p { font-size: 11px; color: #999; }
+.img-drop .img-hint { font-size: 10px; color: #CCC; margin-top: 2px; }
+.img-preview-wrap { position: relative; margin-top: 8px; border-radius: 6px; overflow: hidden; border: 1px solid #DDD; background: #F0F0F0; }
+.img-preview-wrap img { width: 100%; max-height: 120px; object-fit: cover; display: block; }
+.img-clear { position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.55); color: #FFF; border: none; border-radius: 50%; width: 22px; height: 22px; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+/* SLIDE IMAGE */
+.sl-img-block { border-radius: 5px; overflow: hidden; border: 1px solid #EEE; margin-top: 4px; }
+.sl-img-block img { width: 100%; max-height: 90px; object-fit: cover; display: block; }
+.sl-img-caption { font-size: 7.5px; color: #AAA; padding: 3px 6px; background: #FAFAFA; }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- APP BAR -->
+<div class="app-bar">
+  <div class="logo">ML</div>
+  <h1>Generador de Slide Ejecutivo — Lean Projects</h1>
+  <div class="actions">
+    <button class="btn-secondary" onclick="resetForm()">↺ Limpiar</button>
+    <button class="btn-primary" onclick="exportarHTML()">⬇ Exportar HTML</button>
+  </div>
+</div>
+
+<div class="workspace">
+
+<!-- ══════ FORM PANEL ══════ -->
+<div class="form-panel">
+
+  <!-- IDENTIFICACIÓN -->
+  <div class="form-section">
+    <div class="form-section-title">Identificación</div>
+    <label>Nombre del Proyecto</label>
+    <input type="text" id="f-nombre" value="PYMES Inbound" oninput="render()">
+    <label>Subtítulo / Área</label>
+    <input type="text" id="f-sub" value="Inbound · Proyecto Estratégico" oninput="render()">
+    <div class="row-2">
+      <div>
+        <label>Tipo de Proyecto</label>
+        <select id="f-tipo" onchange="render()">
+          <option>Proyecto Estratégico</option>
+          <option>Tipo de Proyectos</option>
+          <option>Iniciativa</option>
+          <option>POC</option>
+        </select>
+      </div>
+      <div>
+        <label>Último Update</label>
+        <input type="text" id="f-update" value="W28" oninput="render()">
+      </div>
+    </div>
+    <label>Estado General</label>
+    <div class="status-btns" id="status-btns">
+      <button class="status-btn sel-green" onclick="setStatus('green',this)">🟢 On Track</button>
+      <button class="status-btn" onclick="setStatus('orange',this)">🟡 En Riesgo</button>
+      <button class="status-btn" onclick="setStatus('red',this)">🔴 Off Track</button>
+    </div>
+  </div>
+
+  <!-- EQUIPO -->
+  <div class="form-section">
+    <div class="form-section-title">Equipo</div>
+    <div class="row-2">
+      <div><label>OE</label><input type="text" id="f-oe" value="Mariana Novoa, Jonatan Juárez" oninput="render()"></div>
+      <div><label>CIC / PMO</label><input type="text" id="f-cic" value="Maria Ayala, Tamara" oninput="render()"></div>
+    </div>
+    <div class="row-2">
+      <div>
+        <label>Avance % (barra)</label>
+        <input type="text" id="f-avance" value="58" oninput="render()">
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CONTEXTO -->
+  <div class="form-section">
+    <div class="form-section-title">Contexto del Proyecto</div>
+    <label>Situación / Dolor</label>
+    <textarea id="f-situacion" rows="2" oninput="render()">Actualmente se tienen 3 tecnologías de medición de los diferentes path de shp. No existe tecnología que ayude a la medición de los shp catalogados como OVERSIZE con paquetes amorfos.</textarea>
+    <label>El Proyecto será un éxito si...</label>
+    <textarea id="f-exito" rows="2" oninput="render()">Se mantiene el accuracy en las medidas logrando hacer la corrección de Mismatch PYMES y Mismatch operacional.</textarea>
+  </div>
+
+  <!-- KPIs -->
+  <div class="form-section">
+    <div class="form-section-title">KPIs con Tendencia</div>
+    <div id="kpis-container"></div>
+    <button class="add-kpi-btn" onclick="addKPI()">+ Agregar KPI</button>
+  </div>
+
+  <!-- FASES -->
+  <div class="form-section">
+    <div class="form-section-title">Fases del Proyecto</div>
+    <p style="font-size:10px;color:#999;margin-bottom:8px;">Clic para cambiar: pendiente → completado → activo → pendiente</p>
+    <div id="fases-editor"></div>
+  </div>
+
+  <!-- LO QUE PASÓ -->
+  <div class="form-section">
+    <div class="form-section-title">⚡ Lo que pasó esta semana</div>
+    <div class="bullet-list" id="paso-editor"></div>
+    <button class="add-btn" onclick="addBullet('paso-editor')">+ Agregar punto</button>
+  </div>
+
+  <!-- PRÓXIMOS PASOS -->
+  <div class="form-section">
+    <div class="form-section-title">🎯 Próximos pasos</div>
+    <div class="bullet-list" id="pasos-editor"></div>
+    <button class="add-btn" onclick="addBullet('pasos-editor')">+ Agregar paso</button>
+  </div>
+
+  <!-- SAVING (opcional) -->
+  <div class="form-section">
+    <div class="form-section-title">💰 Saving / Impacto (opcional)</div>
+    <div class="row-2">
+      <div><label>Título del box</label><input type="text" id="f-saving-title" value="META ANUAL LH SAVING" oninput="render()"></div>
+      <div><label>Número grande</label><input type="text" id="f-saving-num" value="US$3.3M" oninput="render()"></div>
+    </div>
+    <label>Subtítulo</label>
+    <input type="text" id="f-saving-sub" value="objetivo 2026 · SPR +50% mín · 50 vehíc./sem." oninput="render()">
+    <label>Referencia adicional (opcional)</label>
+    <input type="text" id="f-saving-vs" value="YTD real: US$1.3M · Target YTD: US$1.5M" oninput="render()">
+  </div>
+
+  <!-- IMAGEN -->
+  <div class="form-section">
+    <div class="form-section-title">🖼 Imagen / Gráfica (opcional)</div>
+    <p style="font-size:10px;color:#999;margin-bottom:6px;">Aparece en la columna central. Ideal para dashboards, gráficas o tablas de análisis.</p>
+    <div class="img-drop" id="img-drop">
+      <input type="file" accept="image/*" onchange="handleImage(this)">
+      <div class="img-icon">📊</div>
+      <p>Arrastra aquí o haz clic para subir</p>
+      <p class="img-hint">PNG, JPG, GIF — captura de dashboard, gráfica, tabla</p>
+    </div>
+    <div id="img-preview-container"></div>
+    <label style="margin-top:8px;">Pie de imagen (opcional)</label>
+    <input type="text" id="f-img-caption" placeholder="Ej: Mismatch Operacional — W18 a W27" oninput="render()">
+  </div>
+
+  <!-- OBSTÁCULOS -->
+  <div class="form-section">
+    <div class="form-section-title">⚠ Obstáculos</div>
+    <div class="bullet-list" id="obs-editor"></div>
+    <button class="add-btn" onclick="addBullet('obs-editor')">+ Agregar obstáculo</button>
+  </div>
+
+  <!-- DECISIÓN -->
+  <div class="form-section">
+    <div class="form-section-title">💬 Se requiere del Head</div>
+    <textarea id="f-decision" rows="3" oninput="render()">Ampliar ventana de cumplimiento Adherencia a W32, considerando instalación CONLIDA y semanas atípicas por eventos deportivos.</textarea>
+  </div>
+
+</div><!-- end form-panel -->
+
+<!-- ══════ PREVIEW PANEL ══════ -->
+<div class="preview-panel">
+  <div class="preview-label">Vista Previa del Slide</div>
+  <div class="slide" id="slide-preview"></div>
+</div>
+
+</div><!-- workspace -->
+
+<script>
+// ── STATE ──────────────────────────────────────────────────────────────────────
+let currentStatus = 'green';
+const FASE_NAMES = ['Idea','Planning','Diagnóstico','Diseño','Implementación','Sustentabilidad','Final'];
+let faseStates   = ['done','done','done','done','active','pending','pending'];
+let uploadedImageSrc = null;
+
+// KPI data: [{name, refs, values:[], target, higherIsBetter}]
+let kpis = [
+  { name:'Adherencia', refs:'Base 72% · Target 90%', target:90, higherIsBetter:true,
+    values:[81,79,87.1,88.3,90.4,90.2,88,89.2,88,84.1,84.1], weekStart:'W17' },
+  { name:'Accuracy', refs:'Base 87% · Target 80%', target:80, higherIsBetter:true,
+    values:[87,88,86,87,83,81,79,81,81,82,82], weekStart:'W17' },
+];
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+function init() {
+  renderFasesEditor();
+  renderKPIEditor();
+
+  addBullet('paso-editor', 'Acc Sick 09–26 Jun: TGT 98% — Real 82.27%. Brecha activa 15.7 pp.');
+  addBullet('paso-editor', 'CONLIDA instalada en MXXEM4 — calibración en curso, datos desde W30.');
+  addBullet('paso-editor', 'Caída adherencia W25–W27 por eventos deportivos MX.', true);
+  addBullet('paso-editor', 'Mismatch PYMES –1.9 bps WoW · MM SNT –2.85 bps.', true);
+
+  addBullet('pasos-editor', 'W29 — Cierre calibración CONLIDA + primeros datos reales.');
+  addBullet('pasos-editor', 'W30 — Proyección recuperación adherencia ≥88%.');
+  addBullet('pasos-editor', 'W30 — Revisión target plan con impacto CONLIDA.');
+
+  addBullet('obs-editor', 'Adherencia 84.1% — 3 semanas bajo target 90%.', true);
+  addBullet('obs-editor', 'CONLIDA en calibración — sin datos reales hasta W30.', true);
+
+  render();
+}
+
+// ── IMAGE ─────────────────────────────────────────────────────────────────────
+function handleImage(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    uploadedImageSrc = e.target.result;
+    renderImagePreview();
+    render();
+  };
+  reader.readAsDataURL(file);
+  input.value = '';
+}
+
+function renderImagePreview() {
+  const c = document.getElementById('img-preview-container');
+  if (!uploadedImageSrc) { c.innerHTML = ''; return; }
+  c.innerHTML = `
+    <div class="img-preview-wrap">
+      <img src="${uploadedImageSrc}" alt="preview">
+      <button class="img-clear" onclick="clearImage()" title="Quitar imagen">×</button>
+    </div>`;
+}
+
+function clearImage() {
+  uploadedImageSrc = null;
+  renderImagePreview();
+  render();
+}
+
+// Drag & drop
+document.addEventListener('DOMContentLoaded', () => {
+  const drop = document.getElementById('img-drop');
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+  drop.addEventListener('drop', e => {
+    e.preventDefault(); drop.classList.remove('over');
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = ev => { uploadedImageSrc = ev.target.result; renderImagePreview(); render(); };
+      reader.readAsDataURL(file);
+    }
+  });
+});
+
+// ── STATUS ────────────────────────────────────────────────────────────────────
+function setStatus(s, el) {
+  currentStatus = s;
+  document.querySelectorAll('.status-btn').forEach(b => b.className = 'status-btn');
+  el.className = `status-btn sel-${s}`;
+  render();
+}
+
+// ── FASES ─────────────────────────────────────────────────────────────────────
+function renderFasesEditor() {
+  const c = document.getElementById('fases-editor');
+  c.innerHTML = '';
+  const row = document.createElement('div');
+  row.className = 'phase-row';
+  FASE_NAMES.forEach((name, i) => {
+    const item = document.createElement('div');
+    item.className = 'phase-item';
+    const lbl = document.createElement('label');
+    lbl.textContent = name;
+    const dot = document.createElement('div');
+    dot.className = `phase-dot ${faseStates[i]}`;
+    dot.textContent = faseStates[i]==='done' ? '✓' : faseStates[i]==='active' ? '▶' : '·';
+    dot.onclick = () => {
+      const cycle = ['pending','done','active'];
+      faseStates[i] = cycle[(cycle.indexOf(faseStates[i])+1)%3];
+      renderFasesEditor(); render();
+    };
+    item.appendChild(lbl); item.appendChild(dot); row.appendChild(item);
+  });
+  c.appendChild(row);
+}
+
+// ── BULLETS ───────────────────────────────────────────────────────────────────
+function addBullet(editorId, value='', isWarn=false) {
+  const ed = document.getElementById(editorId);
+  const row = document.createElement('div');
+  row.className = 'bullet-row';
+  const ta = document.createElement('textarea');
+  ta.value = value;
+  ta.dataset.warn = isWarn ? '1' : '0';
+  ta.oninput = render;
+  const warnBtn = document.createElement('button');
+  warnBtn.className = 'remove-btn';
+  warnBtn.title = 'Marcar como advertencia';
+  warnBtn.textContent = '⚠';
+  warnBtn.style.color = isWarn ? '#FF8C00' : '#AAA';
+  warnBtn.onclick = () => {
+    ta.dataset.warn = ta.dataset.warn === '1' ? '0' : '1';
+    warnBtn.style.color = ta.dataset.warn === '1' ? '#FF8C00' : '#AAA';
+    render();
+  };
+  const delBtn = document.createElement('button');
+  delBtn.className = 'remove-btn';
+  delBtn.textContent = '×';
+  delBtn.onclick = () => { ed.removeChild(row); render(); };
+  row.appendChild(ta); row.appendChild(warnBtn); row.appendChild(delBtn);
+  ed.appendChild(row);
+  render();
+}
+
+function getBullets(editorId) {
+  return Array.from(document.querySelectorAll(`#${editorId} textarea`))
+    .map(t => ({ text: t.value.trim(), warn: t.dataset.warn === '1' }))
+    .filter(b => b.text);
+}
+
+// ── KPI EDITOR ────────────────────────────────────────────────────────────────
+function renderKPIEditor() {
+  const c = document.getElementById('kpis-container');
+  c.innerHTML = '';
+  kpis.forEach((kpi, ki) => {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'background:#F9F9F9;border:1px solid #EEE;border-radius:6px;padding:10px;margin-bottom:10px;';
+
+    const topRow = document.createElement('div');
+    topRow.style.cssText = 'display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-bottom:8px;align-items:end;';
+
+    const nameWrap = document.createElement('div');
+    const nameLbl = document.createElement('label');
+    nameLbl.textContent = 'Nombre del KPI';
+    const nameInp = document.createElement('input');
+    nameInp.type = 'text'; nameInp.value = kpi.name; nameInp.style.fontSize='11px';
+    nameInp.oninput = e => { kpis[ki].name = e.target.value; render(); };
+    nameWrap.appendChild(nameLbl); nameWrap.appendChild(nameInp);
+
+    const refWrap = document.createElement('div');
+    const refLbl = document.createElement('label');
+    refLbl.textContent = 'Referencia (Base · Target)';
+    const refInp = document.createElement('input');
+    refInp.type = 'text'; refInp.value = kpi.refs; refInp.style.fontSize='11px';
+    refInp.oninput = e => { kpis[ki].refs = e.target.value; render(); };
+    refWrap.appendChild(refLbl); refWrap.appendChild(refInp);
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'remove-btn';
+    delBtn.style.cssText = 'width:28px;height:28px;';
+    delBtn.textContent = '×';
+    delBtn.onclick = () => { kpis.splice(ki, 1); renderKPIEditor(); render(); };
+
+    topRow.appendChild(nameWrap); topRow.appendChild(refWrap); topRow.appendChild(delBtn);
+
+    const row2 = document.createElement('div');
+    row2.style.cssText = 'display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;margin-bottom:8px;align-items:end;';
+
+    const targetWrap = document.createElement('div');
+    const targetLbl = document.createElement('label');
+    targetLbl.textContent = 'Target';
+    const targetInp = document.createElement('input');
+    targetInp.type='text'; targetInp.value=kpi.target; targetInp.style.fontSize='11px';
+    targetInp.oninput = e => { kpis[ki].target = parseFloat(e.target.value)||0; render(); };
+    targetWrap.appendChild(targetLbl); targetWrap.appendChild(targetInp);
+
+    const weekWrap = document.createElement('div');
+    const weekLbl = document.createElement('label');
+    weekLbl.textContent = 'Semana inicio';
+    const weekInp = document.createElement('input');
+    weekInp.type='text'; weekInp.value=kpi.weekStart||'W1'; weekInp.style.fontSize='11px';
+    weekInp.oninput = e => { kpis[ki].weekStart = e.target.value; render(); };
+    weekWrap.appendChild(weekLbl); weekWrap.appendChild(weekInp);
+
+    const dirWrap = document.createElement('div');
+    const dirLbl = document.createElement('label');
+    dirLbl.textContent = '¿Mayor es mejor?';
+    const dirSel = document.createElement('select');
+    dirSel.style.fontSize='11px';
+    ['Sí (mayor=mejor)','No (menor=mejor)'].forEach((opt,idx) => {
+      const o = document.createElement('option');
+      o.value = idx===0?'1':'0'; o.textContent = opt;
+      if ((kpi.higherIsBetter && idx===0)||(!kpi.higherIsBetter && idx===1)) o.selected=true;
+      dirSel.appendChild(o);
+    });
+    dirSel.onchange = e => { kpis[ki].higherIsBetter = e.target.value==='1'; render(); };
+    dirWrap.appendChild(dirLbl); dirWrap.appendChild(dirSel);
+
+    row2.appendChild(targetWrap); row2.appendChild(weekWrap); row2.appendChild(dirWrap);
+
+    // Values row
+    const valLbl = document.createElement('label');
+    valLbl.textContent = 'Valores semanales (separados por coma)';
+    const valInp = document.createElement('input');
+    valInp.type='text'; valInp.value=kpi.values.join(','); valInp.style.fontSize='11px';
+    valInp.oninput = e => {
+      kpis[ki].values = e.target.value.split(',').map(v=>parseFloat(v.trim())).filter(v=>!isNaN(v));
+      render();
+    };
+
+    wrap.appendChild(topRow); wrap.appendChild(row2); wrap.appendChild(valLbl); wrap.appendChild(valInp);
+    c.appendChild(wrap);
+  });
+}
+
+function addKPI() {
+  kpis.push({ name:'Nuevo KPI', refs:'Base X · Target Y', target:80, higherIsBetter:true, values:[70,72,75,78,80], weekStart:'W1' });
+  renderKPIEditor(); render();
+}
+
+// ── SPARKLINE HTML ─────────────────────────────────────────────────────────────
+function sparklineHTML(values, target, higherIsBetter, weekStart) {
+  if (!values || values.length === 0) return '';
+  const allVals = target !== null ? [...values, target] : values;
+  const min = Math.min(...allVals) * 0.92;
+  const max = Math.max(...allVals) * 1.05;
+  const range = max - min || 1;
+  const maxH = 30;
+  const n = values.length;
+  const lastWk = weekStart || 'W1';
+  const startNum = parseInt(lastWk.replace(/\D/g,''))||1;
+  const endLbl = 'W'+(startNum+n-1);
+
+  let tlineStyle = '';
+  if (target !== null) {
+    const tPct = (target - min) / range;
+    const tTop = maxH - tPct * maxH;
+    tlineStyle = `top:${Math.max(0,tTop)}px;`;
+  }
+
+  const bars = values.map((v, i) => {
+    const pct = (v - min) / range;
+    const h = Math.max(3, pct * maxH);
+    let cls = 'neutral';
+    if (target !== null) cls = (higherIsBetter ? v >= target : v <= target) ? 'above' : 'below';
+    const cur = i === n-1 ? ' cur' : '';
+    return `<div class="spark-bar-wrap"><div class="s-bar${cur} ${cls}" style="height:${h}px" title="${v}"></div></div>`;
+  }).join('');
+
+  return `
+    <div class="spark">
+      ${target !== null ? `<div class="spark-tline" style="${tlineStyle}"></div>` : ''}
+      ${bars}
+    </div>
+    <div class="spark-meta"><span>${weekStart||'W1'}</span><span class="cur-lbl">${endLbl} ◀</span></div>`;
+}
+
+// ── COMPUTE KPI CARD STATUS ────────────────────────────────────────────────────
+function kpiStatus(values, target, higherIsBetter) {
+  if (!values.length) return { cls:'warn', valColor:'#AAA', delta:'', deltaCls:'flat' };
+  const last = values[values.length-1];
+  const prev = values.length > 1 ? values[values.length-2] : null;
+  const diff = target !== null ? (last - target) : null;
+  const isGood = target !== null ? (higherIsBetter ? last >= target : last <= target) : true;
+  const cls = isGood ? 'good' : Math.abs(diff) > target*0.05 ? 'bad' : 'warn';
+  const valColor = isGood ? '#00A650' : '#D62828';
+  let delta = '', deltaCls = 'flat';
+  if (diff !== null) {
+    const abs = Math.abs(diff).toFixed(1);
+    if (isGood) { delta = `▲ +${abs} vs target`; deltaCls = 'up'; }
+    else        { delta = `▼ –${abs} vs target`; deltaCls = 'down'; }
+  }
+  if (prev !== null) {
+    const wow = (last - prev).toFixed(1);
+    delta += prev !== null ? ` · WoW ${wow > 0 ? '+' : ''}${wow}` : '';
+  }
+  return { cls, valColor, delta, deltaCls };
+}
+
+// ── MAIN RENDER ───────────────────────────────────────────────────────────────
+function render() {
+  const v = id => (document.getElementById(id)||{}).value || '';
+  const statusMap = { green:'🟢 On Track', orange:'🟡 En Riesgo', red:'🔴 Off Track' };
+  const paso    = getBullets('paso-editor');
+  const proxPasos = getBullets('pasos-editor');
+  const obs     = getBullets('obs-editor');
+
+  // KPI cards HTML
+  const kpiCardsHTML = kpis.map(kpi => {
+    const last = kpi.values.length ? kpi.values[kpi.values.length-1] : '–';
+    const { cls, valColor, delta, deltaCls } = kpiStatus(kpi.values, kpi.target, kpi.higherIsBetter);
+    const spark = sparklineHTML(kpi.values, kpi.target, kpi.higherIsBetter, kpi.weekStart);
+    return `
+      <div class="sl-kpi-card ${cls}">
+        <div class="kc-top">
+          <div><div class="kc-name">${kpi.name}</div><div class="kc-refs">${kpi.refs}</div></div>
+          <div style="text-align:right">
+            <div class="kc-val" style="color:${valColor}">${last}</div>
+            <div class="kc-delta ${deltaCls}">${delta}</div>
+          </div>
+        </div>
+        ${spark}
+      </div>`;
+  }).join('');
+
+  // Fases HTML
+  const fasesHTML = FASE_NAMES.map((name, i) => `
+    <div class="sl-fase-node ${faseStates[i]}">
+      <div class="sl-fase-circle">${faseStates[i]==='done'?'✓':faseStates[i]==='active'?'▶':'·'}</div>
+      <div class="sl-fase-lbl">${name}</div>
+    </div>`).join('');
+
+  // Bullets HTML
+  const bHTML = (arr, defaultCls='') => arr.map(b =>
+    `<div class="sl-bullet ${b.warn ? 'warn' : defaultCls}">${b.text}</div>`).join('');
+
+  // Próximos pasos
+  const pasosHTML = proxPasos.map(b =>
+    `<div class="sl-bullet action">${b.text}</div>`).join('');
+
+  // Image block
+  const imgHTML = uploadedImageSrc ? `
+    <div class="sl-img-block">
+      <img src="${uploadedImageSrc}" alt="gráfica">
+      ${v('f-img-caption') ? `<div class="sl-img-caption">${v('f-img-caption')}</div>` : ''}
+    </div>` : '';
+
+  // Saving box
+  const showSaving = v('f-saving-num').trim();
+  const savingHTML = showSaving ? `
+    <div class="sl-saving">
+      <div class="sl-saving-title">${v('f-saving-title')}</div>
+      <div class="sl-saving-num">${v('f-saving-num')}</div>
+      <div class="sl-saving-sub">${v('f-saving-sub')}</div>
+      ${v('f-saving-vs') ? `<div class="sl-saving-vs">${v('f-saving-vs')}</div>` : ''}
+    </div>` : '';
+
+  const avance = Math.min(100, Math.max(0, parseFloat(v('f-avance'))||0));
+
+  document.getElementById('slide-preview').innerHTML = `
+    <!-- HEADER -->
+    <div class="sl-header">
+      <div>
+        <div class="sl-name">${v('f-nombre')||'Proyecto'}</div>
+        <div class="sl-sub">${v('f-sub')}</div>
+      </div>
+
+      <div class="sl-meta"><strong>${v('f-update')}</strong>Último update</div>
+      <div class="sl-status-wrap">
+        <div class="sl-pill ${currentStatus}">${statusMap[currentStatus]}</div>
+        <div class="sl-status-lbl">Estado general</div>
+      </div>
+    </div>
+
+    <!-- CONTEXT BAND -->
+    ${(v('f-situacion') || v('f-exito')) ? `
+    <div class="sl-context">
+      ${v('f-situacion') ? `<div class="sl-context-block">
+        <div class="sl-ctx-label">Situación / Dolor</div>
+        <div class="sl-ctx-text">${v('f-situacion')}</div>
+      </div>` : ''}
+      ${v('f-exito') ? `<div class="sl-context-block">
+        <div class="sl-ctx-label">El proyecto será un éxito si…</div>
+        <div class="sl-ctx-text">${v('f-exito')}</div>
+      </div>` : ''}
+    </div>` : ''}
+
+    <!-- BODY -->
+    <div class="sl-body">
+
+      <!-- COL 1: KPIs + FASES -->
+      <div class="sl-col">
+        <div class="sl-col-title">📊 KPIs — Tendencia</div>
+        ${kpiCardsHTML}
+        <div>
+          <div class="sl-col-title" style="margin-bottom:8px;">📍 Fase actual</div>
+          <div class="sl-fase">${fasesHTML}</div>
+        </div>
+      </div>
+
+      <div class="sl-divider"></div>
+
+      <!-- COL 2: NARRATIVA + IMAGEN + SAVING -->
+      <div class="sl-col">
+        <div class="sl-col-title">⚡ Lo que pasó esta semana</div>
+        ${bHTML(paso)}
+        <div class="sl-col-title">🎯 Próximos pasos</div>
+        ${pasosHTML}
+        ${imgHTML}
+        ${savingHTML}
+      </div>
+
+      <div class="sl-divider"></div>
+
+      <!-- COL 3: OBSTÁCULOS + DECISIÓN -->
+      <div class="sl-col">
+        <div class="sl-col-title">⚠ Obstáculos activos</div>
+        ${bHTML(obs, 'warn')}
+        <div class="sl-decision">
+          <div class="sl-decision-title">💬 Se requiere del Head</div>
+          <p>${v('f-decision')}</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="sl-footer">
+      <div><div class="ft-lbl">OE</div><div class="ft-name"><span>${v('f-oe')}</span></div></div>
+      <div><div class="ft-lbl">CIC / PMO</div><div class="ft-name"><span>${v('f-cic')}</span></div></div>
+      <div class="ft-progress">
+        <div style="font-size:9px;color:#555">Avance</div>
+        <div class="ft-bar"><div class="ft-fill" style="width:${avance}%"></div></div>
+        <div class="ft-pct">${avance}%</div>
+      </div>
+    </div>
+  `;
+}
+
+// ── EXPORT HTML ────────────────────────────────────────────────────────────────
+function exportarHTML() {
+  const slideHTML = document.getElementById('slide-preview').outerHTML;
+  const css = document.querySelector('style').outerHTML;
+  const full = `<!DOCTYPE html><html><head><meta charset="UTF-8">${css}</head>
+<body style="background:#D0D0D0;padding:32px;display:flex;justify-content:center;">
+${slideHTML}
+</body></html>`;
+  const blob = new Blob([full], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `slide-${(document.getElementById('f-nombre').value||'proyecto').toLowerCase().replace(/\s+/g,'-')}.html`;
+  a.click();
+}
+
+// ── RESET ──────────────────────────────────────────────────────────────────────
+function resetForm() {
+  if (!confirm('¿Limpiar todo el formulario?')) return;
+  document.querySelectorAll('input[type=text], textarea').forEach(el => el.value='');
+  kpis = [{ name:'KPI 1', refs:'Base X · Target Y', target:80, higherIsBetter:true, values:[70,72,75,78,80], weekStart:'W1' }];
+  faseStates = ['pending','pending','pending','pending','pending','pending','pending'];
+  ['paso-editor','pasos-editor','obs-editor'].forEach(id => document.getElementById(id).innerHTML='');
+  currentStatus = 'green';
+  document.querySelectorAll('.status-btn').forEach(b => b.className='status-btn');
+  document.querySelector('.status-btn').className='status-btn sel-green';
+  uploadedImageSrc = null; renderImagePreview();
+  renderKPIEditor(); renderFasesEditor(); render();
+}
+
+init();
+</script>
+</body>
+</html>
