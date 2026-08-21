@@ -430,7 +430,7 @@
     </div>
     <div class="lang-toggle">
       <button class="lang-btn active" id="langEs" onclick="setLang('es')">ES</button>
-      <button class="lang-btn" id="langOther" onclick="setLang('other')">EN / PT</button>
+      <button class="lang-btn" id="langOther" onclick="setLang('en')">EN</button>
     </div>
   </div>
 
@@ -447,7 +447,8 @@
         <div class="home-hero-video">
           <div>
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l6-3.5-6-3.5Z"/></svg>
-            <div>Video "Conoce el área OE"<br/>(pendiente: reemplazar con el mp4 real)</div>
+            <div class="hero-video-caption">Video "Conoce el área OE"</div>
+            <div class="hero-video-note">(pendiente: reemplazar con el mp4 real)</div>
           </div>
         </div>
       </div>
@@ -852,12 +853,12 @@
         <div class="learn-card">
           <div class="learn-card-title">Master File OE 2026 MLM</div>
           <div class="learn-card-sub">Material de apoyo compartido por Rich.</div>
-          <a href="https://docs.google.com/spreadsheets/d/1AaCga2v8JP6cvwMYtUdZBwkPEqDwwIIp8tqTJgXkQ84/edit?gid=1008315651#gid=1008315651" target="_blank" rel="noopener" style="font-size:12px;font-weight:700;color:var(--yellow-dark);text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:10px;">Abrir Sheet <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
+          <a href="https://docs.google.com/spreadsheets/d/1AaCga2v8JP6cvwMYtUdZBwkPEqDwwIIp8tqTJgXkQ84/edit?gid=1008315651#gid=1008315651" target="_blank" rel="noopener" class="i18n-link" style="font-size:12px;font-weight:700;color:var(--yellow-dark);text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:10px;">Abrir Sheet <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
         </div>
         <div class="learn-card">
           <div class="learn-card-title">Nueva Regionalización TTE MLM</div>
           <div class="learn-card-sub">Material de apoyo compartido por Rich.</div>
-          <a href="https://docs.google.com/spreadsheets/d/1QQXp7LguAHs7CQeYTJki1QBVmMEnIWosHj1hz-X30aM/edit?userstoinvite=juan.lopezpulecio%40mercadolibre.com.mx&sharingaction=manageaccess&role=writer&pli=1&gid=1463053626#gid=1463053626" target="_blank" rel="noopener" style="font-size:12px;font-weight:700;color:var(--yellow-dark);text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:10px;">Abrir Sheet <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
+          <a href="https://docs.google.com/spreadsheets/d/1QQXp7LguAHs7CQeYTJki1QBVmMEnIWosHj1hz-X30aM/edit?userstoinvite=juan.lopezpulecio%40mercadolibre.com.mx&sharingaction=manageaccess&role=writer&pli=1&gid=1463053626#gid=1463053626" target="_blank" rel="noopener" class="i18n-link" style="font-size:12px;font-weight:700;color:var(--yellow-dark);text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:10px;">Abrir Sheet <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
         </div>
       </div>
     </div>
@@ -866,7 +867,8 @@
 </main>
 
 <script>
-  const LABELS = { inicio:'Inicio', proyectos:'Gestión · Proyectos', indicadores:'Gestión · Indicadores', rutinas:'Rutinas', directorio:'Directorio', organigrama:'Organigrama Completo', slides:'Generador de Slides', aprendizaje:'Aprendizaje Continuo' };
+  const LABELS    = { inicio:'Inicio', proyectos:'Gestión · Proyectos', indicadores:'Gestión · Indicadores', rutinas:'Rutinas', directorio:'Directorio', organigrama:'Organigrama Completo', slides:'Generador de Slides', aprendizaje:'Aprendizaje Continuo' };
+  const LABELS_EN = { inicio:'Home',   proyectos:'Management · Projects', indicadores:'Management · Indicators', rutinas:'Routines', directorio:'Directory', organigrama:'Full Org Chart', slides:'Slide Generator', aprendizaje:'Continuous Learning' };
 
   function toggleSidebar() {
     document.body.classList.toggle('sidebar-collapsed');
@@ -880,6 +882,10 @@
     document.getElementById(id).classList.add('open');
   }
 
+  function currentLang() {
+    return document.documentElement.lang === 'en' ? 'en' : 'es';
+  }
+
   function go(pageId, btn) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const el = document.getElementById('page-' + pageId);
@@ -888,7 +894,8 @@
     document.querySelectorAll('.nav-direct, .nav-sub-item').forEach(b => b.classList.remove('active'));
     if (btn) { btn.classList.add('active'); }
 
-    document.getElementById('bcCurrent').textContent = LABELS[pageId] || pageId;
+    const map = currentLang() === 'en' ? LABELS_EN : LABELS;
+    document.getElementById('bcCurrent').textContent = map[pageId] || pageId;
 
     if (pageId === 'directorio' || pageId === 'organigrama') {
       document.body.classList.add('sidebar-collapsed');
@@ -904,14 +911,215 @@
     document.getElementById('routine-' + which).classList.add('active');
   }
 
-  function setLang(lang) {
-    document.getElementById('langEs').classList.toggle('active', lang === 'es');
-    document.getElementById('langOther').classList.toggle('active', lang !== 'es');
-  }
-
   function submitSuggestion() {
     document.getElementById('sugConfirm').classList.add('show');
   }
+
+  /* ==================== ES / EN ==================== */
+  /* Diccionario textual: clave = texto original en ES (recortado), valor = EN.
+     No se traduce nada que no este aqui (siglas, nombres propios, areas). */
+  const TEXT_EN = {
+    // Sidebar / breadcrumb
+    'Inicio':'Home', 'Gestión':'Management', 'Rutinas':'Routines', 'Directorio':'Directory',
+    'Organigrama Completo':'Full Org Chart', 'Generador de Slides':'Slide Generator',
+    'Aprendizaje Continuo':'Continuous Learning', 'Proyectos':'Projects', 'Indicadores':'Indicators',
+    'v0.2 · Vista previa':'v0.2 · Preview',
+
+    // Home hero
+    'Excelencia Operacional · MLM':'Operational Excellence · MLM',
+    'Qué es OE':'What is OE',
+    'OE (Excelencia Operacional) impulsa la mejora continua en FM, XD, SVC y TOM, además de Quality: estandariza procesos, da seguimiento a proyectos e indicadores, y comparte los resultados del equipo cada mes.':
+      'OE (Operational Excellence) drives continuous improvement across FM, XD, SVC and TOM, plus Quality: it standardizes processes, tracks projects and indicators, and shares the team\'s results every month.',
+    'Video "Conoce el área OE"':'Video "Meet the OE area"',
+    '(pendiente: reemplazar con el mp4 real)':'(pending: replace with the real mp4)',
+
+    // Quick access
+    'Accesos rápidos':'Quick access',
+    'Proyectos e indicadores del equipo, en un solo lugar.':'Team projects and indicators, all in one place.',
+    'BBR, MBR y el Newsletter mensual.':'BBR, MBR, and the monthly Newsletter.',
+    'Líderes de OE por región, con correo directo.':'OE leaders by region, with direct email.',
+    'Guías, cursos y material de referencia.':'Guides, courses, and reference material.',
+
+    // Novedades
+    'Novedades':'Updates',
+    'Se estandarizó el Form y Sheet de Quality (v2.1): % de avance ahora es un desplegable, ya no texto libre.':
+      'The Quality Form and Sheet were standardized (v2.1): progress % is now a dropdown, no longer free text.',
+    'Laura Chávez se unió al equipo de Quality como Supervisor MRSC.':'Laura Chávez joined the Quality team as MRSC Supervisor.',
+    'Julio 2026 cerró con 100% de auditorías operativas completadas en Quality.':'July 2026 closed with 100% of operational audits completed in Quality.',
+    '12 Ago 2026':'Aug 12, 2026', '05 Ago 2026':'Aug 5, 2026', '31 Jul 2026':'Jul 31, 2026',
+
+    // Fechas relevantes
+    'Fechas relevantes':'Key dates',
+    'Focales actualizan su proyecto (penúltimo viernes)':'Focals update their project (second-to-last Friday)',
+    'Supervisores cargan el Form (último lunes)':'Supervisors submit the Form (last Monday)',
+    'Publicación del boletín a todo MLM (lunes 2a semana)':'Newsletter published to all MLM (2nd-week Monday)',
+
+    // Success stories
+    'SCC1 se consolida como Operación Modelo con 93% de calificación PEL':'SCC1 becomes a Model Operation with a 93% PEL score',
+    'Auditoría de SCH1: 100% de adherencia en procesos de Despacho':'SCH1 Audit: 100% adherence in Dispatch processes',
+    'Cumplimiento de Mensuales Operativas al 100% en julio':'100% completion of Monthly Operational reports in July',
+    'Cierre Q2 · Programas de Excelencia':'Q2 Close · Excellence Programs',
+    'Posicionamiento en Auditorías':'Audit Positioning',
+    'Resultados del Cierre':'Closing Results',
+
+    // Repositorio / Gestion card
+    'Repositorio de proyectos':'Project repository',
+    'Ver todos los proyectos activos':'View all active projects',
+    'Portafolio completo de FM, XD, SVC, TOM y Quality, con % de avance y estado.':'Full portfolio of FM, XD, SVC, TOM, and Quality, with % progress and status.',
+    'Ir a Gestión':'Go to Management',
+
+    // Herramientas de equipo
+    'Herramientas de equipo':'Team tools',
+    'Generador de Boletines':'Newsletter Generator',
+    'App de Streamlit que arma los 3 newsletters a partir de los Excel/Sheets.':'Streamlit app that builds the 3 newsletters from the Excel/Sheets.',
+    'Playbooks (Admin / Supervisores)':'Playbooks (Admin / Supervisors)',
+    'Guías paso a paso para llenar el Form y para correr el proceso mensual.':'Step-by-step guides for filling out the Form and running the monthly process.',
+    'Grids clasificados':'Classified Grids',
+    'Tableros de KPI y clasificación de operaciones por sitio.':'KPI boards and site operation rankings.',
+    'Generador de Slide Ejecutivo':'Executive Slide Generator',
+    'Arma el slide de status de un proyecto Lean (KPIs, fases, obstáculos) y expórtalo listo para la junta.':'Builds the status slide for a Lean project (KPIs, phases, obstacles) and exports it ready for the meeting.',
+    'Abrir herramienta':'Open tool',
+
+    // Ideas y sugerencias
+    'Ideas y sugerencias':'Ideas and suggestions',
+    '¿Tienes una idea o sugerencia?':'Have an idea or suggestion?',
+    'Ayuda a mejorar el OE Hub. Tu sugerencia se envía directamente al equipo.':'Help improve the OE Hub. Your suggestion goes straight to the team.',
+    'Área':'Area', 'Tipo de sugerencia':'Suggestion type', 'Descripción':'Description',
+    'Selecciona el área...':'Select the area...', 'Selecciona el tipo...':'Select the type...',
+    'Nueva funcionalidad':'New feature', 'Mejora':'Improvement', 'Corrección':'Fix', 'Otro':'Other',
+    'Enviar sugerencia':'Send suggestion',
+    'Sugerencia enviada con éxito (vista previa: aquí se conectaría a un Google Sheet vía Apps Script).':'Suggestion sent successfully (preview: this would connect to a Google Sheet via Apps Script).',
+
+    // Proyectos / Indicadores (coming soon)
+    'Portafolio de iniciativas de FM, XD, SVC, TOM y Quality.':'Portfolio of initiatives across FM, XD, SVC, TOM, and Quality.',
+    '% de avance, proyectos en riesgo, top proyectos, resultados PET y comparativa entre áreas.':'% progress, at-risk projects, top projects, PET results, and area comparison.',
+    'Contenido en construcción':'Content under construction',
+    'El portafolio de proyectos se conecta en el Sprint 2.':'The project portfolio connects in Sprint 2.',
+    'El dashboard de indicadores (incluye Resultados PET) se construye en el Sprint 3.':'The indicators dashboard (including PET Results) is built in Sprint 3.',
+
+    // Rutinas
+    'Excelencia Operacional':'Operational Excellence',
+    'BBR, MBR y el Newsletter (NL) mensual del equipo.':'BBR, MBR, and the team\'s monthly Newsletter (NL).',
+    'Carpeta BBR (Drive)':'BBR Folder (Drive)',
+    'Acceso directo a la carpeta de Drive con el material de la entrega de resultados BBR del equipo.':'Direct access to the Drive folder with the team\'s BBR results-review material.',
+    'Carpeta MBR (Drive)':'MBR Folder (Drive)',
+    'Acceso directo a la carpeta de Drive con el material de la entrega de resultados MBR del equipo.':'Direct access to the Drive folder with the team\'s MBR results-review material.',
+    'Abrir carpeta':'Open folder',
+    'Julio 2026':'July 2026',
+    'Boletín mensual de Excelencia Operacional':'Monthly Operational Excellence newsletter',
+    'Ver boletín':'View newsletter',
+    'Playbook y flujo de fechas / responsables':'Playbook and dates/owners flow',
+    'Focales':'Focals',
+    'Actualizan su proyecto en el Form el penúltimo viernes del mes.':'Update their project in the Form on the second-to-last Friday of the month.',
+    'Supervisores':'Supervisors',
+    'Cargan y validan las respuestas del Form el último lunes del mes.':'Load and validate the Form responses on the last Monday of the month.',
+    'Corre el motor, arma los 3 boletines y publica a todo MLM el lunes de la 2a semana del mes siguiente.':'Runs the engine, builds the 3 newsletters, and publishes to all MLM on the 2nd-week Monday of the following month.',
+    'Playbook del proceso NL':'NL Process Playbook',
+    'Guía paso a paso para Focales y Supervisores: cómo llenar el Form y cómo se corre el proceso mensual. Contenido pendiente de compartir link final.':'Step-by-step guide for Focals and Supervisors: how to fill out the Form and how the monthly process runs. Content pending — final link to be shared.',
+
+    // Directorio
+    'Directorio de líderes':'Leaders Directory',
+    'Equipo de Excelencia Operacional MLM, con correo directo.':'MLM Operational Excellence team, with direct email.',
+    'Nota: mismo agrupamiento por equipo que ya usa el Directorio real (SVC+LM, XD/SC+FM, Quality, Gestión).':'Note: same team grouping already used by the real Directory (SVC+LM, XD/SC+FM, Quality, Management).',
+
+    // Organigrama Completo
+    'Estructura de equipo 2026 · Transportation | Operational Excellence. Solo nombre y puesto — sin correo. Vacantes omitidas.':'2026 team structure · Transportation | Operational Excellence. Name and role only — no email. Vacancies omitted.',
+    'Sr Manager · Heads subregión/proceso':'Sr Manager · Heads sub-region/process',
+    'Analistas MRS':'MRS Analysts', 'Analistas MRN':'MRN Analysts', 'Analista Central':'Central Analyst', 'Analistas':'Analysts',
+    'Ops clock / Productividades':'Ops clock / Productivity',
+    'NTM / Actividades no sistémicas':'NTM / Non-systemic activities',
+    'Precheck In y Gate In':'Precheck In and Gate In',
+    'Sorteo y despacho / Reprocesos':'Sorting and dispatch / Reprocessing',
+    'Recibo etiquetado / OV':'Labeled receiving / OV',
+    'Carga y Gate Out':'Loading and Gate Out',
+    'Procesos General LM / Estandarización Patios':'General LM Processes / Yard Standardization',
+    'Supervisor MRS · Problem Solver + SC + H&B':'MRS Supervisor · Problem Solver + SC + H&B',
+    'Problem Solver + Mesa de Ayuda':'Problem Solver + Help Desk',
+    'Supervisor MRN · FOS + YMS + Productividades':'MRN Supervisor · FOS + YMS + Productivity',
+    'Inbound, Sorteo | Sorter':'Inbound, Sorting | Sorter',
+    'Tiempos y Movimientos | Manga Air':'Time and Motion | Manga Air',
+    'Estandarización Pymes | Capacidades':'Weigh & Measure Standardization | Capabilities',
+    'Portafolio MLM':'MLM Portfolio',
+    'Expansiones':'Expansions',
+    'Nota: Costo &amp; Eficiencia no aparece (Manager vacante). Claudia Ortega (Data Analytics | BI) no se incluyó porque el pptx no deja claro a qué rama reporta — confírmame y la agrego.':
+      'Note: Cost &amp; Efficiency doesn\'t appear (Manager vacancy). Claudia Ortega (Data Analytics | BI) wasn\'t included because the pptx doesn\'t make clear which branch she reports to — confirm and I\'ll add her.',
+
+    // Slides
+    'Arma el slide de status de un proyecto Lean (KPIs con tendencia, fases, obstáculos, decisión requerida) y expórtalo listo para la junta.':'Builds the status slide for a Lean project (KPIs with trend, phases, obstacles, decision required) and exports it ready for the meeting.',
+
+    // Aprendizaje Continuo
+    'Guías, cursos y material de referencia para el equipo de OE.':'Guides, courses, and reference material for the OE team.',
+    'Guía paso a paso para Focales y Supervisores, con el flujo de fechas y responsables del mes (Focales → Supervisores → OE). Contenido pendiente de compartir link final.':'Step-by-step guide for Focals and Supervisors, with the month\'s dates and owners flow (Focals → Supervisors → OE). Content pending — final link to be shared.',
+    'Sesiones grabadas':'Recorded sessions',
+    'Espacio reservado para grabaciones de capacitaciones del equipo.':'Reserved space for recordings of team training sessions.',
+    'Glosario OE':'OE Glossary',
+    'Espacio reservado para siglas y términos propios de Excelencia Operacional.':'Reserved space for acronyms and terms specific to Operational Excellence.',
+    'Material de apoyo compartido por Rich.':'Supporting material shared by Rich.',
+    'Nueva Regionalización TTE MLM':'New TTE MLM Regionalization',
+    'Abrir Sheet':'Open Sheet',
+  };
+
+  const I18N_SELECTOR = [
+    '.nav-direct > span:not(.nav-icon):not(.nav-chevron)', '.nav-sub-item span', '.sidebar-footer',
+    '.page-eyebrow', '.page-title', '.page-desc',
+    '.home-hero-eyebrow', '.home-hero-title', '.home-hero-sub', '.hero-video-caption', '.hero-video-note',
+    '.section-title', '.quick-card-title', '.quick-card-sub',
+    '.list-item-date', '.list-item-text', '.date-item-text',
+    '.story-tag', '.story-title', '.story-area',
+    '.gestion-card-title', '.gestion-card-sub', '.gestion-card-link',
+    '.tool-card-title', '.tool-card-sub', '.tool-card-link',
+    '.suggest-title', '.suggest-sub', '.suggest-field label', '.suggest-submit', '.suggest-confirm',
+    '.coming-soon-title', '.coming-soon-sub', '.routine-tab',
+    '.bulletin-month-label', '.bulletin-card-title', '.bulletin-card-sub', '.bulletin-card-link',
+    '.org-top-role', '.region-note', '.orgfull-tier-label', '.orgfull-role',
+    '.learn-card-title', '.learn-card-sub', '.i18n-link',
+    '#sugArea option', '#sugTipo option'
+  ].join(', ');
+
+  function applyLang(lang) {
+    document.documentElement.lang = lang;
+    document.title = lang === 'en' ? 'OE MLM Hub — Preview v2' : 'OE MLM Hub — Vista previa v2';
+    document.getElementById('langEs').classList.toggle('active', lang === 'es');
+    document.getElementById('langOther').classList.toggle('active', lang === 'en');
+    try { localStorage.setItem('oeHubLang', lang); } catch (e) {}
+
+    document.querySelectorAll(I18N_SELECTOR).forEach(function (el) {
+      if (el.dataset.i18nOrig === undefined) { el.dataset.i18nOrig = el.innerHTML; }
+      var orig = el.dataset.i18nOrig;
+      if (lang === 'es') { el.innerHTML = orig; return; }
+      var m = orig.match(/^(\s*)([^<]+)([\s\S]*)$/);
+      if (!m) return;
+      var lead = m[1], text = m[2], rest = m[3];
+      var key = text.trim();
+      if (TEXT_EN.hasOwnProperty(key)) {
+        var trailingSpace = /\s$/.test(text) ? ' ' : '';
+        el.innerHTML = lead + TEXT_EN[key] + trailingSpace + rest;
+      }
+    });
+
+    var sugDesc = document.getElementById('sugDesc');
+    if (sugDesc) {
+      if (sugDesc.dataset.i18nPh === undefined) { sugDesc.dataset.i18nPh = sugDesc.getAttribute('placeholder') || ''; }
+      sugDesc.setAttribute('placeholder', lang === 'en' ? 'Tell us your idea...' : sugDesc.dataset.i18nPh);
+    }
+
+    var current = document.querySelector('.page.active');
+    if (current) {
+      var pageId = current.id.replace('page-', '');
+      var map = lang === 'en' ? LABELS_EN : LABELS;
+      document.getElementById('bcCurrent').textContent = map[pageId] || pageId;
+    }
+  }
+
+  function setLang(lang) {
+    applyLang(lang === 'en' ? 'en' : (lang === 'es' ? 'es' : 'en')); // 'other' (boton viejo) cae a 'en'
+  }
+
+  (function initLang() {
+    var saved = 'es';
+    try { saved = localStorage.getItem('oeHubLang') || 'es'; } catch (e) {}
+    applyLang(saved);
+  })();
 </script>
 </body>
 </html>
