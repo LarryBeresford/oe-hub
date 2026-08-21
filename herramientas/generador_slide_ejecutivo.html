@@ -30,15 +30,51 @@ body { font-family: var(--font); background: #1C1C1C; color: var(--black); min-h
 .btn-secondary { background: transparent; color: #AAA; border: 1px solid #444; padding: 7px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.15s; font-family: var(--font); }
 .btn-secondary:hover { border-color: var(--yellow); color: var(--yellow); }
 
+/* ── PROJECT / HISTORY BAR (dentro del form-panel) ── */
+.proj-bar {
+  background: #161616; color: #FFF;
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 12px 18px; border-bottom: 3px solid var(--yellow);
+}
+.proj-bar label { color: #999; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin: 4px 0 0; }
+.proj-bar label:first-child { margin-top: 0; }
+.proj-bar select {
+  background: #222; color: #FFF; border: 1px solid #3A3A3A; border-radius: 5px;
+  padding: 7px 10px; font-size: 12px; font-family: var(--font); cursor: pointer; width: 100%;
+}
+.proj-bar select:focus { outline: none; border-color: var(--yellow); }
+.proj-status { font-size: 10px; color: #777; display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+.proj-status .dot { width: 6px; height: 6px; border-radius: 50%; background: #555; }
+.proj-status.saved .dot { background: var(--green); }
+.proj-status.unsaved .dot { background: var(--orange); }
+
+/* MODAL for new project / save label */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+  display: flex; align-items: center; justify-content: center; z-index: 500;
+}
+.modal-box {
+  background: #FFF; border-radius: 10px; padding: 22px; width: 360px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+}
+.modal-box h3 { font-size: 14px; margin-bottom: 12px; color: #111; }
+.modal-box input[type=text] { width: 100%; border: 1px solid #DDD; border-radius: 6px; padding: 9px 12px; font-size: 13px; font-family: var(--font); margin-bottom: 14px; }
+.modal-box input[type=text]:focus { outline: none; border-color: var(--yellow); box-shadow: 0 0 0 2px rgba(255,230,0,0.2); }
+.modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
+.modal-btn-cancel { background: #F0F0F0; color: #555; border: none; padding: 8px 16px; border-radius: 6px; font-size: 12px; cursor: pointer; font-family: var(--font); }
+.modal-btn-cancel:hover { background: #E5E5E5; }
+.modal-btn-ok { background: var(--yellow); color: #000; border: none; padding: 8px 18px; border-radius: 6px; font-weight: 800; font-size: 12px; cursor: pointer; font-family: var(--font); }
+.modal-btn-ok:hover { opacity: 0.85; }
+
 /* ── WORKSPACE ── */
-.workspace { display: grid; grid-template-columns: 400px 1fr; flex: 1; overflow: hidden; height: calc(100vh - 48px); }
+.workspace { display: grid; grid-template-columns: 400px 1fr; align-items: start; }
 
 /* ── FORM PANEL ── */
-.form-panel { background: #F7F7F7; overflow-y: auto; border-right: 1px solid #DDD; }
+.form-panel { background: #F7F7F7; overflow-y: auto; border-right: 1px solid #DDD; scroll-behavior: smooth; height: 100vh; }
 .form-section { border-bottom: 1px solid #E8E8E8; padding: 14px 18px; background: var(--white); margin-bottom: 6px; }
 .form-section-title {
   font-size: 10px; font-weight: 800; text-transform: uppercase;
-  letter-spacing: 1.2px; color: #888; margin-bottom: 12px;
+  letter-spacing: 1.2px; color: #666; margin-bottom: 12px;
   display: flex; align-items: center; gap: 6px;
 }
 .form-section-title::before { content: ''; display: inline-block; width: 3px; height: 13px; background: var(--yellow); border-radius: 2px; }
@@ -97,8 +133,8 @@ textarea { min-height: 52px; }
 .phase-dot.pending { background: #EEE; color: #AAA; }
 
 /* ── PREVIEW PANEL ── */
-.preview-panel { background: #D0D0D0; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
-.preview-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #888; align-self: flex-start; }
+.preview-panel { background: #D0D0D0; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; position: sticky; top: 0; align-self: flex-start; height: 100vh; }
+.preview-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #666; align-self: flex-start; }
 
 /* ══════ THE SLIDE ══════ */
 .slide {
@@ -118,26 +154,24 @@ textarea { min-height: 52px; }
   align-items: center; gap: 16px;
 }
 .sl-name  { font-size: 24px; font-weight: 900; color: var(--yellow); line-height: 1; letter-spacing: -0.5px; }
-.sl-sub   { font-size: 10px; color: #888; margin-top: 2px; }
-.sl-tac   { font-size: 10px; color: #AAA; text-align: center; border-left: 1px solid #333; padding-left: 16px; }
+.sl-sub   { font-size: 10px; color: #DADADA; margin-top: 2px; }
+.sl-tac   { font-size: 10px; color: #E4E4E4; text-align: center; border-left: 1px solid #333; padding-left: 16px; }
 .sl-tac strong { display: block; font-size: 11px; color: #EEE; margin-bottom: 1px; }
-.sl-meta  { font-size: 10px; color: #777; border-left: 1px solid #333; padding-left: 16px; text-align: right; }
+.sl-meta  { font-size: 10px; color: #DADADA; border-left: 1px solid #333; padding-left: 16px; text-align: right; }
 .sl-meta strong { display: block; font-size: 15px; color: #FFF; }
 .sl-status-wrap { border-left: 1px solid #333; padding-left: 16px; text-align: center; }
 .sl-pill  { display: inline-flex; align-items: center; gap: 5px; padding: 5px 14px; border-radius: 20px; font-size: 11px; font-weight: 800; white-space: nowrap; }
 .sl-pill.green  { background: var(--green);  color: #FFF; }
 .sl-pill.orange { background: var(--orange); color: #FFF; }
 .sl-pill.red    { background: var(--red);    color: #FFF; }
-.sl-status-lbl  { font-size: 8px; color: #666; margin-top: 3px; }
+.sl-status-lbl  { font-size: 8px; color: #D0D0D0; margin-top: 3px; }
 
 /* CONTEXT BAND — between header and body */
 .sl-context {
   background: #FAFAFA; border-bottom: 1px solid #EBEBEB;
-  padding: 8px 22px; display: grid;
-  grid-template-columns: 1fr 1fr; gap: 0;
+  padding: 8px 22px;
 }
-.sl-context-block { padding: 0 14px; }
-.sl-context-block:first-child { padding-left: 0; border-right: 1px solid #E8E8E8; }
+.sl-context-block { padding: 0; }
 .sl-ctx-label { font-size: 7.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: #AAA; margin-bottom: 3px; }
 .sl-ctx-text  { font-size: 9px; color: #444; line-height: 1.5; }
 
@@ -222,8 +256,8 @@ textarea { min-height: 52px; }
 
 /* FOOTER — stays dark */
 .sl-footer { background: #111; padding: 6px 18px 6px 22px; display: flex; align-items: center; gap: 14px; }
-.ft-lbl  { font-size: 8px; color: #555; }
-.ft-name { font-size: 9px; color: #888; }
+.ft-lbl  { font-size: 8px; color: #DADADA; }
+.ft-name { font-size: 9px; color: #E4E4E4; }
 .ft-name span { color: #DDD; font-weight: 600; }
 .ft-progress { margin-left: auto; display: flex; align-items: center; gap: 8px; }
 .ft-bar { width: 90px; height: 3px; background: #333; border-radius: 2px; overflow: hidden; }
@@ -242,12 +276,12 @@ textarea { min-height: 52px; }
 .img-drop p { font-size: 11px; color: #999; }
 .img-drop .img-hint { font-size: 10px; color: #CCC; margin-top: 2px; }
 .img-preview-wrap { position: relative; margin-top: 8px; border-radius: 6px; overflow: hidden; border: 1px solid #DDD; background: #F0F0F0; }
-.img-preview-wrap img { width: 100%; max-height: 120px; object-fit: cover; display: block; }
+.img-preview-wrap img { width: 100%; height: auto; object-fit: contain; display: block; }
 .img-clear { position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.55); color: #FFF; border: none; border-radius: 50%; width: 22px; height: 22px; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
 /* SLIDE IMAGE */
 .sl-img-block { border-radius: 5px; overflow: hidden; border: 1px solid #EEE; margin-top: 4px; }
-.sl-img-block img { width: 100%; max-height: 90px; object-fit: cover; display: block; }
+.sl-img-block img { width: 100%; height: auto; object-fit: contain; display: block; }
 .sl-img-caption { font-size: 7.5px; color: #AAA; padding: 3px 6px; background: #FAFAFA; }
 
 /* SCROLLBAR */
@@ -273,6 +307,26 @@ textarea { min-height: 52px; }
 <!-- ══════ FORM PANEL ══════ -->
 <div class="form-panel">
 
+  <!-- PROYECTO / HISTORIAL -->
+  <div class="proj-bar">
+    <label>Proyecto</label>
+    <select id="proj-select" onchange="onProjectSelectChange()">
+      <option value="">— Ningún proyecto seleccionado —</option>
+    </select>
+    <button class="btn-secondary" style="width:100%;margin-top:6px;padding:7px;font-size:11px;" onclick="crearNuevoProyecto()">+ Crear nuevo proyecto</button>
+
+    <label>Historial</label>
+    <select id="history-select" onchange="onHistoryChange()">
+      <option value="">— Mes actual (sin guardar) —</option>
+    </select>
+
+    <button class="btn-primary" style="padding:6px 16px;font-size:11px;width:100%;" onclick="guardarMesActual()">💾 Guardar este mes</button>
+
+    <div class="proj-status" id="proj-status">
+      <div class="dot"></div><span>Sin guardar</span>
+    </div>
+  </div>
+
   <!-- IDENTIFICACIÓN -->
   <div class="form-section">
     <div class="form-section-title">Identificación</div>
@@ -284,15 +338,16 @@ textarea { min-height: 52px; }
       <div>
         <label>Tipo de Proyecto</label>
         <select id="f-tipo" onchange="render()">
-          <option>Proyecto Estratégico</option>
-          <option>Tipo de Proyectos</option>
-          <option>Iniciativa</option>
+          <option>MVP</option>
+          <option>Discovery</option>
+          <option>Implement</option>
           <option>POC</option>
+          <option>Estrategico</option>
         </select>
       </div>
       <div>
         <label>Último Update</label>
-        <input type="text" id="f-update" value="W28" oninput="render()">
+        <input type="text" id="f-update" value="Jul 26" oninput="render()">
       </div>
     </div>
     <label>Estado General</label>
@@ -324,8 +379,6 @@ textarea { min-height: 52px; }
     <div class="form-section-title">Contexto del Proyecto</div>
     <label>Situación / Dolor</label>
     <textarea id="f-situacion" rows="2" oninput="render()">Actualmente se tienen 3 tecnologías de medición de los diferentes path de shp. No existe tecnología que ayude a la medición de los shp catalogados como OVERSIZE con paquetes amorfos.</textarea>
-    <label>El Proyecto será un éxito si...</label>
-    <textarea id="f-exito" rows="2" oninput="render()">Se mantiene el accuracy en las medidas logrando hacer la corrección de Mismatch PYMES y Mismatch operacional.</textarea>
   </div>
 
   <!-- KPIs -->
@@ -344,7 +397,7 @@ textarea { min-height: 52px; }
 
   <!-- LO QUE PASÓ -->
   <div class="form-section">
-    <div class="form-section-title">⚡ Lo que pasó esta semana</div>
+    <div class="form-section-title">⚡ Lo que pasó este mes</div>
     <div class="bullet-list" id="paso-editor"></div>
     <button class="add-btn" onclick="addBullet('paso-editor')">+ Agregar punto</button>
   </div>
@@ -372,7 +425,7 @@ textarea { min-height: 52px; }
   <!-- IMAGEN -->
   <div class="form-section">
     <div class="form-section-title">🖼 Imagen / Gráfica (opcional)</div>
-    <p style="font-size:10px;color:#999;margin-bottom:6px;">Aparece en la columna central. Ideal para dashboards, gráficas o tablas de análisis.</p>
+    <p style="font-size:10px;color:#999;margin-bottom:6px;">Aparece en la columna derecha, encima de los obstáculos. Ideal para dashboards, gráficas o tablas de análisis.</p>
     <div class="img-drop" id="img-drop">
       <input type="file" accept="image/*" onchange="handleImage(this)">
       <div class="img-icon">📊</div>
@@ -417,9 +470,9 @@ let uploadedImageSrc = null;
 // KPI data: [{name, refs, values:[], target, higherIsBetter}]
 let kpis = [
   { name:'Adherencia', refs:'Base 72% · Target 90%', target:90, higherIsBetter:true,
-    values:[81,79,87.1,88.3,90.4,90.2,88,89.2,88,84.1,84.1], weekStart:'W17' },
+    values:[81,79,87,88,90,90,88,89,88,84,84], weekStart:'Ene' },
   { name:'Accuracy', refs:'Base 87% · Target 80%', target:80, higherIsBetter:true,
-    values:[87,88,86,87,83,81,79,81,81,82,82], weekStart:'W17' },
+    values:[87,88,86,87,83,81,79,81,81,82,82], weekStart:'Ene' },
 ];
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
@@ -427,14 +480,14 @@ function init() {
   renderFasesEditor();
   renderKPIEditor();
 
-  addBullet('paso-editor', 'Acc Sick 09–26 Jun: TGT 98% — Real 82.27%. Brecha activa 15.7 pp.');
-  addBullet('paso-editor', 'CONLIDA instalada en MXXEM4 — calibración en curso, datos desde W30.');
-  addBullet('paso-editor', 'Caída adherencia W25–W27 por eventos deportivos MX.', true);
-  addBullet('paso-editor', 'Mismatch PYMES –1.9 bps WoW · MM SNT –2.85 bps.', true);
+  addBullet('paso-editor', 'Acc Sick Jun: TGT 98% — Real 82.27%. Brecha activa 15.7 pp.');
+  addBullet('paso-editor', 'CONLIDA instalada en MXXEM4 — calibración en curso, datos desde Ago.');
+  addBullet('paso-editor', 'Caída adherencia Jun–Jul por eventos deportivos MX.', true);
+  addBullet('paso-editor', 'Mismatch PYMES –1.9 bps MoM · MM SNT –2.85 bps.', true);
 
-  addBullet('pasos-editor', 'W29 — Cierre calibración CONLIDA + primeros datos reales.');
-  addBullet('pasos-editor', 'W30 — Proyección recuperación adherencia ≥88%.');
-  addBullet('pasos-editor', 'W30 — Revisión target plan con impacto CONLIDA.');
+  addBullet('pasos-editor', 'Ago — Cierre calibración CONLIDA + primeros datos reales.');
+  addBullet('pasos-editor', 'Sep — Proyección recuperación adherencia ≥88%.');
+  addBullet('pasos-editor', 'Sep — Revisión target plan con impacto CONLIDA.');
 
   addBullet('obs-editor', 'Adherencia 84.1% — 3 semanas bajo target 90%.', true);
   addBullet('obs-editor', 'CONLIDA en calibración — sin datos reales hasta W30.', true);
@@ -602,9 +655,9 @@ function renderKPIEditor() {
 
     const weekWrap = document.createElement('div');
     const weekLbl = document.createElement('label');
-    weekLbl.textContent = 'Semana inicio';
+    weekLbl.textContent = 'Mes inicio';
     const weekInp = document.createElement('input');
-    weekInp.type='text'; weekInp.value=kpi.weekStart||'W1'; weekInp.style.fontSize='11px';
+    weekInp.type='text'; weekInp.value=kpi.weekStart||'Ene'; weekInp.style.fontSize='11px';
     weekInp.oninput = e => { kpis[ki].weekStart = e.target.value; render(); };
     weekWrap.appendChild(weekLbl); weekWrap.appendChild(weekInp);
 
@@ -626,7 +679,7 @@ function renderKPIEditor() {
 
     // Values row
     const valLbl = document.createElement('label');
-    valLbl.textContent = 'Valores semanales (separados por coma)';
+    valLbl.textContent = 'Valores mensuales (separados por coma)';
     const valInp = document.createElement('input');
     valInp.type='text'; valInp.value=kpi.values.join(','); valInp.style.fontSize='11px';
     valInp.oninput = e => {
@@ -640,7 +693,7 @@ function renderKPIEditor() {
 }
 
 function addKPI() {
-  kpis.push({ name:'Nuevo KPI', refs:'Base X · Target Y', target:80, higherIsBetter:true, values:[70,72,75,78,80], weekStart:'W1' });
+  kpis.push({ name:'Nuevo KPI', refs:'Base X · Target Y', target:80, higherIsBetter:true, values:[70,72,75,78,80], weekStart:'Ene' });
   renderKPIEditor(); render();
 }
 
@@ -653,9 +706,10 @@ function sparklineHTML(values, target, higherIsBetter, weekStart) {
   const range = max - min || 1;
   const maxH = 30;
   const n = values.length;
-  const lastWk = weekStart || 'W1';
-  const startNum = parseInt(lastWk.replace(/\D/g,''))||1;
-  const endLbl = 'W'+(startNum+n-1);
+  const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const startLabel = weekStart || 'Ene';
+  const startIdx = MESES.indexOf(startLabel);
+  const endLbl = startIdx >= 0 ? MESES[Math.min(startIdx + n - 1, 11)] : startLabel;
 
   let tlineStyle = '';
   if (target !== null) {
@@ -678,7 +732,7 @@ function sparklineHTML(values, target, higherIsBetter, weekStart) {
       ${target !== null ? `<div class="spark-tline" style="${tlineStyle}"></div>` : ''}
       ${bars}
     </div>
-    <div class="spark-meta"><span>${weekStart||'W1'}</span><span class="cur-lbl">${endLbl} ◀</span></div>`;
+    <div class="spark-meta"><span>${startLabel}</span><span class="cur-lbl">${endLbl} ◀</span></div>`;
 }
 
 // ── COMPUTE KPI CARD STATUS ────────────────────────────────────────────────────
@@ -698,7 +752,7 @@ function kpiStatus(values, target, higherIsBetter) {
   }
   if (prev !== null) {
     const wow = (last - prev).toFixed(1);
-    delta += prev !== null ? ` · WoW ${wow > 0 ? '+' : ''}${wow}` : '';
+    delta += prev !== null ? ` · MoM ${wow > 0 ? '+' : ''}${wow}` : '';
   }
   return { cls, valColor, delta, deltaCls };
 }
@@ -779,16 +833,12 @@ function render() {
     </div>
 
     <!-- CONTEXT BAND -->
-    ${(v('f-situacion') || v('f-exito')) ? `
+    ${v('f-situacion') ? `
     <div class="sl-context">
-      ${v('f-situacion') ? `<div class="sl-context-block">
+      <div class="sl-context-block">
         <div class="sl-ctx-label">Situación / Dolor</div>
         <div class="sl-ctx-text">${v('f-situacion')}</div>
-      </div>` : ''}
-      ${v('f-exito') ? `<div class="sl-context-block">
-        <div class="sl-ctx-label">El proyecto será un éxito si…</div>
-        <div class="sl-ctx-text">${v('f-exito')}</div>
-      </div>` : ''}
+      </div>
     </div>` : ''}
 
     <!-- BODY -->
@@ -796,7 +846,7 @@ function render() {
 
       <!-- COL 1: KPIs + FASES -->
       <div class="sl-col">
-        <div class="sl-col-title">📊 KPIs — Tendencia</div>
+        <div class="sl-col-title">📊 KPIs — Tendencia mensual</div>
         ${kpiCardsHTML}
         <div>
           <div class="sl-col-title" style="margin-bottom:8px;">📍 Fase actual</div>
@@ -806,20 +856,20 @@ function render() {
 
       <div class="sl-divider"></div>
 
-      <!-- COL 2: NARRATIVA + IMAGEN + SAVING -->
+      <!-- COL 2: NARRATIVA + SAVING -->
       <div class="sl-col">
-        <div class="sl-col-title">⚡ Lo que pasó esta semana</div>
+        <div class="sl-col-title">⚡ Lo que pasó este mes</div>
         ${bHTML(paso)}
         <div class="sl-col-title">🎯 Próximos pasos</div>
         ${pasosHTML}
-        ${imgHTML}
         ${savingHTML}
       </div>
 
       <div class="sl-divider"></div>
 
-      <!-- COL 3: OBSTÁCULOS + DECISIÓN -->
+      <!-- COL 3: IMAGEN (opcional) + OBSTÁCULOS + DECISIÓN -->
       <div class="sl-col">
+        ${imgHTML}
         <div class="sl-col-title">⚠ Obstáculos activos</div>
         ${bHTML(obs, 'warn')}
         <div class="sl-decision">
@@ -835,7 +885,7 @@ function render() {
       <div><div class="ft-lbl">OE</div><div class="ft-name"><span>${v('f-oe')}</span></div></div>
       <div><div class="ft-lbl">CIC / PMO</div><div class="ft-name"><span>${v('f-cic')}</span></div></div>
       <div class="ft-progress">
-        <div style="font-size:9px;color:#555">Avance</div>
+        <div style="font-size:9px;color:#D0D0D0">Avance</div>
         <div class="ft-bar"><div class="ft-fill" style="width:${avance}%"></div></div>
         <div class="ft-pct">${avance}%</div>
       </div>
@@ -859,20 +909,428 @@ ${slideHTML}
 }
 
 // ── RESET ──────────────────────────────────────────────────────────────────────
-function resetForm() {
-  if (!confirm('¿Limpiar todo el formulario?')) return;
+async function resetForm() {
+  const ok = await modalConfirm('¿Limpiar todo el formulario?');
+  if (!ok) return;
+  resetFormSilent();
+  render();
+  if (currentProjectName) markUnsaved();
+}
+
+window.addEventListener('beforeunload', (e) => {
+  if (hasUnsavedChanges) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
+});
+
+// ══════════════════════════════════════════════════════════════════════════
+// MODAL PROPIO — reemplaza prompt()/alert() nativos, que algunos navegadores
+// corporativos bloquean o restringen sin avisar.
+// ══════════════════════════════════════════════════════════════════════════
+function modalPrompt(title, defaultValue = '') {
+  return new Promise(resolve => {
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `
+      <div class="modal-box">
+        <h3>${title}</h3>
+        <input type="text" id="modal-input" value="${defaultValue.replace(/"/g,'&quot;')}">
+        <div class="modal-actions">
+          <button class="modal-btn-cancel" id="modal-cancel">Cancelar</button>
+          <button class="modal-btn-ok" id="modal-ok">Aceptar</button>
+        </div>
+      </div>`;
+    document.body.appendChild(overlay);
+    const input = overlay.querySelector('#modal-input');
+    input.focus();
+    input.select();
+
+    function close(value) {
+      document.body.removeChild(overlay);
+      resolve(value);
+    }
+    overlay.querySelector('#modal-ok').onclick = () => close(input.value);
+    overlay.querySelector('#modal-cancel').onclick = () => close(null);
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') close(input.value);
+      if (e.key === 'Escape') close(null);
+    });
+  });
+}
+
+function modalAlert(message) {
+  return new Promise(resolve => {
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `
+      <div class="modal-box">
+        <h3>${message}</h3>
+        <div class="modal-actions">
+          <button class="modal-btn-ok" id="modal-ok">Entendido</button>
+        </div>
+      </div>`;
+    document.body.appendChild(overlay);
+    overlay.querySelector('#modal-ok').onclick = () => { document.body.removeChild(overlay); resolve(); };
+  });
+}
+
+function modalConfirm(message) {
+  return new Promise(resolve => {
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `
+      <div class="modal-box">
+        <h3>${message}</h3>
+        <div class="modal-actions">
+          <button class="modal-btn-cancel" id="modal-cancel">Cancelar</button>
+          <button class="modal-btn-ok" id="modal-ok">Confirmar</button>
+        </div>
+      </div>`;
+    document.body.appendChild(overlay);
+    overlay.querySelector('#modal-ok').onclick = () => { document.body.removeChild(overlay); resolve(true); };
+    overlay.querySelector('#modal-cancel').onclick = () => { document.body.removeChild(overlay); resolve(false); };
+  });
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// CAPA DE STORAGE — usa window.storage si existe Y funciona (dentro de Claude.ai),
+// y localStorage del navegador como respaldo si se publica como página web normal.
+// ══════════════════════════════════════════════════════════════════════════
+const hasClaudeStorage = typeof window.storage !== 'undefined'
+  && typeof window.storage.get === 'function'
+  && typeof window.storage.set === 'function';
+
+let lastStorageError = null;
+
+const storageAdapter = {
+  async get(key, shared) {
+    if (hasClaudeStorage) {
+      try { return await window.storage.get(key, shared); }
+      catch(e) {
+        // Muchas veces esto no es un error real, sino que la key aún no existe.
+        // Solo lo registramos si el mensaje sugiere algo distinto a "no encontrado".
+        lastStorageError = e;
+        return null;
+      }
+    }
+    try {
+      const v = localStorage.getItem(key);
+      return v ? { key, value: v, shared } : null;
+    } catch(e) {
+      lastStorageError = e;
+      throw new Error('localStorage no disponible en este navegador: ' + e.message);
+    }
+  },
+  async set(key, value, shared) {
+    if (hasClaudeStorage) {
+      try { return await window.storage.set(key, value, shared); }
+      catch(e) {
+        lastStorageError = e;
+        throw new Error('Error guardando en Claude storage: ' + e.message);
+      }
+    }
+    try {
+      localStorage.setItem(key, value);
+      return { key, value, shared };
+    } catch(e) {
+      lastStorageError = e;
+      throw new Error('No se pudo guardar en localStorage: ' + e.message);
+    }
+  }
+};
+
+// ══════════════════════════════════════════════════════════════════════════
+// PERSISTENCIA — Guardado por proyecto + historial mensual
+// ══════════════════════════════════════════════════════════════════════════
+
+const SIMPLE_FIELD_IDS = [
+  'f-nombre','f-sub','f-tipo','f-update','f-oe','f-cic','f-avance',
+  'f-situacion','f-saving-title','f-saving-num','f-saving-sub','f-saving-vs',
+  'f-decision','f-img-caption'
+];
+
+// Captura TODO el estado actual del formulario en un objeto plano (serializable)
+function captureState() {
+  const state = { fields: {}, status: currentStatus, kpis, faseStates, uploadedImageSrc, bullets: {} };
+  SIMPLE_FIELD_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) state.fields[id] = el.value;
+  });
+  ['paso-editor','pasos-editor','obs-editor'].forEach(editorId => {
+    state.bullets[editorId] = Array.from(document.querySelectorAll(`#${editorId} textarea`))
+      .map(t => ({ text: t.value, warn: t.dataset.warn === '1' }));
+  });
+  return state;
+}
+
+// Aplica un estado guardado de vuelta al formulario
+function applyState(state) {
+  if (!state) return;
+  SIMPLE_FIELD_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && state.fields && state.fields[id] !== undefined) el.value = state.fields[id];
+  });
+
+  currentStatus = state.status || 'green';
+  document.querySelectorAll('.status-btn').forEach(b => b.className = 'status-btn');
+  const idx = { green:0, orange:1, red:2 }[currentStatus];
+  const btns = document.querySelectorAll('.status-btn');
+  if (btns[idx]) btns[idx].className = `status-btn sel-${currentStatus}`;
+
+  kpis = state.kpis && state.kpis.length ? state.kpis : kpis;
+  faseStates = state.faseStates || faseStates;
+  uploadedImageSrc = state.uploadedImageSrc || null;
+
+  ['paso-editor','pasos-editor','obs-editor'].forEach(editorId => {
+    const ed = document.getElementById(editorId);
+    ed.innerHTML = '';
+    const items = (state.bullets && state.bullets[editorId]) || [];
+    items.forEach(b => addBullet(editorId, b.text, b.warn));
+  });
+
+  renderKPIEditor();
+  renderFasesEditor();
+  renderImagePreview();
+  render();
+}
+
+// ── KEYS ──────────────────────────────────────────────────────────────────────
+const PROJECTS_INDEX_KEY = 'lean-projects:index'; // lista de nombres de proyecto
+function projectKey(name) { return `lean-project:${name}`; } // guarda { months: {"2026-07": state, ...}, order: [...] }
+
+let currentProjectName = null;
+let hasUnsavedChanges = false;
+
+// ── ÍNDICE DE PROYECTOS ────────────────────────────────────────────────────────
+async function getProjectsIndex() {
+  try {
+    const r = await storageAdapter.get(PROJECTS_INDEX_KEY, true);
+    return r ? JSON.parse(r.value) : [];
+  } catch(e) { return []; }
+}
+
+async function saveProjectsIndex(list) {
+  await storageAdapter.set(PROJECTS_INDEX_KEY, JSON.stringify(list), true);
+}
+
+async function refreshProjectSelect() {
+  const list = await getProjectsIndex();
+  const sel = document.getElementById('proj-select');
+  const currentVal = sel.value;
+  sel.innerHTML = '<option value="">— Ningún proyecto seleccionado —</option>' +
+    list.map(name => `<option value="${escapeAttr(name)}">${name}</option>`).join('');
+  if (list.includes(currentVal)) sel.value = currentVal;
+}
+
+function escapeAttr(s) { return String(s).replace(/"/g,'&quot;'); }
+
+// ── CARGA / GUARDADO DE UN PROYECTO ────────────────────────────────────────────
+async function getProjectData(name) {
+  try {
+    const r = await storageAdapter.get(projectKey(name), true);
+    return r ? JSON.parse(r.value) : { months: {}, order: [] };
+  } catch(e) { return { months: {}, order: [] }; }
+}
+
+async function saveProjectData(name, data) {
+  await storageAdapter.set(projectKey(name), JSON.stringify(data), true);
+}
+
+function currentMonthKey() {
+  // yyyy-mm basado en la fecha real, para ordenar bien
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+}
+
+function monthLabel(key, customLabel) {
+  if (customLabel) return customLabel;
+  const [y,m] = key.split('-');
+  const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  return `${MESES[parseInt(m,10)-1]} ${y}`;
+}
+
+async function refreshHistorySelect() {
+  const sel = document.getElementById('history-select');
+  sel.innerHTML = '<option value="">— Mes actual (sin guardar) —</option>';
+  if (!currentProjectName) return;
+  const data = await getProjectData(currentProjectName);
+  const order = data.order || Object.keys(data.months);
+  order.slice().reverse().forEach(mk => {
+    const entry = data.months[mk];
+    const lbl = monthLabel(mk, entry && entry.label);
+    sel.innerHTML += `<option value="${mk}">${lbl}</option>`;
+  });
+}
+
+// ── EVENTOS DE UI ──────────────────────────────────────────────────────────────
+async function crearNuevoProyecto() {
+  const name = await modalPrompt('Nombre del nuevo proyecto (ej: PYMES Inbound)');
+  if (!name || !name.trim()) return;
+  const cleanName = name.trim();
+
+  try {
+    const list = await getProjectsIndex();
+    if (!list.includes(cleanName)) {
+      list.push(cleanName);
+      await saveProjectsIndex(list);
+    }
+  } catch(e) {
+    await modalAlert('⚠ No se pudo guardar el índice de proyectos: ' + e.message + '\n\nEl proyecto se creará solo en esta sesión, pero no persistirá al recargar la página.');
+  }
+
+  const sel = document.getElementById('proj-select');
+  await refreshProjectSelect();
+  if (![...sel.options].some(o => o.value === cleanName)) {
+    const opt = document.createElement('option');
+    opt.value = cleanName; opt.textContent = cleanName;
+    sel.appendChild(opt);
+  }
+  sel.value = cleanName;
+  currentProjectName = cleanName;
+
+  resetFormSilent();
+  document.getElementById('f-nombre').value = cleanName;
+  render();
+  await refreshHistorySelect();
+  markUnsaved();
+}
+
+async function onProjectSelectChange() {
+  const sel = document.getElementById('proj-select');
+  const val = sel.value;
+  if (!val) { currentProjectName = null; return; }
+
+  currentProjectName = val;
+  try {
+    const data = await getProjectData(currentProjectName);
+    const order = data.order || [];
+    const lastKey = order[order.length - 1];
+    if (lastKey && data.months[lastKey]) {
+      applyState(data.months[lastKey].state);
+      markSaved();
+    } else {
+      resetFormSilent();
+      document.getElementById('f-nombre').value = currentProjectName;
+      render();
+      markUnsaved();
+    }
+    await refreshHistorySelect();
+  } catch(e) {
+    await modalAlert('⚠ Error cargando el proyecto: ' + e.message);
+  }
+}
+
+async function onHistoryChange() {
+  const sel = document.getElementById('history-select');
+  const mk = sel.value;
+  if (!currentProjectName) return;
+  if (!mk) { markUnsaved(); return; } // "mes actual sin guardar" — no tocamos el form
+  const data = await getProjectData(currentProjectName);
+  const entry = data.months[mk];
+  if (entry) {
+    applyState(entry.state);
+    markSaved();
+  }
+}
+
+async function guardarMesActual() {
+  if (!currentProjectName) {
+    await modalAlert('Primero selecciona o crea un proyecto arriba.');
+    return;
+  }
+  const label = await modalPrompt('Etiqueta para este guardado (ej: "Jul 2026")', monthLabel(currentMonthKey()));
+  if (label === null) return;
+
+  const data = await getProjectData(currentProjectName);
+  const mk = currentMonthKey() + (data.months[currentMonthKey()] ? '-' + Date.now() : '');
+  const finalKey = data.months[currentMonthKey()] ? mk : currentMonthKey();
+
+  data.months[finalKey] = { label: label.trim() || monthLabel(finalKey), state: captureState(), savedAt: new Date().toISOString() };
+  if (!data.order) data.order = [];
+  if (!data.order.includes(finalKey)) data.order.push(finalKey);
+
+  try {
+    await saveProjectData(currentProjectName, data);
+    markSaved();
+    await refreshHistorySelect();
+    document.getElementById('history-select').value = finalKey;
+    await modalAlert(`✅ Guardado: ${currentProjectName} — ${label}`);
+  } catch(e) {
+    await modalAlert('❌ Error al guardar: ' + e.message);
+  }
+}
+
+function markUnsaved() {
+  hasUnsavedChanges = true;
+  const el = document.getElementById('proj-status');
+  el.className = 'proj-status unsaved';
+  el.innerHTML = '<div class="dot"></div><span>Cambios sin guardar</span>';
+}
+function markSaved() {
+  hasUnsavedChanges = false;
+  const el = document.getElementById('proj-status');
+  el.className = 'proj-status saved';
+  el.innerHTML = '<div class="dot"></div><span>Guardado</span>';
+}
+
+// Reset silencioso (sin confirm dialog) usado internamente al cambiar de proyecto
+function resetFormSilent() {
   document.querySelectorAll('input[type=text], textarea').forEach(el => el.value='');
-  kpis = [{ name:'KPI 1', refs:'Base X · Target Y', target:80, higherIsBetter:true, values:[70,72,75,78,80], weekStart:'W1' }];
+  kpis = [{ name:'KPI 1', refs:'Base X · Target Y', target:80, higherIsBetter:true, values:[70,72,75,78,80], weekStart:'Ene' }];
   faseStates = ['pending','pending','pending','pending','pending','pending','pending'];
   ['paso-editor','pasos-editor','obs-editor'].forEach(id => document.getElementById(id).innerHTML='');
   currentStatus = 'green';
   document.querySelectorAll('.status-btn').forEach(b => b.className='status-btn');
-  document.querySelector('.status-btn').className='status-btn sel-green';
+  const firstBtn = document.querySelector('.status-btn');
+  if (firstBtn) firstBtn.className='status-btn sel-green';
   uploadedImageSrc = null; renderImagePreview();
-  renderKPIEditor(); renderFasesEditor(); render();
+  renderKPIEditor(); renderFasesEditor();
+}
+
+// Marca "sin guardar" cada vez que el usuario edita algo
+function watchForChanges() {
+  document.querySelector('.form-panel').addEventListener('input', () => {
+    if (currentProjectName) markUnsaved();
+  });
+  document.querySelector('.form-panel').addEventListener('click', (e) => {
+    if (currentProjectName && (e.target.classList.contains('phase-dot') || e.target.classList.contains('status-btn') || e.target.classList.contains('remove-btn'))) {
+      setTimeout(markUnsaved, 0);
+    }
+  });
+}
+
+// ── INIT PERSISTENCIA ───────────────────────────────────────────────────────────
+async function initPersistence() {
+  await refreshProjectSelect();
+  watchForChanges();
+
+  if (!hasClaudeStorage) {
+    // Verificamos si localStorage realmente funciona (no solo si existe)
+    let localStorageWorks = true;
+    try {
+      localStorage.setItem('__test__', '1');
+      localStorage.removeItem('__test__');
+    } catch(e) {
+      localStorageWorks = false;
+    }
+
+    const bar = document.querySelector('.proj-bar');
+    const notice = document.createElement('div');
+    notice.style.cssText = 'width:100%;background:#3A2A00;color:#FFD980;font-size:9px;padding:6px 8px;border-radius:4px;margin-top:4px;line-height:1.4;';
+    if (localStorageWorks) {
+      notice.innerHTML = '⚠ Historial guardado solo en este navegador (no compartido con el equipo). Para historial compartido, abre este generador dentro de Claude.ai.';
+    } else {
+      notice.style.background = '#3A0A0A';
+      notice.style.color = '#FFB0B0';
+      notice.innerHTML = '❌ Este navegador está bloqueando el guardado local (localStorage deshabilitado). Es probable que una política de seguridad corporativa lo impida. Prueba en otro navegador o en modo normal (no incógnito).';
+    }
+    bar.appendChild(notice);
+  }
 }
 
 init();
+initPersistence();
 </script>
 </body>
 </html>
