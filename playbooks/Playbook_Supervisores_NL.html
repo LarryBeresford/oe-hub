@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Playbook OE — Boletín Mensual (Supervisores)</title>
+<style>
+  :root {
+    --yellow: #FFD001;
+    --yellow-dark: #E6BB00;
+    --yellow-bg: #FFFBEA;
+    --dark: #1A1A1A;
+    --light-bg: #F5F5F5;
+    --white: #FFFFFF;
+    --border: #E2E2E2;
+    --green: #1FA463;
+    --blue: #1E5BA8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--light-bg);
+    color: var(--dark);
+    line-height: 1.5;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; background: var(--white); min-height: 100vh; }
+
+  .hdr { background: var(--dark); padding: 34px 40px 28px; position: relative; border-bottom: 5px solid var(--yellow); }
+  .hdr-eyebrow { font-size: 11px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--yellow); margin-bottom: 10px; }
+  .hdr-title { font-size: 30px; font-weight: 900; color: var(--white); line-height: 1.15; }
+  .hdr-sub { font-size: 13.5px; color: #c9c9c9; margin-top: 8px; max-width: 560px; }
+  .hdr-badge {
+    display: inline-block; margin-top: 16px; background: var(--yellow); color: var(--dark);
+    font-weight: 800; font-size: 11.5px; letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 8px 16px; border-radius: 20px;
+  }
+  .hdr-ver { font-size: 11px; color: #999; margin-top: 14px; }
+
+  .content { padding: 32px 40px 10px; }
+  .section { margin-bottom: 40px; }
+  .section-num {
+    display: inline-flex; align-items: center; gap: 10px; margin-bottom: 14px;
+  }
+  .section-num .dot {
+    width: 30px; height: 30px; border-radius: 50%; background: var(--dark); color: var(--yellow);
+    display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; flex-shrink: 0;
+  }
+  .section-num .txt { font-size: 19px; font-weight: 800; color: var(--dark); }
+  .section-body { padding-left: 40px; font-size: 14px; color: #444; }
+  .section-body p { margin-bottom: 10px; }
+
+  .card {
+    background: var(--light-bg); border-left: 3px solid var(--yellow); border-radius: 8px;
+    padding: 16px 18px; margin-top: 12px;
+  }
+  .card b { color: var(--dark); }
+  .card ul { margin: 8px 0 0 18px; padding: 0; }
+  .card li { margin-bottom: 5px; font-size: 13.5px; }
+  .card.highlight { background: var(--yellow-bg); border-left-color: var(--yellow-dark); }
+
+  /* Relay flow */
+  .flow { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+  .flow-step {
+    flex: 1 1 190px; background: var(--white); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px; position: relative;
+  }
+  .flow-step.you { background: var(--dark); border-color: var(--dark); }
+  .flow-step .tag {
+    font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #999; margin-bottom: 6px;
+  }
+  .flow-step.you .tag { color: var(--yellow); }
+  .flow-step .title { font-size: 13.5px; font-weight: 800; color: var(--dark); margin-bottom: 8px; }
+  .flow-step.you .title { color: var(--white); }
+  .flow-step ul { margin: 0 0 0 16px; padding: 0; }
+  .flow-step li { font-size: 11.5px; color: #555; margin-bottom: 3px; }
+  .flow-step.you li { color: #ddd; }
+  .flow-arrow { display: flex; align-items: center; justify-content: center; color: var(--yellow-dark); font-size: 20px; font-weight: 900; flex: 0 0 20px; }
+  @media (max-width: 700px) { .flow { flex-direction: column; } .flow-arrow { transform: rotate(90deg); } }
+
+  /* Date steps */
+  .datestep { border-radius: 8px; padding: 14px 18px; margin-bottom: 12px; display: flex; gap: 14px; align-items: flex-start; }
+  .datestep.d1 { background: #FFF8DC; border: 1.5px solid #EAD98A; }
+  .datestep.d2 { background: var(--yellow-bg); border: 1.5px solid var(--yellow); }
+  .datestep .chip {
+    background: var(--dark); color: var(--yellow); font-size: 10px; font-weight: 800;
+    letter-spacing: 0.04em; text-transform: uppercase; padding: 5px 10px; border-radius: 4px;
+    white-space: nowrap; flex-shrink: 0; margin-top: 2px;
+  }
+  .datestep .txt b { display: block; font-size: 14px; color: var(--dark); margin-bottom: 3px; }
+  .datestep .txt span { font-size: 13px; color: #555; }
+
+  .steps-after { margin-top: 16px; }
+  .steps-after li { font-size: 13.5px; color: #444; margin-bottom: 8px; padding-left: 4px; }
+  .steps-after b { color: var(--dark); }
+
+  /* Area cards for Forms */
+  .area-card {
+    border: 1px solid var(--border); border-radius: 12px; padding: 22px; margin-top: 20px;
+    display: grid; grid-template-columns: 130px 1fr; gap: 20px; align-items: center;
+  }
+  .area-card img { width: 130px; border-radius: 8px; border: 1px solid var(--border); }
+  .area-title { font-size: 17px; font-weight: 800; color: var(--dark); margin-bottom: 8px; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .chips span {
+    background: var(--dark); color: var(--yellow); font-size: 10px; font-weight: 700;
+    padding: 4px 9px; border-radius: 3px;
+  }
+  .area-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 800;
+    text-decoration: none; padding: 10px 18px; border-radius: 20px;
+  }
+  .btn-primary { background: var(--yellow); color: var(--dark); }
+  .btn-secondary { background: var(--light-bg); color: var(--dark); border: 1px solid var(--border); }
+  @media (max-width: 600px) { .area-card { grid-template-columns: 1fr; text-align: center; } .area-card img { margin: 0 auto; } .area-actions { justify-content: center; } }
+
+  .qr-hint { font-size: 12px; color: #888; margin-top: 8px; }
+
+  .photo-note {
+    background: #EFF6FF; border-left: 3px solid var(--blue); border-radius: 8px;
+    padding: 12px 16px; font-size: 13px; color: #333; margin-top: 20px;
+  }
+
+  /* Checklists */
+  .checklist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; }
+  @media (max-width: 700px) { .checklist-grid { grid-template-columns: 1fr; } }
+  .checklist { background: var(--light-bg); border-radius: 10px; padding: 16px 18px; }
+  .checklist .cl-title { font-size: 13.5px; font-weight: 800; color: var(--dark); margin-bottom: 10px; }
+  .checklist ul { margin: 0; padding: 0; list-style: none; }
+  .checklist li { font-size: 13px; color: #444; margin-bottom: 9px; padding-left: 22px; position: relative; line-height: 1.4; }
+  .checklist li::before { content: '✓'; position: absolute; left: 0; top: 0; color: var(--green); font-weight: 900; }
+
+  .footer {
+    background: var(--yellow); padding: 18px 40px; margin-top: 10px;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+  }
+  .footer .f-title { font-size: 13px; font-weight: 900; color: var(--dark); }
+  .footer .f-sub { font-size: 10.5px; color: #444; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hdr">
+    <div class="hdr-eyebrow">Mercado Libre · OE MLM</div>
+    <div class="hdr-title">Playbook OE — Boletín Mensual</div>
+    <div class="hdr-sub">Guía rápida para llenar tu Form del boletín: First Mile, Service Center y Quality.</div>
+    <div class="hdr-badge">Versión Supervisores</div>
+    <div class="hdr-ver">v2.2 · 21-ago-2026 · PMO OE MLM</div>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-num"><div class="dot">1</div><div class="txt">Qué es esto y por qué</div></div>
+      <div class="section-body">
+        <p>Cada mes, el equipo de OE arma un boletín con lo más relevante de tu área: proyectos activos, eventos, ingresos nuevos y (para Quality) los KPIs del mes, sus propios proyectos y Programas de Excelencia. Toda esa información sale de <b>un solo lugar: el Form que tú llenas</b>. Sin tu Form, tu área no aparece en el boletín.</p>
+        <div class="card">
+          <b>Por qué vale la pena llenarlo:</b>
+          <ul>
+            <li>Tu equipo y tus logros quedan visibles para managers y otras áreas.</li>
+            <li>Toma <b>5–10 minutos</b>, una vez al mes.</li>
+            <li>Puedes editar tu respuesta después de enviarla, sin volver a empezar.</li>
+            <li>No necesitas Excel, ni Sheets, ni nada técnico: solo el Form.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-num"><div class="dot">2</div><div class="txt">Cómo funciona el proceso</div></div>
+      <div class="section-body">
+        <p>Piensa en esto como una <b>carrera de relevos</b>: tu Focal te entrega la estafeta (la información), tú la llevas al Form, y de ahí en adelante corre sola hasta llegar a todo MLM. Tu tramo es corto, pero es el más importante: si se te pasa la fecha, tu área se queda fuera del boletín.</p>
+
+        <div class="flow">
+          <div class="flow-step">
+            <div class="tag">Tu Focal</div>
+            <div class="title">Te pasa la posta</div>
+            <ul><li>Actualiza su proyecto</li><li>Te comparte el avance</li><li>Es tu insumo de partida</li></ul>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step you">
+            <div class="tag">Tu parte</div>
+            <div class="title">Revisas y cargas el Form</div>
+            <ul><li>Revisas el catálogo de tu región</li><li>Decides si hay historia de éxito</li><li>Cargas todo en el Form</li></ul>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="tag">Equipo OE</div>
+            <div class="title">Se procesa automático</div>
+            <ul><li>PMO filtra y limpia</li><li>La app arma los 3 boletines</li><li>Tú no haces nada aquí</li></ul>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="tag">Publicación</div>
+            <div class="title">Sale a todo MLM</div>
+            <ul><li>Manager y Supervisor aprueban</li><li>Se envía a la organización</li><li>Tu área queda visible</li></ul>
+          </div>
+        </div>
+
+        <div class="card highlight">
+          <b>Por eso el momento importa:</b> si cargas tu Form después de tu fecha, tu área se queda fuera de ese boletín. Ver la sección 3 (&ldquo;Cuándo llenarlo&rdquo;) para la fecha exacta.
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-num"><div class="dot">3</div><div class="txt">Cuándo llenarlo</div></div>
+      <div class="section-body">
+        <p>Estas fechas se repiten <b>todos los meses</b>: no cambian aunque cambie el mes o el año. Solo hay que recordar 2 cosas: cuándo tu Focal te pasa la posta, y cuándo tú se la entregas al equipo de OE.</p>
+
+        <div class="datestep d1">
+          <div class="chip">Penúltimo viernes</div>
+          <div class="txt"><b>Tu Focal te actualiza su proyecto</b><span>En criollo: tu Focal de OE te manda la info al día. Este es tu insumo para el siguiente paso.</span></div>
+        </div>
+        <div class="datestep d2">
+          <div class="chip">Tu paso · Último lunes</div>
+          <div class="txt"><b>Revisas y cargas el Form</b><span>En criollo: revisas el catálogo de tu región, decides si hay una historia de éxito, y cargas todo en el Form oficial. Esta es tu fecha límite real.</span></div>
+        </div>
+
+        <p style="margin-top:18px"><b>Después de tu paso, ya no depende de ti:</b></p>
+        <ol class="steps-after">
+          <li><b>Lunes de la 1a semana</b> (del mes siguiente). El PMO de OE revisa y limpia la información; la app arma los 3 boletines sola.</li>
+          <li><b>Antes del lunes de la 2a semana.</b> El Manager y el Supervisor de Gestión de OE revisan y aprueban contenido y calidad.</li>
+          <li><b>Lunes de la 2a semana.</b> El boletín se publica y se comparte con todo MLM. Tu área ya queda visible.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-num"><div class="dot">4</div><div class="txt">Tu Form</div></div>
+      <div class="section-body">
+        <p>Busca tu área abajo y usa cualquiera de las dos opciones:</p>
+        <ul style="margin:8px 0 0 18px; font-size: 13.5px; color:#444;">
+          <li style="margin-bottom:6px"><b>Desde tu celular:</b> abre la cámara y apunta al código QR (no necesitas una app especial, la cámara lo reconoce sola); toca la notificación que aparece para abrir el Form.</li>
+          <li><b>Desde tu computadora:</b> da clic directamente en el botón amarillo &ldquo;Responder Form&rdquo;; se abre en tu navegador, igual que cualquier Google Form.</li>
+        </ul>
+
+        <div class="photo-note">
+          <b>¿Vas a incluir fotos?</b> (opcional) Primero sube tus imágenes a la <b>carpeta de fotos</b> de tu área (botón &ldquo;Carpeta de fotos&rdquo; abajo). Luego, dentro de Drive, clic derecho sobre cada foto → <b>Compartir</b> → <b>Copiar enlace</b>, y pega ese link en la pregunta correspondiente del Form.
+        </div>
+
+        <!-- First Mile -->
+        <div class="area-card">
+          <img src="qr/QR_FirstMile.png" alt="QR First Mile"/>
+          <div>
+            <div class="area-title">First Mile</div>
+            <div class="chips"><span>First Mile</span><span>Cross Dock</span><span>Sort Center</span><span>TOM</span></div>
+            <div class="area-actions">
+              <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSeVnYIX7DU0_gXKienuEPpBQwApll8FfDY0Klm4Mx-QYeK3Zg/viewform" target="_blank" rel="noopener">Responder Form</a>
+              <a class="btn btn-secondary" href="https://drive.google.com/drive/folders/1PlEISmRix5iD_M8NW5fXHN0lxeheiXRK" target="_blank" rel="noopener">Carpeta de fotos</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Service Center -->
+        <div class="area-card">
+          <img src="qr/QR_ServiceCenter.png" alt="QR Service Center"/>
+          <div>
+            <div class="area-title">Service Center</div>
+            <div class="chips"><span>Service Center</span><span>Last Mile</span><span>SVC</span><span>LM</span></div>
+            <div class="area-actions">
+              <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSeMYkJM12AhCzB3VlvUbZ4WaARWrQotAZm5gcxRHj-z_g9eNw/viewform" target="_blank" rel="noopener">Responder Form</a>
+              <a class="btn btn-secondary" href="https://drive.google.com/drive/folders/1bSokpLlLd_8-b8lUfSOdDi8S6akZ4Vkj" target="_blank" rel="noopener">Carpeta de fotos</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quality -->
+        <div class="area-card">
+          <img src="qr/QR_Quality.png" alt="QR Quality"/>
+          <div>
+            <div class="area-title">Quality</div>
+            <div class="chips"><span>Quality</span><span>Auditorías</span><span>No Conformidades</span></div>
+            <div class="area-actions">
+              <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLScinAAulrnMkwej1DspULff2jYEBjY_oHzE44LDUl0GPDC0zg/viewform" target="_blank" rel="noopener">Responder Form</a>
+              <a class="btn btn-secondary" href="https://drive.google.com/drive/folders/1x0z2tXaet_nZE2CdXZX4Fg02-VvF_Jkb" target="_blank" rel="noopener">Carpeta de fotos</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-num"><div class="dot">5</div><div class="txt">Qué vas a necesitar</div></div>
+      <div class="section-body">
+        <p>No necesitas preparar nada especial. Si quieres llegar con todo listo antes de sentarte a llenarlo, esto ayuda:</p>
+
+        <div class="checklist-grid">
+          <div class="checklist">
+            <div class="cl-title">First Mile y Service Center</div>
+            <ul>
+              <li>Lista de proyectos activos del mes (nombre, estatus, breve descripción). El Form permite hasta <b>6 proyectos</b>, pero no es obligatorio llenarlos todos: prioriza los de mayor impacto.</li>
+              <li>Historias de éxito (opcional, máximo <b>2 por mes</b>): título claro, descripción breve del impacto, y una métrica o dato que lo respalde.</li>
+              <li>Eventos relevantes del mes (capacitaciones, visitas, incidentes, logros).</li>
+              <li>Nuevos ingresos al equipo (nombre completo y correo @mercadolibre.com, si aplica).</li>
+              <li>Links a fotos de evidencia (opcional, sube antes al Drive de tu área).</li>
+            </ul>
+          </div>
+          <div class="checklist">
+            <div class="cl-title">Quality</div>
+            <ul>
+              <li>Mensaje de bienvenida del mes (2–3 líneas): tu resumen ejecutivo.</li>
+              <li>Proyectos o iniciativas del mes (nombre, estatus, breve descripción). Hasta <b>6 proyectos</b>, no obligatorio llenarlos todos.</li>
+              <li>Secciones editoriales: <b>Resultados del Cierre</b> y <b>Posicionamiento en Auditorías</b>, hasta <b>2 historias por sección</b>.</li>
+              <li>Eventos relevantes del mes (capacitaciones, visitas, auditorías, logros) — igual que First Mile y Service Center.</li>
+              <li>Nuevos ingresos al equipo (nombre completo y correo @mercadolibre.com, si aplica) — igual que First Mile y Service Center.</li>
+              <li>Links a fotos de evidencia (opcional, sube antes al Drive de tu área).</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card highlight" style="margin-top:16px">
+          <b>No te preocupes si algo no aplica.</b> Deja en blanco lo que no tenga contenido real ese mes. No necesitas llenar todos los espacios de proyectos o eventos si no hay ese mes; solo llena los que tengan información real.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="f-title">Playbook OE — Boletín Mensual · Supervisores</div>
+    <div class="f-sub">Larry Beresford · Mónica Gallardo · Ricardo Almanza &nbsp;|&nbsp; PMO OE MLM</div>
+  </div>
+
+</div>
+</body>
+</html>
