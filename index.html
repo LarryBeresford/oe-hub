@@ -341,7 +341,9 @@
 
   .learn-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
   .learn-card { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:20px; }
-  .learn-card-title { font-size:14px; font-weight:800; margin-bottom:6px; }
+  a.learn-card { display:block; text-decoration:none; color:inherit; transition:box-shadow .15s, transform .15s; }
+  a.learn-card:hover { box-shadow:0 6px 20px rgba(0,0,0,0.08); transform:translateY(-2px); }
+  .learn-card-title { font-size:14px; font-weight:800; margin-bottom:6px; color:var(--dark); }
   .learn-card-sub { font-size:12px; color:#999; line-height:1.5; }
   .video-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(420px,1fr)); gap:16px; }
   .video-embed { position:relative; padding-top:56.25%; min-height:280px; border-radius:8px; overflow:hidden; border:1px solid var(--border); background:#000; margin-top:12px; }
