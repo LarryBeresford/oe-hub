@@ -87,7 +87,7 @@
   .nav-group.open .nav-chevron { transform: rotate(90deg); }
 
   .nav-sub { max-height:0; overflow:hidden; transition: max-height 0.18s ease; }
-  .nav-group.open + .nav-sub { max-height:200px; }
+  .nav-group.open + .nav-sub { max-height:260px; }
   .nav-sub-item {
     width:100%; display:flex; align-items:center; gap:9px;
     padding: 8px 16px 8px 42px; background:none; border:none;
@@ -97,6 +97,7 @@
   }
   .nav-sub-item:hover { color: var(--white); background: rgba(255,255,255,0.04); }
   .nav-sub-item.active { color: var(--yellow); border-left-color: var(--yellow); background: rgba(255,208,1,0.06); }
+  a.nav-sub-item { text-decoration: none; }
 
   .sidebar-footer {
     padding: 12px 16px; border-top: 1px solid #2a2a2a;
@@ -420,7 +421,18 @@
 
     <button class="nav-direct" onclick="go('slides', this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5Z"/><path d="M9 20h6M12 16v4"/></svg></span><span>Generador de Slides</span></button>
 
-    <button class="nav-direct" onclick="go('aprendizaje', this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 3 8.5 12 13l9-4.5L12 4Z"/><path d="M6.5 10.6V15c0 1.4 2.5 3 5.5 3s5.5-1.6 5.5-3v-4.4"/></svg></span><span>Aprendizaje Continuo</span></button>
+    <button class="nav-direct nav-group" id="navAprendizaje" onclick="toggleGroup('navAprendizaje')">
+      <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 3 8.5 12 13l9-4.5L12 4Z"/><path d="M6.5 10.6V15c0 1.4 2.5 3 5.5 3s5.5-1.6 5.5-3v-4.4"/></svg></span>
+      <span>Aprendizaje Continuo</span>
+      <span class="nav-chevron"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+    </button>
+    <div class="nav-sub">
+      <a class="nav-sub-item" href="aprendizaje/Playbooks.html" target="_blank" rel="noopener"><span>Playbooks</span></a>
+      <a class="nav-sub-item" href="aprendizaje/Sesiones_Grabadas.html" target="_blank" rel="noopener"><span>Sesiones grabadas</span></a>
+      <a class="nav-sub-item" href="aprendizaje/Glosario_OE.html" target="_blank" rel="noopener"><span>Glosario OE</span></a>
+      <a class="nav-sub-item" href="aprendizaje/Documentos_Referencia.html" target="_blank" rel="noopener"><span>Documentos de referencia</span></a>
+      <a class="nav-sub-item" href="aprendizaje/Tutoriales_MELI_Axis.html" target="_blank" rel="noopener"><span>Tutoriales MELI Axis</span></a>
+    </div>
   </nav>
   <div class="sidebar-footer"></div>
 </aside>
@@ -475,7 +487,7 @@
           <div class="quick-card-title">Directorio</div>
           <div class="quick-card-sub">Líderes de OE por región, con correo directo.</div>
         </button>
-        <button class="quick-card" onclick="go('aprendizaje', document.querySelectorAll('.nav-direct')[6])">
+        <button class="quick-card" onclick="go('aprendizaje', document.querySelectorAll('.nav-direct')[6]); openGroupFor('navAprendizaje')">
           <div class="quick-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 3 8.5 12 13l9-4.5L12 4Z"/><path d="M6.5 10.6V15c0 1.4 2.5 3 5.5 3s5.5-1.6 5.5-3v-4.4"/></svg></div>
           <div class="quick-card-title">Aprendizaje Continuo</div>
           <div class="quick-card-sub">Guías, cursos y material de referencia.</div>
