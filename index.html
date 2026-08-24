@@ -176,6 +176,7 @@
   .routine-tab.active { background: var(--dark); color: var(--yellow); border-color: var(--dark); }
   .routine-panel { display:none; }
   .routine-panel.active { display:block; }
+  .learn-panel-link { display:flex; justify-content:flex-end; margin-bottom:10px; }
   .routine-placeholder {
     background: var(--white); border:1px dashed var(--border); border-radius:12px;
     padding:32px; color:#999; font-size:13px; line-height:1.7;
@@ -881,37 +882,73 @@
         <div class="page-title">Aprendizaje Continuo</div>
         <div class="page-desc">Guías, cursos y material de referencia para el equipo de OE.</div>
       </div>
-      <div class="tool-grid">
-        <a class="tool-card" href="aprendizaje/Playbooks.html" target="_blank" rel="noopener">
-          <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M8 12h8M8 16h8M8 8h3"/></svg></div>
-          <div class="tool-card-title">Playbooks</div>
-          <div class="tool-card-sub">Guías paso a paso para procesos operativos y de gestión (empieza con el del Newsletter).</div>
-          <div class="tool-card-link">Abrir <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
-        </a>
-        <a class="tool-card" href="aprendizaje/Sesiones_Grabadas.html" target="_blank" rel="noopener">
-          <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m10 8 6 4-6 4V8Z"/></svg></div>
-          <div class="tool-card-title">Sesiones grabadas</div>
-          <div class="tool-card-sub">Grabaciones de capacitaciones del equipo.</div>
-          <div class="tool-card-link">Abrir <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
-        </a>
-        <a class="tool-card" href="aprendizaje/Glosario_OE.html" target="_blank" rel="noopener">
-          <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg></div>
-          <div class="tool-card-title">Glosario OE</div>
-          <div class="tool-card-sub">Siglas y términos propios de Excelencia Operacional.</div>
-          <div class="tool-card-link">Abrir <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
-        </a>
-        <a class="tool-card" href="aprendizaje/Documentos_Referencia.html" target="_blank" rel="noopener">
-          <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
-          <div class="tool-card-title">Documentos de referencia</div>
-          <div class="tool-card-sub">Master File OE 2026 y Nueva Regionalización TTE MLM.</div>
-          <div class="tool-card-link">Abrir <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
-        </a>
-        <a class="tool-card" href="aprendizaje/Tutoriales_MELI_Axis.html" target="_blank" rel="noopener">
-          <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="m22 8-6 4 6 4V8Z"/></svg></div>
-          <div class="tool-card-title">Tutoriales MELI Axis</div>
-          <div class="tool-card-sub">Video-tutoriales grabados por Mónica Gallardo.</div>
-          <div class="tool-card-link">Abrir <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
-        </a>
+
+      <div class="routine-tabs learn-tabs">
+        <button class="routine-tab learn-tab active" id="learntab-playbooks" onclick="learnTab('playbooks')">Playbooks</button>
+        <button class="routine-tab learn-tab" id="learntab-sesiones" onclick="learnTab('sesiones')">Sesiones grabadas</button>
+        <button class="routine-tab learn-tab" id="learntab-glosario" onclick="learnTab('glosario')">Glosario OE</button>
+        <button class="routine-tab learn-tab" id="learntab-documentos" onclick="learnTab('documentos')">Documentos de referencia</button>
+        <button class="routine-tab learn-tab" id="learntab-tutoriales" onclick="learnTab('tutoriales')">Tutoriales MELI Axis</button>
+      </div>
+
+      <div class="routine-panel learn-panel active" id="learnpanel-playbooks">
+        <div class="learn-panel-link"><a class="i18n-link" href="aprendizaje/Playbooks.html" target="_blank" rel="noopener">Abrir página completa ↗</a></div>
+        <div class="learn-card">
+          <div class="learn-card-title">Playbook del proceso NL</div>
+          <div class="learn-card-sub">Guía paso a paso para Focales y Supervisores: cómo llenar el Form y cómo corre el proceso mensual del Newsletter.</div>
+        </div>
+        <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:600px; margin-top:14px;">
+          <iframe src="playbooks/Playbook_Supervisores_NL.html" style="width:100%; height:100%; border:none; display:block;" title="Vista previa — Playbook del proceso NL"></iframe>
+        </div>
+      </div>
+
+      <div class="routine-panel learn-panel" id="learnpanel-sesiones">
+        <div class="learn-panel-link"><a class="i18n-link" href="aprendizaje/Sesiones_Grabadas.html" target="_blank" rel="noopener">Abrir página completa ↗</a></div>
+        <div class="learn-card" style="border:1px dashed var(--yellow-dark); background:var(--yellow-bg);">
+          <div class="learn-card-title">Todavía no hay grabaciones cargadas</div>
+          <div class="learn-card-sub">En cuanto el equipo comparta una sesión de capacitación, va a aparecer aquí. Por ahora no hay nada que previsualizar.</div>
+        </div>
+      </div>
+
+      <div class="routine-panel learn-panel" id="learnpanel-glosario">
+        <div class="learn-panel-link"><a class="i18n-link" href="aprendizaje/Glosario_OE.html" target="_blank" rel="noopener">Abrir página completa ↗</a></div>
+        <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:520px;">
+          <iframe src="aprendizaje/Glosario_OE.html" style="width:100%; height:100%; border:none; display:block;" title="Vista previa — Glosario OE"></iframe>
+        </div>
+      </div>
+
+      <div class="routine-panel learn-panel" id="learnpanel-documentos">
+        <div class="learn-panel-link"><a class="i18n-link" href="aprendizaje/Documentos_Referencia.html" target="_blank" rel="noopener">Abrir página completa ↗</a></div>
+        <div class="learn-grid">
+          <div class="learn-card">
+            <div class="learn-card-title">Master File OE 2026 MLM</div>
+            <div class="learn-card-sub">Material de apoyo compartido por Rich.</div>
+            <a href="https://docs.google.com/spreadsheets/d/1AaCga2v8JP6cvwMYtUdZBwkPEqDwwIIp8tqTJgXkQ84/edit?gid=1008315651#gid=1008315651" target="_blank" rel="noopener" class="i18n-link" style="font-size:12px;font-weight:700;color:var(--yellow-dark);text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:10px;">Abrir Sheet <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
+          </div>
+          <div class="learn-card">
+            <div class="learn-card-title">Nueva Regionalización TTE MLM</div>
+            <div class="learn-card-sub">Material de apoyo compartido por Rich.</div>
+            <a href="https://docs.google.com/spreadsheets/d/1QQXp7LguAHs7CQeYTJki1QBVmMEnIWosHj1hz-X30aM/edit?userstoinvite=juan.lopezpulecio%40mercadolibre.com.mx&sharingaction=manageaccess&role=writer&pli=1&gid=1463053626#gid=1463053626" target="_blank" rel="noopener" class="i18n-link" style="font-size:12px;font-weight:700;color:var(--yellow-dark);text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:10px;">Abrir Sheet <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="routine-panel learn-panel" id="learnpanel-tutoriales">
+        <div class="learn-panel-link"><a class="i18n-link" href="aprendizaje/Tutoriales_MELI_Axis.html" target="_blank" rel="noopener">Abrir página completa ↗</a></div>
+        <div class="video-grid">
+          <div class="learn-card">
+            <div class="learn-card-title">Crear proyecto local</div>
+            <div class="learn-card-sub">Tutorial grabado por Mónica Gallardo.</div>
+            <div class="video-embed"><iframe src="https://drive.google.com/file/d/11T94kKnn95YRffXqMpxRA24OfC1ZnrcJ/preview" allow="autoplay" allowfullscreen title="Crear proyecto local"></iframe></div>
+            <a href="https://drive.google.com/file/d/11T94kKnn95YRffXqMpxRA24OfC1ZnrcJ/view" target="_blank" rel="noopener" class="i18n-link" style="font-size:11px;font-weight:700;color:var(--yellow-dark);text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:8px;">Ver en Drive <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12" stroke="currentColor"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
+          </div>
+          <div class="learn-card">
+            <div class="learn-card-title">Actualización de actividades quincenal</div>
+            <div class="learn-card-sub">Tutorial grabado por Mónica Gallardo.</div>
+            <div class="video-embed"><iframe src="https://drive.google.com/file/d/1obafXqUbSViOSj2SfjtgVXxGQiwA_E2M/preview" allow="autoplay" allowfullscreen title="Actualización de actividades quincenal"></iframe></div>
+            <a href="https://drive.google.com/file/d/1obafXqUbSViOSj2SfjtgVXxGQiwA_E2M/view" target="_blank" rel="noopener" class="i18n-link" style="font-size:11px;font-weight:700;color:var(--yellow-dark);text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:8px;">Ver en Drive <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12" stroke="currentColor"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -964,6 +1001,13 @@
     document.querySelectorAll('.routine-panel').forEach(p => p.classList.remove('active'));
     document.getElementById('tab-' + which).classList.add('active');
     document.getElementById('routine-' + which).classList.add('active');
+  }
+
+  function learnTab(which) {
+    document.querySelectorAll('.learn-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.learn-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('learntab-' + which).classList.add('active');
+    document.getElementById('learnpanel-' + which).classList.add('active');
   }
 
   function submitSuggestion() {
@@ -1130,6 +1174,9 @@
     'Crear proyecto local':'Create local project',
     'Actualización de actividades quincenal':'Biweekly activity update',
     'Abrir':'Open',
+    'Abrir página completa ↗':'Open full page ↗',
+    'Todavía no hay grabaciones cargadas':'No recordings uploaded yet',
+    'En cuanto el equipo comparta una sesión de capacitación, va a aparecer aquí. Por ahora no hay nada que previsualizar.':'As soon as the team shares a training session, it will show up here. For now there\'s nothing to preview.',
     'Tutorial grabado por Mónica Gallardo.':'Tutorial recorded by Mónica Gallardo.',
     'Ver en Drive':'View on Drive',
   };
@@ -1295,6 +1342,9 @@
     'Tutorial grabado por Mónica Gallardo.':'Tutorial gravado por Mónica Gallardo.',
     'Ver en Drive':'Ver no Drive',
     'Abrir':'Abrir',
+    'Abrir página completa ↗':'Abrir página completa ↗',
+    'Todavía no hay grabaciones cargadas':'Ainda não há gravações carregadas',
+    'En cuanto el equipo comparta una sesión de capacitación, va a aparecer aquí. Por ahora no hay nada que previsualizar.':'Assim que a equipe compartilhar uma sessão de treinamento, ela vai aparecer aqui. Por enquanto não há nada para pré-visualizar.',
   };
 
   const I18N_SELECTOR = [
@@ -1307,7 +1357,7 @@
     '.gestion-card-title', '.gestion-card-sub', '.gestion-card-link',
     '.tool-card-title', '.tool-card-sub', '.tool-card-link',
     '.suggest-title', '.suggest-sub', '.suggest-field label', '.suggest-submit', '.suggest-confirm',
-    '.coming-soon-title', '.coming-soon-sub', '.routine-tab',
+    '.coming-soon-title', '.coming-soon-sub', '.routine-tab', '.learn-tab',
     '.bulletin-month-label', '.bulletin-card-title', '.bulletin-card-sub', '.bulletin-card-link',
     '.org-top-role', '.region-note', '.orgfull-tier-label', '.orgfull-role',
     '.learn-card-title', '.learn-card-sub', '.i18n-link',
