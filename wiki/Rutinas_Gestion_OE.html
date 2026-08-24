@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Wiki — Rutinas de Gestión OE</title>
+<style>
+  :root {
+    --yellow: #FFD001;
+    --yellow-dark: #E6BB00;
+    --yellow-bg: #FFFBEA;
+    --dark: #1A1A1A;
+    --light-bg: #F5F5F5;
+    --white: #FFFFFF;
+    --border: #E2E2E2;
+    --green: #1FA463;
+    --blue: #1E5BA8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--light-bg);
+    color: var(--dark);
+    line-height: 1.5;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; background: var(--white); min-height: 100vh; }
+
+  .hdr { background: var(--dark); padding: 34px 40px 28px; border-bottom: 5px solid var(--yellow); }
+  .hdr-eyebrow { font-size: 11px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--yellow); margin-bottom: 10px; }
+  .hdr-title { font-size: 28px; font-weight: 900; color: var(--white); line-height: 1.15; }
+  .hdr-sub { font-size: 13.5px; color: #c9c9c9; margin-top: 8px; max-width: 620px; }
+  .hdr-ver { font-size: 11px; color: #999; margin-top: 14px; }
+
+  .toc { display: flex; gap: 10px; flex-wrap: wrap; padding: 18px 40px; background: var(--light-bg); border-bottom: 1px solid var(--border); }
+  .toc a { font-size: 12px; font-weight: 700; color: var(--dark); text-decoration: none; background: var(--white); border: 1px solid var(--border); padding: 7px 14px; border-radius: 20px; }
+  .toc a:hover { border-color: var(--yellow-dark); }
+
+  .content { padding: 8px 40px 20px; }
+  .section { margin: 36px 0; scroll-margin-top: 20px; }
+  .section-num { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .section-num .dot { width: 30px; height: 30px; border-radius: 50%; background: var(--dark); color: var(--yellow); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; flex-shrink: 0; }
+  .section-num .txt { font-size: 20px; font-weight: 800; color: var(--dark); }
+  .section-tag { font-size: 12px; color: #888; margin: 0 0 16px 40px; }
+  .section-body { padding-left: 0; font-size: 14px; color: #444; }
+  .section-body p { margin-bottom: 12px; }
+
+  .cadence {
+    background: var(--yellow-bg); border-left: 3px solid var(--yellow-dark); border-radius: 8px;
+    padding: 12px 16px; font-size: 13px; color: #333; margin-bottom: 18px;
+  }
+
+  /* Linear flow */
+  .flow { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0 18px; }
+  .flow-step {
+    flex: 1 1 150px; background: var(--white); border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px 14px; position: relative;
+  }
+  .flow-step.gestion { background: var(--dark); border-color: var(--dark); }
+  .flow-step .tag { font-size: 9px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #999; margin-bottom: 6px; }
+  .flow-step.gestion .tag { color: var(--yellow); }
+  .flow-step .title { font-size: 12.5px; font-weight: 800; color: var(--dark); margin-bottom: 6px; line-height: 1.3; }
+  .flow-step.gestion .title { color: var(--white); }
+  .flow-step .desc { font-size: 11px; color: #666; line-height: 1.4; }
+  .flow-step.gestion .desc { color: #ccc; }
+  .flow-arrow { display: flex; align-items: center; justify-content: center; color: var(--yellow-dark); font-size: 16px; font-weight: 900; flex: 0 0 14px; }
+  @media (max-width: 760px) { .flow { flex-direction: column; } .flow-arrow { transform: rotate(90deg); } }
+
+  .loop-note { font-size: 11.5px; color: #888; font-style: italic; margin-top: -6px; margin-bottom: 18px; }
+
+  .roles { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+  .roles span { background: var(--light-bg); border: 1px solid var(--border); font-size: 10.5px; font-weight: 700; color: #555; padding: 4px 10px; border-radius: 12px; }
+
+  .branch-card { background: var(--light-bg); border-radius: 10px; padding: 14px 18px; margin-top: 10px; }
+  .branch-card b { color: var(--dark); }
+
+  .nl-card { border: 1px solid var(--border); border-radius: 12px; padding: 22px; margin-top: 14px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .nl-card .nl-txt { flex: 1 1 340px; }
+  .nl-card .nl-title { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
+  .nl-card .nl-sub { font-size: 12.5px; color: #666; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 800; text-decoration: none; padding: 10px 18px; border-radius: 20px; background: var(--yellow); color: var(--dark); white-space: nowrap; }
+
+  .footer { background: var(--yellow); padding: 16px 40px; margin-top: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .footer .f-title { font-size: 13px; font-weight: 900; color: var(--dark); }
+  .footer .f-sub { font-size: 10.5px; color: #444; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hdr">
+    <div class="hdr-eyebrow">Mercado Libre · OE Transportes MLM</div>
+    <div class="hdr-title">Wiki — Rutinas de Gestión</div>
+    <div class="hdr-sub">Los 4 flujos recurrentes del área: actualización de proyectos, Backlog Continuo, iniciativas locales y el Newsletter mensual.</div>
+    <div class="hdr-ver">Fuente: presentación "Rutinas de Gestión OE TT MLM" · Mónica Gallardo</div>
+  </div>
+
+  <div class="toc">
+    <a href="#f1">1. Actualización de Proyectos</a>
+    <a href="#f2">2. Backlog Continuo</a>
+    <a href="#f3">3. Iniciativas Locales</a>
+    <a href="#f4">4. Newsletter (NL)</a>
+  </div>
+
+  <div class="content">
+
+    <div class="section" id="f1">
+      <div class="section-num"><div class="dot">1</div><div class="txt">Actualización de Proyectos</div></div>
+      <div class="section-tag">Local y Regional</div>
+      <div class="section-body">
+        <div class="cadence"><b>Cadencia:</b> se repite 2 veces al mes — del 10 al 15 y del 25 al 30 — actualizando los proyectos asignados en <b>Meli Axis</b>.</div>
+
+        <div class="flow">
+          <div class="flow-step gestion">
+            <div class="tag">Gestión</div>
+            <div class="title">1er recordatorio</div>
+            <div class="desc">5 días antes de la fecha límite</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step gestion">
+            <div class="tag">Gestión</div>
+            <div class="title">2do recordatorio</div>
+            <div class="desc">3 días antes de la fecha límite</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="tag">Focal CIE</div>
+            <div class="title">Actualización</div>
+            <div class="desc">Ingresa a Meli Axis, revisa el portafolio y sus actividades asignadas, comenta avances y actualiza el estatus.</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="tag">Supervisor / Manager</div>
+            <div class="title">Revisión</div>
+            <div class="desc">Revisa lo actualizado por su Focal CIE.</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step gestion">
+            <div class="tag">Gestión</div>
+            <div class="title">Actualiza tablero</div>
+            <div class="desc">Actualiza el tablero de proyectos con lo cargado.</div>
+          </div>
+        </div>
+        <div class="loop-note">El ciclo se repite en cada ventana (10–15 y 25–30 de cada mes).</div>
+      </div>
+    </div>
+
+    <div class="section" id="f2">
+      <div class="section-num"><div class="dot">2</div><div class="txt">Backlog Continuo</div></div>
+      <div class="section-tag">Iniciativas regionales</div>
+      <div class="section-body">
+        <p>Así se convierte una idea en una iniciativa formal con alcance <b>regional</b>, evaluada en dos mesas antes de pasar a la Tribu.</p>
+
+        <div class="flow">
+          <div class="flow-step gestion">
+            <div class="tag">Gestión</div>
+            <div class="title">1er y 2do recordatorio</div>
+            <div class="desc">5 y 3 días antes de la fecha límite</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="tag">Focal CIE</div>
+            <div class="title">Crear iniciativa</div>
+            <div class="desc">Construye el one page: propuesta de valor de la iniciativa.</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="tag">Mesa local</div>
+            <div class="title">Revisión local</div>
+            <div class="desc">Supervisores y Manager evalúan la viabilidad de la iniciativa.</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="tag">Mesa regional</div>
+            <div class="title">Revisión regional</div>
+            <div class="desc">Si la mesa local aprueba, sube vía Meli Axis a la mesa regional.</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="tag">Tribu</div>
+            <div class="title">Evaluación Tribu</div>
+            <div class="desc">Discusión y priorización de Q, si la mesa regional aprobó.</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step gestion">
+            <div class="tag">Gestión</div>
+            <div class="title">Tablero de iniciativas</div>
+            <div class="desc">Sube la iniciativa al tablero.</div>
+          </div>
+        </div>
+
+        <div class="branch-card">
+          <b>Nota:</b> el equipo de Gestión comparte a inicios de mes el estatus de todas las iniciativas generadas, a todo OE MLM, para conocimiento y seguimiento.
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="f3">
+      <div class="section-num"><div class="dot">3</div><div class="txt">Iniciativas Locales</div></div>
+      <div class="section-tag">Alcance local (no pasa por mesa regional ni Tribu)</div>
+      <div class="section-body">
+        <p>Mismo arranque que el Backlog Continuo, pero si la mesa local aprueba, la iniciativa se convierte directo en <b>proyecto</b> — sin subir a mesa regional ni a Tribu.</p>
+
+        <div class="flow">
+          <div class="flow-step gestion">
+            <div class="tag">Gestión</div>
+            <div class="title">1er y 2do recordatorio</div>
+            <div class="desc">5 y 3 días antes de la fecha límite</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="tag">Focal CIE</div>
+            <div class="title">Crear iniciativa</div>
+            <div class="desc">Construye el one page: propuesta de valor de la iniciativa.</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="tag">Mesa local</div>
+            <div class="title">Revisión local</div>
+            <div class="desc">Supervisores y Manager evalúan la viabilidad de la iniciativa.</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="tag">Gestión + Focal CIE</div>
+            <div class="title">Crear proyecto</div>
+            <div class="desc">Si la mesa local aprobó, se sube a Meli Axis como proyecto nuevo, listo para ejecución.</div>
+          </div>
+        </div>
+
+        <div class="branch-card">
+          <b>Nota:</b> el equipo de Gestión comparte a inicios de mes el estatus de todas las iniciativas generadas, a todo OE MLM, para conocimiento y seguimiento.
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="f4">
+      <div class="section-num"><div class="dot">4</div><div class="txt">Newsletter (NL)</div></div>
+      <div class="section-tag">Boletín mensual de Excelencia Operacional</div>
+      <div class="section-body">
+        <p>El flujo completo (fechas, roles, Forms y QR por área) ya vive en su propio playbook para supervisores. Aquí solo el resumen de fechas:</p>
+
+        <div class="flow">
+          <div class="flow-step">
+            <div class="tag">Focal</div>
+            <div class="title">Actualizar proyecto</div>
+            <div class="desc">Última semana del mes, máximo el día 30 (incluye MELI Axis).</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="tag">Supervisor</div>
+            <div class="title">Capturar Form</div>
+            <div class="desc">Fecha límite: primer miércoles del mes.</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="tag">Managers</div>
+            <div class="title">Revisión Managers</div>
+            <div class="desc">Fecha límite: primer viernes del mes.</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="tag">Sr. Manager</div>
+            <div class="title">Revisión Sr. Manager</div>
+            <div class="desc">Fecha límite: segundo martes del mes.</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step gestion">
+            <div class="tag">Publicación</div>
+            <div class="title">Sale a todo MLM</div>
+            <div class="desc">Al día siguiente de la autorización del Sr. Manager.</div>
+          </div>
+        </div>
+
+        <div class="nl-card">
+          <div class="nl-txt">
+            <div class="nl-title">Playbook OE — Boletín Mensual (Supervisores)</div>
+            <div class="nl-sub">Guía completa con QR, links de Form y carpetas de fotos por área (First Mile, Service Center, Quality).</div>
+          </div>
+          <a class="btn" href="../playbooks/Playbook_Supervisores_NL.html" target="_blank" rel="noopener">Abrir playbook</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="f-title">Wiki — Rutinas de Gestión OE</div>
+    <div class="f-sub">OE Transportes MLM</div>
+  </div>
+
+</div>
+</body>
+</html>
