@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Aprendizaje Continuo — Playbooks</title>
+<style>
+  :root {
+    --yellow: #FFD001;
+    --yellow-dark: #E6BB00;
+    --yellow-bg: #FFFBEA;
+    --dark: #1A1A1A;
+    --light-bg: #F5F5F5;
+    --white: #FFFFFF;
+    --border: #E2E2E2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family:'Segoe UI', system-ui, -apple-system, sans-serif; background:var(--light-bg); color:var(--dark); line-height:1.5; }
+  .wrap { max-width: 920px; margin: 0 auto; background: var(--white); min-height: 100vh; }
+
+  .hdr { background: var(--dark); padding: 34px 40px 28px; border-bottom: 5px solid var(--yellow); }
+  .hdr-eyebrow { font-size: 11px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--yellow); margin-bottom: 10px; }
+  .hdr-title { font-size: 28px; font-weight: 900; color: var(--white); line-height: 1.15; }
+  .hdr-sub { font-size: 13.5px; color: #c9c9c9; margin-top: 8px; max-width: 620px; }
+  .back-link { display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:#ccc; text-decoration:none; margin-top:16px; }
+  .back-link:hover { color:var(--yellow); }
+
+  .content { padding: 30px 40px 40px; }
+  .content > p { font-size: 13.5px; color: #555; margin-bottom: 20px; max-width: 640px; }
+
+  .tool-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(240px,1fr)); gap:14px; }
+  .tool-card { background:var(--white); border:1px solid var(--border); border-top:3px solid var(--yellow); border-radius:12px; padding:22px; text-decoration:none; display:block; transition:box-shadow .15s, transform .15s; color:inherit; }
+  .tool-card:hover { box-shadow:0 6px 20px rgba(0,0,0,0.08); transform:translateY(-2px); }
+  .tool-card-icon svg { width:24px; height:24px; stroke:var(--yellow-dark); margin-bottom:12px; }
+  .tool-card-title { font-size:15px; font-weight:800; color:var(--dark); margin-bottom:4px; }
+  .tool-card-sub { font-size:12px; color:#999; margin-bottom:16px; }
+  .tool-card-link { font-size:12px; font-weight:700; color:var(--yellow-dark); display:flex; align-items:center; gap:5px; }
+  .tool-card-link svg { width:13px; height:13px; stroke:var(--yellow-dark); }
+
+  .empty-card { background:var(--yellow-bg); border:1px dashed var(--yellow-dark); border-radius:12px; padding:22px; font-size:12.5px; color:#666; margin-top:14px; }
+
+  .footer { background: var(--yellow); padding: 16px 40px; margin-top: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .footer .f-title { font-size: 13px; font-weight: 900; color: var(--dark); }
+  .footer .f-sub { font-size: 10.5px; color: #444; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hdr">
+    <div class="hdr-eyebrow">Mercado Libre · OE Transportes MLM</div>
+    <div class="hdr-title">Playbooks</div>
+    <div class="hdr-sub">Guías paso a paso para los procesos operativos y de gestión del equipo de OE.</div>
+    <a class="back-link" href="../index.html">&#8592; Volver a Aprendizaje Continuo</a>
+  </div>
+
+  <div class="content">
+    <p>Cada playbook explica un proceso completo en lenguaje simple: qué es, cómo funciona, cuándo hacerlo y qué necesitas. Están pensados para Focales, Supervisores y Managers.</p>
+
+    <div class="tool-grid">
+      <a class="tool-card" href="../playbooks/Playbook_Supervisores_NL.html" target="_blank" rel="noopener">
+        <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M8 12h8M8 16h8M8 8h3"/></svg></div>
+        <div class="tool-card-title">Playbook del proceso NL</div>
+        <div class="tool-card-sub">Guía paso a paso para Focales y Supervisores: cómo llenar el Form y cómo corre el proceso mensual del Newsletter.</div>
+        <div class="tool-card-link">Abrir playbook <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
+      </a>
+    </div>
+
+    <div class="empty-card">Próximamente: playbooks de Actualización de Proyectos, Backlog Continuo e Iniciativas Locales (mientras tanto, ya puedes consultar esos flujos en la <a href="../wiki/Rutinas_Gestion_OE.html" target="_blank" rel="noopener" style="color:var(--dark); font-weight:700;">Wiki de Rutinas</a>).</div>
+  </div>
+
+  <div class="footer">
+    <div class="f-title">Aprendizaje Continuo · Playbooks</div>
+    <div class="f-sub">OE Transportes MLM</div>
+  </div>
+
+</div>
+</body>
+</html>
