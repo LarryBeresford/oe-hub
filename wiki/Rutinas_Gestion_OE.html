@@ -82,6 +82,26 @@
   .footer { background: var(--yellow); padding: 16px 40px; margin-top: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
   .footer .f-title { font-size: 13px; font-weight: 900; color: var(--dark); }
   .footer .f-sub { font-size: 10.5px; color: #444; }
+
+  /* Presentación original: acceso + vista previa */
+  .deck-btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; font-size: 12px; font-weight: 800; color: var(--dark); background: var(--yellow); border: none; padding: 9px 16px; border-radius: 18px; cursor: pointer; }
+  .deck-btn:hover { background: var(--yellow-dark); }
+
+  .deck-link { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--yellow-bg); border: 1px dashed var(--yellow-dark); border-radius: 10px; padding: 10px 14px; margin-top: 8px; font-size: 12px; color: #555; flex-wrap: wrap; }
+  .deck-link-btn { background: var(--dark); color: var(--yellow); border: none; font-size: 11px; font-weight: 800; padding: 7px 14px; border-radius: 14px; cursor: pointer; white-space: nowrap; }
+  .deck-link-btn:hover { background: #000; }
+
+  .deck-overlay { display: none; position: fixed; inset: 0; background: rgba(10,10,10,0.94); z-index: 999; align-items: center; justify-content: center; flex-direction: column; padding: 20px; }
+  .deck-overlay.open { display: flex; }
+  .deck-overlay img { max-width: 90vw; max-height: 74vh; border-radius: 6px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); background: #fff; }
+  .deck-controls { display: flex; align-items: center; gap: 22px; margin-top: 16px; }
+  .deck-controls button { background: var(--yellow); color: var(--dark); border: none; width: 38px; height: 38px; border-radius: 50%; font-size: 16px; font-weight: 900; cursor: pointer; }
+  .deck-controls button:hover { background: var(--yellow-dark); }
+  .deck-counter { color: #fff; font-size: 12.5px; font-weight: 700; min-width: 48px; text-align: center; }
+  .deck-close { position: absolute; top: 18px; right: 24px; color: #fff; font-size: 30px; line-height: 1; cursor: pointer; background: none; border: none; }
+  .deck-download { margin-top: 16px; }
+  .deck-download a { color: var(--yellow); font-size: 12px; text-decoration: none; font-weight: 700; }
+  .deck-download a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -92,6 +112,7 @@
     <div class="hdr-title">Wiki — Rutinas de Gestión</div>
     <div class="hdr-sub">Los 4 flujos recurrentes del área: actualización de proyectos, Backlog Continuo, iniciativas locales y el Newsletter mensual.</div>
     <div class="hdr-ver">Fuente: presentación "Rutinas de Gestión OE TT MLM" · Mónica Gallardo</div>
+    <button class="deck-btn" onclick="openDeck(1)">Ver presentación completa (13 diapositivas) →</button>
   </div>
 
   <div class="toc">
@@ -141,6 +162,11 @@
           </div>
         </div>
         <div class="loop-note">El ciclo se repite en cada ventana (10–15 y 25–30 de cada mes).</div>
+
+        <div class="deck-link">
+          <div>Este flujo está en la diapositiva <b>5</b> de la presentación original.</div>
+          <button class="deck-link-btn" onclick="openDeck(5)">Ver diapositiva ↗</button>
+        </div>
       </div>
     </div>
 
@@ -191,6 +217,11 @@
         <div class="branch-card">
           <b>Nota:</b> el equipo de Gestión comparte a inicios de mes el estatus de todas las iniciativas generadas, a todo OE MLM, para conocimiento y seguimiento.
         </div>
+
+        <div class="deck-link">
+          <div>Este flujo está en las diapositivas <b>6–8</b> de la presentación original.</div>
+          <button class="deck-link-btn" onclick="openDeck(8)">Ver diapositiva ↗</button>
+        </div>
       </div>
     </div>
 
@@ -228,6 +259,11 @@
 
         <div class="branch-card">
           <b>Nota:</b> el equipo de Gestión comparte a inicios de mes el estatus de todas las iniciativas generadas, a todo OE MLM, para conocimiento y seguimiento.
+        </div>
+
+        <div class="deck-link">
+          <div>Este flujo está en las diapositivas <b>9–11</b> de la presentación original.</div>
+          <button class="deck-link-btn" onclick="openDeck(11)">Ver diapositiva ↗</button>
         </div>
       </div>
     </div>
@@ -277,6 +313,11 @@
           </div>
           <a class="btn" href="../playbooks/Playbook_Supervisores_NL.html" target="_blank" rel="noopener">Abrir playbook</a>
         </div>
+
+        <div class="deck-link">
+          <div>Este flujo está en la diapositiva <b>13</b> de la presentación original.</div>
+          <button class="deck-link-btn" onclick="openDeck(13)">Ver diapositiva ↗</button>
+        </div>
       </div>
     </div>
 
@@ -288,5 +329,48 @@
   </div>
 
 </div>
+
+<div class="deck-overlay" id="deckOverlay">
+  <button class="deck-close" onclick="closeDeck()" aria-label="Cerrar">&times;</button>
+  <img id="deckImg" src="" alt="Diapositiva de la presentación"/>
+  <div class="deck-controls">
+    <button onclick="deckPrev()" aria-label="Anterior">&#8592;</button>
+    <div class="deck-counter" id="deckCounter">1 / 13</div>
+    <button onclick="deckNext()" aria-label="Siguiente">&#8594;</button>
+  </div>
+  <div class="deck-download"><a href="assets/rutinas-deck/Rutinas_de_Gestion_OE_TT_MLM.pdf" target="_blank" rel="noopener">Descargar PDF completo ↗</a></div>
+</div>
+
+<script>
+  var DECK_TOTAL = 13;
+  var deckIndex = 1;
+  function openDeck(n) {
+    deckIndex = n;
+    document.getElementById('deckOverlay').classList.add('open');
+    renderDeck();
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDeck() {
+    document.getElementById('deckOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function renderDeck() {
+    var n = String(deckIndex).padStart(2, '0');
+    document.getElementById('deckImg').src = 'assets/rutinas-deck/slide-' + n + '.jpg';
+    document.getElementById('deckCounter').textContent = deckIndex + ' / ' + DECK_TOTAL;
+  }
+  function deckNext() { deckIndex = deckIndex < DECK_TOTAL ? deckIndex + 1 : 1; renderDeck(); }
+  function deckPrev() { deckIndex = deckIndex > 1 ? deckIndex - 1 : DECK_TOTAL; renderDeck(); }
+  document.addEventListener('keydown', function (e) {
+    var overlay = document.getElementById('deckOverlay');
+    if (!overlay.classList.contains('open')) return;
+    if (e.key === 'ArrowRight') deckNext();
+    if (e.key === 'ArrowLeft') deckPrev();
+    if (e.key === 'Escape') closeDeck();
+  });
+  document.getElementById('deckOverlay').addEventListener('click', function (e) {
+    if (e.target === this) closeDeck();
+  });
+</script>
 </body>
 </html>
