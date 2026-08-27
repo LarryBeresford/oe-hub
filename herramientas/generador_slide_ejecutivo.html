@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Generador de Slide Ejecutivo — Lean Projects</title>
+<link rel="icon" type="image/svg+xml" href="../media/favicon.svg">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -288,6 +289,9 @@ textarea { min-height: 52px; }
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid var(--yellow); outline-offset: 2px; border-radius: 4px;
+  }
 </style>
 </head>
 <body>
@@ -535,7 +539,7 @@ function renderImagePreview() {
   c.innerHTML = `
     <div class="img-preview-wrap">
       <img src="${uploadedImageSrc}" alt="preview">
-      <button class="img-clear" onclick="clearImage()" title="Quitar imagen">×</button>
+      <button class="img-clear" onclick="clearImage()" title="Quitar imagen" aria-label="Quitar imagen">×</button>
     </div>`;
 }
 

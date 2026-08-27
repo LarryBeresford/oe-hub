@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="icon" type="image/svg+xml" href="media/favicon.svg">
 <title>OE MLM Hub</title>
 <style>
   :root {
@@ -131,7 +132,12 @@
 
   .content { padding: 28px 32px; flex:1; }
   .page { display:none; }
-  .page.active { display:block; }
+  .page.active { display:block; animation: fadeInUp .35s ease; }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
   .page-header { margin-bottom:24px; }
   .page-eyebrow { font-size:10px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color: var(--yellow-dark); margin-bottom:4px; }
@@ -282,6 +288,20 @@
   .date-chip.c-mgmt { background: var(--tag-mgmt-bg); color: var(--tag-mgmt); }
   .date-chip.c-quality { background: var(--tag-quality-bg); color: var(--tag-quality); }
   .date-item-text { font-size:12.5px; color:var(--dark); line-height:1.4; }
+
+  .novedades-card {
+    background: var(--white); border: 1px solid var(--border); border-left: 4px solid var(--yellow);
+    border-radius: 12px; padding: 16px 40px 16px 20px; margin-bottom: 24px; position: relative;
+  }
+  .novedades-title { font-size: 11px; font-weight: 800; color: var(--dark); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 10px; }
+  .novedades-list { margin: 0; padding-left: 18px; font-size: 13px; color: var(--dark); line-height: 1.7; }
+  .novedades-list li { margin-bottom: 2px; }
+  .novedades-close {
+    position: absolute; top: 12px; right: 14px; background: none; border: none;
+    font-size: 18px; color: #999; cursor: pointer; line-height: 1; padding: 2px 6px;
+  }
+  .novedades-close:hover { color: var(--dark); }
+  .novedades-card.hidden { display: none; }
 
   .story-grid { grid-template-columns: repeat(auto-fill, minmax(360px,1fr)); gap:22px; }
   .story-card {
@@ -486,11 +506,103 @@
   .sidebar-toggle:hover { border-color: var(--yellow); background: var(--yellow-bg); }
   .sidebar-toggle svg { width:18px; height:18px; stroke:currentColor; }
 
+  .mobile-nav-toggle { display:none; }
+  .mobile-nav-backdrop { display:none; }
+
   @media(max-width:800px){
-    .sidebar { width: 72px; }
-    .logo-text, .nav-label, .nav-direct span:not(.nav-icon), .nav-chevron, .nav-sub { display:none; }
-    .main { margin-left: 72px; }
     .sidebar-toggle { display:none; }
+
+    .mobile-nav-toggle {
+      display:flex; align-items:center; justify-content:center;
+      width:32px; height:32px; background:none; border:1px solid var(--border); border-radius:8px;
+      cursor:pointer; color:var(--dark); margin-right:12px; flex-shrink:0;
+    }
+    .mobile-nav-toggle svg { width:18px; height:18px; stroke:currentColor; }
+
+    /* La sidebar se convierte en un drawer que entra desde la izquierda,
+       en vez del riel de solo-iconos que se usaba antes en este breakpoint. */
+    .sidebar {
+      width: 260px !important;
+      transform: translateX(-100%);
+      transition: transform 0.22s ease;
+      z-index: 200;
+    }
+    body.mobile-nav-open .sidebar { transform: translateX(0); }
+    /* Neutraliza el modo "colapsado" (icon-rail) del desktop mientras estamos en mobile,
+       para que el drawer siempre se vea completo (con etiquetas), sin importar la pagina activa. */
+    body.sidebar-collapsed .sidebar-logo { justify-content:flex-start !important; padding:20px 18px 16px !important; }
+    body.sidebar-collapsed .nav-direct { justify-content:flex-start !important; padding:10px 16px !important; }
+
+    .main { margin-left: 0 !important; }
+
+    .mobile-nav-backdrop {
+      display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:150;
+    }
+    body.mobile-nav-open .mobile-nav-backdrop { display:block; }
+  }
+
+  /* Boton de busqueda rapida en la sidebar + paleta de comandos (Ctrl+K) */
+  .sidebar-search-btn {
+    width: calc(100% - 24px); margin: 4px 12px 8px; display:flex; align-items:center; gap:9px;
+    padding: 9px 10px; background: rgba(255,255,255,0.04); border: 1px solid #2a2a2a; border-radius: 8px;
+    color: #999; font-size: 12.5px; font-weight:600; font-family: inherit; cursor:pointer;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+  }
+  .sidebar-search-btn:hover { color: var(--white); border-color: var(--yellow); background: rgba(255,255,255,0.06); }
+  .sidebar-search-btn .nav-icon svg { width:15px; height:15px; stroke:currentColor; }
+  .sidebar-search-label { flex:1; text-align:left; }
+  .sidebar-search-kbd {
+    font-size: 10px; font-weight:700; color:#666; border:1px solid #333; border-radius:4px; padding:2px 6px;
+  }
+  body.sidebar-collapsed .sidebar-search-label,
+  body.sidebar-collapsed .sidebar-search-kbd { display:none; }
+  body.sidebar-collapsed .sidebar-search-btn { justify-content:center; width:36px; margin:4px auto 8px; padding:9px; }
+
+  .cmdk-backdrop {
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:300;
+    align-items:flex-start; justify-content:center; padding-top:12vh;
+  }
+  .cmdk-backdrop.open { display:flex; }
+  .cmdk-modal {
+    width:100%; max-width:560px; margin:0 20px; background:var(--dark); border:1px solid #333; border-radius:12px;
+    box-shadow:0 20px 60px rgba(0,0,0,0.45); overflow:hidden; animation: fadeInUp .2s ease;
+  }
+  .cmdk-input-row { display:flex; align-items:center; gap:10px; padding:14px 16px; border-bottom:1px solid #2a2a2a; }
+  .cmdk-input-row svg { width:18px; height:18px; stroke:#777; flex-shrink:0; }
+  .cmdk-input {
+    flex:1; background:none; border:none; color:var(--white); font-size:14.5px; font-family:inherit;
+    outline:none;
+  }
+  .cmdk-input::placeholder { color:#666; }
+  .cmdk-close {
+    background:none; border:none; color:#777; font-size:18px; cursor:pointer; line-height:1; padding:2px 4px;
+  }
+  .cmdk-close:hover { color:var(--white); }
+  .cmdk-results { max-height:50vh; overflow-y:auto; padding:8px; }
+  .cmdk-item {
+    width:100%; display:block; text-align:left; background:none; border:none; border-left:3px solid transparent;
+    border-radius:6px; padding:9px 10px; cursor:pointer; font-family:inherit;
+  }
+  .cmdk-item:hover, .cmdk-item.active { background: rgba(255,255,255,0.06); border-left-color: var(--yellow); }
+  .cmdk-item-label { font-size:13px; font-weight:700; color:var(--white); }
+  .cmdk-item-hint { font-size:11.5px; color:#888; margin-top:2px; }
+  .cmdk-empty { padding:20px; text-align:center; color:#777; font-size:13px; }
+
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid var(--yellow); outline-offset: 2px; border-radius: 4px;
+  }
+
+  @media print {
+    .sidebar, .mobile-nav-backdrop, .cmdk-backdrop, .topbar, .sidebar-toggle, .mobile-nav-toggle,
+    .quick-card, .suggest-submit, button { display: none !important; }
+    body { background: #fff !important; color: #000 !important; display:block; }
+    .main { margin-left: 0 !important; }
+    .content { padding: 0 !important; }
+    .page { display: none !important; }
+    .page.active { display: block !important; animation: none !important; }
+    .page-title, .home-hero-title { color: #000 !important; }
+    .home-hero { background: #fff !important; border: 1px solid #ccc; }
+    a { color: #000 !important; text-decoration: underline; }
   }
 </style>
 </head>
@@ -500,6 +612,12 @@
   <button class="sidebar-logo" onclick="go('inicio', this)">
     <div class="logo-mark">OE</div>
     <div class="logo-text">OE MLM Hub</div>
+  </button>
+
+  <button class="sidebar-search-btn" onclick="openCommandPalette()" aria-label="Busqueda rapida (Ctrl+K)">
+    <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
+    <span class="sidebar-search-label">Buscar</span>
+    <span class="sidebar-search-kbd">Ctrl K</span>
   </button>
 
   <nav class="sidebar-nav" id="sidebarNav">
@@ -554,10 +672,26 @@
   <div class="sidebar-footer"></div>
 </aside>
 
+<div class="mobile-nav-backdrop" onclick="closeMobileNav()"></div>
+
+<div class="cmdk-backdrop" id="cmdkBackdrop" onclick="if(event.target===this) closeCommandPalette()">
+  <div class="cmdk-modal" role="dialog" aria-modal="true" aria-label="Busqueda rapida del Hub">
+    <div class="cmdk-input-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" id="cmdkInput" class="cmdk-input" placeholder="Buscar en el Hub..." autocomplete="off" oninput="renderCommandResults(this.value)">
+      <button type="button" class="cmdk-close" onclick="closeCommandPalette()" aria-label="Cerrar busqueda">×</button>
+    </div>
+    <div class="cmdk-results" id="cmdkResults"></div>
+  </div>
+</div>
+
 <main class="main">
   <div class="topbar">
     <div class="topbar-breadcrumb">
       <button class="sidebar-toggle" onclick="toggleSidebar()" title="Contraer/expandir menu" aria-label="Contraer/expandir menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+      </button>
+      <button class="mobile-nav-toggle" onclick="toggleMobileNav()" title="Abrir menu" aria-label="Abrir menu">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
       </button>
       <span class="bc-current" id="bcCurrent">Inicio</span>
@@ -584,6 +718,18 @@
             <source src="media/oe-intro.mp4" type="video/mp4">
           </video>
         </div>
+      </div>
+
+      <div class="novedades-card" id="novedadesCard">
+        <button class="novedades-close" onclick="dismissNovedades()" aria-label="Cerrar novedades">×</button>
+        <div class="novedades-title">Novedades</div>
+        <ul class="novedades-list">
+          <li>Insights de Portafolio ahora tiene datos reales de MELI Axis, con Snapshot y Diagnóstico con un clic.</li>
+          <li>El Glosario OE ahora incluye un Diccionario Operativo A–Z.</li>
+          <li>Aprendizaje Continuo suma 5 tutoriales nuevos de MELI Axis.</li>
+          <li>La Biblioteca ya tiene las tablas reales de regionalización.</li>
+          <li>Nuevo video de bienvenida "Conoce el área OE" en Inicio.</li>
+        </ul>
       </div>
 
       <div class="section-title">Accesos rápidos</div>
@@ -613,7 +759,7 @@
       <div class="section-title">Success stories</div>
       <div class="story-grid">
         <div class="story-card tag-quality">
-          <img class="story-photo" src="https://i.imgur.com/CveUAYR.jpeg"/>
+          <img class="story-photo" src="https://i.imgur.com/CveUAYR.jpeg" alt="Foto ilustrativa: SCC1 consolidado como Operación Modelo con 93% de calificación PEL"/>
           <div class="story-body">
             <div class="story-tag">Quality</div>
             <div class="story-title">SCC1 se consolida como Operación Modelo con 93% de calificación PEL</div>
@@ -625,7 +771,7 @@
           </div>
         </div>
         <div class="story-card tag-quality">
-          <img class="story-photo" src="https://i.imgur.com/gvdjGYw.png"/>
+          <img class="story-photo" src="https://i.imgur.com/gvdjGYw.png" alt="Foto ilustrativa: Auditoría de SCH1 con 100% de adherencia en procesos de Despacho"/>
           <div class="story-body">
             <div class="story-tag">Quality</div>
             <div class="story-title">Auditoría de SCH1: 100% de adherencia en procesos de Despacho</div>
@@ -637,7 +783,7 @@
           </div>
         </div>
         <div class="story-card tag-fm">
-          <img class="story-photo" src="https://i.imgur.com/J1voWxO.png"/>
+          <img class="story-photo" src="https://i.imgur.com/J1voWxO.png" alt="Foto ilustrativa: cumplimiento de Mensuales Operativas al 100% en julio (FM, XD, TOM)"/>
           <div class="story-body">
             <div class="story-tag">FM · XD · TOM</div>
             <div class="story-title">Cumplimiento de Mensuales Operativas al 100% en julio</div>
@@ -741,7 +887,7 @@
 
       <div class="section-title" style="margin-top:30px">Portafolio de proyectos</div>
       <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
-        <button onclick="fullscreenIframe('insightsFrameProyectos')" style="display:flex; align-items:center; gap:6px; background:var(--dark); color:var(--white); border:none; border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:inherit;">
+        <button onclick="fullscreenIframe('insightsFrameProyectos')" aria-label="Ver en pantalla completa" style="display:flex; align-items:center; gap:6px; background:var(--dark); color:var(--white); border:none; border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:inherit;">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke="currentColor"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
           Pantalla completa
         </button>
@@ -758,7 +904,7 @@
         <div class="page-desc">% de avance, proyectos en riesgo, top proyectos, resultados PET y comparativa entre áreas.</div>
       </div>
       <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
-        <button onclick="fullscreenIframe('insightsFrameIndicadores')" style="display:flex; align-items:center; gap:6px; background:var(--dark); color:var(--white); border:none; border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:inherit;">
+        <button onclick="fullscreenIframe('insightsFrameIndicadores')" aria-label="Ver en pantalla completa" style="display:flex; align-items:center; gap:6px; background:var(--dark); color:var(--white); border:none; border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:inherit;">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke="currentColor"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
           Pantalla completa
         </button>
@@ -878,7 +1024,7 @@
       </div>
       <div class="org-top">
         <div class="org-top-card">
-          <img class="org-top-avatar" src="https://i.imgur.com/fA8JHId.jpg"/>
+          <img class="org-top-avatar" src="https://i.imgur.com/fA8JHId.jpg" alt="Foto de Miguel Hernández, Sr Manager de OE"/>
           <div>
             <div class="org-top-name">Miguel Hernández</div>
             <div class="org-top-role">Sr Manager · OE</div>
@@ -890,23 +1036,23 @@
       <div class="org-cols">
         <div class="org-col">
           <div class="org-col-label">SVC + LM</div>
-          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/UcM3gqc.jpg"/><div class="org-name">Steven Seedorf</div><div class="org-role">Manager</div><div class="org-mail"><a href="mailto:steven.seedorf@mercadolibre.com.mx">steven.seedorf@mercadolibre.com.mx</a></div></div>
-          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/MH4N1CU.jpg"/><div class="org-name">Ana Vargas</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:ana.vargasfuentes@mercadolibre.com.mx">ana.vargasfuentes@mercadolibre.com.mx</a></div></div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/UcM3gqc.jpg" alt="Foto de Steven Seedorf, Manager"/><div class="org-name">Steven Seedorf</div><div class="org-role">Manager</div><div class="org-mail"><a href="mailto:steven.seedorf@mercadolibre.com.mx">steven.seedorf@mercadolibre.com.mx</a></div></div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/MH4N1CU.jpg" alt="Foto de Ana Vargas, Supervisor"/><div class="org-name">Ana Vargas</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:ana.vargasfuentes@mercadolibre.com.mx">ana.vargasfuentes@mercadolibre.com.mx</a></div></div>
         </div>
         <div class="org-col">
           <div class="org-col-label">XD, SC + FM</div>
-          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/i3epbGL.jpg"/><div class="org-name">Mariana Novoa</div><div class="org-role">Manager</div><div class="org-mail"><a href="mailto:mariana.novoa@mercadolibre.com.mx">mariana.novoa@mercadolibre.com.mx</a></div></div>
-          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/uDq0p1w.jpeg"/><div class="org-name">Germán Gonzalo Ramírez</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:german.ramirezlara@mercadolibre.com.mx">german.ramirezlara@mercadolibre.com.mx</a></div></div>
-          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/f6C6n8t.jpg"/><div class="org-name">Eduardo García</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:eduardo.egarciamejia@mercadolibre.com.mx">eduardo.egarciamejia@mercadolibre.com.mx</a></div></div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/i3epbGL.jpg" alt="Foto de Mariana Novoa, Manager"/><div class="org-name">Mariana Novoa</div><div class="org-role">Manager</div><div class="org-mail"><a href="mailto:mariana.novoa@mercadolibre.com.mx">mariana.novoa@mercadolibre.com.mx</a></div></div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/uDq0p1w.jpeg" alt="Foto de Germán Gonzalo Ramírez, Supervisor"/><div class="org-name">Germán Gonzalo Ramírez</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:german.ramirezlara@mercadolibre.com.mx">german.ramirezlara@mercadolibre.com.mx</a></div></div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/f6C6n8t.jpg" alt="Foto de Eduardo García, Supervisor"/><div class="org-name">Eduardo García</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:eduardo.egarciamejia@mercadolibre.com.mx">eduardo.egarciamejia@mercadolibre.com.mx</a></div></div>
         </div>
         <div class="org-col">
           <div class="org-col-label">Quality</div>
-          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/dCfmGI5.jpeg"/><div class="org-name">Laura Chávez</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:laura.chavezdiaz@mercadolibre.com.mx">laura.chavezdiaz@mercadolibre.com.mx</a></div></div>
-          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/NHcV4RN.jpg"/><div class="org-name">Juan Carlos García</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:garcia.gjuan@mercadolibre.com.mx">garcia.gjuan@mercadolibre.com.mx</a></div></div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/dCfmGI5.jpeg" alt="Foto de Laura Chávez, Supervisor"/><div class="org-name">Laura Chávez</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:laura.chavezdiaz@mercadolibre.com.mx">laura.chavezdiaz@mercadolibre.com.mx</a></div></div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/NHcV4RN.jpg" alt="Foto de Juan Carlos García, Supervisor"/><div class="org-name">Juan Carlos García</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:garcia.gjuan@mercadolibre.com.mx">garcia.gjuan@mercadolibre.com.mx</a></div></div>
         </div>
         <div class="org-col">
           <div class="org-col-label">Management</div>
-          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/nE4Yfj6.jpg"/><div class="org-name">Ricardo Almanza</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:carlosricardo.almanzaloo@mercadolibre.com.mx">carlosricardo.almanzaloo@mercadolibre.com.mx</a></div></div>
+          <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/nE4Yfj6.jpg" alt="Foto de Ricardo Almanza, Supervisor"/><div class="org-name">Ricardo Almanza</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:carlosricardo.almanzaloo@mercadolibre.com.mx">carlosricardo.almanzaloo@mercadolibre.com.mx</a></div></div>
         </div>
       </div>
     </div>
@@ -920,7 +1066,7 @@
 
       <div class="org-top">
         <div class="org-top-card">
-          <img class="org-top-avatar" src="https://i.imgur.com/fA8JHId.jpg"/>
+          <img class="org-top-avatar" src="https://i.imgur.com/fA8JHId.jpg" alt="Foto de Miguel Hernández, Sr Manager de OE"/>
           <div>
             <div class="org-top-name">Miguel Hernández</div>
             <div class="org-top-role">Sr Manager · Heads subregión/proceso</div>
@@ -933,10 +1079,10 @@
 
         <div class="orgfull-col">
           <div class="orgfull-col-title">SVC + LM</div>
-          <div class="orgfull-node manager"><img class="orgfull-avatar" src="https://i.imgur.com/UcM3gqc.jpg"/><div><div class="orgfull-name">Steven Seedorf</div><div class="orgfull-role">Manager</div></div></div>
+          <div class="orgfull-node manager"><img class="orgfull-avatar" src="https://i.imgur.com/UcM3gqc.jpg" alt="Foto de Steven Seedorf, Manager"/><div><div class="orgfull-name">Steven Seedorf</div><div class="orgfull-role">Manager</div></div></div>
           <div class="orgfull-connector"></div>
           <div class="orgfull-tier-label">Supervisor MRS</div>
-          <div class="orgfull-node"><img class="orgfull-avatar" src="https://i.imgur.com/MH4N1CU.jpg"/><div><div class="orgfull-name">Ana Vargas</div><div class="orgfull-role">Supervisor MRS</div></div></div>
+          <div class="orgfull-node"><img class="orgfull-avatar" src="https://i.imgur.com/MH4N1CU.jpg" alt="Foto de Ana Vargas, Supervisor"/><div><div class="orgfull-name">Ana Vargas</div><div class="orgfull-role">Supervisor MRS</div></div></div>
           <div class="orgfull-tier-label">Supervisor MRN</div>
           <div class="orgfull-node vacante"><div class="orgfull-avatar-initials">?</div><div><div class="orgfull-name">TBH</div><div class="orgfull-role">To be hire · Supervisor MRN</div></div></div>
           <div class="orgfull-tier-label">Analistas MRS</div>
@@ -958,17 +1104,17 @@
 
         <div class="orgfull-col">
           <div class="orgfull-col-title">XD, SC + FM</div>
-          <div class="orgfull-node manager"><img class="orgfull-avatar" src="https://i.imgur.com/i3epbGL.jpg"/><div><div class="orgfull-name">Mariana Novoa</div><div class="orgfull-role">Manager</div></div></div>
+          <div class="orgfull-node manager"><img class="orgfull-avatar" src="https://i.imgur.com/i3epbGL.jpg" alt="Foto de Mariana Novoa, Manager"/><div><div class="orgfull-name">Mariana Novoa</div><div class="orgfull-role">Manager</div></div></div>
           <div class="orgfull-connector"></div>
           <div class="orgfull-tier-label">Supervisor MRS</div>
-          <div class="orgfull-node"><img class="orgfull-avatar" src="https://i.imgur.com/uDq0p1w.jpeg"/><div><div class="orgfull-name">Germán Gonzalo Ramírez</div><div class="orgfull-role">Supervisor MRS · Problem Solver + SC + H&B</div></div></div>
+          <div class="orgfull-node"><img class="orgfull-avatar" src="https://i.imgur.com/uDq0p1w.jpeg" alt="Foto de Germán Gonzalo Ramírez, Supervisor"/><div><div class="orgfull-name">Germán Gonzalo Ramírez</div><div class="orgfull-role">Supervisor MRS · Problem Solver + SC + H&B</div></div></div>
           <div class="orgfull-node"><div class="orgfull-avatar-initials">AA</div><div><div class="orgfull-name">Abdeel Andrés</div><div class="orgfull-role">H&B end to end (Large + Oversize)</div></div></div>
           <div class="orgfull-node"><div class="orgfull-avatar-initials">ZV</div><div><div class="orgfull-name">Zita Valdez</div><div class="orgfull-role">Sortation Center | Process Path</div></div></div>
           <div class="orgfull-node vacante"><div class="orgfull-avatar-initials">?</div><div><div class="orgfull-name">TBH</div><div class="orgfull-role">To be hire · GM: Despacho</div></div></div>
           <div class="orgfull-node vacante"><div class="orgfull-avatar-initials">?</div><div><div class="orgfull-name">TBH</div><div class="orgfull-role">To be hire · BPP</div></div></div>
           <div class="orgfull-node"><div class="orgfull-avatar-initials">BI</div><div><div class="orgfull-name">Blanca Inzunza</div><div class="orgfull-role">Problem Solver + Mesa de Ayuda</div></div></div>
           <div class="orgfull-tier-label">Supervisor MRN</div>
-          <div class="orgfull-node"><img class="orgfull-avatar" src="https://i.imgur.com/f6C6n8t.jpg"/><div><div class="orgfull-name">Eduardo García</div><div class="orgfull-role">Supervisor MRN · FOS + YMS + Productividades</div></div></div>
+          <div class="orgfull-node"><img class="orgfull-avatar" src="https://i.imgur.com/f6C6n8t.jpg" alt="Foto de Eduardo García, Supervisor"/><div><div class="orgfull-name">Eduardo García</div><div class="orgfull-role">Supervisor MRN · FOS + YMS + Productividades</div></div></div>
           <div class="orgfull-node"><div class="orgfull-avatar-initials">PG</div><div><div class="orgfull-name">Pablo Gallegos</div><div class="orgfull-role">Inbound, Sorteo | Sorter</div></div></div>
           <div class="orgfull-node"><div class="orgfull-avatar-initials">GG</div><div><div class="orgfull-name">Galindo García</div><div class="orgfull-role">Tiempos y Movimientos | Manga Air</div></div></div>
           <div class="orgfull-tier-label">Analistas</div>
@@ -981,9 +1127,9 @@
           <div class="orgfull-node vacante"><div class="orgfull-avatar-initials">?</div><div><div class="orgfull-name">TBH</div><div class="orgfull-role">To be hire · Manager</div></div></div>
           <div class="orgfull-connector"></div>
           <div class="orgfull-tier-label">Supervisor MRS</div>
-          <div class="orgfull-node"><img class="orgfull-avatar" src="https://i.imgur.com/dCfmGI5.jpeg"/><div><div class="orgfull-name">Laura Chávez</div><div class="orgfull-role">Supervisor MRS</div></div></div>
+          <div class="orgfull-node"><img class="orgfull-avatar" src="https://i.imgur.com/dCfmGI5.jpeg" alt="Foto de Laura Chávez, Supervisor"/><div><div class="orgfull-name">Laura Chávez</div><div class="orgfull-role">Supervisor MRS</div></div></div>
           <div class="orgfull-tier-label">Supervisor MRN</div>
-          <div class="orgfull-node"><img class="orgfull-avatar" src="https://i.imgur.com/NHcV4RN.jpg"/><div><div class="orgfull-name">Juan Carlos García</div><div class="orgfull-role">Supervisor MRN</div></div></div>
+          <div class="orgfull-node"><img class="orgfull-avatar" src="https://i.imgur.com/NHcV4RN.jpg" alt="Foto de Juan Carlos García, Supervisor"/><div><div class="orgfull-name">Juan Carlos García</div><div class="orgfull-role">Supervisor MRN</div></div></div>
           <div class="orgfull-tier-label">Analistas</div>
           <div class="orgfull-node"><div class="orgfull-avatar-initials">KH</div><div><div class="orgfull-name">Karen Holguin</div><div class="orgfull-role">Quality Audits</div></div></div>
           <div class="orgfull-node"><div class="orgfull-avatar-initials">EN</div><div><div class="orgfull-name">Eduardo Novelo</div><div class="orgfull-role">Quality Audits</div></div></div>
@@ -999,7 +1145,7 @@
           <div class="orgfull-node vacante"><div class="orgfull-avatar-initials">?</div><div><div class="orgfull-name">TBH</div><div class="orgfull-role">To be hire · Manager</div></div></div>
           <div class="orgfull-connector"></div>
           <div class="orgfull-tier-label">Supervisor</div>
-          <div class="orgfull-node"><img class="orgfull-avatar" src="https://i.imgur.com/nE4Yfj6.jpg"/><div><div class="orgfull-name">Ricardo Almanza</div><div class="orgfull-role">Supervisor</div></div></div>
+          <div class="orgfull-node"><img class="orgfull-avatar" src="https://i.imgur.com/nE4Yfj6.jpg" alt="Foto de Ricardo Almanza, Supervisor"/><div><div class="orgfull-name">Ricardo Almanza</div><div class="orgfull-role">Supervisor</div></div></div>
           <div class="orgfull-tier-label">Analistas</div>
           <div class="orgfull-node vacante"><div class="orgfull-avatar-initials">?</div><div><div class="orgfull-name">TBH</div><div class="orgfull-role">To be hire · Portafolio Big Bets</div></div></div>
           <div class="orgfull-node"><div class="orgfull-avatar-initials">MW</div><div><div class="orgfull-name">Martin Winkler</div><div class="orgfull-role">Fill Rate</div></div></div>
@@ -1029,7 +1175,7 @@
         <div class="page-desc">Arma el slide de status de un proyecto Lean (KPIs con tendencia, fases, obstáculos, decisión requerida) y expórtalo listo para la junta.</div>
       </div>
       <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
-        <button onclick="fullscreenIframe('slidesFrame')" style="display:flex; align-items:center; gap:6px; background:var(--dark); color:var(--white); border:none; border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:inherit;">
+        <button onclick="fullscreenIframe('slidesFrame')" aria-label="Ver en pantalla completa" style="display:flex; align-items:center; gap:6px; background:var(--dark); color:var(--white); border:none; border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:inherit;">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke="currentColor"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
           Pantalla completa
         </button>
@@ -1489,6 +1635,123 @@
     document.body.classList.toggle('sidebar-collapsed');
   }
 
+  function toggleMobileNav() {
+    document.body.classList.toggle('mobile-nav-open');
+  }
+  function closeMobileNav() {
+    document.body.classList.remove('mobile-nav-open');
+  }
+
+  function dismissNovedades() {
+    const card = document.getElementById('novedadesCard');
+    if (card) card.classList.add('hidden');
+    try { localStorage.setItem('oeHubNovedadesDismissed', '1'); } catch (e) {}
+  }
+  (function initNovedades() {
+    try {
+      if (localStorage.getItem('oeHubNovedadesDismissed') === '1') {
+        const card = document.getElementById('novedadesCard');
+        if (card) card.classList.add('hidden');
+      }
+    } catch (e) {}
+  })();
+
+  /* ==================== Busqueda rapida (Ctrl+K) ==================== */
+  /* Lista estatica de destinos: paginas internas del Hub (via go()) y las
+     subpaginas que ya se linkean desde Aprendizaje Continuo / Biblioteca /
+     Tutoriales / Glosario. No busca contenido dentro de los iframes. */
+  const NAV_DESTINATIONS = [
+    { label: 'Inicio', hint: 'Pagina principal del Hub', go: function () { go('inicio', null); } },
+    { label: 'Management · Proyectos', hint: 'Portafolio de proyectos del equipo', go: function () { go('proyectos', null); openGroupFor('navManagement'); } },
+    { label: 'Management · Indicadores', hint: '% de avance, riesgo, resultados PET', go: function () { go('indicadores', null); openGroupFor('navManagement'); } },
+    { label: 'Management · Iniciativas', hint: 'Iniciativas del equipo', go: function () { go('management', null); openGroupFor('navManagement'); } },
+    { label: 'Rutinas · BBR', hint: 'Entrega bisemanal de resultados', go: function () { go('rutinas', null); openGroupFor('navRutinas'); routineTab('bbr'); } },
+    { label: 'Rutinas · MBR', hint: 'Entrega mensual de resultados', go: function () { go('rutinas', null); openGroupFor('navRutinas'); routineTab('mbr'); } },
+    { label: 'Rutinas · Newsletter', hint: 'Boletin mensual de OE', go: function () { go('rutinas', null); openGroupFor('navRutinas'); routineTab('nl'); } },
+    { label: 'Generador de Slides', hint: 'Slide de status ejecutivo para juntas', go: function () { go('slides', document.getElementById('navSlides')); } },
+    { label: 'Directorio', hint: 'Lideres de OE por region, con correo directo', go: function () { go('directorio', document.getElementById('navDirectorio')); } },
+    { label: 'Organigrama Completo', hint: 'Estructura de equipo 2026', go: function () { go('organigrama', null); } },
+    { label: 'Aprendizaje Continuo · Playbooks', hint: 'Guias paso a paso', go: function () { go('aprendizaje', document.getElementById('navAprendizaje')); openGroupFor('navAprendizaje'); learnTab('playbooks'); } },
+    { label: 'Aprendizaje Continuo · Sesiones grabadas', hint: 'Grabaciones de capacitaciones', go: function () { go('aprendizaje', document.getElementById('navAprendizaje')); openGroupFor('navAprendizaje'); learnTab('sesiones'); } },
+    { label: 'Aprendizaje Continuo · Glosario OE', hint: 'Siglas y terminos de Excelencia Operacional', go: function () { go('aprendizaje', document.getElementById('navAprendizaje')); openGroupFor('navAprendizaje'); learnTab('glosario'); } },
+    { label: 'Aprendizaje Continuo · Biblioteca', hint: 'Master File y Nueva Regionalizacion', go: function () { go('aprendizaje', document.getElementById('navAprendizaje')); openGroupFor('navAprendizaje'); learnTab('documentos'); } },
+    { label: 'Aprendizaje Continuo · Tutoriales MELI Axis', hint: 'Video-tutoriales de Monica Gallardo', go: function () { go('aprendizaje', document.getElementById('navAprendizaje')); openGroupFor('navAprendizaje'); learnTab('tutoriales'); } },
+    { label: 'Playbook OE — Boletin Mensual (pagina completa)', hint: 'Se abre en una pestaña nueva', url: 'playbooks/Playbook_Supervisores_NL.html' },
+    { label: 'Glosario OE (pagina completa)', hint: 'Se abre en una pestaña nueva', url: 'aprendizaje/Glosario_OE.html' },
+    { label: 'Biblioteca / Documentos de referencia (pagina completa)', hint: 'Se abre en una pestaña nueva', url: 'aprendizaje/Documentos_Referencia.html' },
+    { label: 'Tutoriales MELI Axis (pagina completa)', hint: 'Se abre en una pestaña nueva', url: 'aprendizaje/Tutoriales_MELI_Axis.html' },
+    { label: 'Sesiones grabadas (pagina completa)', hint: 'Se abre en una pestaña nueva', url: 'aprendizaje/Sesiones_Grabadas.html' },
+  ];
+
+  let cmdkFiltered = NAV_DESTINATIONS.slice();
+  let cmdkActiveIndex = 0;
+
+  function openCommandPalette() {
+    const backdrop = document.getElementById('cmdkBackdrop');
+    if (!backdrop) return;
+    backdrop.classList.add('open');
+    const input = document.getElementById('cmdkInput');
+    if (input) { input.value = ''; }
+    renderCommandResults('');
+    setTimeout(function () { if (input) input.focus(); }, 0);
+  }
+  function closeCommandPalette() {
+    const backdrop = document.getElementById('cmdkBackdrop');
+    if (backdrop) backdrop.classList.remove('open');
+  }
+  function renderCommandResults(query) {
+    const q = (query || '').trim().toLowerCase();
+    cmdkFiltered = !q ? NAV_DESTINATIONS.slice() : NAV_DESTINATIONS.filter(function (d) {
+      return d.label.toLowerCase().indexOf(q) !== -1 || (d.hint || '').toLowerCase().indexOf(q) !== -1;
+    });
+    cmdkActiveIndex = 0;
+    const el = document.getElementById('cmdkResults');
+    if (!el) return;
+    if (!cmdkFiltered.length) {
+      el.innerHTML = '<div class="cmdk-empty">Sin resultados</div>';
+      return;
+    }
+    el.innerHTML = cmdkFiltered.map(function (d, i) {
+      return '<button type="button" class="cmdk-item' + (i === 0 ? ' active' : '') + '" data-idx="' + i + '" onclick="runCommandItem(' + i + ')">' +
+        '<div class="cmdk-item-label">' + d.label + '</div>' +
+        (d.hint ? '<div class="cmdk-item-hint">' + d.hint + '</div>' : '') +
+        '</button>';
+    }).join('');
+  }
+  function runCommandItem(i) {
+    const d = cmdkFiltered[i];
+    if (!d) return;
+    closeCommandPalette();
+    if (d.url) { window.open(d.url, '_blank', 'noopener'); }
+    else if (d.go) { d.go(); }
+  }
+  function cmdkMoveSelection(delta) {
+    if (!cmdkFiltered.length) return;
+    cmdkActiveIndex = (cmdkActiveIndex + delta + cmdkFiltered.length) % cmdkFiltered.length;
+    const items = document.querySelectorAll('.cmdk-item');
+    items.forEach(function (el, idx) { el.classList.toggle('active', idx === cmdkActiveIndex); });
+    const activeEl = document.querySelector('.cmdk-item.active');
+    if (activeEl && activeEl.scrollIntoView) activeEl.scrollIntoView({ block: 'nearest' });
+  }
+
+  document.addEventListener('keydown', function (e) {
+    const isMac = navigator.platform && navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    const cmdOrCtrl = isMac ? e.metaKey : e.ctrlKey;
+    if (cmdOrCtrl && (e.key === 'k' || e.key === 'K')) {
+      e.preventDefault();
+      const backdrop = document.getElementById('cmdkBackdrop');
+      if (backdrop && backdrop.classList.contains('open')) { closeCommandPalette(); } else { openCommandPalette(); }
+      return;
+    }
+    const backdrop = document.getElementById('cmdkBackdrop');
+    if (backdrop && backdrop.classList.contains('open')) {
+      if (e.key === 'Escape') { closeCommandPalette(); }
+      else if (e.key === 'ArrowDown') { e.preventDefault(); cmdkMoveSelection(1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); cmdkMoveSelection(-1); }
+      else if (e.key === 'Enter') { e.preventDefault(); runCommandItem(cmdkActiveIndex); }
+    }
+  });
+
   function toggleGroup(id) {
     document.getElementById(id).classList.toggle('open');
   }
@@ -1519,6 +1782,10 @@
     } else {
       document.body.classList.remove('sidebar-collapsed');
     }
+
+    // En mobile, cualquier navegacion cierra el drawer del menu (no afecta desktop,
+    // donde 'mobile-nav-open' nunca se activa porque el boton que lo agrega esta oculto).
+    document.body.classList.remove('mobile-nav-open');
 
     window.scrollTo(0, 0);
     const contentEl = document.querySelector('.content');
@@ -1598,7 +1865,9 @@
       return;
     }
 
+    const originalBtnText = btn.textContent;
     btn.disabled = true;
+    btn.textContent = 'Enviando...';
     fetch(SUGGESTIONS_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // evita el preflight OPTIONS con Apps Script
@@ -1614,7 +1883,7 @@
         confirmEl.textContent = 'No se pudo enviar. Intenta de nuevo en un momento.';
         confirmEl.classList.add('show', 'error');
       })
-      .finally(() => { btn.disabled = false; });
+      .finally(() => { btn.disabled = false; btn.textContent = originalBtnText; });
   }
 
   /* ==================== ES / EN ==================== */
@@ -1638,6 +1907,22 @@
     'BBR, MBR y el Newsletter mensual.':'BBR, MBR, and the monthly Newsletter.',
     'Líderes de OE por región, con correo directo.':'OE leaders by region, with direct email.',
     'Guías, cursos y material de referencia.':'Guides, courses, and reference material.',
+
+    // Busqueda rapida (Ctrl+K)
+    'Buscar':'Search',
+
+    // Novedades
+    'Novedades':'What\'s new',
+    'Insights de Portafolio ahora tiene datos reales de MELI Axis, con Snapshot y Diagnóstico con un clic.':
+      'Insights de Portafolio now has real MELI Axis data, with one-click Snapshot and Diagnóstico.',
+    'El Glosario OE ahora incluye un Diccionario Operativo A–Z.':
+      'The OE Glossary now includes an A–Z Operational Dictionary.',
+    'Aprendizaje Continuo suma 5 tutoriales nuevos de MELI Axis.':
+      'Continuous Learning adds 5 new MELI Axis tutorials.',
+    'La Biblioteca ya tiene las tablas reales de regionalización.':
+      'The Library now has the real regionalization tables.',
+    'Nuevo video de bienvenida "Conoce el área OE" en Inicio.':
+      'New welcome video "Meet the OE area" on Home.',
 
     // Fechas relevantes
     'Fechas relevantes':'Key dates',
@@ -1839,6 +2124,22 @@
     'Líderes de OE por región, con correo directo.':'Líderes de OE por região, com e-mail direto.',
     'Guías, cursos y material de referencia.':'Guias, cursos e material de referência.',
 
+    // Busqueda rapida (Ctrl+K)
+    'Buscar':'Buscar',
+
+    // Novedades
+    'Novedades':'Novidades',
+    'Insights de Portafolio ahora tiene datos reales de MELI Axis, con Snapshot y Diagnóstico con un clic.':
+      'Insights de Portafolio agora tem dados reais do MELI Axis, com Snapshot e Diagnóstico em um clique.',
+    'El Glosario OE ahora incluye un Diccionario Operativo A–Z.':
+      'O Glossário OE agora inclui um Dicionário Operacional A–Z.',
+    'Aprendizaje Continuo suma 5 tutoriales nuevos de MELI Axis.':
+      'Aprendizado Contínuo adiciona 5 novos tutoriais do MELI Axis.',
+    'La Biblioteca ya tiene las tablas reales de regionalización.':
+      'A Biblioteca já tem as tabelas reais de regionalização.',
+    'Nuevo video de bienvenida "Conoce el área OE" en Inicio.':
+      'Novo vídeo de boas-vindas "Conheça a área OE" no Início.',
+
 
     // Fechas relevantes
     'Fechas relevantes':'Datas relevantes',
@@ -2025,6 +2326,7 @@
     '.home-hero-eyebrow', '.home-hero-title', '.home-hero-sub',
     '.section-title', '.quick-card-title', '.quick-card-sub',
     '.list-item-date', '.list-item-text', '.date-item-text',
+    '.sidebar-search-label', '.novedades-title', '.novedades-list li',
     '.story-tag', '.story-title', '.story-area',
     '.gestion-card-title', '.gestion-card-sub', '.gestion-card-link',
     '.tool-card-title', '.tool-card-sub', '.tool-card-link',
@@ -2078,6 +2380,10 @@
     // Sincroniza el idioma con los iframes de herramientas (Insights de Portafolio, etc.)
     // que tienen su propio traductor local (mismo origen, escuchan postMessage).
     window.__oeHubLang = lang;
+    // Nota: playbooks/Playbook_Supervisores_NL.html y aprendizaje/Glosario_OE.html
+    // NO se incluyen aqui a proposito: son contenido 100% en espanol, sin diccionario
+    // TEXT_EN/TEXT_PT ni listener de postMessage('oeHubLang') propio, asi que sincronizar
+    // el idioma no cambiaria nada visible. Traducirlos es un trabajo aparte (ya en el backlog).
     ['insightsFrameProyectos', 'insightsFrameIndicadores', 'slidesFrame'].forEach(function (id) {
       var frame = document.getElementById(id);
       if (frame && frame.contentWindow) {

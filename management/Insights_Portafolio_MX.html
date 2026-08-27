@@ -2,7 +2,9 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insights de Portafolio — OE MLM (México)</title>
+<link rel="icon" type="image/svg+xml" href="../media/favicon.svg">
 <style>
   :root{
     --bg:#111111; --panel:#1b1b1b; --panel2:#232323; --yellow:#FFE600;
@@ -81,6 +83,24 @@
   .badge.blank{background:#333;color:var(--muted);}
   .empty-row td{text-align:center;color:var(--muted);padding:18px;}
   footer{color:var(--muted);font-size:11px;text-align:center;padding:24px;}
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid var(--yellow); outline-offset: 2px; border-radius: 4px;
+  }
+
+  @media print {
+    .filters, button, .msOptions, .snapBtn, .diagBtn, .clearBtn { display: none !important; }
+    body { background: #fff !important; color: #000 !important; }
+    header { background: #fff !important; border-bottom: 2px solid #000; }
+    .findings { background: #fff !important; border: 1px solid #999; box-shadow: none; }
+    .findings h2 { color: #000 !important; }
+    .kpi { background: #fff !important; border: 1px solid #999; box-shadow: none; }
+    .kpi .val { color: #000 !important; }
+    .kpi.alert .val { color: #c0392b !important; }
+    table { color: #000; }
+    th { background: #eee !important; color: #000 !important; }
+    tr:hover td { background: transparent !important; box-shadow: none !important; }
+    footer { color: #666 !important; }
+  }
 </style>
 </head>
 <body>
