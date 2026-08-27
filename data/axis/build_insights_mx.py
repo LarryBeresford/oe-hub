@@ -160,65 +160,65 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 </head>
 <body>
 <header>
-  <h1>Insights de Portafolio — OE MLM (México)</h1>
-  <div class="sub">Generado con el export "vista completa" de MELI Axis (lista_projetos.csv), filtrado a proyectos con CAD de México.</div>
-  <div class="scope-badge">✓ Alcance real: __TOTAL__ proyectos de México</div>
+  <h1 id="txtTitle">Insights de Portafolio — OE MLM (México)</h1>
+  <div class="sub" id="txtSub">Generado con el export "vista completa" de MELI Axis (lista_projetos.csv), filtrado a proyectos con CAD de México.</div>
+  <div class="scope-badge" id="txtScope">✓ Alcance real: __TOTAL__ proyectos de México</div>
 </header>
 <main>
   <div class="findings">
-    <h2>Hallazgos clave</h2>
+    <h2 id="txtFindingsTitle">Hallazgos clave</h2>
     <ul id="findingsList"></ul>
   </div>
   <div class="kpis">
-    <div class="kpi"><div class="val" id="kpiTotal">–</div><div class="lbl">Proyectos (México)</div></div>
-    <div class="kpi alert"><div class="val" id="kpiAtrasados">–</div><div class="lbl">% Atrasados</div></div>
-    <div class="kpi"><div class="val" id="kpiSaving">–</div><div class="lbl">Savings acumulados (USD)</div></div>
-    <div class="kpi"><div class="val" id="kpiCentros">–</div><div class="lbl">Centros / CAD distintos</div></div>
-    <div class="kpi"><div class="val" id="kpiRollout">–</div><div class="lbl">En Roll Out</div></div>
+    <div class="kpi"><div class="val" id="kpiTotal">–</div><div class="lbl" id="lblTotal">Proyectos (México)</div></div>
+    <div class="kpi alert"><div class="val" id="kpiAtrasados">–</div><div class="lbl" id="lblAtrasados">% Atrasados</div></div>
+    <div class="kpi"><div class="val" id="kpiSaving">–</div><div class="lbl" id="lblSaving">Savings acumulados (USD)</div></div>
+    <div class="kpi"><div class="val" id="kpiCentros">–</div><div class="lbl" id="lblCentros">Centros / CAD distintos</div></div>
+    <div class="kpi"><div class="val" id="kpiRollout">–</div><div class="lbl" id="lblRollout">En Roll Out</div></div>
   </div>
-  <h3 class="section">Proyectos — México</h3>
+  <h3 class="section" id="txtSection">Proyectos — México</h3>
   <div class="filters">
     <div>
-      <label>Buscar proyecto</label>
+      <label id="lblBusqueda">Buscar proyecto</label>
       <input type="text" id="fBusqueda" list="fBusquedaList" placeholder="nombre del proyecto..." autocomplete="off">
       <datalist id="fBusquedaList"></datalist>
     </div>
     <div class="msFilter">
-      <label>Centro / CAD</label>
+      <label id="lblCad">Centro / CAD</label>
       <button type="button" class="msBtn" id="msBtnCad" onclick="toggleMS('Cad')">Todos ▾</button>
       <div class="msPanel" id="msPanelCad"></div>
     </div>
     <div class="msFilter">
-      <label>Equipo</label>
+      <label id="lblTime">Equipo</label>
       <button type="button" class="msBtn" id="msBtnTime" onclick="toggleMS('Time')">Todos ▾</button>
       <div class="msPanel" id="msPanelTime"></div>
     </div>
     <div class="msFilter">
-      <label>Etapa actual</label>
+      <label id="lblEtapa">Etapa actual</label>
       <button type="button" class="msBtn" id="msBtnEtapa" onclick="toggleMS('Etapa')">Todas ▾</button>
       <div class="msPanel" id="msPanelEtapa"></div>
     </div>
     <div class="msFilter">
-      <label>Prioridad</label>
+      <label id="lblPrioridad">Prioridad</label>
       <button type="button" class="msBtn" id="msBtnPrioridad" onclick="toggleMS('Prioridad')">Todas ▾</button>
       <div class="msPanel" id="msPanelPrioridad"></div>
     </div>
-    <div class="chkwrap"><input type="checkbox" id="fSoloAtrasados"><label for="fSoloAtrasados" style="margin:0;">Solo atrasados</label></div>
-    <div class="chkwrap"><input type="checkbox" id="fSoloRollout"><label for="fSoloRollout" style="margin:0;">Solo Roll Out</label></div>
+    <div class="chkwrap"><input type="checkbox" id="fSoloAtrasados"><label for="fSoloAtrasados" id="lblSoloAtrasados" style="margin:0;">Solo atrasados</label></div>
+    <div class="chkwrap"><input type="checkbox" id="fSoloRollout"><label for="fSoloRollout" id="lblSoloRollout" style="margin:0;">Solo Roll Out</label></div>
     <div><button type="button" class="clearBtn" id="fClear" onclick="clearFilters()">Limpiar filtros</button></div>
   </div>
   <div class="count" id="countLbl"></div>
   <div class="tablewrap">
   <table id="tblProyectos">
     <thead><tr>
-      <th>Proyecto</th><th>CAD</th><th>Etapa actual</th><th>Prioridad</th><th>Tags</th>
-      <th>Atrasado</th><th>Success Rate</th><th>Saving (USD)</th><th>Equipo</th>
+      <th id="thProyecto">Proyecto</th><th id="thCad">CAD</th><th id="thEtapa">Etapa actual</th><th id="thPrioridad">Prioridad</th><th id="thTags">Tags</th>
+      <th id="thAtrasado">Atrasado</th><th id="thSuccess">Success Rate</th><th id="thSaving">Saving (USD)</th><th id="thEquipo">Equipo</th>
     </tr></thead>
     <tbody></tbody>
   </table>
   </div>
 </main>
-<footer>OE MLM · datos exportados de MELI Axis (vista completa) · filtrado a CAD de México</footer>
+<footer id="txtFooter">OE MLM · datos exportados de MELI Axis (vista completa) · filtrado a CAD de México</footer>
 <script>
 const proyectos = __DATA__;
 
@@ -231,12 +231,139 @@ function badge(value, type){
   return esc(value);
 }
 
+// ==================== ES / EN / PT ====================
+// El Hub (index.html) envia el idioma via postMessage cuando esta embebido en un iframe.
+let currentLang = 'es';
+const I18N = {
+  es: {
+    title: 'Insights de Portafolio — OE MLM (México)',
+    sub: 'Generado con el export "vista completa" de MELI Axis (lista_projetos.csv), filtrado a proyectos con CAD de México.',
+    scope: (n) => `✓ Alcance real: ${n} proyectos de México`,
+    findingsTitle: 'Hallazgos clave',
+    lblTotal: 'Proyectos (México)', lblAtrasados: '% Atrasados', lblSaving: 'Savings acumulados (USD)',
+    lblCentros: 'Centros / CAD distintos', lblRollout: 'En Roll Out',
+    section: 'Proyectos — México',
+    lblBusqueda: 'Buscar proyecto', phBusqueda: 'nombre del proyecto...',
+    lblCad: 'Centro / CAD', lblTime: 'Equipo', lblEtapa: 'Etapa actual', lblPrioridad: 'Prioridad',
+    lblSoloAtrasados: 'Solo atrasados', lblSoloRollout: 'Solo Roll Out',
+    clear: 'Limpiar filtros',
+    thProyecto:'Proyecto', thCad:'CAD', thEtapa:'Etapa actual', thPrioridad:'Prioridad', thTags:'Tags',
+    thAtrasado:'Atrasado', thSuccess:'Success Rate', thSaving:'Saving (USD)', thEquipo:'Equipo',
+    footer: 'OE MLM · datos exportados de MELI Axis (vista completa) · filtrado a CAD de México',
+    allM: 'Todos', allF: 'Todas',
+    nSel: (n) => n + ' seleccionado' + (n > 1 ? 's' : ''),
+    count: (shown, total) => `Mostrando ${shown} de ${total} proyectos`,
+    emptyRow: 'Sin proyectos que coincidan con los filtros.',
+    findingsEmpty: 'Sin proyectos que coincidan con los filtros actuales.',
+    findings: (atrasados, total, pct, saving, centros, rollout) => `
+      <li><strong>${atrasados} de ${total} proyectos están atrasados (${pct}%)</strong> con los filtros actuales.</li>
+      <li><strong>$${saving} USD</strong> en savings reportados en esta selección.</li>
+      <li>Cubre <strong>${centros} centros/CAD distintos</strong>.</li>
+      <li><strong>${rollout} proyectos</strong> están etiquetados como "Roll Out" (despliegue en curso).</li>
+    `,
+  },
+  en: {
+    title: 'Portfolio Insights — OE MLM (Mexico)',
+    sub: 'Generated from the "full view" export of MELI Axis (lista_projetos.csv), filtered to projects with a Mexico CAD.',
+    scope: (n) => `✓ Real scope: ${n} projects from Mexico`,
+    findingsTitle: 'Key findings',
+    lblTotal: 'Projects (Mexico)', lblAtrasados: '% Delayed', lblSaving: 'Cumulative savings (USD)',
+    lblCentros: 'Distinct centers / CAD', lblRollout: 'In Roll Out',
+    section: 'Projects — Mexico',
+    lblBusqueda: 'Search project', phBusqueda: 'project name...',
+    lblCad: 'Center / CAD', lblTime: 'Team', lblEtapa: 'Current stage', lblPrioridad: 'Priority',
+    lblSoloAtrasados: 'Delayed only', lblSoloRollout: 'Roll Out only',
+    clear: 'Clear filters',
+    thProyecto:'Project', thCad:'CAD', thEtapa:'Current stage', thPrioridad:'Priority', thTags:'Tags',
+    thAtrasado:'Delayed', thSuccess:'Success Rate', thSaving:'Saving (USD)', thEquipo:'Team',
+    footer: 'OE MLM · data exported from MELI Axis (full view) · filtered to Mexico CAD',
+    allM: 'All', allF: 'All',
+    nSel: (n) => n + ' selected',
+    count: (shown, total) => `Showing ${shown} of ${total} projects`,
+    emptyRow: 'No projects match the filters.',
+    findingsEmpty: 'No projects match the current filters.',
+    findings: (atrasados, total, pct, saving, centros, rollout) => `
+      <li><strong>${atrasados} of ${total} projects are delayed (${pct}%)</strong> with the current filters.</li>
+      <li><strong>$${saving} USD</strong> in savings reported in this selection.</li>
+      <li>Covers <strong>${centros} distinct centers/CAD</strong>.</li>
+      <li><strong>${rollout} projects</strong> are tagged "Roll Out" (in deployment).</li>
+    `,
+  },
+  pt: {
+    title: 'Insights de Portfólio — OE MLM (México)',
+    sub: 'Gerado com o export "visão completa" do MELI Axis (lista_projetos.csv), filtrado a projetos com CAD do México.',
+    scope: (n) => `✓ Alcance real: ${n} projetos do México`,
+    findingsTitle: 'Principais achados',
+    lblTotal: 'Projetos (México)', lblAtrasados: '% Atrasados', lblSaving: 'Savings acumulados (USD)',
+    lblCentros: 'Centros / CAD distintos', lblRollout: 'Em Roll Out',
+    section: 'Projetos — México',
+    lblBusqueda: 'Buscar projeto', phBusqueda: 'nome do projeto...',
+    lblCad: 'Centro / CAD', lblTime: 'Equipe', lblEtapa: 'Etapa atual', lblPrioridad: 'Prioridade',
+    lblSoloAtrasados: 'Só atrasados', lblSoloRollout: 'Só Roll Out',
+    clear: 'Limpar filtros',
+    thProyecto:'Projeto', thCad:'CAD', thEtapa:'Etapa atual', thPrioridad:'Prioridade', thTags:'Tags',
+    thAtrasado:'Atrasado', thSuccess:'Success Rate', thSaving:'Saving (USD)', thEquipo:'Equipe',
+    footer: 'OE MLM · dados exportados do MELI Axis (visão completa) · filtrado a CAD do México',
+    allM: 'Todos', allF: 'Todas',
+    nSel: (n) => n + ' selecionado' + (n > 1 ? 's' : ''),
+    count: (shown, total) => `Mostrando ${shown} de ${total} projetos`,
+    emptyRow: 'Sem projetos que coincidam com os filtros.',
+    findingsEmpty: 'Sem projetos que coincidam com os filtros atuais.',
+    findings: (atrasados, total, pct, saving, centros, rollout) => `
+      <li><strong>${atrasados} de ${total} projetos estão atrasados (${pct}%)</strong> com os filtros atuais.</li>
+      <li><strong>$${saving} USD</strong> em savings reportados nesta seleção.</li>
+      <li>Cobre <strong>${centros} centros/CAD distintos</strong>.</li>
+      <li><strong>${rollout} projetos</strong> estão marcados como "Roll Out" (em implantação).</li>
+    `,
+  },
+};
+
+function applyDashboardLang(lang){
+  if (!I18N[lang]) return;
+  currentLang = lang;
+  const t = I18N[lang];
+  document.getElementById('txtTitle').textContent = t.title;
+  document.getElementById('txtSub').textContent = t.sub;
+  document.getElementById('txtScope').textContent = t.scope(proyectos.length);
+  document.getElementById('txtFindingsTitle').textContent = t.findingsTitle;
+  document.getElementById('lblTotal').textContent = t.lblTotal;
+  document.getElementById('lblAtrasados').textContent = t.lblAtrasados;
+  document.getElementById('lblSaving').textContent = t.lblSaving;
+  document.getElementById('lblCentros').textContent = t.lblCentros;
+  document.getElementById('lblRollout').textContent = t.lblRollout;
+  document.getElementById('txtSection').textContent = t.section;
+  document.getElementById('lblBusqueda').textContent = t.lblBusqueda;
+  document.getElementById('fBusqueda').setAttribute('placeholder', t.phBusqueda);
+  document.getElementById('lblCad').textContent = t.lblCad;
+  document.getElementById('lblTime').textContent = t.lblTime;
+  document.getElementById('lblEtapa').textContent = t.lblEtapa;
+  document.getElementById('lblPrioridad').textContent = t.lblPrioridad;
+  document.getElementById('lblSoloAtrasados').textContent = t.lblSoloAtrasados;
+  document.getElementById('lblSoloRollout').textContent = t.lblSoloRollout;
+  document.getElementById('fClear').textContent = t.clear;
+  document.getElementById('thProyecto').textContent = t.thProyecto;
+  document.getElementById('thCad').textContent = t.thCad;
+  document.getElementById('thEtapa').textContent = t.thEtapa;
+  document.getElementById('thPrioridad').textContent = t.thPrioridad;
+  document.getElementById('thTags').textContent = t.thTags;
+  document.getElementById('thAtrasado').textContent = t.thAtrasado;
+  document.getElementById('thSuccess').textContent = t.thSuccess;
+  document.getElementById('thSaving').textContent = t.thSaving;
+  document.getElementById('thEquipo').textContent = t.thEquipo;
+  document.getElementById('txtFooter').textContent = t.footer;
+  Object.keys(FIELD_MAP).forEach(name => updateMsLabel(name));
+  update();
+}
+window.addEventListener('message', (e) => {
+  if (e.data && e.data.type === 'oeHubLang') applyDashboardLang(e.data.lang);
+});
+
 // Filtros con seleccion multiple (CAD, Equipo, Etapa, Prioridad) + busqueda por nombre (dropdown alfabetico)
 const FIELD_MAP = {
-  Cad:       { key:'cad',       all:'Todos'  },
-  Time:      { key:'time',      all:'Todos'  },
-  Etapa:     { key:'etapa',     all:'Todas'  },
-  Prioridad: { key:'prioridad', all:'Todas'  },
+  Cad:       { key:'cad',       allKey:'allM' },
+  Time:      { key:'time',      allKey:'allM' },
+  Etapa:     { key:'etapa',     allKey:'allF' },
+  Prioridad: { key:'prioridad', allKey:'allF' },
 };
 const state = { cad:new Set(), time:new Set(), etapa:new Set(), prioridad:new Set() };
 
@@ -257,10 +384,11 @@ function buildMultiSelects(){
   });
 }
 function updateMsLabel(name){
-  const { key, all } = FIELD_MAP[name];
+  const { key, allKey } = FIELD_MAP[name];
+  const t = I18N[currentLang];
   const btn = document.getElementById('msBtn'+name);
   const n = state[key].size;
-  btn.textContent = (n===0 ? all : (n+' seleccionado'+(n>1?'s':''))) + ' ▾';
+  btn.textContent = (n===0 ? t[allKey] : t.nSel(n)) + ' ▾';
   btn.classList.toggle('active', n>0);
 }
 function toggleMS(name){
@@ -295,16 +423,18 @@ function getFiltered(){
   );
 }
 function render(filtered){
-  document.getElementById('countLbl').textContent = `Mostrando ${filtered.length} de ${proyectos.length} proyectos`;
+  const t = I18N[currentLang];
+  document.getElementById('countLbl').textContent = t.count(filtered.length, proyectos.length);
   const tbody = document.querySelector('#tblProyectos tbody');
   tbody.innerHTML = filtered.length ? filtered.slice(0,500).map(p => `
     <tr>
       <td>${esc(p.proyecto)}</td><td>${esc(p.cad)}</td><td>${esc(p.etapa)}</td><td>${badge(p.prioridad,'prioridad')}</td>
       <td style="color:var(--muted);font-size:11px;">${esc(p.tags)}</td>
       <td>${badge(p.atrasado,'atraso')}</td><td>${esc(p.successRate)}</td><td>$${p.saving.toLocaleString()}</td><td>${esc(p.time)}</td>
-    </tr>`).join('') : '<tr class="empty-row"><td colspan="9">Sin proyectos que coincidan con los filtros.</td></tr>';
+    </tr>`).join('') : `<tr class="empty-row"><td colspan="9">${t.emptyRow}</td></tr>`;
 }
 function renderKpis(filtered){
+  const t = I18N[currentLang];
   const total = filtered.length;
   const atrasados = filtered.filter(p=>p.atrasado==='Sí').length;
   const savingTotal = filtered.reduce((a,p)=>a+p.saving,0);
@@ -315,12 +445,9 @@ function renderKpis(filtered){
   document.getElementById('kpiSaving').textContent = '$'+Math.round(savingTotal).toLocaleString();
   document.getElementById('kpiCentros').textContent = centros;
   document.getElementById('kpiRollout').textContent = rollout;
-  document.getElementById('findingsList').innerHTML = total ? `
-    <li><strong>${atrasados} de ${total} proyectos están atrasados (${Math.round(100*atrasados/total)}%)</strong> con los filtros actuales.</li>
-    <li><strong>$${Math.round(savingTotal).toLocaleString()} USD</strong> en savings reportados en esta selección.</li>
-    <li>Cubre <strong>${centros} centros/CAD distintos</strong>.</li>
-    <li><strong>${rollout} proyectos</strong> están etiquetados como "Roll Out" (despliegue en curso).</li>
-  ` : '<li>Sin proyectos que coincidan con los filtros actuales.</li>';
+  document.getElementById('findingsList').innerHTML = total
+    ? t.findings(atrasados, total, Math.round(100*atrasados/total), Math.round(savingTotal).toLocaleString(), centros, rollout)
+    : `<li>${t.findingsEmpty}</li>`;
 }
 function update(){
   const filtered = getFiltered();
