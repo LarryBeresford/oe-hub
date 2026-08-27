@@ -183,6 +183,17 @@
   .tool-card.wide .tool-card-sub { margin-bottom:0; }
   .tool-card.wide .tool-card-link { flex-shrink:0; white-space:nowrap; }
 
+  .bulletin-grid.wide { grid-template-columns: 1fr; gap:10px; }
+  .bulletin-card.wide {
+    display:flex; align-items:center; gap:18px; padding:20px 24px;
+  }
+  .bulletin-card.wide .bulletin-card-icon { margin-bottom:0; flex-shrink:0; width:44px; height:44px; border-radius:10px; background:var(--yellow-bg); display:flex; align-items:center; justify-content:center; }
+  .bulletin-card.wide .bulletin-card-icon svg { width:22px; height:22px; margin-bottom:0; }
+  .bulletin-card.wide .bulletin-card-text { flex:1; }
+  .bulletin-card.wide .bulletin-card-title { margin-bottom:2px; }
+  .bulletin-card.wide .bulletin-card-sub { margin-bottom:0; }
+  .bulletin-card.wide .bulletin-card-link { flex-shrink:0; white-space:nowrap; }
+
   .routine-tabs { display:flex; gap:8px; margin-bottom:22px; flex-wrap:wrap; }
   .routine-tab {
     padding:9px 18px; border-radius:8px; border:1px solid var(--border); background:var(--white);
@@ -264,6 +275,10 @@
     background: var(--yellow-bg); color:var(--yellow-dark); font-weight:800; font-size:11px;
     border-radius:8px; padding:8px 10px; text-align:center; min-width:52px; line-height:1.2;
   }
+  .date-chip.c-fm { background: var(--tag-fm-bg); color: var(--tag-fm); }
+  .date-chip.c-svc { background: var(--tag-svc-bg); color: var(--tag-svc); }
+  .date-chip.c-mgmt { background: var(--tag-mgmt-bg); color: var(--tag-mgmt); }
+  .date-chip.c-quality { background: var(--tag-quality-bg); color: var(--tag-quality); }
   .date-item-text { font-size:12.5px; color:var(--dark); line-height:1.4; }
 
   .story-grid { grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap:18px; }
@@ -480,7 +495,7 @@
     <div class="nav-sub">
       <button class="nav-sub-item" onclick="go('rutinas', this); setTimeout(()=>routineTab('bbr'),0)"><span>BBR</span></button>
       <button class="nav-sub-item" onclick="go('rutinas', this); setTimeout(()=>routineTab('mbr'),0)"><span>MBR</span></button>
-      <button class="nav-sub-item" onclick="go('rutinas', this); setTimeout(()=>routineTab('nl'),0)"><span>NL (Newsletter)</span></button>
+      <button class="nav-sub-item" onclick="go('rutinas', this); setTimeout(()=>routineTab('nl'),0)"><span>Newsletter</span></button>
     </div>
 
     <button class="nav-direct" id="navDirectorio" onclick="go('directorio', this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="8" r="3.2"/><path d="M20 19v-1a3.8 3.8 0 0 0-2.7-3.6"/><path d="M14.3 4.2A3.2 3.2 0 0 1 16.2 10.8"/></svg></span><span>Directorio</span></button>
@@ -585,10 +600,10 @@
         <div>
           <div class="section-title">Fechas relevantes</div>
           <div class="list-card">
-            <div class="date-item"><div class="date-chip">31<br/>AGO</div><div class="date-item-text">Focales actualizan su proyecto (y MELI Axis) — último lunes del mes</div></div>
-            <div class="date-item"><div class="date-chip">02<br/>SEP</div><div class="date-item-text">Supervisores cargan el Form — primer miércoles del mes</div></div>
-            <div class="date-item"><div class="date-chip">04<br/>SEP</div><div class="date-item-text">Managers revisan y autorizan — primer viernes del mes</div></div>
-            <div class="date-item"><div class="date-chip">08<br/>SEP</div><div class="date-item-text">Miguel da la autorización final — segundo martes del mes</div></div>
+            <div class="date-item"><div class="date-chip c-fm">31<br/>AGO</div><div class="date-item-text">Focales actualizan su proyecto (y MELI Axis) — último lunes del mes</div></div>
+            <div class="date-item"><div class="date-chip c-svc">02<br/>SEP</div><div class="date-item-text">Supervisores cargan el Form — primer miércoles del mes</div></div>
+            <div class="date-item"><div class="date-chip c-mgmt">04<br/>SEP</div><div class="date-item-text">Managers revisan y autorizan — primer viernes del mes</div></div>
+            <div class="date-item"><div class="date-chip c-quality">08<br/>SEP</div><div class="date-item-text">Miguel da la autorización final — segundo martes del mes</div></div>
             <div class="date-item"><div class="date-chip">09<br/>SEP</div><div class="date-item-text">Se publica a todo MLM (día siguiente a la autorización)</div></div>
           </div>
         </div>
@@ -744,7 +759,7 @@
       <div class="routine-tabs">
         <button class="routine-tab active" id="tab-bbr" onclick="routineTab('bbr')">BBR</button>
         <button class="routine-tab" id="tab-mbr" onclick="routineTab('mbr')">MBR</button>
-        <button class="routine-tab" id="tab-nl" onclick="routineTab('nl')">NL (Newsletter)</button>
+        <button class="routine-tab" id="tab-nl" onclick="routineTab('nl')">Newsletter</button>
       </div>
 
       <div class="routine-panel active" id="routine-bbr">
@@ -759,7 +774,7 @@
             <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M8 12h8M8 16h8M8 8h3"/></svg></div>
             <div class="tool-card-title">Histórico BBR</div>
             <div class="tool-card-sub">Historial completo de entregas BBR del equipo.</div>
-            <div class="tool-card-link">Abrir Drive <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
+            <div class="tool-card-link">Abrir <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
           </a>
         </div>
       </div>
@@ -773,7 +788,7 @@
         <div class="tool-grid" style="grid-template-columns:1fr; margin-top:14px;">
           <a class="tool-card" href="https://drive.google.com/drive/folders/1vGsrvrIr3rM_t5cQE3hC9XROTNLcnzvk?usp=drive_link" target="_blank" rel="noopener">
             <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M8 12h8M8 16h8M8 8h3"/></svg></div>
-            <div class="tool-card-title">Carpeta MBR (Drive)</div>
+            <div class="tool-card-title">Carpeta MBR</div>
             <div class="tool-card-sub">Historial completo de entregas MBR del equipo.</div>
             <div class="tool-card-link">Abrir carpeta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
           </a>
@@ -782,30 +797,25 @@
       <div class="routine-panel" id="routine-nl">
         <div class="bulletin-month-group" style="margin-bottom:0">
           <div class="bulletin-month-label">Julio 2026</div>
-          <div class="bulletin-grid">
-            <a class="bulletin-card" href="boletines/2026-07/Boletin_FirstMile.html" target="_blank" rel="noopener">
+          <div class="bulletin-grid wide">
+            <a class="bulletin-card wide" href="boletines/2026-07/Boletin_FirstMile.html" target="_blank" rel="noopener">
               <div class="bulletin-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M8 12h8M8 16h8M8 8h3"/></svg></div>
-              <div class="bulletin-card-title">FM + XD + SC + TOM</div>
-              <div class="bulletin-card-sub">Boletín mensual de Excelencia Operacional</div>
+              <div class="bulletin-card-text"><div class="bulletin-card-title">FM + XD + SC + TOM</div><div class="bulletin-card-sub">Boletín mensual de Excelencia Operacional</div></div>
               <div class="bulletin-card-link">Ver boletín <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
             </a>
-            <a class="bulletin-card" href="boletines/2026-07/Boletin_ServiceCenter.html" target="_blank" rel="noopener">
+            <a class="bulletin-card wide" href="boletines/2026-07/Boletin_ServiceCenter.html" target="_blank" rel="noopener">
               <div class="bulletin-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M8 12h8M8 16h8M8 8h3"/></svg></div>
-              <div class="bulletin-card-title">SVC + Last Mile</div>
-              <div class="bulletin-card-sub">Boletín mensual de Excelencia Operacional</div>
+              <div class="bulletin-card-text"><div class="bulletin-card-title">SVC + Last Mile</div><div class="bulletin-card-sub">Boletín mensual de Excelencia Operacional</div></div>
               <div class="bulletin-card-link">Ver boletín <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
             </a>
-            <a class="bulletin-card" href="boletines/2026-07/Boletin_Quality.html" target="_blank" rel="noopener">
+            <a class="bulletin-card wide" href="boletines/2026-07/Boletin_Quality.html" target="_blank" rel="noopener">
               <div class="bulletin-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M8 12h8M8 16h8M8 8h3"/></svg></div>
-              <div class="bulletin-card-title">Quality</div>
-              <div class="bulletin-card-sub">Boletín mensual de Excelencia Operacional</div>
+              <div class="bulletin-card-text"><div class="bulletin-card-title">Quality</div><div class="bulletin-card-sub">Boletín mensual de Excelencia Operacional</div></div>
               <div class="bulletin-card-link">Ver boletín <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
             </a>
-            <div class="bulletin-card soon">
-              <div class="soon-chip">Próximamente</div>
+            <div class="bulletin-card wide soon">
               <div class="bulletin-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7Z"/></svg></div>
-              <div class="bulletin-card-title">Management</div>
-              <div class="bulletin-card-sub">Boletín de Gestión — en construcción (se integrará vía Streamlit)</div>
+              <div class="bulletin-card-text"><div class="soon-chip">Próximamente</div><div class="bulletin-card-title">Management</div><div class="bulletin-card-sub">Boletín de Gestión — en construcción (se integrará vía Streamlit)</div></div>
             </div>
           </div>
         </div>
@@ -876,7 +886,7 @@
           <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/NHcV4RN.jpg"/><div class="org-name">Juan Carlos García</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:garcia.gjuan@mercadolibre.com.mx">garcia.gjuan@mercadolibre.com.mx</a></div></div>
         </div>
         <div class="org-col">
-          <div class="org-col-label">Gestión</div>
+          <div class="org-col-label">Management</div>
           <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/nE4Yfj6.jpg"/><div class="org-name">Ricardo Almanza</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:carlosricardo.almanzaloo@mercadolibre.com.mx">carlosricardo.almanzaloo@mercadolibre.com.mx</a></div></div>
         </div>
       </div>
@@ -958,7 +968,7 @@
         </div>
 
         <div class="orgfull-col">
-          <div class="orgfull-col-title">Gestión</div>
+          <div class="orgfull-col-title">Management</div>
           <div class="orgfull-node vacante"><div class="orgfull-avatar-initials">?</div><div><div class="orgfull-name">Vacante</div><div class="orgfull-role">Manager</div></div></div>
           <div class="orgfull-connector"></div>
           <div class="orgfull-tier-label">Supervisor</div>
@@ -1291,7 +1301,7 @@
     'Historial completo de entregas BBR del equipo.':'Full history of the team\'s BBR deliveries.',
     'Último MBR: MBR - OE MLM - Julio 2026':'Latest MBR: MBR - OE MLM - July 2026',
     'Entrega mensual de resultados del equipo.':'Monthly team results review.',
-    'Carpeta MBR (Drive)':'MBR Folder (Drive)',
+    'Carpeta MBR':'MBR Folder',
     'Historial completo de entregas MBR del equipo.':'Full history of the team\'s MBR deliveries.',
     'Abrir carpeta':'Open folder',
     'Wiki de Rutinas':'Routines Wiki',
@@ -1457,7 +1467,7 @@
     'Historial completo de entregas BBR del equipo.':'Histórico completo das entregas de BBR da equipe.',
     'Último MBR: MBR - OE MLM - Julio 2026':'Último MBR: MBR - OE MLM - Julho 2026',
     'Entrega mensual de resultados del equipo.':'Entrega mensal de resultados da equipe.',
-    'Carpeta MBR (Drive)':'Pasta MBR (Drive)',
+    'Carpeta MBR':'Pasta MBR',
     'Historial completo de entregas MBR del equipo.':'Histórico completo das entregas de MBR da equipe.',
     'Abrir carpeta':'Abrir pasta',
     'Wiki de Rutinas':'Wiki de Rotinas',
