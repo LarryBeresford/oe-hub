@@ -223,10 +223,9 @@
   .home-hero-sub { font-size:13px; color:#999; line-height:1.6; }
   .home-hero-video {
     flex: 1 1 260px; max-width:320px; aspect-ratio: 16/9; background:#0d0d0d;
-    border-radius:10px; border:1px solid #333; display:flex; align-items:center; justify-content:center;
-    color:#555; font-size:11px; text-align:center; padding:12px;
+    border-radius:10px; border:1px solid #333; overflow:hidden;
   }
-  .home-hero-video svg { width:34px; height:34px; stroke:var(--yellow); margin-bottom:8px; }
+  .home-hero-video video { width:100%; height:100%; display:block; object-fit:cover; border-radius:10px; }
 
   .section-title {
     font-size:11px; font-weight:800; letter-spacing:0.14em; text-transform:uppercase;
@@ -581,10 +580,9 @@
           <div class="home-hero-sub">OE (Excelencia Operacional) impulsa la mejora continua en FM, XD, SVC y TOM, además de Quality: estandariza procesos, da seguimiento a proyectos e indicadores, y comparte los resultados del equipo cada mes.</div>
         </div>
         <div class="home-hero-video">
-          <div>
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l6-3.5-6-3.5Z"/></svg>
-            <div class="hero-video-caption">Video "Conoce el área OE"</div>
-          </div>
+          <video controls preload="metadata" poster="media/oe-intro-poster.jpg" title="Video &quot;Conoce el área OE&quot;">
+            <source src="media/oe-intro.mp4" type="video/mp4">
+          </video>
         </div>
       </div>
 
@@ -1633,7 +1631,6 @@
     'Qué es OE':'What is OE',
     'OE (Excelencia Operacional) impulsa la mejora continua en FM, XD, SVC y TOM, además de Quality: estandariza procesos, da seguimiento a proyectos e indicadores, y comparte los resultados del equipo cada mes.':
       'OE (Operational Excellence) drives continuous improvement across FM, XD, SVC and TOM, plus Quality: it standardizes processes, tracks projects and indicators, and shares the team\'s results every month.',
-    'Video "Conoce el área OE"':'Video "Meet the OE area"',
 
     // Quick access
     'Accesos rápidos':'Quick access',
@@ -1834,7 +1831,6 @@
     'Qué es OE':'O que é OE',
     'OE (Excelencia Operacional) impulsa la mejora continua en FM, XD, SVC y TOM, además de Quality: estandariza procesos, da seguimiento a proyectos e indicadores, y comparte los resultados del equipo cada mes.':
       'A OE (Excelência Operacional) impulsiona a melhoria contínua em FM, XD, SVC e TOM, além de Quality: padroniza processos, acompanha projetos e indicadores, e compartilha os resultados da equipe todo mês.',
-    'Video "Conoce el área OE"':'Vídeo "Conheça a área OE"',
 
     // Quick access
     'Accesos rápidos':'Acessos rápidos',
@@ -2026,7 +2022,7 @@
   const I18N_SELECTOR = [
     '.nav-direct > span:not(.nav-icon):not(.nav-chevron)', '.nav-sub-item span', '.sidebar-footer',
     '.page-eyebrow', '.page-title', '.page-desc',
-    '.home-hero-eyebrow', '.home-hero-title', '.home-hero-sub', '.hero-video-caption', '.hero-video-note',
+    '.home-hero-eyebrow', '.home-hero-title', '.home-hero-sub',
     '.section-title', '.quick-card-title', '.quick-card-sub',
     '.list-item-date', '.list-item-text', '.date-item-text',
     '.story-tag', '.story-title', '.story-area',
