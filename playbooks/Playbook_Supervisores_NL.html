@@ -5,7 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Playbook OE — Boletín Mensual (Supervisores)</title>
 <link rel="icon" type="image/svg+xml" href="../media/favicon.svg">
+<script>
+  // Cuando esta pagina vive dentro de un iframe del Hub, ocultamos su propio
+  // header/footer (serian redundantes con el titulo que ya pone el Hub) sin
+  // afectar en nada la version standalone (abierta directo en una pestaña).
+  if (window.self !== window.top) { document.documentElement.classList.add('embedded'); }
+</script>
 <style>
+  html.embedded .hdr, html.embedded .footer { display:none; }
+  html.embedded .content { padding-top:16px; }
   :root {
     --yellow: #FFD001;
     --yellow-dark: #E6BB00;

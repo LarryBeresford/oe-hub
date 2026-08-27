@@ -5,13 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insights de Portafolio — OE MLM (México)</title>
 <link rel="icon" type="image/svg+xml" href="../media/favicon.svg">
+<script>
+  // Cuando esta pagina vive dentro de un iframe del Hub, ocultamos su propio
+  // header/footer (serian redundantes con el titulo que ya pone el Hub) sin
+  // afectar en nada la version standalone (abierta directo o enviada por correo).
+  if (window.self !== window.top) { document.documentElement.classList.add('embedded'); }
+</script>
 <style>
   :root{
-    --bg:#111111; --panel:#1b1b1b; --panel2:#232323; --yellow:#FFE600;
+    --bg:#111111; --panel:#1b1b1b; --panel2:#232323; --yellow:#FFD001;
     --text:#f2f2f2; --muted:#9a9a9a; --red:#e74c3c; --green:#2ecc71; --border:#333;
   }
   *{box-sizing:border-box;}
   body{margin:0;background:radial-gradient(circle at 15% 0%, #171717 0%, var(--bg) 45%);color:var(--text);font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+  html.embedded header, html.embedded footer{display:none;}
+  html.embedded main{padding-top:20px;}
   header{background:#000;border-bottom:4px solid var(--yellow);padding:22px 32px;}
   header h1{margin:0;font-size:22px;letter-spacing:.01em;}
   main{padding:26px 32px;max-width:1300px;margin:0 auto;}
@@ -665,7 +673,7 @@ function buildSnapshotHtml(filtered, stats, conclusions, filtersUsed, t){
 <meta charset="UTF-8">
 <title>${esc(t.snapTitle)}</title>
 <style>
-  :root{ --bg:#111111; --panel:#1b1b1b; --panel2:#232323; --yellow:#FFE600; --text:#f2f2f2; --muted:#9a9a9a; --red:#e74c3c; --green:#2ecc71; --border:#333; }
+  :root{ --bg:#111111; --panel:#1b1b1b; --panel2:#232323; --yellow:#FFD001; --text:#f2f2f2; --muted:#9a9a9a; --red:#e74c3c; --green:#2ecc71; --border:#333; }
   *{box-sizing:border-box;}
   body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;}
   header{background:#000;border-bottom:4px solid var(--yellow);padding:22px 32px;}
@@ -763,7 +771,7 @@ function classifyLevel(pct, warnAt, alertAt){
   if (pct >= warnAt) return 'warn';
   return 'ok';
 }
-const DIAG_COLOR = { ok: '#2ecc71', warn: '#FFE600', alert: '#e74c3c' };
+const DIAG_COLOR = { ok: '#2ecc71', warn: '#FFD001', alert: '#e74c3c' };
 
 function computeDiagnosticData(filtered){
   const total = filtered.length;
@@ -923,7 +931,7 @@ function buildDiagnosticHtml(filtered, data, filtersUsed, t){
     const avg = data.avgSuccess != null ? data.avgSuccess : 0;
     const l6 = (data.avgSuccess == null || avg >= 75) ? 'ok' : 'warn';
     blocks += diagBlock(t.diagS6Title, l6,
-      svgDonut(data.pctRollout, '#FFE600'),
+      svgDonut(data.pctRollout, '#FFD001'),
       t.diagS6Text(data.pctRollout, data.avgSuccess != null ? data.avgSuccess : '—'),
       l6==='ok' ? t.diagS6ConcOk() : t.diagS6ConcWarn(avg),
       t);
@@ -935,7 +943,7 @@ function buildDiagnosticHtml(filtered, data, filtersUsed, t){
 <meta charset="UTF-8">
 <title>${esc(t.diagTitle)}</title>
 <style>
-  :root{ --bg:#111111; --panel:#1b1b1b; --panel2:#232323; --yellow:#FFE600; --text:#f2f2f2; --muted:#9a9a9a; --red:#e74c3c; --green:#2ecc71; --border:#333; }
+  :root{ --bg:#111111; --panel:#1b1b1b; --panel2:#232323; --yellow:#FFD001; --text:#f2f2f2; --muted:#9a9a9a; --red:#e74c3c; --green:#2ecc71; --border:#333; }
   *{box-sizing:border-box;}
   body{margin:0;background:radial-gradient(circle at 15% 0%, #171717 0%, var(--bg) 45%);color:var(--text);
     font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
