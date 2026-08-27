@@ -1171,6 +1171,10 @@
     } else {
       document.body.classList.remove('sidebar-collapsed');
     }
+
+    window.scrollTo(0, 0);
+    const contentEl = document.querySelector('.content');
+    if (contentEl) contentEl.scrollTop = 0;
   }
 
   function routineTab(which) {
