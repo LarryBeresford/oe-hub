@@ -351,17 +351,9 @@
   .bib-open { font-size:12px; font-weight:700; color:var(--yellow-dark); text-decoration:none; }
   .bib-open:hover { text-decoration:underline; }
   .bib-note { font-size:11.5px; color:#999; line-height:1.6; margin-top:10px; }
-  .reg-table-wrap { background:var(--white); border:1px solid var(--border); border-radius:12px; overflow-x:auto; }
-  .reg-table { width:100%; border-collapse:collapse; font-size:12.5px; min-width:640px; }
-  .reg-table th, .reg-table td { padding:9px 12px; text-align:center; border-top:1px solid var(--border); }
-  .reg-table thead th { background:var(--light-bg); font-size:9.5px; font-weight:800; text-transform:uppercase; color:#999; letter-spacing:.04em; }
-  .reg-table thead tr:first-child th { border-top:none; }
-  .reg-th-mxnorte { border-bottom:3px solid var(--tag-fm) !important; }
-  .reg-th-mxsur { border-bottom:3px solid var(--tag-svc) !important; }
-  .reg-td-name { text-align:left; font-weight:700; color:var(--dark); }
-  .reg-td-subtotal { font-weight:700; background:var(--yellow-bg); color:var(--yellow-dark); }
-  .reg-td-grandtotal { font-weight:800; background:var(--dark); color:var(--white); }
-  .reg-total-row td { font-weight:800; border-top:2px solid var(--dark); }
+  .bib-search { width:100%; max-width:420px; padding:10px 14px; border:1px solid var(--border); border-radius:20px; font-size:12.5px; font-family:inherit; margin-bottom:14px; display:block; }
+  .bib-search:focus { outline:none; border-color:var(--yellow-dark); }
+  .bib-count { font-size:11px; color:#999; margin-top:8px; }
 
   /* Vacante gerencial en Organigrama Completo */
   .orgfull-node.vacante { background:var(--white); border:1.5px dashed var(--yellow-dark); }
@@ -1288,46 +1280,166 @@
           </table>
         </div>
 
-        <div class="bib-section-title">Nueva Regionalización TTE MLM · Sitios por región (resumen)</div>
-        <div class="reg-table-wrap">
-          <table class="reg-table">
+        <div class="bib-section-title">Nueva Regionalización TTE MLM · Sitios y su nueva región</div>
+        <input type="text" id="regSearch" class="bib-search" placeholder="Buscar sitio, región o subregión..." oninput="filterSites()">
+        <div class="bib-table-wrap">
+          <table class="bib-table">
             <thead>
               <tr>
-                <th rowspan="2" style="text-align:left;">Subregión</th>
-                <th colspan="4" class="reg-th-mxnorte">MX Norte</th>
-                <th colspan="4" class="reg-th-mxsur">MX Sur</th>
-                <th rowspan="2">sh</th>
-                <th rowspan="2">Total</th>
-              </tr>
-              <tr>
-                <th>Bajío</th><th>Norte</th><th>Metro Norte</th><th>Subtotal</th>
-                <th>Sur</th><th>Occidente</th><th>Metro Sur</th><th>Subtotal</th>
+                <th>Zona</th>
+                <th>Región</th>
+                <th>Subregión</th>
+                <th>Sitio</th>
               </tr>
             </thead>
-            <tbody>
-              <tr><td class="reg-td-name">Sureste</td><td>&#8212;</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">&#8212;</td><td>8</td><td>&#8212;</td><td>5</td><td class="reg-td-subtotal">13</td><td>&#8212;</td><td class="reg-td-grandtotal">13</td></tr>
-              <tr><td class="reg-td-name">Levante</td><td>9</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">9</td><td>&#8212;</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">&#8212;</td><td>&#8212;</td><td class="reg-td-grandtotal">9</td></tr>
-              <tr><td class="reg-td-name">Baja Sur</td><td>9</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">9</td><td>&#8212;</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">&#8212;</td><td>&#8212;</td><td class="reg-td-grandtotal">9</td></tr>
-              <tr><td class="reg-td-name">Noreste</td><td>&#8212;</td><td>8</td><td>&#8212;</td><td class="reg-td-subtotal">8</td><td>&#8212;</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">&#8212;</td><td>&#8212;</td><td class="reg-td-grandtotal">8</td></tr>
-              <tr><td class="reg-td-name">Central</td><td>&#8212;</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">&#8212;</td><td>&#8212;</td><td>7</td><td>&#8212;</td><td class="reg-td-subtotal">7</td><td>&#8212;</td><td class="reg-td-grandtotal">7</td></tr>
-              <tr><td class="reg-td-name">Pacifico Sur</td><td>&#8212;</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">&#8212;</td><td>6</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">6</td><td>&#8212;</td><td class="reg-td-grandtotal">6</td></tr>
-              <tr><td class="reg-td-name">Baja Norte</td><td>&#8212;</td><td>6</td><td>&#8212;</td><td class="reg-td-subtotal">6</td><td>&#8212;</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">&#8212;</td><td>&#8212;</td><td class="reg-td-grandtotal">6</td></tr>
-              <tr><td class="reg-td-name">Pacifico</td><td>&#8212;</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">&#8212;</td><td>&#8212;</td><td>5</td><td>&#8212;</td><td class="reg-td-subtotal">5</td><td>&#8212;</td><td class="reg-td-grandtotal">5</td></tr>
-              <tr><td class="reg-td-name">Jalisco</td><td>&#8212;</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">&#8212;</td><td>&#8212;</td><td>5</td><td>&#8212;</td><td class="reg-td-subtotal">5</td><td>&#8212;</td><td class="reg-td-grandtotal">5</td></tr>
-              <tr><td class="reg-td-name">Istmo</td><td>&#8212;</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">&#8212;</td><td>5</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">5</td><td>&#8212;</td><td class="reg-td-grandtotal">5</td></tr>
-              <tr><td class="reg-td-name">Cluster Puebla</td><td>&#8212;</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">&#8212;</td><td>5</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">5</td><td>&#8212;</td><td class="reg-td-grandtotal">5</td></tr>
-              <tr><td class="reg-td-name">Poniente</td><td>&#8212;</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">&#8212;</td><td>&#8212;</td><td>&#8212;</td><td>4</td><td class="reg-td-subtotal">4</td><td>&#8212;</td><td class="reg-td-grandtotal">4</td></tr>
-              <tr><td class="reg-td-name">Norcentral</td><td>&#8212;</td><td>4</td><td>&#8212;</td><td class="reg-td-subtotal">4</td><td>&#8212;</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">&#8212;</td><td>&#8212;</td><td class="reg-td-grandtotal">4</td></tr>
-              <tr><td class="reg-td-name">Metro Norte</td><td>&#8212;</td><td>&#8212;</td><td>4</td><td class="reg-td-subtotal">4</td><td>&#8212;</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">&#8212;</td><td>&#8212;</td><td class="reg-td-grandtotal">4</td></tr>
-              <tr><td class="reg-td-name">Epicentro</td><td>4</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">4</td><td>&#8212;</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">&#8212;</td><td>&#8212;</td><td class="reg-td-grandtotal">4</td></tr>
-              <tr><td class="reg-td-name">Noroeste</td><td>&#8212;</td><td>2</td><td>&#8212;</td><td class="reg-td-subtotal">2</td><td>&#8212;</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">&#8212;</td><td>1</td><td class="reg-td-grandtotal">3</td></tr>
-              <tr><td class="reg-td-name">Centro</td><td>&#8212;</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">&#8212;</td><td>&#8212;</td><td>&#8212;</td><td>3</td><td class="reg-td-subtotal">3</td><td>&#8212;</td><td class="reg-td-grandtotal">3</td></tr>
-              <tr><td class="reg-td-name">Golfo</td><td>&#8212;</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">&#8212;</td><td>2</td><td>&#8212;</td><td>&#8212;</td><td class="reg-td-subtotal">2</td><td>&#8212;</td><td class="reg-td-grandtotal">2</td></tr>
-              <tr class="reg-total-row"><td class="reg-td-name">Suma total</td><td>22</td><td>20</td><td>4</td><td class="reg-td-subtotal">46</td><td>26</td><td>17</td><td>12</td><td class="reg-td-subtotal">55</td><td>1</td><td class="reg-td-grandtotal">102</td></tr>
+            <tbody id="regTbody">
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Baja Sur</td><td class="bib-td-name">MXXCU1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Baja Sur</td><td class="bib-td-name">MXXDG1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Baja Sur</td><td class="bib-td-name">MXXLP1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Baja Sur</td><td class="bib-td-name">MXXMO1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Baja Sur</td><td class="bib-td-name">MXXMZ1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Baja Sur</td><td class="bib-td-name">SCU1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Baja Sur</td><td class="bib-td-name">SDG1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Baja Sur</td><td class="bib-td-name">SDG2</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Baja Sur</td><td class="bib-td-name">SJD1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Baja Sur</td><td class="bib-td-name">SLP1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Baja Sur</td><td class="bib-td-name">SLP2</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Baja Sur</td><td class="bib-td-name">SMO1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Baja Sur</td><td class="bib-td-name">SMO2</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Baja Sur</td><td class="bib-td-name">SMZ1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Epicentro</td><td class="bib-td-name">MXXLE1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Epicentro</td><td class="bib-td-name">MXXQR1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Epicentro</td><td class="bib-td-name">SLE1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Epicentro</td><td class="bib-td-name">SLE2</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Epicentro</td><td class="bib-td-name">SQR1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Epicentro</td><td class="bib-td-name">SQR2</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Levante</td><td class="bib-td-name">MXXPZ1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Levante</td><td class="bib-td-name">MXXSL1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Levante</td><td class="bib-td-name">MXXTA1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Levante</td><td class="bib-td-name">MXXVM1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Levante</td><td class="bib-td-name">SBJ1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Levante</td><td class="bib-td-name">SCY1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Levante</td><td class="bib-td-name">SPZ1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Levante</td><td class="bib-td-name">SPZ2</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Levante</td><td class="bib-td-name">SQR3</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Levante</td><td class="bib-td-name">SSL1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Levante</td><td class="bib-td-name">SSL2</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Levante</td><td class="bib-td-name">STA1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Bajio</td><td class="bib-td-desc">Levante</td><td class="bib-td-name">SVM1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Metro Norte</td><td class="bib-td-desc">Metro Norte</td><td class="bib-td-name">SHP1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Metro norte</td><td class="bib-td-desc">Metro Norte</td><td class="bib-td-name">SHP2</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Metro Norte</td><td class="bib-td-desc">Metro Norte</td><td class="bib-td-name">SMX11</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Metro Norte</td><td class="bib-td-desc">Metro Norte</td><td class="bib-td-name">SMX8</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Metro Norte</td><td class="bib-td-desc">Metro Norte</td><td class="bib-td-name">XEM3</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Metro Norte</td><td class="bib-td-desc">Metro Norte</td><td class="bib-td-name">XEM4</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Baja Norte</td><td class="bib-td-name">MXXCD1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Baja Norte</td><td class="bib-td-name">MXXHM1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Baja Norte</td><td class="bib-td-name">MXXNG1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Baja Norte</td><td class="bib-td-name">MXXTJ1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Baja Norte</td><td class="bib-td-name">SCD1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Baja Norte</td><td class="bib-td-name">SEN1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Baja Norte</td><td class="bib-td-name">SHM1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Baja Norte</td><td class="bib-td-name">SNG1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Baja Norte</td><td class="bib-td-name">STJ1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Baja Norte</td><td class="bib-td-name">SXL1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Norcentral</td><td class="bib-td-name">MXXMT2</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Norcentral</td><td class="bib-td-name">SLV1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Norcentral</td><td class="bib-td-name">SLW1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Norcentral</td><td class="bib-td-name">SMT3</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Norcentral</td><td class="bib-td-name">SPD1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Noreste</td><td class="bib-td-name">MXXRX1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Noreste</td><td class="bib-td-name">SMA1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Noreste</td><td class="bib-td-name">SMA2</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Noreste</td><td class="bib-td-name">SMT1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Noreste</td><td class="bib-td-name">SMT2</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Noreste</td><td class="bib-td-name">SMT4</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Noreste</td><td class="bib-td-name">SMT6</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Noreste</td><td class="bib-td-name">SRX1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Noreste</td><td class="bib-td-name">SRX2</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Noroeste</td><td class="bib-td-name">MXXCH1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Noroeste</td><td class="bib-td-name">MXXCJ1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Noroeste</td><td class="bib-td-name">MXXTR1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Noroeste</td><td class="bib-td-name">SCH1</td></tr>
+          <tr><td class="bib-td-desc">MX Norte</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Noroeste</td><td class="bib-td-name">STR1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Metro Sur</td><td class="bib-td-desc">Centro</td><td class="bib-td-name">SMX10</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Metro Sur</td><td class="bib-td-desc">Centro</td><td class="bib-td-name">SMX4</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Metro Sur</td><td class="bib-td-desc">Centro</td><td class="bib-td-name">SMX9</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Metro Sur</td><td class="bib-td-desc">Poniente</td><td class="bib-td-name">SMX1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Metro Sur</td><td class="bib-td-desc">Poniente</td><td class="bib-td-name">SMX3</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Metro Sur</td><td class="bib-td-desc">Poniente</td><td class="bib-td-name">SMX7</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Metro Sur</td><td class="bib-td-desc">Poniente</td><td class="bib-td-name">STL1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Metro Sur</td><td class="bib-td-desc">Sureste</td><td class="bib-td-name">SCV1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Metro Sur</td><td class="bib-td-desc">Sureste</td><td class="bib-td-name">SMX17</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Metro Sur</td><td class="bib-td-desc">Sureste</td><td class="bib-td-name">SMX18</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Metro Sur</td><td class="bib-td-desc">Sureste</td><td class="bib-td-name">SMX2</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Metro Sur</td><td class="bib-td-desc">Sureste</td><td class="bib-td-name">SMX5</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Occidente</td><td class="bib-td-desc">Central</td><td class="bib-td-name">MXXAG1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Occidente</td><td class="bib-td-desc">Central</td><td class="bib-td-name">MXXML1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Occidente</td><td class="bib-td-desc">Central</td><td class="bib-td-name">MXXZC1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Occidente</td><td class="bib-td-desc">Central</td><td class="bib-td-name">SAG1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Occidente</td><td class="bib-td-desc">Central</td><td class="bib-td-name">SLZ1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Occidente</td><td class="bib-td-desc">Central</td><td class="bib-td-name">SML1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Occidente</td><td class="bib-td-desc">Central</td><td class="bib-td-name">SML2</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Occidente</td><td class="bib-td-desc">Central</td><td class="bib-td-name">SUR1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Occidente</td><td class="bib-td-desc">Central</td><td class="bib-td-name">SZC1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Occidente</td><td class="bib-td-desc">Central</td><td class="bib-td-name">SZM1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Occidente</td><td class="bib-td-desc">Jalisco</td><td class="bib-td-name">MXXGD1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Occidente</td><td class="bib-td-desc">Jalisco</td><td class="bib-td-name">SGD1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Occidente</td><td class="bib-td-desc">Jalisco</td><td class="bib-td-name">SGD2</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Occidente</td><td class="bib-td-desc">Jalisco</td><td class="bib-td-name">SGD3</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Occidente</td><td class="bib-td-desc">Jalisco</td><td class="bib-td-name">SGD4</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Occidente</td><td class="bib-td-desc">Jalisco</td><td class="bib-td-name">SGD6</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Occidente</td><td class="bib-td-desc">Pacifico</td><td class="bib-td-name">MXXPV1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Occidente</td><td class="bib-td-desc">Pacifico</td><td class="bib-td-name">SCQ1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Occidente</td><td class="bib-td-desc">Pacifico</td><td class="bib-td-name">SPV1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Occidente</td><td class="bib-td-desc">Pacifico</td><td class="bib-td-name">STN1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Occidente</td><td class="bib-td-desc">Pacifico</td><td class="bib-td-name">STT1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Occidente</td><td class="bib-td-desc">Pacifico</td><td class="bib-td-name">SZL1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Cluster Puebla</td><td class="bib-td-name">MXXJA1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Cluster Puebla</td><td class="bib-td-name">MXXPB1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Cluster Puebla</td><td class="bib-td-name">SJA1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Cluster Puebla</td><td class="bib-td-name">SJA2</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Cluster Puebla</td><td class="bib-td-name">SPB1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Cluster Puebla</td><td class="bib-td-name">SPB2</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Cluster Puebla</td><td class="bib-td-name">STX1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Golfo</td><td class="bib-td-name">MXXDC1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Golfo</td><td class="bib-td-name">MXXVR1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Golfo</td><td class="bib-td-name">SDC1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Golfo</td><td class="bib-td-name">SDC2</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Golfo</td><td class="bib-td-name">SVR1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Istmo</td><td class="bib-td-name">MXXCC1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Istmo</td><td class="bib-td-name">MXXCT1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Istmo</td><td class="bib-td-name">MXXVH1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Istmo</td><td class="bib-td-name">SCC1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Istmo</td><td class="bib-td-name">SCT1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Istmo</td><td class="bib-td-name">SCT2</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Istmo</td><td class="bib-td-name">SVH1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Istmo</td><td class="bib-td-name">SVH2</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Pacifico Sur</td><td class="bib-td-name">MXXOX1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Pacifico Sur</td><td class="bib-td-name">MXXTG1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Pacifico Sur</td><td class="bib-td-name">MXXTP1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Pacifico Sur</td><td class="bib-td-name">SCG1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Pacifico Sur</td><td class="bib-td-name">SCX1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Pacifico Sur</td><td class="bib-td-name">SOX1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Pacifico Sur</td><td class="bib-td-name">STG1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Pacifico Sur</td><td class="bib-td-name">STG2</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Pacifico Sur</td><td class="bib-td-name">STP1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Sureste</td><td class="bib-td-name">MXXCN1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Sureste</td><td class="bib-td-name">MXXMD1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Sureste</td><td class="bib-td-name">SCM1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Sureste</td><td class="bib-td-name">SCN1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Sureste</td><td class="bib-td-name">SCN2</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Sureste</td><td class="bib-td-name">SCP1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Sureste</td><td class="bib-td-name">SCV2</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Sureste</td><td class="bib-td-name">SMD1</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Sureste</td><td class="bib-td-name">SMD3</td></tr>
+          <tr><td class="bib-td-desc">MX Sur</td><td class="bib-td-desc">Sur</td><td class="bib-td-desc">Sureste</td><td class="bib-td-name">SPY1</td></tr>
+          <tr><td class="bib-td-desc">sh</td><td class="bib-td-desc">Norte</td><td class="bib-td-desc">Noroeste</td><td class="bib-td-name">SCJ1</td></tr>
             </tbody>
           </table>
         </div>
-        <div class="bib-note">Se muestra el resumen de sitios por subregión (sin nombres). La hoja original de Nueva Regionalización también incluye el detalle de managers y stakeholders por sitio; ese detalle no se publica en el Hub.</div>
+        <div class="bib-count" id="regCount">142 sitios</div>
+        <div class="bib-note">Listado completo de sitios (código SVC/XD) con su nueva zona, región y subregión, sin nombres. La hoja original de Nueva Regionalización también incluye el detalle de managers y stakeholders por sitio; ese detalle no se publica en el Hub.</div>
       </div>
 
       <div class="routine-panel learn-panel" id="learnpanel-tutoriales">
@@ -1435,6 +1547,22 @@
     if (el.requestFullscreen) el.requestFullscreen();
     else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
     else if (el.msRequestFullscreen) el.msRequestFullscreen();
+  }
+
+  function filterSites() {
+    var input = document.getElementById('regSearch');
+    if (!input) return;
+    var q = input.value.trim().toLowerCase();
+    var rows = document.querySelectorAll('#regTbody tr');
+    var visible = 0;
+    rows.forEach(function (tr) {
+      var text = tr.textContent.toLowerCase();
+      var show = q === '' || text.indexOf(q) !== -1;
+      tr.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    var countEl = document.getElementById('regCount');
+    if (countEl) countEl.textContent = visible + (visible === 1 ? ' sitio' : ' sitios');
   }
 
   // Pega aqui la URL del Web App de Apps Script una vez que crees el Sheet + despliegues el script
@@ -1686,11 +1814,11 @@
     // Biblioteca: tablas Master File / Nueva Regionalización
     'Master File OE 2026 MLM · Documentos de interés':'Master File OE 2026 MLM · Reference documents',
     'Master File OE 2026 MLM · Biblioteca A–Z':'Master File OE 2026 MLM · A–Z Library',
-    'Nueva Regionalización TTE MLM · Sitios por región (resumen)':'New TTE MLM Regionalization · Sites by region (summary)',
+    'Nueva Regionalización TTE MLM · Sitios y su nueva región':'New TTE MLM Regionalization · Sites and their new region',
     'Documento':'Document', 'Letra':'Letter', 'Nombre':'Name', 'Qué consulta':'What it covers', 'Acción':'Action',
-    'Subregión':'Subregion', 'Subtotal':'Subtotal', 'Total':'Total',
-    'Se muestra el resumen de sitios por subregión (sin nombres). La hoja original de Nueva Regionalización también incluye el detalle de managers y stakeholders por sitio; ese detalle no se publica en el Hub.':
-      'This shows the summary of sites by subregion (no names). The original Nueva Regionalización sheet also includes the manager/stakeholder detail per site; that detail is not published on the Hub.',
+    'Zona':'Zone', 'Región':'Region', 'Subregión':'Subregion', 'Sitio':'Site',
+    'Listado completo de sitios (código SVC/XD) con su nueva zona, región y subregión, sin nombres. La hoja original de Nueva Regionalización también incluye el detalle de managers y stakeholders por sitio; ese detalle no se publica en el Hub.':
+      'Full list of sites (SVC/XD code) with their new zone, region and subregion, with no names. The original Nueva Regionalización sheet also includes the manager/stakeholder detail per site; that detail is not published on the Hub.',
   };
 
   /* Mismo criterio que TEXT_EN: no se traduce nada que no este aqui
@@ -1888,11 +2016,11 @@
     // Biblioteca: tablas Master File / Nueva Regionalización
     'Master File OE 2026 MLM · Documentos de interés':'Master File OE 2026 MLM · Documentos de referência',
     'Master File OE 2026 MLM · Biblioteca A–Z':'Master File OE 2026 MLM · Biblioteca A–Z',
-    'Nueva Regionalización TTE MLM · Sitios por región (resumen)':'Nova Regionalização TTE MLM · Sites por região (resumo)',
+    'Nueva Regionalización TTE MLM · Sitios y su nueva región':'Nova Regionalização TTE MLM · Sites e sua nova região',
     'Documento':'Documento', 'Letra':'Letra', 'Nombre':'Nome', 'Qué consulta':'O que consulta', 'Acción':'Ação',
-    'Subregión':'Subregião', 'Subtotal':'Subtotal', 'Total':'Total',
-    'Se muestra el resumen de sitios por subregión (sin nombres). La hoja original de Nueva Regionalización también incluye el detalle de managers y stakeholders por sitio; ese detalle no se publica en el Hub.':
-      'Aqui aparece o resumo de sites por subregião (sem nomes). A planilha original de Nueva Regionalização também traz o detalhe de managers e stakeholders por site; esse detalhe não é publicado no Hub.',
+    'Zona':'Zona', 'Región':'Região', 'Subregión':'Subregião', 'Sitio':'Site',
+    'Listado completo de sitios (código SVC/XD) con su nueva zona, región y subregión, sin nombres. La hoja original de Nueva Regionalización también incluye el detalle de managers y stakeholders por sitio; ese detalle no se publica en el Hub.':
+      'Lista completa de sites (código SVC/XD) com sua nova zona, região e subregião, sem nomes. A planilha original de Nueva Regionalização também traz o detalhe de managers e stakeholders por site; esse detalhe não é publicado no Hub.',
   };
 
   const I18N_SELECTOR = [
@@ -1909,7 +2037,7 @@
     '.bulletin-month-label', '.bulletin-card-title', '.bulletin-card-sub', '.bulletin-card-link',
     '.org-top-role', '.region-note', '.orgfull-tier-label', '.orgfull-role',
     '.learn-card-title', '.learn-card-sub', '.i18n-link',
-    '.bib-section-title', '.bib-note', '.bib-table thead th', '.reg-table thead th',
+    '.bib-section-title', '.bib-note', '.bib-table thead th',
     '#sugArea option', '#sugTipo option'
   ].join(', ');
 
