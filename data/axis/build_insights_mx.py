@@ -120,6 +120,24 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
   .chkwrap{display:flex;align-items:center;gap:6px;font-size:13px;transition:color .15s ease;}
   .chkwrap:hover{color:var(--yellow);}
   .chkwrap input[type=checkbox]{accent-color:var(--yellow);cursor:pointer;}
+  .msFilter{position:relative;}
+  .msBtn{background:var(--panel2);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:7px 10px;
+    font-size:13px;cursor:pointer;min-width:150px;text-align:left;font-family:inherit;
+    transition:border-color .15s ease, transform .12s ease, box-shadow .15s ease;}
+  .msBtn:hover{border-color:#555;transform:translateY(-1px);}
+  .msBtn.active{border-color:var(--yellow);color:var(--yellow);box-shadow:0 0 0 2px rgba(255,230,0,.1);}
+  .msPanel{display:none;position:absolute;top:calc(100% + 6px);left:0;background:var(--panel2);
+    border:1px solid var(--border);border-radius:8px;padding:8px;min-width:210px;max-height:230px;
+    overflow-y:auto;z-index:30;box-shadow:0 14px 34px rgba(0,0,0,.55);}
+  .msPanel.open{display:block;}
+  .msOption{display:flex;align-items:center;gap:8px;padding:5px 6px;border-radius:5px;font-size:12.5px;
+    cursor:pointer;transition:background-color .12s ease, transform .12s ease;}
+  .msOption:hover{background:#2a2a2a;transform:translateX(2px);}
+  .msOption input[type=checkbox]{accent-color:var(--yellow);cursor:pointer;}
+  .clearBtn{background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:6px;
+    padding:7px 12px;font-size:12px;cursor:pointer;font-family:inherit;
+    transition:border-color .15s ease, color .15s ease, transform .12s ease;}
+  .clearBtn:hover{border-color:var(--yellow);color:var(--yellow);transform:translateY(-1px);}
   .count{font-size:12px;color:var(--muted);margin-bottom:8px;}
   h3.section{font-size:15px;border-bottom:2px solid var(--yellow);padding-bottom:6px;margin:30px 0 12px;}
   .tablewrap{max-height:520px;overflow-y:auto;border-radius:10px;border:1px solid var(--border);box-shadow:0 4px 16px rgba(0,0,0,.3);}
@@ -160,13 +178,34 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
   </div>
   <h3 class="section">Proyectos — México</h3>
   <div class="filters">
-    <div><label>Buscar proyecto</label><input type="text" id="fBusqueda" placeholder="nombre del proyecto..."></div>
-    <div><label>Centro / CAD</label><select id="fCad"><option value="">Todos</option></select></div>
-    <div><label>Equipo</label><select id="fTime"><option value="">Todos</option></select></div>
-    <div><label>Etapa actual</label><select id="fEtapa"><option value="">Todas</option></select></div>
-    <div><label>Prioridad</label><select id="fPrioridad"><option value="">Todas</option></select></div>
+    <div>
+      <label>Buscar proyecto</label>
+      <input type="text" id="fBusqueda" list="fBusquedaList" placeholder="nombre del proyecto..." autocomplete="off">
+      <datalist id="fBusquedaList"></datalist>
+    </div>
+    <div class="msFilter">
+      <label>Centro / CAD</label>
+      <button type="button" class="msBtn" id="msBtnCad" onclick="toggleMS('Cad')">Todos ▾</button>
+      <div class="msPanel" id="msPanelCad"></div>
+    </div>
+    <div class="msFilter">
+      <label>Equipo</label>
+      <button type="button" class="msBtn" id="msBtnTime" onclick="toggleMS('Time')">Todos ▾</button>
+      <div class="msPanel" id="msPanelTime"></div>
+    </div>
+    <div class="msFilter">
+      <label>Etapa actual</label>
+      <button type="button" class="msBtn" id="msBtnEtapa" onclick="toggleMS('Etapa')">Todas ▾</button>
+      <div class="msPanel" id="msPanelEtapa"></div>
+    </div>
+    <div class="msFilter">
+      <label>Prioridad</label>
+      <button type="button" class="msBtn" id="msBtnPrioridad" onclick="toggleMS('Prioridad')">Todas ▾</button>
+      <div class="msPanel" id="msPanelPrioridad"></div>
+    </div>
     <div class="chkwrap"><input type="checkbox" id="fSoloAtrasados"><label for="fSoloAtrasados" style="margin:0;">Solo atrasados</label></div>
     <div class="chkwrap"><input type="checkbox" id="fSoloRollout"><label for="fSoloRollout" style="margin:0;">Solo Roll Out</label></div>
+    <div><button type="button" class="clearBtn" id="fClear" onclick="clearFilters()">Limpiar filtros</button></div>
   </div>
   <div class="count" id="countLbl"></div>
   <div class="tablewrap">
@@ -183,66 +222,129 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 <script>
 const proyectos = __DATA__;
 
+function esc(s){
+  return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
 function badge(value, type){
   if(type==='atraso'){ return value==='Sí' ? '<span class="badge si">Sí</span>' : '<span class="badge no">No</span>'; }
-  if(type==='prioridad'){ return value ? `<span class="badge p">${value}</span>` : '<span class="badge blank">–</span>'; }
-  return value;
+  if(type==='prioridad'){ return value ? `<span class="badge p">${esc(value)}</span>` : '<span class="badge blank">–</span>'; }
+  return esc(value);
 }
-function fillSelect(id, values){
-  const sel = document.getElementById(id);
-  [...new Set(values)].filter(v=>v).sort().forEach(v=>{
-    const opt = document.createElement('option'); opt.value=v; opt.textContent=v; sel.appendChild(opt);
+
+// Filtros con seleccion multiple (CAD, Equipo, Etapa, Prioridad) + busqueda por nombre (dropdown alfabetico)
+const FIELD_MAP = {
+  Cad:       { key:'cad',       all:'Todos'  },
+  Time:      { key:'time',      all:'Todos'  },
+  Etapa:     { key:'etapa',     all:'Todas'  },
+  Prioridad: { key:'prioridad', all:'Todas'  },
+};
+const state = { cad:new Set(), time:new Set(), etapa:new Set(), prioridad:new Set() };
+
+function buildMultiSelects(){
+  Object.keys(FIELD_MAP).forEach(name => {
+    const { key } = FIELD_MAP[name];
+    const values = [...new Set(proyectos.map(p => p[key]))].filter(v => v).sort((a,b)=>a.localeCompare(b,'es'));
+    const panel = document.getElementById('msPanel'+name);
+    panel.innerHTML = values.map(v => `<label class="msOption"><input type="checkbox" value="${esc(v)}"> ${esc(v)}</label>`).join('');
+    panel.querySelectorAll('input[type=checkbox]').forEach(cb => {
+      cb.addEventListener('change', () => {
+        const set = state[key];
+        if (cb.checked) set.add(cb.value); else set.delete(cb.value);
+        updateMsLabel(name);
+        update();
+      });
+    });
   });
 }
-function render(){
+function updateMsLabel(name){
+  const { key, all } = FIELD_MAP[name];
+  const btn = document.getElementById('msBtn'+name);
+  const n = state[key].size;
+  btn.textContent = (n===0 ? all : (n+' seleccionado'+(n>1?'s':''))) + ' ▾';
+  btn.classList.toggle('active', n>0);
+}
+function toggleMS(name){
+  const target = document.getElementById('msPanel'+name);
+  const isOpen = target.classList.contains('open');
+  document.querySelectorAll('.msPanel').forEach(p => p.classList.remove('open'));
+  if (!isOpen) target.classList.add('open');
+}
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.msFilter')) {
+    document.querySelectorAll('.msPanel').forEach(p => p.classList.remove('open'));
+  }
+});
+function fillDatalist(){
+  const dl = document.getElementById('fBusquedaList');
+  const names = [...new Set(proyectos.map(p => p.proyecto))].filter(v => v).sort((a,b)=>a.localeCompare(b,'es'));
+  dl.innerHTML = names.map(n => `<option value="${esc(n)}"></option>`).join('');
+}
+
+function getFiltered(){
   const busqueda = document.getElementById('fBusqueda').value.trim().toLowerCase();
-  const cad = document.getElementById('fCad').value;
-  const time = document.getElementById('fTime').value;
-  const etapa = document.getElementById('fEtapa').value;
-  const prioridad = document.getElementById('fPrioridad').value;
   const soloAtrasados = document.getElementById('fSoloAtrasados').checked;
   const soloRollout = document.getElementById('fSoloRollout').checked;
-  const filtered = proyectos.filter(p =>
+  return proyectos.filter(p =>
     (!busqueda || p.proyecto.toLowerCase().includes(busqueda)) &&
-    (!cad || p.cad===cad) && (!time || p.time===time) && (!etapa || p.etapa===etapa) &&
-    (!prioridad || p.prioridad===prioridad) && (!soloAtrasados || p.atrasado==='Sí') && (!soloRollout || p.rollout)
+    (state.cad.size===0 || state.cad.has(p.cad)) &&
+    (state.time.size===0 || state.time.has(p.time)) &&
+    (state.etapa.size===0 || state.etapa.has(p.etapa)) &&
+    (state.prioridad.size===0 || state.prioridad.has(p.prioridad)) &&
+    (!soloAtrasados || p.atrasado==='Sí') &&
+    (!soloRollout || p.rollout)
   );
+}
+function render(filtered){
   document.getElementById('countLbl').textContent = `Mostrando ${filtered.length} de ${proyectos.length} proyectos`;
   const tbody = document.querySelector('#tblProyectos tbody');
   tbody.innerHTML = filtered.length ? filtered.slice(0,500).map(p => `
     <tr>
-      <td>${p.proyecto}</td><td>${p.cad}</td><td>${p.etapa}</td><td>${badge(p.prioridad,'prioridad')}</td>
-      <td style="color:var(--muted);font-size:11px;">${p.tags}</td>
-      <td>${badge(p.atrasado,'atraso')}</td><td>${p.successRate}</td><td>$${p.saving.toLocaleString()}</td><td>${p.time}</td>
-    </tr>`).join('') : '<tr class="empty-row"><td colspan="9">Sin proyectos que coincidan con el filtro.</td></tr>';
+      <td>${esc(p.proyecto)}</td><td>${esc(p.cad)}</td><td>${esc(p.etapa)}</td><td>${badge(p.prioridad,'prioridad')}</td>
+      <td style="color:var(--muted);font-size:11px;">${esc(p.tags)}</td>
+      <td>${badge(p.atrasado,'atraso')}</td><td>${esc(p.successRate)}</td><td>$${p.saving.toLocaleString()}</td><td>${esc(p.time)}</td>
+    </tr>`).join('') : '<tr class="empty-row"><td colspan="9">Sin proyectos que coincidan con los filtros.</td></tr>';
 }
-function renderKpis(){
-  const total = proyectos.length;
-  const atrasados = proyectos.filter(p=>p.atrasado==='Sí').length;
-  const savingTotal = proyectos.reduce((a,p)=>a+p.saving,0);
-  const centros = new Set(proyectos.map(p=>p.cad)).size;
-  const rollout = proyectos.filter(p=>p.rollout).length;
+function renderKpis(filtered){
+  const total = filtered.length;
+  const atrasados = filtered.filter(p=>p.atrasado==='Sí').length;
+  const savingTotal = filtered.reduce((a,p)=>a+p.saving,0);
+  const centros = new Set(filtered.map(p=>p.cad)).size;
+  const rollout = filtered.filter(p=>p.rollout).length;
   document.getElementById('kpiTotal').textContent = total;
-  document.getElementById('kpiAtrasados').textContent = Math.round(100*atrasados/total)+'%';
+  document.getElementById('kpiAtrasados').textContent = total ? Math.round(100*atrasados/total)+'%' : '0%';
   document.getElementById('kpiSaving').textContent = '$'+Math.round(savingTotal).toLocaleString();
   document.getElementById('kpiCentros').textContent = centros;
   document.getElementById('kpiRollout').textContent = rollout;
-  document.getElementById('findingsList').innerHTML = `
-    <li><strong>${atrasados} de ${total} proyectos de México están atrasados (${Math.round(100*atrasados/total)}%)</strong>.</li>
-    <li><strong>$${Math.round(savingTotal).toLocaleString()} USD</strong> en savings reportados por los proyectos de México.</li>
-    <li>El export cubre <strong>${centros} centros/CAD distintos</strong> de México.</li>
+  document.getElementById('findingsList').innerHTML = total ? `
+    <li><strong>${atrasados} de ${total} proyectos están atrasados (${Math.round(100*atrasados/total)}%)</strong> con los filtros actuales.</li>
+    <li><strong>$${Math.round(savingTotal).toLocaleString()} USD</strong> en savings reportados en esta selección.</li>
+    <li>Cubre <strong>${centros} centros/CAD distintos</strong>.</li>
     <li><strong>${rollout} proyectos</strong> están etiquetados como "Roll Out" (despliegue en curso).</li>
-  `;
+  ` : '<li>Sin proyectos que coincidan con los filtros actuales.</li>';
 }
-fillSelect('fCad', proyectos.map(p=>p.cad));
-fillSelect('fTime', proyectos.map(p=>p.time));
-fillSelect('fEtapa', proyectos.map(p=>p.etapa));
-fillSelect('fPrioridad', proyectos.map(p=>p.prioridad));
-['fCad','fTime','fEtapa','fPrioridad','fSoloAtrasados','fSoloRollout'].forEach(id =>
-  document.getElementById(id).addEventListener('change', render));
-document.getElementById('fBusqueda').addEventListener('input', render);
-renderKpis();
-render();
+function update(){
+  const filtered = getFiltered();
+  render(filtered);
+  renderKpis(filtered);
+}
+function clearFilters(){
+  document.getElementById('fBusqueda').value = '';
+  document.getElementById('fSoloAtrasados').checked = false;
+  document.getElementById('fSoloRollout').checked = false;
+  Object.keys(FIELD_MAP).forEach(name => {
+    state[FIELD_MAP[name].key].clear();
+    document.querySelectorAll('#msPanel'+name+' input[type=checkbox]').forEach(cb => cb.checked = false);
+    updateMsLabel(name);
+  });
+  update();
+}
+
+buildMultiSelects();
+fillDatalist();
+document.getElementById('fBusqueda').addEventListener('input', update);
+['fSoloAtrasados','fSoloRollout'].forEach(id =>
+  document.getElementById(id).addEventListener('change', update));
+update();
 </script>
 </body>
 </html>
