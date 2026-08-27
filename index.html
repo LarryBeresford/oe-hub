@@ -419,6 +419,8 @@
   }
   .suggest-confirm { display:none; color:var(--yellow); font-size:12.5px; font-weight:700; margin-top:12px; }
   .suggest-confirm.show { display:block; }
+  .suggest-confirm.error { color:var(--tag-mgmt); }
+  .suggest-submit:disabled { opacity:.6; cursor:default; }
 
   .orgfull-cols { display:flex; gap:16px; flex-wrap:wrap; align-items:flex-start; }
   .orgfull-col { flex:1; min-width:230px; background:var(--white); border:1px solid var(--border); border-radius:12px; padding:16px; }
@@ -737,7 +739,7 @@
         </button>
       </div>
       <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 230px); min-height:600px;">
-        <iframe id="insightsFrameProyectos" src="management/Insights_Portafolio_MX.html" style="width:100%; height:100%; border:none; display:block;" title="Insights de Portafolio — Proyectos"></iframe>
+        <iframe id="insightsFrameProyectos" src="management/Insights_Portafolio_MX.html" style="width:100%; height:100%; border:none; display:block;" title="Insights de Portafolio — Proyectos" onload="syncFrameLang('insightsFrameProyectos')"></iframe>
       </div>
     </div>
 
@@ -754,7 +756,7 @@
         </button>
       </div>
       <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 230px); min-height:600px;">
-        <iframe id="insightsFrameIndicadores" src="management/Insights_Portafolio_MX.html" style="width:100%; height:100%; border:none; display:block;" title="Insights de Portafolio — Indicadores"></iframe>
+        <iframe id="insightsFrameIndicadores" src="management/Insights_Portafolio_MX.html" style="width:100%; height:100%; border:none; display:block;" title="Insights de Portafolio — Indicadores" onload="syncFrameLang('insightsFrameIndicadores')"></iframe>
       </div>
     </div>
 
@@ -1005,7 +1007,7 @@
         </button>
       </div>
       <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 230px); min-height:600px;">
-        <iframe id="slidesFrame" src="herramientas/generador_slide_ejecutivo.html" style="width:100%; height:100%; border:none; display:block;" title="Generador de Slide Ejecutivo"></iframe>
+        <iframe id="slidesFrame" src="herramientas/generador_slide_ejecutivo.html" style="width:100%; height:100%; border:none; display:block;" title="Generador de Slide Ejecutivo" onload="syncFrameLang('slidesFrame')"></iframe>
       </div>
     </div>
 
@@ -1217,8 +1219,58 @@
     else if (el.msRequestFullscreen) el.msRequestFullscreen();
   }
 
+  // Pega aqui la URL del Web App de Apps Script una vez que crees el Sheet + despliegues el script
+  // (Extensiones > Apps Script > pegar codigo > Implementar > Nueva implementacion > Aplicacion web).
+  // Mientras esto quede vacio, el boton se queda en modo vista previa (no envia nada de verdad).
+  const SUGGESTIONS_ENDPOINT = '';
+
   function submitSuggestion() {
-    document.getElementById('sugConfirm').classList.add('show');
+    const areaSel = document.getElementById('sugArea');
+    const tipoSel = document.getElementById('sugTipo');
+    const descEl = document.getElementById('sugDesc');
+    const btn = document.querySelector('.suggest-submit');
+    const confirmEl = document.getElementById('sugConfirm');
+
+    const desc = descEl.value.trim();
+    if (!desc) {
+      confirmEl.textContent = 'Escribe una descripción antes de enviar.';
+      confirmEl.classList.add('show', 'error');
+      return;
+    }
+
+    const payload = {
+      area: areaSel.selectedIndex > 0 ? areaSel.value : '',
+      tipo: tipoSel.selectedIndex > 0 ? tipoSel.value : '',
+      descripcion: desc,
+      fecha: new Date().toISOString(),
+      idioma: currentLang(),
+    };
+
+    if (!SUGGESTIONS_ENDPOINT) {
+      confirmEl.classList.remove('error');
+      confirmEl.textContent = 'Sugerencia enviada con éxito (vista previa: aquí se conectaría a un Google Sheet vía Apps Script).';
+      confirmEl.classList.add('show');
+      areaSel.selectedIndex = 0; tipoSel.selectedIndex = 0; descEl.value = '';
+      return;
+    }
+
+    btn.disabled = true;
+    fetch(SUGGESTIONS_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // evita el preflight OPTIONS con Apps Script
+      body: JSON.stringify(payload),
+    })
+      .then(() => {
+        confirmEl.classList.remove('error');
+        confirmEl.textContent = 'Sugerencia enviada con éxito. ¡Gracias!';
+        confirmEl.classList.add('show');
+        areaSel.selectedIndex = 0; tipoSel.selectedIndex = 0; descEl.value = '';
+      })
+      .catch(() => {
+        confirmEl.textContent = 'No se pudo enviar. Intenta de nuevo en un momento.';
+        confirmEl.classList.add('show', 'error');
+      })
+      .finally(() => { btn.disabled = false; });
   }
 
   /* ==================== ES / EN ==================== */
@@ -1385,6 +1437,41 @@
     'En cuanto el equipo comparta una sesión de capacitación, va a aparecer aquí. Por ahora no hay nada que previsualizar.':'As soon as the team shares a training session, it will show up here. For now there\'s nothing to preview.',
     'Tutorial grabado por Mónica Gallardo.':'Tutorial recorded by Mónica Gallardo.',
     'Ver en Drive':'View on Drive',
+
+    // Nuevo (Management, Rutinas, Biblioteca, Organigrama, Boletines) — agregado tras auditoria de traduccion
+    'Management':'Management', 'Iniciativas':'Initiatives', 'BBR':'BBR', 'MBR':'MBR',
+    'Newsletter':'Newsletter', 'Biblioteca':'Library', 'Success stories':'Success stories',
+    'Quality':'Quality', 'FM':'FM', 'XD':'XD', 'SVC':'SVC', 'TOM':'TOM', 'General':'General',
+    'FM · XD · TOM':'FM · XD · TOM',
+    'Proyectos, indicadores e iniciativas del equipo, en un solo lugar.':'Projects, indicators, and initiatives for the team, all in one place.',
+    'Ir a Management':'Go to Management',
+    'Flujo · Actualización de Proyectos':'Flow · Project Update',
+    'Portafolio de proyectos':'Project portfolio',
+    'Ver presentación':'View presentation',
+    'Histórico BBR':'BBR History',
+    'FM + XD + SC + TOM':'FM + XD + SC + TOM',
+    'SVC + Last Mile':'SVC + Last Mile',
+    'Boletín de Gestión — en construcción (se integrará vía Streamlit)':'Management Bulletin — under construction (will be integrated via Streamlit)',
+    'Flujo · Newsletter mensual':'Flow · Monthly Newsletter',
+    'Abrir playbook':'Open playbook',
+    'Sr Manager · OE':'Sr Manager · OE', 'Manager':'Manager',
+    'Supervisor MRS':'Supervisor MRS', 'Supervisor MRN':'Supervisor MRN', 'Supervisor':'Supervisor',
+    'Big Projects / RSC':'Big Projects / RSC',
+    'Logistics (Nodeflow) / Large':'Logistics (Nodeflow) / Large',
+    'Sorter':'Sorter', 'Problem Solver':'Problem Solver',
+    'Supervisor MRS · Problem Solver + SC + H&amp;B':'Supervisor MRS · Problem Solver + SC + H&amp;B',
+    'H&amp;B end to end (Large + Oversize)':'H&amp;B end to end (Large + Oversize)',
+    'Sortation Center | Process Path':'Sortation Center | Process Path',
+    'First Mile | TMED':'First Mile | TMED',
+    'Quality Audits':'Quality Audits', 'Fill Rate':'Fill Rate',
+    'Backlog Continuo e Iniciativas Locales — cómo una idea se convierte en iniciativa o proyecto.':'Continuous Backlog and Local Initiatives — how an idea becomes an initiative or project.',
+    'Backlog Continuo':'Continuous Backlog', 'Iniciativas Locales':'Local Initiatives',
+    'Boletín de Gestión (unificado)':'Management Bulletin (unified)',
+    'Próximamente':'Coming soon',
+    'Esta sección va a unificar los 4 boletines y alojar el playbook directo en la web — se construye con la app de Streamlit del equipo.':'This section will unify the 4 bulletins and host the playbook directly on the web — built with the team\'s Streamlit app.',
+    'Sin fecha aún':'No date yet',
+    'Todavía no hay grabaciones cargadas. En cuanto el equipo comparta una sesión de capacitación, aparecerá aquí como fecha · título · enlace.':'No recordings uploaded yet. As soon as the team shares a training session, it will appear here as date · title · link.',
+    'Abrir Sheet ↗':'Open Sheet ↗',
   };
 
   /* Mismo criterio que TEXT_EN: no se traduce nada que no este aqui
@@ -1550,6 +1637,41 @@
     'Abrir página completa ↗':'Abrir página completa ↗',
     'Todavía no hay grabaciones cargadas':'Ainda não há gravações carregadas',
     'En cuanto el equipo comparta una sesión de capacitación, va a aparecer aquí. Por ahora no hay nada que previsualizar.':'Assim que a equipe compartilhar uma sessão de treinamento, ela vai aparecer aqui. Por enquanto não há nada para pré-visualizar.',
+
+    // Nuevo (Management, Rutinas, Biblioteca, Organigrama, Boletines) — agregado tras auditoria de traduccion
+    'Management':'Management', 'Iniciativas':'Iniciativas', 'BBR':'BBR', 'MBR':'MBR',
+    'Newsletter':'Newsletter', 'Biblioteca':'Biblioteca', 'Success stories':'Success stories',
+    'Quality':'Quality', 'FM':'FM', 'XD':'XD', 'SVC':'SVC', 'TOM':'TOM', 'General':'General',
+    'FM · XD · TOM':'FM · XD · TOM',
+    'Proyectos, indicadores e iniciativas del equipo, en un solo lugar.':'Projetos, indicadores e iniciativas da equipe, tudo em um só lugar.',
+    'Ir a Management':'Ir para Management',
+    'Flujo · Actualización de Proyectos':'Fluxo · Atualização de Projetos',
+    'Portafolio de proyectos':'Portfólio de projetos',
+    'Ver presentación':'Ver apresentação',
+    'Histórico BBR':'Histórico BBR',
+    'FM + XD + SC + TOM':'FM + XD + SC + TOM',
+    'SVC + Last Mile':'SVC + Last Mile',
+    'Boletín de Gestión — en construcción (se integrará vía Streamlit)':'Boletim de Gestão — em construção (será integrado via Streamlit)',
+    'Flujo · Newsletter mensual':'Fluxo · Newsletter mensal',
+    'Abrir playbook':'Abrir playbook',
+    'Sr Manager · OE':'Sr Manager · OE', 'Manager':'Manager',
+    'Supervisor MRS':'Supervisor MRS', 'Supervisor MRN':'Supervisor MRN', 'Supervisor':'Supervisor',
+    'Big Projects / RSC':'Big Projects / RSC',
+    'Logistics (Nodeflow) / Large':'Logistics (Nodeflow) / Large',
+    'Sorter':'Sorter', 'Problem Solver':'Problem Solver',
+    'Supervisor MRS · Problem Solver + SC + H&amp;B':'Supervisor MRS · Problem Solver + SC + H&amp;B',
+    'H&amp;B end to end (Large + Oversize)':'H&amp;B end to end (Large + Oversize)',
+    'Sortation Center | Process Path':'Sortation Center | Process Path',
+    'First Mile | TMED':'First Mile | TMED',
+    'Quality Audits':'Quality Audits', 'Fill Rate':'Fill Rate',
+    'Backlog Continuo e Iniciativas Locales — cómo una idea se convierte en iniciativa o proyecto.':'Backlog Contínuo e Iniciativas Locais — como uma ideia se transforma em iniciativa ou projeto.',
+    'Backlog Continuo':'Backlog Contínuo', 'Iniciativas Locales':'Iniciativas Locais',
+    'Boletín de Gestión (unificado)':'Boletim de Gestão (unificado)',
+    'Próximamente':'Em breve',
+    'Esta sección va a unificar los 4 boletines y alojar el playbook directo en la web — se construye con la app de Streamlit del equipo.':'Esta seção vai unificar os 4 boletins e hospedar o playbook direto na web — construída com o app de Streamlit da equipe.',
+    'Sin fecha aún':'Sem data ainda',
+    'Todavía no hay grabaciones cargadas. En cuanto el equipo comparta una sesión de capacitación, aparecerá aquí como fecha · título · enlace.':'Ainda não há gravações carregadas. Assim que a equipe compartilhar uma sessão de treinamento, ela vai aparecer aqui como data · título · link.',
+    'Abrir Sheet ↗':'Abrir Sheet ↗',
   };
 
   const I18N_SELECTOR = [
@@ -1605,6 +1727,22 @@
       var pageId = current.id.replace('page-', '');
       var map = lang === 'en' ? LABELS_EN : (lang === 'pt' ? LABELS_PT : LABELS);
       document.getElementById('bcCurrent').textContent = map[pageId] || pageId;
+    }
+
+    // Sincroniza el idioma con los iframes de herramientas (Insights de Portafolio, etc.)
+    // que tienen su propio traductor local (mismo origen, escuchan postMessage).
+    window.__oeHubLang = lang;
+    ['insightsFrameProyectos', 'insightsFrameIndicadores', 'slidesFrame'].forEach(function (id) {
+      var frame = document.getElementById(id);
+      if (frame && frame.contentWindow) {
+        try { frame.contentWindow.postMessage({ type: 'oeHubLang', lang: lang }, '*'); } catch (e) {}
+      }
+    });
+  }
+  function syncFrameLang(id) {
+    var frame = document.getElementById(id);
+    if (frame && frame.contentWindow && window.__oeHubLang) {
+      try { frame.contentWindow.postMessage({ type: 'oeHubLang', lang: window.__oeHubLang }, '*'); } catch (e) {}
     }
   }
 
