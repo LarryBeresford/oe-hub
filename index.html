@@ -1781,7 +1781,9 @@
   }
 
   function openGroupFor(id) {
-    document.getElementById(id).classList.add('open');
+    document.querySelectorAll('.nav-group').forEach(function (g) { g.classList.remove('open'); });
+    var target = document.getElementById(id);
+    if (target) target.classList.add('open');
   }
 
   function currentLang() {
