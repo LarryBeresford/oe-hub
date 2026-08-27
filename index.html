@@ -730,10 +730,14 @@
       <div class="deck-link"><div>Flujo completo, con la presentación original de Mónica Gallardo.</div><a href="wiki/Rutinas_Gestion_OE.html#f1" target="_blank" rel="noopener">Ver detalle ↗</a></div>
 
       <div class="section-title" style="margin-top:30px">Portafolio de proyectos</div>
-      <div class="coming-soon">
-        <div class="coming-soon-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
-        <div class="coming-soon-title">Contenido en construcción</div>
-        <div class="coming-soon-sub">Tablero de proyectos con datos reales de MELI Axis — en desarrollo.</div>
+      <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
+        <button onclick="fullscreenIframe('insightsFrameProyectos')" style="display:flex; align-items:center; gap:6px; background:var(--dark); color:var(--white); border:none; border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:inherit;">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke="currentColor"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+          Pantalla completa
+        </button>
+      </div>
+      <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 230px); min-height:600px;">
+        <iframe id="insightsFrameProyectos" src="management/Insights_Portafolio_MX.html" style="width:100%; height:100%; border:none; display:block;" title="Insights de Portafolio — Proyectos"></iframe>
       </div>
     </div>
 
@@ -743,9 +747,14 @@
         <div class="page-title">Indicadores</div>
         <div class="page-desc">% de avance, proyectos en riesgo, top proyectos, resultados PET y comparativa entre áreas.</div>
       </div>
-      <div class="coming-soon">
-        <div class="coming-soon-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
-        <div class="coming-soon-title">Contenido en construcción</div>
+      <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
+        <button onclick="fullscreenIframe('insightsFrameIndicadores')" style="display:flex; align-items:center; gap:6px; background:var(--dark); color:var(--white); border:none; border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:inherit;">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke="currentColor"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+          Pantalla completa
+        </button>
+      </div>
+      <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 230px); min-height:600px;">
+        <iframe id="insightsFrameIndicadores" src="management/Insights_Portafolio_MX.html" style="width:100%; height:100%; border:none; display:block;" title="Insights de Portafolio — Indicadores"></iframe>
       </div>
     </div>
 
