@@ -106,8 +106,10 @@
 
   .sidebar-footer {
     padding: 12px 16px; border-top: 1px solid #2a2a2a;
-    font-size: 10px; color: #444; flex-shrink:0;
+    font-size: 10px; color: #444; flex-shrink:0; line-height:1.5;
   }
+  .sidebar-footer a { text-decoration:none; transition:color .15s ease; }
+  .sidebar-footer a:hover { color: var(--yellow) !important; }
 
   .main { margin-left: var(--sidebar-w); flex:1; display:flex; flex-direction:column; min-height:100vh; transition: margin-left 0.18s ease; }
 
@@ -669,7 +671,7 @@
       <button class="nav-sub-item" onclick="go('aprendizaje', this); setTimeout(()=>learnTab('tutoriales'),0)"><span>Tutoriales MELI Axis</span></button>
     </div>
   </nav>
-  <div class="sidebar-footer"></div>
+  <div class="sidebar-footer">¿Dudas sobre el funcionamiento de la página, desarrollo UX o la comunidad de OE? Escríbele a <a href="mailto:larry.beresforddiaz@mercadolibre.com.mx" style="color:#888;">Larry Beresford Díaz</a>.</div>
 </aside>
 
 <div class="mobile-nav-backdrop" onclick="closeMobileNav()"></div>
@@ -1911,6 +1913,10 @@
     // Busqueda rapida (Ctrl+K)
     'Buscar':'Search',
 
+    // Marca de agua de contacto (sidebar-footer)
+    '¿Dudas sobre el funcionamiento de la página, desarrollo UX o la comunidad de OE? Escríbele a':
+      'Questions about how the page works, UX development, or the OE community? Reach out to',
+
     // Novedades
     'Novedades':'What\'s new',
     'Insights de Portafolio ahora tiene datos reales de MELI Axis, con Snapshot y Diagnóstico con un clic.':
@@ -2126,6 +2132,10 @@
 
     // Busqueda rapida (Ctrl+K)
     'Buscar':'Buscar',
+
+    // Marca de agua de contacto (sidebar-footer)
+    '¿Dudas sobre el funcionamiento de la página, desarrollo UX o la comunidad de OE? Escríbele a':
+      'Dúvidas sobre o funcionamento da página, desenvolvimento de UX ou a comunidade de OE? Fale com',
 
     // Novedades
     'Novedades':'Novidades',
