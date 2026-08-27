@@ -1184,7 +1184,7 @@
     const map = cl === 'en' ? LABELS_EN : (cl === 'pt' ? LABELS_PT : LABELS);
     document.getElementById('bcCurrent').textContent = map[pageId] || pageId;
 
-    if (pageId === 'directorio' || pageId === 'organigrama' || pageId === 'slides') {
+    if (pageId === 'directorio' || pageId === 'organigrama' || pageId === 'slides' || pageId === 'indicadores' || pageId === 'proyectos') {
       document.body.classList.add('sidebar-collapsed');
     } else {
       document.body.classList.remove('sidebar-collapsed');
