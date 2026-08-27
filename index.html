@@ -640,6 +640,7 @@
       <button class="nav-sub-item" onclick="go('indicadores', this)"><span>Indicadores</span></button>
       <button class="nav-sub-item" onclick="go('management', this)"><span>Iniciativas</span></button>
       <button class="nav-sub-item" id="navSlides" onclick="go('slides', this)"><span>Generador de Slides</span></button>
+      <button class="nav-sub-item" id="navBoletinesGen" onclick="go('boletinesgen', this)"><span>Generador de Boletines</span></button>
     </div>
 
     <button class="nav-direct nav-group" id="navRutinas" onclick="toggleGroup('navRutinas'); go('rutinas', this); setTimeout(()=>routineTab('bbr'),0)">
@@ -815,7 +816,7 @@
 
       <div class="section-title">Herramientas de equipo</div>
       <div class="tool-grid wide">
-        <a class="tool-card wide" href="https://oe-mlm-boletines.streamlit.app/" target="_blank" rel="noopener">
+        <a class="tool-card wide" href="#" onclick="go('boletinesgen', document.getElementById('navBoletinesGen')); openGroupFor('navManagement'); return false;">
           <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a1 1 0 0 1 1-1h9l6 6v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/><path d="M14 4v5a1 1 0 0 0 1 1h5"/></svg></div>
           <div class="tool-card-text"><div class="tool-card-title">Generador de Boletines</div><div class="tool-card-sub">App de Streamlit que arma los 3 newsletters a partir de los Excel/Sheets.</div></div>
           <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
@@ -993,7 +994,7 @@
         </div>
 
         <div class="tool-grid wide" style="margin-top:16px">
-          <a class="tool-card wide" href="https://oe-mlm-boletines.streamlit.app/" target="_blank" rel="noopener">
+          <a class="tool-card wide" href="#" onclick="go('boletinesgen', document.getElementById('navBoletinesGen')); openGroupFor('navManagement'); return false;">
             <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a1 1 0 0 1 1-1h9l6 6v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/><path d="M14 4v5a1 1 0 0 0 1 1h5"/></svg></div>
             <div class="tool-card-text"><div class="tool-card-title">Generador de Boletines</div><div class="tool-card-sub">App de Streamlit que arma los 3 newsletters a partir de los Excel/Sheets.</div></div>
             <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
@@ -1198,6 +1199,24 @@
       <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 230px); min-height:600px;">
         <iframe id="slidesFrame" src="herramientas/generador_slide_ejecutivo.html" style="width:100%; height:100%; border:none; display:block;" title="Generador de Slide Ejecutivo" onload="syncFrameLang('slidesFrame')"></iframe>
       </div>
+    </div>
+
+    <div class="page" id="page-boletinesgen">
+      <div class="page-header">
+        <div class="page-eyebrow">Gestión</div>
+        <div class="page-title">Generador de Boletines</div>
+        <div class="page-desc">App de Streamlit que arma los 3 newsletters (FM+XD+TOM, SVC, Quality) a partir de los Excel/Sheets del equipo.</div>
+      </div>
+      <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
+        <button onclick="fullscreenIframe('boletinesGenFrame')" aria-label="Ver en pantalla completa" style="display:flex; align-items:center; gap:6px; background:var(--dark); color:var(--white); border:none; border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:inherit;">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke="currentColor"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+          Pantalla completa
+        </button>
+      </div>
+      <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 230px); min-height:600px;">
+        <iframe id="boletinesGenFrame" src="https://oe-mlm-boletines.streamlit.app/?embed=true" style="width:100%; height:100%; border:none; display:block;" title="Generador de Boletines"></iframe>
+      </div>
+      <div style="margin-top:10px; font-size:11.5px; color:#999;">¿No carga aquí? <a class="i18n-link" href="https://oe-mlm-boletines.streamlit.app/" target="_blank" rel="noopener" style="color:#999;">Ábrelo en una pestaña nueva ↗</a></div>
     </div>
 
     <div class="page" id="page-management">
@@ -1642,9 +1661,9 @@
 </main>
 
 <script>
-  const LABELS    = { inicio:'Inicio', proyectos:'Gestión · Proyectos', indicadores:'Gestión · Indicadores', rutinas:'Rutinas', directorio:'Directorio', organigrama:'Directorio · Organigrama', slides:'Gestión · Generador de Slides', management:'Gestión · Iniciativas', aprendizaje:'Aprendizaje Continuo' };
-  const LABELS_EN = { inicio:'Home',   proyectos:'Management · Projects', indicadores:'Management · Indicators', rutinas:'Routines', directorio:'Directory', organigrama:'Directory · Full Org Chart', slides:'Management · Slide Generator', management:'Management · Initiatives', aprendizaje:'Continuous Learning' };
-  const LABELS_PT = { inicio:'Início', proyectos:'Gestão · Projetos', indicadores:'Gestão · Indicadores', rutinas:'Rotinas', directorio:'Diretório', organigrama:'Diretório · Organograma', slides:'Gestão · Gerador de Slides', management:'Gestão · Iniciativas', aprendizaje:'Aprendizado Contínuo' };
+  const LABELS    = { inicio:'Inicio', proyectos:'Gestión · Proyectos', indicadores:'Gestión · Indicadores', rutinas:'Rutinas', directorio:'Directorio', organigrama:'Directorio · Organigrama', slides:'Gestión · Generador de Slides', boletinesgen:'Gestión · Generador de Boletines', management:'Gestión · Iniciativas', aprendizaje:'Aprendizaje Continuo' };
+  const LABELS_EN = { inicio:'Home',   proyectos:'Management · Projects', indicadores:'Management · Indicators', rutinas:'Routines', directorio:'Directory', organigrama:'Directory · Full Org Chart', slides:'Management · Slide Generator', boletinesgen:'Management · Newsletter Generator', management:'Management · Initiatives', aprendizaje:'Continuous Learning' };
+  const LABELS_PT = { inicio:'Início', proyectos:'Gestão · Projetos', indicadores:'Gestão · Indicadores', rutinas:'Rotinas', directorio:'Diretório', organigrama:'Diretório · Organograma', slides:'Gestão · Gerador de Slides', boletinesgen:'Gestão · Gerador de Boletins', management:'Gestão · Iniciativas', aprendizaje:'Aprendizado Contínuo' };
 
   function toggleSidebar() {
     document.body.classList.toggle('sidebar-collapsed');
@@ -1681,6 +1700,7 @@
     { label: 'Gestión · Indicadores', hint: '% de avance, riesgo, resultados PET', go: function () { go('indicadores', null); openGroupFor('navManagement'); } },
     { label: 'Gestión · Iniciativas', hint: 'Iniciativas del equipo', go: function () { go('management', null); openGroupFor('navManagement'); } },
     { label: 'Gestión · Generador de Slides', hint: 'Slide de status ejecutivo para juntas', go: function () { go('slides', document.getElementById('navSlides')); openGroupFor('navManagement'); } },
+    { label: 'Gestión · Generador de Boletines', hint: 'App de Streamlit para armar los 3 newsletters', go: function () { go('boletinesgen', document.getElementById('navBoletinesGen')); openGroupFor('navManagement'); } },
     { label: 'Rutinas · BBR', hint: 'Entrega bisemanal de resultados', go: function () { go('rutinas', null); openGroupFor('navRutinas'); routineTab('bbr'); } },
     { label: 'Rutinas · MBR', hint: 'Entrega mensual de resultados', go: function () { go('rutinas', null); openGroupFor('navRutinas'); routineTab('mbr'); } },
     { label: 'Rutinas · Newsletter', hint: 'Boletin mensual de OE', go: function () { go('rutinas', null); openGroupFor('navRutinas'); routineTab('nl'); } },
@@ -1792,7 +1812,7 @@
     const map = cl === 'en' ? LABELS_EN : (cl === 'pt' ? LABELS_PT : LABELS);
     document.getElementById('bcCurrent').textContent = map[pageId] || pageId;
 
-    if (pageId === 'directorio' || pageId === 'organigrama' || pageId === 'slides' || pageId === 'indicadores' || pageId === 'proyectos') {
+    if (pageId === 'directorio' || pageId === 'organigrama' || pageId === 'slides' || pageId === 'boletinesgen' || pageId === 'indicadores' || pageId === 'proyectos') {
       document.body.classList.add('sidebar-collapsed');
     } else {
       document.body.classList.remove('sidebar-collapsed');
@@ -2049,6 +2069,8 @@
 
     // Slides
     'Arma el slide de status de un proyecto Lean (KPIs con tendencia, fases, obstáculos, decisión requerida) y expórtalo listo para la junta.':'Builds the status slide for a Lean project (KPIs with trend, phases, obstacles, decision required) and exports it ready for the meeting.',
+    'App de Streamlit que arma los 3 newsletters (FM+XD+TOM, SVC, Quality) a partir de los Excel/Sheets del equipo.':'Streamlit app that builds the 3 newsletters (FM+XD+TOM, SVC, Quality) from the team\'s Excel/Sheets.',
+    'Ábrelo en una pestaña nueva ↗':'Open it in a new tab ↗',
 
     // Aprendizaje Continuo
     'Guías, cursos y material de referencia para el equipo de OE.':'Guides, courses, and reference material for the OE team.',
@@ -2270,6 +2292,8 @@
 
     // Slides
     'Arma el slide de status de un proyecto Lean (KPIs con tendencia, fases, obstáculos, decisión requerida) y expórtalo listo para la junta.':'Monta o slide de status de um projeto Lean (KPIs com tendência, fases, obstáculos, decisão necessária) e exporta pronto para a reunião.',
+    'App de Streamlit que arma los 3 newsletters (FM+XD+TOM, SVC, Quality) a partir de los Excel/Sheets del equipo.':'App de Streamlit que monta os 3 newsletters (FM+XD+TOM, SVC, Quality) a partir dos Excel/Sheets da equipe.',
+    'Ábrelo en una pestaña nueva ↗':'Abra em uma nova aba ↗',
 
     // Aprendizaje Continuo
     'Guías, cursos y material de referencia para el equipo de OE.':'Guias, cursos e material de referência para a equipe de OE.',
