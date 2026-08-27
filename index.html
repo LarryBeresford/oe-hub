@@ -236,16 +236,19 @@
 
   .quick-grid {
     display:grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
-    gap:14px;
+    grid-template-columns: repeat(4, 1fr);
+    gap:18px;
   }
+  @media(max-width:900px){ .quick-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media(max-width:520px){ .quick-grid { grid-template-columns: 1fr; } }
   .quick-card {
-    background: var(--white); border:1px solid var(--border); border-top:4px solid var(--yellow); border-radius:14px;
-    padding:26px 22px; cursor:pointer; transition: box-shadow 0.15s, transform 0.15s; text-align:left;
+    background: var(--white); border:1px solid var(--border); border-top:4px solid var(--yellow); border-radius:16px;
+    padding:38px 30px; cursor:pointer; transition: box-shadow 0.15s, transform 0.15s; text-align:left;
+    min-height:190px; display:flex; flex-direction:column; justify-content:flex-start;
   }
   .quick-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.10); transform: translateY(-3px); }
-  .quick-card-icon { margin-bottom:14px; width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; background: var(--yellow-bg); }
-  .quick-card-icon svg { width:24px; height:24px; stroke: var(--yellow-dark); }
+  .quick-card-icon { margin-bottom:20px; width:56px; height:56px; border-radius:12px; display:flex; align-items:center; justify-content:center; background: var(--yellow-bg); }
+  .quick-card-icon svg { width:30px; height:30px; stroke: var(--yellow-dark); }
   .quick-card.c-mgmt { border-top-color: var(--tag-mgmt); }
   .quick-card.c-mgmt .quick-card-icon { background: var(--tag-mgmt-bg); }
   .quick-card.c-mgmt .quick-card-icon svg { stroke: var(--tag-mgmt); }
@@ -258,8 +261,8 @@
   .quick-card.c-quality { border-top-color: var(--tag-quality); }
   .quick-card.c-quality .quick-card-icon { background: var(--tag-quality-bg); }
   .quick-card.c-quality .quick-card-icon svg { stroke: var(--tag-quality); }
-  .quick-card-title { font-size:16px; font-weight:800; color:var(--dark); margin-bottom:5px; }
-  .quick-card-sub { font-size:12.5px; color:#999; line-height:1.5; }
+  .quick-card-title { font-size:19px; font-weight:800; color:var(--dark); margin-bottom:8px; }
+  .quick-card-sub { font-size:13.5px; color:#999; line-height:1.55; }
 
   .two-col { display:grid; grid-template-columns: 1.3fr 1fr; gap:16px; }
   @media(max-width:850px){ .two-col { grid-template-columns:1fr; } }
@@ -590,27 +593,6 @@
         </button>
       </div>
 
-      <div class="two-col">
-        <div>
-          <div class="section-title">Novedades</div>
-          <div class="list-card">
-            <div class="list-item"><div class="list-item-dot"></div><div><div class="list-item-date">12 Ago 2026</div><div class="list-item-text">Se estandarizó el Form y Sheet de Quality (v2.1): % de avance ahora es un desplegable, ya no texto libre.</div></div></div>
-            <div class="list-item"><div class="list-item-dot"></div><div><div class="list-item-date">05 Ago 2026</div><div class="list-item-text">Laura Chávez se unió al equipo de Quality como Supervisor MRSC.</div></div></div>
-            <div class="list-item"><div class="list-item-dot"></div><div><div class="list-item-date">31 Jul 2026</div><div class="list-item-text">Julio 2026 cerró con 100% de auditorías operativas completadas en Quality.</div></div></div>
-          </div>
-        </div>
-        <div>
-          <div class="section-title">Fechas relevantes</div>
-          <div class="list-card">
-            <div class="date-item"><div class="date-chip c-fm">31<br/>AGO</div><div class="date-item-text">Focales actualizan su proyecto (y MELI Axis) — último lunes del mes</div></div>
-            <div class="date-item"><div class="date-chip c-svc">02<br/>SEP</div><div class="date-item-text">Supervisores cargan el Form — primer miércoles del mes</div></div>
-            <div class="date-item"><div class="date-chip c-mgmt">04<br/>SEP</div><div class="date-item-text">Managers revisan y autorizan — primer viernes del mes</div></div>
-            <div class="date-item"><div class="date-chip c-quality">08<br/>SEP</div><div class="date-item-text">Miguel da la autorización final — segundo martes del mes</div></div>
-            <div class="date-item"><div class="date-chip">09<br/>SEP</div><div class="date-item-text">Se publica a todo MLM (día siguiente a la autorización)</div></div>
-          </div>
-        </div>
-      </div>
-
       <div class="section-title">Success stories</div>
       <div class="story-grid">
         <div class="story-card tag-quality">
@@ -683,6 +665,15 @@
           <div class="tool-card-text"><div class="tool-card-title">Generador de Slide Ejecutivo</div><div class="tool-card-sub">Arma el slide de status de un proyecto Lean (KPIs, fases, obstáculos) y expórtalo listo para la junta.</div></div>
           <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
         </a>
+      </div>
+
+      <div class="section-title">Fechas relevantes</div>
+      <div class="list-card">
+        <div class="date-item"><div class="date-chip c-fm">31<br/>AGO</div><div class="date-item-text">Focales actualizan su proyecto (y MELI Axis) — último lunes del mes</div></div>
+        <div class="date-item"><div class="date-chip c-svc">02<br/>SEP</div><div class="date-item-text">Supervisores cargan el Form — primer miércoles del mes</div></div>
+        <div class="date-item"><div class="date-chip c-mgmt">04<br/>SEP</div><div class="date-item-text">Managers revisan y autorizan — primer viernes del mes</div></div>
+        <div class="date-item"><div class="date-chip c-quality">08<br/>SEP</div><div class="date-item-text">Miguel da la autorización final — segundo martes del mes</div></div>
+        <div class="date-item"><div class="date-chip">09<br/>SEP</div><div class="date-item-text">Se publica a todo MLM (día siguiente a la autorización)</div></div>
       </div>
 
       <div class="section-title">Ideas y sugerencias</div>
@@ -1296,14 +1287,6 @@
     'Líderes de OE por región, con correo directo.':'OE leaders by region, with direct email.',
     'Guías, cursos y material de referencia.':'Guides, courses, and reference material.',
 
-    // Novedades
-    'Novedades':'Updates',
-    'Se estandarizó el Form y Sheet de Quality (v2.1): % de avance ahora es un desplegable, ya no texto libre.':
-      'The Quality Form and Sheet were standardized (v2.1): progress % is now a dropdown, no longer free text.',
-    'Laura Chávez se unió al equipo de Quality como Supervisor MRSC.':'Laura Chávez joined the Quality team as MRSC Supervisor.',
-    'Julio 2026 cerró con 100% de auditorías operativas completadas en Quality.':'July 2026 closed with 100% of operational audits completed in Quality.',
-    '12 Ago 2026':'Aug 12, 2026', '05 Ago 2026':'Aug 5, 2026', '31 Jul 2026':'Jul 31, 2026',
-
     // Fechas relevantes
     'Fechas relevantes':'Key dates',
     'Focales actualizan su proyecto (y MELI Axis) — último lunes del mes':'Focals update their project (and MELI Axis) — last Monday of the month',
@@ -1496,13 +1479,6 @@
     'Líderes de OE por región, con correo directo.':'Líderes de OE por região, com e-mail direto.',
     'Guías, cursos y material de referencia.':'Guias, cursos e material de referência.',
 
-    // Novedades
-    'Novedades':'Novidades',
-    'Se estandarizó el Form y Sheet de Quality (v2.1): % de avance ahora es un desplegable, ya no texto libre.':
-      'O Form e a Sheet de Quality foram padronizados (v2.1): o % de avanço agora é uma lista suspensa, não mais texto livre.',
-    'Laura Chávez se unió al equipo de Quality como Supervisor MRSC.':'Laura Chávez se juntou à equipe de Quality como Supervisora MRSC.',
-    'Julio 2026 cerró con 100% de auditorías operativas completadas en Quality.':'Julho de 2026 fechou com 100% das auditorias operacionais concluídas em Quality.',
-    '12 Ago 2026':'12 ago 2026', '05 Ago 2026':'05 ago 2026', '31 Jul 2026':'31 jul 2026',
 
     // Fechas relevantes
     'Fechas relevantes':'Datas relevantes',
