@@ -49,6 +49,13 @@
   .kpi-td-alias { font-size:11.5px; color:#666; white-space:nowrap; }
   .kpi-td-desc { color:#555; }
 
+  .dict-search { width:100%; max-width:420px; padding:10px 14px; border:1px solid var(--border); border-radius:20px; font-size:12.5px; font-family:inherit; margin-bottom:14px; display:block; }
+  .dict-search:focus { outline:none; border-color:var(--yellow-dark); }
+  .dict-td-term { font-weight:800; color:var(--dark); white-space:nowrap; }
+  .dict-td-mean { color:#555; white-space:nowrap; }
+  .dict-td-ctx { color:#666; }
+  .dict-count { font-size:11px; color:#999; margin-top:8px; }
+
   .footer { background: var(--yellow); padding: 16px 40px; margin-top: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
   .footer .f-title { font-size: 13px; font-weight: 900; color: var(--dark); }
   .footer .f-sub { font-size: 10.5px; color: #444; }
@@ -199,6 +206,310 @@
       </table>
     </div>
 
+    <div class="section-title">Diccionario Operativo A&ndash;Z</div>
+    <input type="text" id="dictSearch" class="dict-search" placeholder="Buscar término, sigla o definición..." oninput="filterDict()">
+    <div class="kpi-table-wrap">
+      <table class="kpi-table">
+        <thead>
+          <tr>
+            <th>Término</th>
+            <th>Significado</th>
+            <th>Contexto</th>
+          </tr>
+        </thead>
+        <tbody id="dictTbody">
+          <tr><td class="dict-td-term">1CR</td><td class="dict-td-mean">One Click Routing</td><td class="dict-td-ctx">Herramienta que busca rutear mediante la menor cantidad de inputs manuales by user, simplificando el proceso de ruteo, acotando su tiempo y consiguiendo eficiencia mediante optimizaciones.</td></tr>
+          <tr><td class="dict-td-term">Adherencia</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">cumple con los procesos correctos y los indicadores establecidos</td></tr>
+          <tr><td class="dict-td-term">AM</td><td class="dict-td-mean">Sorter Dinamico</td><td class="dict-td-ctx">Paquetes no voluminosos del ciclo del período de la mañana</td></tr>
+          <tr><td class="dict-td-term">AM100</td><td class="dict-td-mean">Sorter Dinamico</td><td class="dict-td-ctx">Ruta de fin de semana del período de la mañana</td></tr>
+          <tr><td class="dict-td-term">AM999</td><td class="dict-td-mean">Sorter Dinamico</td><td class="dict-td-ctx">Paquetes voluminosos del período de la mañana</td></tr>
+          <tr><td class="dict-td-term">Ambulancia</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">una unidad de apoyo para que vaya y agarre paquetes.</td></tr>
+          <tr><td class="dict-td-term">ATA</td><td class="dict-td-mean">Actual time of arrival</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">ATD</td><td class="dict-td-mean">Actual time of departure</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">ATS</td><td class="dict-td-mean">Actual Time of Schedule</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Baker Car</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Carrito negro que juntan unos 3 los cuales llevan una red negra y se recolectan con un carro rojo</td></tr>
+          <tr><td class="dict-td-term">Baseline</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Cuántos paquetes subían a la unidad antes de empezar a granel y en promedio subía 1500 y en promedio subían 1400</td></tr>
+          <tr><td class="dict-td-term">Beep</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">La accion de escanear algo</td></tr>
+          <tr><td class="dict-td-term">Beta Continua</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Prueba y error</td></tr>
+          <tr><td class="dict-td-term">Bipeada</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Escanean un HU o QR o código de barras</td></tr>
+          <tr><td class="dict-td-term">BPP</td><td class="dict-td-mean">Buyer Protected payment</td><td class="dict-td-ctx">paquetes dañados, Protección de pago cobra el comprador paga el vendedor</td></tr>
+          <tr><td class="dict-td-term">Buffered</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Paquetes que deben permanecer en SVC hasta el día de la promesa, paquetes correspondientes al proyecto Meli Delivery Day con fechas de entrega promesa definidas por los compradores</td></tr>
+          <tr><td class="dict-td-term">Bulky Amorfos</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Producto que siempre tendrá que ser cargado a granel, por el tamaño que tienen y lo pesado que son, las televisiones siempre usarán tarima</td></tr>
+          <tr><td class="dict-td-term">Bulky Returns</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">paquetes bulky para devolución. Esta zona se aplica solamente a las operaciones que ejecutan devolución de paquetes bulky</td></tr>
+          <tr><td class="dict-td-term">C35</td><td class="dict-td-mean">Camioneta de 3.5 ton</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">CAD</td><td class="dict-td-mean">Centro de Almacenamiento y Distribución</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">CAPEX</td><td class="dict-td-mean">Bienes con durabilidad superior a un año.
+inventariables  con un  valor superior a 1.000 USD;
+Aumentan vida útil a los artículos que ya existen en el mercado libre</td><td class="dict-td-ctx">Son todas las inversiones de capital que agregan valor y cuya vida útil es mayor a un año y NO impactan al P&amp;L directamente (se deprecian)</td></tr>
+          <tr><td class="dict-td-term">CC</td><td class="dict-td-mean">Commercial Carriers</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">CCT</td><td class="dict-td-mean">Critical Close Time</td><td class="dict-td-ctx">Tiempo límite para cerrar el HU</td></tr>
+          <tr><td class="dict-td-term">CD</td><td class="dict-td-mean">Centro de Distribución</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">CED</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Contexto, Ejemplo, Do (hacer)</td></tr>
+          <tr><td class="dict-td-term">CGT</td><td class="dict-td-mean">Crítica Gate Time</td><td class="dict-td-ctx">Tiempo límite para dar salida a la unidad = CPT + 20 min</td></tr>
+          <tr><td class="dict-td-term">Check in</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Bipeo que se da en la puerta de acceso del facility MELI por personal del área de LP, este primer check manda la señal a YMS para iniciar las mediciones internas</td></tr>
+          <tr><td class="dict-td-term">Check out</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Bipeo que se da en la puerta de salida del facility MELI por parte del área de LP</td></tr>
+          <tr><td class="dict-td-term">Cierre de HU</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Es decir que lo lleno de paquetes</td></tr>
+          <tr><td class="dict-td-term">Cluster</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Cantidad de paquetes y/o shipments procesados en promedio/día</td></tr>
+          <tr><td class="dict-td-term">Containerized</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">paquetes listos para ser contenerizados, En el baker cart</td></tr>
+          <tr><td class="dict-td-term">Contenedor correct no container</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">paquete sobrante sistémicamente pero sí corresponde al contenedor auditado</td></tr>
+          <tr><td class="dict-td-term">Contenedor damaged</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">paquete marcados como dañados en la auditoría</td></tr>
+          <tr><td class="dict-td-term">Contenedor incorrect no container</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">paquete sobrante sistémicamente pero no corresponde al contenedor auditado</td></tr>
+          <tr><td class="dict-td-term">Contenedor leftover</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">paquete sobrante y su contenedor correcto ya fue despachado</td></tr>
+          <tr><td class="dict-td-term">Contenedor missing</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">paquete faltante en la auditoría</td></tr>
+          <tr><td class="dict-td-term">Contenedor pending</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">paquete no bipeado por cancelación de la auditoría</td></tr>
+          <tr><td class="dict-td-term">Contenedor problem solving</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">paquete sobrante y sin contenedor planificado por sistema</td></tr>
+          <tr><td class="dict-td-term">Contenedor reallocated</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">paquete sobrante en la auditoría pero reubicado en el contenedor correcto</td></tr>
+          <tr><td class="dict-td-term">Conveyor</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">La mesa que va girando rodillos y en esa se mueven los shipments</td></tr>
+          <tr><td class="dict-td-term">COT</td><td class="dict-td-mean">Closed On Time</td><td class="dict-td-ctx">Indicador que mide si el HU se cierra en tiempo. (Tiempo límite 15 min antes del CPT).</td></tr>
+          <tr><td class="dict-td-term">CPG</td><td class="dict-td-mean">Consumer Packaged Goods (Bienes de Consumo Empacados).</td><td class="dict-td-ctx">Son productos de consumo masivo que se venden empacados, de uso cotidiano y con rotación alta. Dentro de la operación logística de Mercado Libre, esta categoría tiene implicaciones operativas específicas porque incluye productos con restricciones de manejo, almacenaje y transporte.</td></tr>
+          <tr><td class="dict-td-term">CPR</td><td class="dict-td-mean">Cost per rute</td><td class="dict-td-ctx">Es el costo total que implica ejecutar una ruta de transporte específica.<br>Una ruta de última milla entrega 80 paquetes en un día.<br>Si el costo total de operar esa ruta fue $200 USD, entonces:<br>Cost per Route = $200<br>Si quieres mayor detalle: $200 / 80 paquetes = $2.50 por paquete</td></tr>
+          <tr><td class="dict-td-term">CPS</td><td class="dict-td-mean">Cost Per Shippment</td><td class="dict-td-ctx">Costo total / Volumen despachado</td></tr>
+          <tr><td class="dict-td-term">CPT</td><td class="dict-td-mean">Critical Pull Time</td><td class="dict-td-ctx">Tiempo límite para despachar</td></tr>
+          <tr><td class="dict-td-term">Crash Rate</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Mide la cantidad de incidentes viales que comprenden daños, riesgos a la integridad física o afectaciones Críticas en la logística de las rutas. C= (número de ocurrencias de trafico * 1000000) / Número de rutas.<br>MLM: 2025 goal: 0,05. real 2025: 0,00. Goal 2026: 0,01</td></tr>
+          <tr><td class="dict-td-term">CRW</td><td class="dict-td-mean">Crowd</td><td class="dict-td-ctx">Transporte particular (uber)</td></tr>
+          <tr><td class="dict-td-term">Custodia</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Hay canalizaciones que cuentan con custodias, si salen despues de las 8 pm salen con custodia esas unidades</td></tr>
+          <tr><td class="dict-td-term">Damage</td><td class="dict-td-mean">Dañado</td><td class="dict-td-ctx">Se refiere a aquellos productos que han sufrido daños físicos durante alguna etapa del proceso logístico. Estos productos ya no pueden ser vendidos como nuevos o en su condición original.<br>FRÁGILES: Siempre van en la parte superior de los pallet´<br>ALTURA: No excedas los 2.20 cm.<br>TÉCNICA VOLCÁN: Paquetes pesados abajo y ligeros arriba. - Importante <br>ESTRUCTURA: Sin huecos o espacios para evitar derrumbes.<br>ASEGURAMIENTO: Usa un mínimo de dos vueltas de &quot;playo&quot; al finalizar el Pallet´s</td></tr>
+          <tr><td class="dict-td-term">Damaged</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">paquetes dañados</td></tr>
+          <tr><td class="dict-td-term">DED</td><td class="dict-td-mean">Dedicados</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Delay</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Paquetes que se entregan uno o más días después del tiempo promesa</td></tr>
+          <tr><td class="dict-td-term">Delivery Cells</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Delivery Cells es un servicio de última milla habilitado en nuestras agencias, en el cual el place ubicado dentro de una comunidad hace el reparto de paquetes utilizando sus propios medios, ya sea en bicicleta o caminando.</td></tr>
+          <tr><td class="dict-td-term">Delivery models</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Rentals, MLP, CRW, DC</td></tr>
+          <tr><td class="dict-td-term">Delivery paquech por hur</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">ritmo de entrega, yo agarro y planifico una ruta con 8 hrs y le cargue 80 paquetes mi DPPH es de 10 paquetes por hora.</td></tr>
+          <tr><td class="dict-td-term">Departure</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Salida de las unidades de sitio</td></tr>
+          <tr><td class="dict-td-term">Despacho</td><td class="dict-td-mean">Dispatch</td><td class="dict-td-ctx">Listo para la ruta</td></tr>
+          <tr><td class="dict-td-term">Despacho PA</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Es el nuevo módulo para despachar HU´s entre Operaciones Híbridas (XD/SvS carga local, mismo origen, mismo destino) que busca eliminar el uso de la placa FOSLOCAL</td></tr>
+          <tr><td class="dict-td-term">Despachos Parciales</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Existen escenarios en los que se realizan Múltiples despachos a un mismo vehículo. En DOS estos casos se registran como múltiples despachos independientes o despachos parciales.</td></tr>
+          <tr><td class="dict-td-term">Desvío Intencional</td><td class="dict-td-mean">Operational Mismatch</td><td class="dict-td-ctx">Cuando el equipo en campo, por diversas razones, no respeta la ruta sistémica indicada y escanea el paquete en un proceso incorrecto.</td></tr>
+          <tr><td class="dict-td-term">DEVOS</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Se considera una DEVOS a los paquetes que fueron retirados/entregados al comprador, sin embargo, por alguna característica cualitativa del producto, el cliente decide llevar a cabo la devolución de este, retornando por nuestra red logística.</td></tr>
+          <tr><td class="dict-td-term">DFP</td><td class="dict-td-mean">Dedicated Fleet Planning</td><td class="dict-td-ctx">LH dedicados</td></tr>
+          <tr><td class="dict-td-term">Día 0</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">El día de hoy literal</td></tr>
+          <tr><td class="dict-td-term">Día D</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Cuando se hacen los kick-off</td></tr>
+          <tr><td class="dict-td-term">Diarista</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Personal que trabaja por día</td></tr>
+          <tr><td class="dict-td-term">Dispatch</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">listos para salir en ruta</td></tr>
+          <tr><td class="dict-td-term">DNU</td><td class="dict-td-mean">Dedicado no utilizado</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Doca</td><td class="dict-td-mean">Andén</td><td class="dict-td-ctx">área física de un centro logístico, almacén o centro de distribución donde los camiones cargan o descargan mercadería</td></tr>
+          <tr><td class="dict-td-term">Docking</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Posicionamiento de las unidades</td></tr>
+          <tr><td class="dict-td-term">DOS</td><td class="dict-td-mean">Facility Operation System</td><td class="dict-td-ctx">Se utiliza para la recepción, armado y expedición de los HU, así como para el armado de pallets en el sistema. <br>Es el sistema que se usa para el proceso end to end de los paquetes.</td></tr>
+          <tr><td class="dict-td-term">DOS</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Documentación de la carga sistemática de los paquetes</td></tr>
+          <tr><td class="dict-td-term">DOS posiciones categoría</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Seguir los pasos de la plataforma staging zone</td></tr>
+          <tr><td class="dict-td-term">DOT</td><td class="dict-td-mean">Dispatched On Time</td><td class="dict-td-ctx">Indicador que nos dice si el despacho de los HU’s se realizó en tiempo. (Cumple si se realiza antes del CPT).</td></tr>
+          <tr><td class="dict-td-term">DPX</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Despachos parciales</td></tr>
+          <tr><td class="dict-td-term">Driver damaged</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">paquetes marcados como dañados en la auditoría</td></tr>
+          <tr><td class="dict-td-term">Driver leftover</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">paquete sobrante en la auditoría</td></tr>
+          <tr><td class="dict-td-term">Driver missing</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">paquete faltante en la auditoría</td></tr>
+          <tr><td class="dict-td-term">Driver pending</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">paquete no bipeado por cancelación de la auditoría</td></tr>
+          <tr><td class="dict-td-term">Drop Off</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Drop Off es un servicio de primera milla habilitado en nuestras agencias, donde los vendedores (seller) llevan sus paquetes y son colectados por Mercado Libre ( &lt; 17 &amp; 15 a paquetes diarios días laborales).</td></tr>
+          <tr><td class="dict-td-term">DS</td><td class="dict-td-mean">Deliveri success | Drop Shipping</td><td class="dict-td-ctx">tu ruta se finalice con todas las entregas completas</td></tr>
+          <tr><td class="dict-td-term">EIT</td><td class="dict-td-mean">Extended Idle Time</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">ELV</td><td class="dict-td-mean">Extra large van</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Error de Logística Cruzada</td><td class="dict-td-mean">Error Staging Zone</td><td class="dict-td-ctx">Una misma posición física en el site tiene asignados múltiples &quot;Process Paths&quot; sistémicos, lo que lleva a confusiones y a colocar paquetes en rutas incorrectas.</td></tr>
+          <tr><td class="dict-td-term">ETA</td><td class="dict-td-mean">Estimated time of arrival</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">ETD</td><td class="dict-td-mean">Estimated time of departure</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">ETS</td><td class="dict-td-mean">Estimated Time of Schedule</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">EXE</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Lidera traceo y monitoreo desde asignación hasta el docking. Notifica riesgos e incidencias a NRP hasta el check in.</td></tr>
+          <tr><td class="dict-td-term">Failover</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Envío de paquetes a un Place para retirada por parte del cliente después de tres intentos fallidos o por elección del comprador tras una entrega fallida con el motivo “comprador ausente”. El envío de estos paquetes proporciona a los compradores una nueva oportunidad de recibir sus compras y evita la devolución al vendedor.</td></tr>
+          <tr><td class="dict-td-term">FBM</td><td class="dict-td-mean">Fulfillment</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">FBM</td><td class="dict-td-mean">Fulfilment</td><td class="dict-td-ctx">Almacenan producto del seller, Lugar donde se guardan los producto se almacenan en MELI</td></tr>
+          <tr><td class="dict-td-term">FFM</td><td class="dict-td-mean">Circuito que no genera viajes (Solo Renta)</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">FIFO</td><td class="dict-td-mean">First in | First Out</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Flow</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Área en la que realiza la capacidad instalada para el Headcount para los sites y para los procesos, ejemplo: tú mueves x cantidad de shipping y para moverlos necesitas x cantidad de personas.<br>Tambien calcula el diseño del sitio, horarios, opsclock, etc.</td></tr>
+          <tr><td class="dict-td-term">Flyers o pequeños</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Paquetes que nunca tienen que ser cargados a granel</td></tr>
+          <tr><td class="dict-td-term">For returns</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Para devolución, envio cancelado, duplicados.</td></tr>
+          <tr><td class="dict-td-term">FOS</td><td class="dict-td-mean">Facility service system</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">FR</td><td class="dict-td-mean">Facility Resources</td><td class="dict-td-ctx">QR en Docas</td></tr>
+          <tr><td class="dict-td-term">Fraud</td><td class="dict-td-mean">Fraude</td><td class="dict-td-ctx">Envio suspendido por fraude</td></tr>
+          <tr><td class="dict-td-term">FTL</td><td class="dict-td-mean">Viaje spot (por evento)</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Gastos medicos menores</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Medicamentos y consultas médicas | estudios 10,00 psicologia y psiquiatria $4500 facturas con mi RFC</td></tr>
+          <tr><td class="dict-td-term">Gaylord</td><td class="dict-td-mean">Caja</td><td class="dict-td-ctx">Tarima café con la caja que dice mercado libre 193, 1 paquetes</td></tr>
+          <tr><td class="dict-td-term">GDT</td><td class="dict-td-mean">Gestión de tarifas</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Geografía en operaciones</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">team leader / sub liderando, supervisor / Manager</td></tr>
+          <tr><td class="dict-td-term">GGP</td><td class="dict-td-mean">Horas productivas del Rep</td><td class="dict-td-ctx">es una métrica de eficiencia para medir la operación de transporte como un todo, considerando el headcount contratado total (incluye ociosidad no registrada y desviaciones de asistencia). Es el KPI prioritario para la gestión de la operación y el cumplimiento de los targets del Programa de Excelencia. GGP Operativa = Volumen Total (V2 + V3 + V4 + FBM) / Horas Totales Pagadas</td></tr>
+          <tr><td class="dict-td-term">GM</td><td class="dict-td-mean">General Merchandise</td><td class="dict-td-ctx">chicos</td></tr>
+          <tr><td class="dict-td-term">GN</td><td class="dict-td-mean">Granel</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">GNP</td><td class="dict-td-mean">Global Net Productivity | Productividad Neta Total</td><td class="dict-td-ctx">Paquetes procesados / Total de Horas Hombre</td></tr>
+          <tr><td class="dict-td-term">H&amp;B</td><td class="dict-td-mean">heavy and bulky</td><td class="dict-td-ctx">Pesado y Voluminoso</td></tr>
+          <tr><td class="dict-td-term">Hazmat</td><td class="dict-td-mean">Peligroso</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">HU</td><td class="dict-td-mean">Etiqueta de un Gaylord</td><td class="dict-td-ctx">Unidad de Manipulación - Nos dice que contiene, Cuántos paquetes</td></tr>
+          <tr><td class="dict-td-term">Inbound</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Todo lo que entra, los envíos llegan y son registrados. recepción de mercancía</td></tr>
+          <tr><td class="dict-td-term">ISS</td><td class="dict-td-mean">IT &amp; Site Services</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">LABELS</td><td class="dict-td-mean">Etiquetas r retornos</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Large Van</td><td class="dict-td-mean">Linehaul</td><td class="dict-td-ctx">Le caben 4 pallets, 13 m3-  Alto 1,9 *  Ancho 2,2 * Largo 3</td></tr>
+          <tr><td class="dict-td-term">LD</td><td class="dict-td-mean">Lead Time</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">LF</td><td class="dict-td-mean">Low factor (por huella de pallet)</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">LGS</td><td class="dict-td-mean">Linehaul ground scheduling</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">LH</td><td class="dict-td-mean">Media Milla o Line haul</td><td class="dict-td-ctx">se encarga de mover el producto entre los sites XD, Fulfillment y SC.</td></tr>
+          <tr><td class="dict-td-term">LHBP</td><td class="dict-td-mean">Line Haul Vehicle Planning</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">LHVP</td><td class="dict-td-mean">Line Haul Vehicle Planning</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">LHVP</td><td class="dict-td-mean">Linehaul Vehicle Planning</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Line Haul</td><td class="dict-td-mean">Unidades</td><td class="dict-td-ctx">T53, thorton, full (2 tractores)</td></tr>
+          <tr><td class="dict-td-term">LM</td><td class="dict-td-mean">Last Mile - Última milla</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">LMS</td><td class="dict-td-mean">Labor Management System</td><td class="dict-td-ctx">sistema más amplio para forecast de demanda, productividad, KPIs de mano de obra, costos, etc</td></tr>
+          <tr><td class="dict-td-term">Load Factor</td><td class="dict-td-mean">(pallet positions utilizadas / pallet positions totales disponibles) * 100</td><td class="dict-td-ctx">Mide Cuántos espacios de pallets llenamos dentro del camión. Dentro del trailer hay un Área específica donde caben dependiendo la unidad. ejemplo 28 posiciones de pallets. si llenamos 14 de esas 28 posiciones, entonces el LF = 50%</td></tr>
+          <tr><td class="dict-td-term">LP</td><td class="dict-td-mean">Loss Prevention</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">LTS</td><td class="dict-td-mean">Loading Type Selector</td><td class="dict-td-ctx">Es la regla o herramienta que decide cómo se va a cargar el camión.</td></tr>
+          <tr><td class="dict-td-term">LVN</td><td class="dict-td-mean">Large Van</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Manga Pallet</td><td class="dict-td-mean">Caja</td><td class="dict-td-ctx">Caja gris con negro puede alcanzar una estiba de 3 , 161.5</td></tr>
+          <tr><td class="dict-td-term">MCO</td><td class="dict-td-mean">Mercado Libre Colombia</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Meli Extra</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">UBER, DIDI</td></tr>
+          <tr><td class="dict-td-term">Meli Help</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">autogestionar tus accesos contraseñas y dispositivos</td></tr>
+          <tr><td class="dict-td-term">Meli Tools</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Herramienta donde se encuentra las herramientas más utilizadas en MELI</td></tr>
+          <tr><td class="dict-td-term">Melservices</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Metodo por el cual identificas la ruta de donde viene el lh, etc.</td></tr>
+          <tr><td class="dict-td-term">Milk-run</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Carritos como los del super mercado</td></tr>
+          <tr><td class="dict-td-term">Milla</td><td class="dict-td-mean">Proceso</td><td class="dict-td-ctx">LM, LH, FM</td></tr>
+          <tr><td class="dict-td-term">Mismatch Operacional</td><td class="dict-td-mean">Mismatch PYMES</td><td class="dict-td-ctx">El &quot;Mismatch Operacional&quot; ocurre con paquetes de dimensiones confiables (error de proceso), mientras que el &quot;Mismatch PYMES&quot; ocurre con paquetes de dimensiones no confiables (error de datos).</td></tr>
+          <tr><td class="dict-td-term">Mismatch por Datos No Certificados</td><td class="dict-td-mean">Mismatch PYMes</td><td class="dict-td-ctx">La información de origen del paquete es incorrecta o está incompleta, provocando que el sistema le asigne un &quot;Happy Path&quot; erróneo desde el principio.</td></tr>
+          <tr><td class="dict-td-term">Missort</td><td class="dict-td-mean">Entro en una estación incorrecta</td><td class="dict-td-ctx">Entro en una estación incorrecta</td></tr>
+          <tr><td class="dict-td-term">Missorted</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Producto que no pertenece a esa canalización. casp PS o SVC  incorrecto</td></tr>
+          <tr><td class="dict-td-term">Missorts</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Paquetes que llegan a otro SVC diferente del programado</td></tr>
+          <tr><td class="dict-td-term">MLA</td><td class="dict-td-mean">Mercado Libre Argentina</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">MLB</td><td class="dict-td-mean">Mercado Libre Brasil</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">MLC</td><td class="dict-td-mean">Mercado Libre Chile</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">MLF</td><td class="dict-td-mean">Material low factor (utilización del pallet)</td><td class="dict-td-ctx">Nos dice que tanto aprovechamos el espacio dentro de cada insumo de carga como un pallet, gaylord o saca. Imagina que tienes un recipiente con una capacidad máxima. por ejemplo: un gaylord. A medida que le vas metiendo paquetes, el MLF va subiendo. Si llenas solo la mitad del gaylord. el MLF será del 50%. si lo llenas todo será el 100%. Si te pasas puede marcar más del 100% (Pallet Height).</td></tr>
+          <tr><td class="dict-td-term">MLM</td><td class="dict-td-mean">Mercado Libre México</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">MLP</td><td class="dict-td-mean">Mercado Libre Partner</td><td class="dict-td-ctx">Proveedor Meli logistic provider | Proveedor de capacidad (carriers). Consultor clave en aceptación, asignación y cambios de ruta.</td></tr>
+          <tr><td class="dict-td-term">MLU</td><td class="dict-td-mean">Mercado Libre Uruguay</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">MS</td><td class="dict-td-mean">MeLservice</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">MTM</td><td class="dict-td-mean">Métodos tiempos y movimientos</td><td class="dict-td-ctx">Área de ingeniería que va a aumentar la productividad con la tecnología con herramientas en la operación</td></tr>
+          <tr><td class="dict-td-term">MTS</td><td class="dict-td-mean">Meli Transformatión System</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Multi Bulto</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">dos paquetes comprados por el mismo buyer pero el celler son distintos y pueden vivir en el mismo site o diferente</td></tr>
+          <tr><td class="dict-td-term">Multimodal</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Actualmente, los nodos NEX tienen una restricción: operan exclusivamente con motos o con autos en un mismo día. Con el proyecto Multimodal, eliminamos esta barrera, permitiendo que ambos tipos de vehículos salgan del mismo nodo simultáneamente. Esto flexibiliza el ruteo y optimiza la operación.</td></tr>
+          <tr><td class="dict-td-term">MWH</td><td class="dict-td-mean">Multi Warehouse (viajes entre sites de Fulfillment)</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">NCC</td><td class="dict-td-mean">Network Control Center</td><td class="dict-td-ctx">Gestiona el tracking y la comunicación posterior a la salida (departure) del origen.</td></tr>
+          <tr><td class="dict-td-term">NEX</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Es un método de distribución que conecta los negocios locales de Places (agencias) con nuestra logística en un modelo como facilities de tipo Exchange Point que poseen coberturas de polígonos dentro de la cobertura del Service Center. Permitiendo que actúen como puntos de recolección y entrega para nuestros conductores</td></tr>
+          <tr><td class="dict-td-term">NOC</td><td class="dict-td-mean">Network Operation Center</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Nodo</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Un nodo es cualquier punto en la Melinet donde los paquetes son almacenados, distribuidos o procesados.</td></tr>
+          <tr><td class="dict-td-term">Nodo Polivalente</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">permite que una agencia sea DC y NEx, brindando mayor escalabilidad a nuestra red.</td></tr>
+          <tr><td class="dict-td-term">NRP (National Replanning)</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Responsable de la generación, validación y ajuste de rutas desde el sistema hasta la asignación y posicionamiento de la unidad.</td></tr>
+          <tr><td class="dict-td-term">OAL</td><td class="dict-td-mean">Otros Alquiler</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Ola negra</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Es la que menos urge</td></tr>
+          <tr><td class="dict-td-term">Ola roja</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Es la que más urge</td></tr>
+          <tr><td class="dict-td-term">Ola verde</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Es la normal</td></tr>
+          <tr><td class="dict-td-term">One Beep</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Solo es para SVC y FM</td></tr>
+          <tr><td class="dict-td-term">OOT</td><td class="dict-td-mean">Out On Time</td><td class="dict-td-ctx">Garantiza la salida de los paquetes de cada nodo operacional (XD y FBM) a tiempo, máximo 20 minutos después del CPT. Indicador de negocio que garantiza la salida en tiempo y forma de los paquetes. (Cumple si se cumplen cada uno de los procesos y se tiene un evento de salida antes del CGT)</td></tr>
+          <tr><td class="dict-td-term">OOT Waves</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Indicador que mide si el despacho de las rutas está dentro de lo planeado en cada ola.</td></tr>
+          <tr><td class="dict-td-term">OPEX</td><td class="dict-td-mean">Costos generales del día a día;
+Artículos consumibles y generalmente de costo fijo como alquileres, mano de obra…
+Mantenimiento de los artículos para que cumplan la vida útil ya esperada.</td><td class="dict-td-ctx">Son todas las inversiones de capital que agregan valor y cuya vida útil es mayor a un año y NO impactan al P&amp;L directamente (se deprecian)</td></tr>
+          <tr><td class="dict-td-term">Ops Clock</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Es un reloj operativo que permite saber cuándo empieza y termina una tarea, cuánto dura y cómo se distribuye el tiempo del equipo.</td></tr>
+          <tr><td class="dict-td-term">Organigrama en operaciones</td><td class="dict-td-mean">team leader, coordinador, supervisor, Manager</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Organigrama LH</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">1. Planeación<br>Se encarga de planear con base en el forecast de ventas. El área de Planning transforma esta información en la cantidad de vehículos necesarios.<br>2. CRM – Ecosystem<br>Área responsable del racionamiento de carriers dentro del Linehaul. Gestiona la relación con MLP y MPL (Mercadolibre Partner), coordinando con los carriers la disponibilidad de unidades. Por ejemplo, si se requieren 200 camiones y solo hay 50 disponibles, esta área gestiona la obtención del resto.<br>3. Ejecución<br>Se enfoca en la gestión del yard (patio). Administra todos los camiones que ingresan a Mercado Libre, lo que sucede dentro del patio y el momento en que el camión sale del site.<br>4. NCC – Network Control &amp; Monitoring</td></tr>
+          <tr><td class="dict-td-term">ORH</td><td class="dict-td-mean">One rute Hours</td><td class="dict-td-ctx">El driver cuanto tiempo pasa en ruta</td></tr>
+          <tr><td class="dict-td-term">OTA</td><td class="dict-td-mean">On Time Arrival</td><td class="dict-td-ctx">Cumplimiento de hora compromiso de llegada a destino.</td></tr>
+          <tr><td class="dict-td-term">OTD</td><td class="dict-td-mean">On Time Departure</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">OTR</td><td class="dict-td-mean">Over The Road</td><td class="dict-td-ctx">Transporte en carretera, mercancía en tránsito, paquete ya va viajando</td></tr>
+          <tr><td class="dict-td-term">OTS</td><td class="dict-td-mean">On Time Schedule</td><td class="dict-td-ctx">Cumplimiento de la hora de citación de los drivers para asegurar un flujo sin retraso en la Melinet. cumplimiento de ATA vs ETA en sistema.</td></tr>
+          <tr><td class="dict-td-term">Outbound</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Todo lo que sale, carga el transporte</td></tr>
+          <tr><td class="dict-td-term">OW</td><td class="dict-td-mean">One Way (viaje sencillo)</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Paquetes Large</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">&gt;80 y &lt;=200 cm, &gt;20 y &lt;=25 kg. &gt;125 L y &lt;450L</td></tr>
+          <tr><td class="dict-td-term">PBP</td><td class="dict-td-mean">Personal Base</td><td class="dict-td-ctx">la gente que contrata la gente</td></tr>
+          <tr><td class="dict-td-term">PEACH</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Se decidió que el programa de excelencia para Q2 cambiará radicalmente, enfocándose 80% en resultados (KPIs de eficiencia) y 20% en auditorías y planes de acción, priorizando la auditoría de estaciones grandes.</td></tr>
+          <tr><td class="dict-td-term">PEHL</td><td class="dict-td-mean">Programa de Excelencia Line Haul</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">PEO</td><td class="dict-td-mean">People</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Pescadores</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Recolectores de paquetes que pasa en el conveyor</td></tr>
+          <tr><td class="dict-td-term">PET</td><td class="dict-td-mean">Programa de Excelencia Transportes</td><td class="dict-td-ctx">Es un programa estándar para todo Mercado Envíos que permite medir objetivamente el nivel de madurez de una operación o milla en lo que respecta al cumplimiento de sus principales KPIs de negocio y rutinas o cultura WOW.</td></tr>
+          <tr><td class="dict-td-term">Pick Off</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Pick Up es un servicio de última milla habilitado en las agencias, donde los buyers pueden recoger sus paquetes durante un periodo de 5 días hábiles.</td></tr>
+          <tr><td class="dict-td-term">Places</td><td class="dict-td-mean">Agencia</td><td class="dict-td-ctx">Los Places, o Agencias Mercado Libre, son puntos comerciales estratégicos (como papelerías, pet shops o asistencias técnicas) que operan como Nodos de última y primera milla dentro de nuestra red logística.<br>Su función principal es ser un aliado para el comercio y la comunidad como PUDOS y/o OD&#x27;s al permitir:<br>Despachar paquetes (Drop-off).<br>Retirar (Pick Up) o devolver paquetes (Devoluciones).<br>Cambios (Devolución + Pick-Up)<br>Entregar paquetes a domicilio de manera sustentable (Delivery Cell).<br>Entregar sacas a la nube de Meli extra (NEx).</td></tr>
+          <tr><td class="dict-td-term">Plataforma de expedición</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Destino final dentro de nuestro centro. si el paquete siguió la ruta correcta desde inbound hasta aquí, la operación es un éxito, asegurando la promesa de entrega a nuestros usuarios.</td></tr>
+          <tr><td class="dict-td-term">Playbook</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Flujo de Excepciones PET es la recopilación de materiales, documentos oficiales y flujos que definen y guían el proceso estándar para todo el Transporte OTR y UTR</td></tr>
+          <tr><td class="dict-td-term">PM</td><td class="dict-td-mean">Sorter Dinamico</td><td class="dict-td-ctx">Paquetes no voluminosos del período de la tarde</td></tr>
+          <tr><td class="dict-td-term">PM100</td><td class="dict-td-mean">Sorter Dinamico</td><td class="dict-td-ctx">Ruta de fin de semana del período de la tarde</td></tr>
+          <tr><td class="dict-td-term">PM200</td><td class="dict-td-mean">Sorter Dinamico</td><td class="dict-td-ctx">Ruta de fin de semana del ciclo del mismo día (SD)</td></tr>
+          <tr><td class="dict-td-term">PM3</td><td class="dict-td-mean">Sorter Dinamico</td><td class="dict-td-ctx">Paquetes no voluminosos del ciclo del mismo día (SD)</td></tr>
+          <tr><td class="dict-td-term">PM888</td><td class="dict-td-mean">Sorter Dinamico</td><td class="dict-td-ctx">Paquetes voluminosos del ciclo del mismo día (SD)</td></tr>
+          <tr><td class="dict-td-term">PM999</td><td class="dict-td-mean">Sorter Dinamico</td><td class="dict-td-ctx">Paquetes voluminosos del período de la tarde</td></tr>
+          <tr><td class="dict-td-term">PMS</td><td class="dict-td-mean">MeL service provider</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Política de gastos</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">incluir recibos, facturas, tickets, herramienta online concur: procurement, vuelo y hotel. 100 usd por día- comidas, renta de carro 100 usd, antes de viajar puedes solicitar tu seguro de viaje, propina no mayor a 15% gastos de transporte incluidos ÜBER, 130 usd noche hotel wifi y desayuno incluido</td></tr>
+          <tr><td class="dict-td-term">Problem Solving</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Área la cual si el operador ve un paquete dañado ahi lo acondicionan y revisan. Esperando informe de incidencias, documento fiscal, falta, paquete no pertenece a la región de entrega del conductor, en el reglamento de siniestros por robo.<br>con alguna novedad física que requieran revisión, paquetes en espera de denuncia policial o documentación fiscal</td></tr>
+          <tr><td class="dict-td-term">Process Path</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Eficientar la gestión de capacidad de paquetes H&amp;B</td></tr>
+          <tr><td class="dict-td-term">Processing time</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Todo el proceso que incluye desde que entregan la mercancia hasta que la despachas</td></tr>
+          <tr><td class="dict-td-term">PT</td><td class="dict-td-mean">Planning Tool</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">PYM</td><td class="dict-td-mean">Peso y medida</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">PYMES</td><td class="dict-td-mean">Pesar y Medir</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Rabón</td><td class="dict-td-mean">Linehaul</td><td class="dict-td-ctx">Le caben 10 pallets, 32 m3-  Alto 2,4 *  Ancho 2,4 * Largo 5.5</td></tr>
+          <tr><td class="dict-td-term">RACI</td><td class="dict-td-mean">Responsible (Responsable), Accountable (Responsable final), Consulted (Consultado) e Informed (Informado).</td><td class="dict-td-ctx">En una matriz RACI, se especifica quién es responsable de llevar a cabo una tarea, quién es el responsable final de la misma, quién debe ser consultado antes de tomar decisiones y quién necesita ser informado sobre los avances.</td></tr>
+          <tr><td class="dict-td-term">Re intento en NEX</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Es un proyecto diseñado para gestionar paquetes con intentos fallidos dentro del nodo extra (NEx), eliminando el retorno innecesario del paquete al SVC. Al generarse un intento fallido y no localizar al buyer el paquete se resguarda en el NEx. Al día siguiente, la aplicación alerta al Driver durante la recolección de su SACA para que incluya estos paquetes en su nueva ruta.</td></tr>
+          <tr><td class="dict-td-term">Recepción</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Descargar la mercancía</td></tr>
+          <tr><td class="dict-td-term">Remito</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Documentos que trae la información del driver, placas,etc.</td></tr>
+          <tr><td class="dict-td-term">Rep</td><td class="dict-td-mean">Reps</td><td class="dict-td-ctx">Persona operativa</td></tr>
+          <tr><td class="dict-td-term">Reshuffle</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Es el proceso de separación de paquetes DC y NEx, donde los paquetes que no se asignan en estos servicios deben seguir por LM tradicional.</td></tr>
+          <tr><td class="dict-td-term">Retiros</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Objetivo hacer reTroceso de producto healthy, retirar mercancía que el vendedor necesita y estrategia de los FC’s para liberar espacios de almacenamiento.</td></tr>
+          <tr><td class="dict-td-term">Retornables</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Retornables MLM, tarima y Gaylord</td></tr>
+          <tr><td class="dict-td-term">Returns</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">para devolución, envío cancelado y duplicados</td></tr>
+          <tr><td class="dict-td-term">RFID</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Todos los manga pallets lo tienen y nos dice dónde están los manga palet</td></tr>
+          <tr><td class="dict-td-term">Road Map</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">como vamos, cuales encendimos donde y cuando Granel</td></tr>
+          <tr><td class="dict-td-term">RT</td><td class="dict-td-mean">Round Trip (viaje redondo)</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">RTN</td><td class="dict-td-mean">Retorno al Nodo</td><td class="dict-td-ctx">Aplica cuando los Drivers de Meli Extra o Walkers deben regresar con paquetes al nodo de origen debido a entregas fallidas, cancelaciones o mercancía dañada.</td></tr>
+          <tr><td class="dict-td-term">RTS</td><td class="dict-td-mean">Return to station</td><td class="dict-td-ctx">Detalle del proceso- El conductor tiene que hacer un regreso al sitio, lo qu eyo no pude entregar al día , tengo que devolverlo al sitio en vez de ir a mi casa, dan la razón por la cual no entregaron <br>Principales issues -  cuando entregaron de regreso son 3 veces de intenta si no lo entregamos pues va a logistica inversa, cuando no se hace el proceso correcto y justifican problemas de drivers, buffer son reprocesos</td></tr>
+          <tr><td class="dict-td-term">RTS</td><td class="dict-td-mean">Retorno a la Estación</td><td class="dict-td-ctx">En la operativa de Places, aplica cuando un conductor de MM recolecta paquetes vencidos (provenientes de un DC o NEx) para trasladarlos de regreso al SVC.</td></tr>
+          <tr><td class="dict-td-term">RTT</td><td class="dict-td-mean">Real Time Tracking</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Rutas hibridas</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Entrega pauetes cliente final y va entregar sacas a la agencia</td></tr>
+          <tr><td class="dict-td-term">S&amp;OP</td><td class="dict-td-mean">Sales &amp; Operations</td><td class="dict-td-ctx">Es el proceso donde se alinea demanda (forecast/ventas) con capacidad operativa: cuánta gente, turnos, equipos, inventario, etc. En staffing sirve para decidir cuántas personas necesitas (y cuándo) según el volumen esperado.</td></tr>
+          <tr><td class="dict-td-term">S&amp;OP</td><td class="dict-td-mean">Sales and Operations Planning</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Sacolas</td><td class="dict-td-mean">Bolsas amarillas donde viene producto</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Same Day</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Son los ciclos que salen por la tarde,que vienen de los fully, las famosas compras de hoy para hoy</td></tr>
+          <tr><td class="dict-td-term">SC</td><td class="dict-td-mean">Sortation Center</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">SD</td><td class="dict-td-mean">Same Day</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">SHE</td><td class="dict-td-mean">Safety, Health &amp; Environment</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Shield</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Soportes con sistemas</td></tr>
+          <tr><td class="dict-td-term">Sitio hibrido</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">XD y SVC</td></tr>
+          <tr><td class="dict-td-term">Slock</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Herramientas de TI chatear con personas con los bots</td></tr>
+          <tr><td class="dict-td-term">SOC</td><td class="dict-td-mean">Security Operation Center</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Sorteo</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Proceso de clasificación de shipping</td></tr>
+          <tr><td class="dict-td-term">Sorting</td><td class="dict-td-mean">Sorteo</td><td class="dict-td-ctx">listos para despachar, con etiqueta blanca o paquetes de backlog que deben permanecer en el Service center</td></tr>
+          <tr><td class="dict-td-term">Sorting Dinámico</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Permite tener la misma cantidad de paquetes en cada isla, por medio de un renombramiento de las rutas</td></tr>
+          <tr><td class="dict-td-term">SPOZH</td><td class="dict-td-mean">spot on zone hours</td><td class="dict-td-ctx">ya que llegas a la zona para entregarse cuanto tiempo tienes de ritmo de entrega, no toma en cuenta desde que llegas a la primera ruta</td></tr>
+          <tr><td class="dict-td-term">SPP</td><td class="dict-td-mean">Shipments per Pallet</td><td class="dict-td-ctx">Paquetes que caben en una tarima. Total de envíos / Total de pallets. ejemplo: SPP = 600 ÷ 30 = 20 paquetes</td></tr>
+          <tr><td class="dict-td-term">SPR</td><td class="dict-td-mean">Shipments por routte</td><td class="dict-td-ctx">Cuantos paquetes trae por ruta</td></tr>
+          <tr><td class="dict-td-term">SPT</td><td class="dict-td-mean">Shipments per truck</td><td class="dict-td-ctx">spot</td></tr>
+          <tr><td class="dict-td-term">SRM</td><td class="dict-td-mean">Supplier Relationship Management</td><td class="dict-td-ctx">Gestión de proveedores (contratos con transportistas)</td></tr>
+          <tr><td class="dict-td-term">Stage out</td><td class="dict-td-mean">Zona de staging de salida</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">STC</td><td class="dict-td-mean">Sortation Center</td><td class="dict-td-ctx">recibe mercancía y la embala diferente para nacionalizarla para enviarla a otras canalizaciones</td></tr>
+          <tr><td class="dict-td-term">Steelco</td><td class="dict-td-mean">Stealing Coming</td><td class="dict-td-ctx">Comité ejecutivo donde estan los Heads  y ahí les dan el ok para los programas de excelencia</td></tr>
+          <tr><td class="dict-td-term">Stickers</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Para pegarlos en tus electrónicos y entrar a un SITE</td></tr>
+          <tr><td class="dict-td-term">STS</td><td class="dict-td-mean">Standard Time of Schedule</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">SVC</td><td class="dict-td-mean">Service Center</td><td class="dict-td-ctx">Conexiones locales, llega producto de un XD y ya va al buyer final</td></tr>
+          <tr><td class="dict-td-term">SVP</td><td class="dict-td-mean">Service Partner</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">SWP</td><td class="dict-td-mean">Sweeper (unidad barredora)</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">T53</td><td class="dict-td-mean">Linehaul</td><td class="dict-td-ctx">Le caben 30 pallets, 28 en promedio, 110 m3 , Alto 2,6 *  Ancho 2,6 * Largo 16.5</td></tr>
+          <tr><td class="dict-td-term">T53E</td><td class="dict-td-mean">Trailer con caja de 53ft Eléctrico</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">TBD</td><td class="dict-td-mean">To Be Decided</td><td class="dict-td-ctx">Por determinar</td></tr>
+          <tr><td class="dict-td-term">TDR</td><td class="dict-td-mean">Toma de Datos del Remolque - Colocación TDR</td><td class="dict-td-ctx">Colocación de calzas, candado glad lock y cono de seguridad</td></tr>
+          <tr><td class="dict-td-term">Template</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">El significado de template es plantilla. Se refiere a una base prediseñada de estructuración de los contenidos de una aplicación o una página web para que se ajusten a unos parámetros estandarizados, de modo que facilite el trabajo del desarrollador o del diseñador del sitio.</td></tr>
+          <tr><td class="dict-td-term">THN</td><td class="dict-td-mean">Thornton</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Thornton</td><td class="dict-td-mean">Linehaul</td><td class="dict-td-ctx">Le caben 12 pallets, 45 m3-  Alto 2,5 *  Ancho 2,5 * Largo 7.3</td></tr>
+          <tr><td class="dict-td-term">Thorton 16 p</td><td class="dict-td-mean">Linehaul</td><td class="dict-td-ctx">Le caben 16 pallets, 53 m3 - Alto 2,5 *  Ancho 2,5 * Largo 8.5</td></tr>
+          <tr><td class="dict-td-term">Tier 1</td><td class="dict-td-mean">Reunión de equipo</td><td class="dict-td-ctx">Reunión de equipo</td></tr>
+          <tr><td class="dict-td-term">TIR</td><td class="dict-td-mean">Juntas Operativas</td><td class="dict-td-ctx">TIR1, TIR2</td></tr>
+          <tr><td class="dict-td-term">TMEC</td><td class="dict-td-mean">Tiempo medio de estadía carga</td><td class="dict-td-ctx">Ingresa la unidad al XD o SVC y mide el tiempo en que sale la unidad.  tiempo entre GATE IN (primer bipeo YMS) y GATE OUT (segundo bipeo YMS)</td></tr>
+          <tr><td class="dict-td-term">TMED</td><td class="dict-td-mean">Tiempo medio de estadía descarga</td><td class="dict-td-ctx">Mide la eficiencia de los tiempos de Descarga para las operaciones de XD y FM, permite medir impactos en los procesos de espera, arribo de doca, tránsito en el patio, eficiencia de lectura de paquetes en la descarga, proceso de salida del vehículo de FM,</td></tr>
+          <tr><td class="dict-td-term">TOC</td><td class="dict-td-mean">Tower Of Control</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">TOM</td><td class="dict-td-mean">Transport Operations Management) Execution</td><td class="dict-td-ctx">OTR Line Haul,  FBM y XD</td></tr>
+          <tr><td class="dict-td-term">Totem</td><td class="dict-td-mean">Kiosko</td><td class="dict-td-ctx">Autogestionar sus accesos de forma rápida</td></tr>
+          <tr><td class="dict-td-term">trade-off</td><td class="dict-td-mean">(o intercambio)</td><td class="dict-td-ctx">es una situación en la que se debe aceptar la pérdida o reducción de una cualidad, aspecto o beneficio a cambio de obtener otra cualidad o beneficio distinto. Implica una decisión de compromiso donde no se pueden maximizar ambas opciones simultáneamente, sacrificando una para mejorar</td></tr>
+          <tr><td class="dict-td-term">TRIAGE</td><td class="dict-td-mean">Categorización por colores, olas</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Truck 28</td><td class="dict-td-mean">Linehaul</td><td class="dict-td-ctx">Le caben 16 pallets, 53 m3 - Alto 2,5 *  Ancho 2,5 * Largo 8.5</td></tr>
+          <tr><td class="dict-td-term">Truck 3.5</td><td class="dict-td-mean">Linehaul</td><td class="dict-td-ctx">Le caben 4 pallets, 20 m3-  Alto 2,4 *  Ancho 2,4 * Largo 3.4</td></tr>
+          <tr><td class="dict-td-term">Truck 48 ft</td><td class="dict-td-mean">Linehaul</td><td class="dict-td-ctx">Le caben 26 pallets, 91 m3 - Alto 2,5 *  Ancho 2,5 * Largo 14.6</td></tr>
+          <tr><td class="dict-td-term">TU</td><td class="dict-td-mean">Transport Unit</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">Tugger</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Vehículo rojo eléctrico que arrastra los baker car</td></tr>
+          <tr><td class="dict-td-term">UTR</td><td class="dict-td-mean">Under the roof</td><td class="dict-td-ctx">mercancía dentro de una instalación</td></tr>
+          <tr><td class="dict-td-term">V2</td><td class="dict-td-mean">Volumen de tránsito directo a Service Center</td><td class="dict-td-ctx">En este modelo los pallets y/o gaylords que se montan con paquetes de la misma canalización y su flujo es de un Fulfillment a Service Center. paquetes que colecta FM</td></tr>
+          <tr><td class="dict-td-term">V3</td><td class="dict-td-mean">Volumen de transbordo en un edificio intermedio</td><td class="dict-td-ctx">En este modelo los pallets y/o gaylords se montan con paquetes de la misma canalización; su flujo es de Fulfillment a Fulfillment o SC01, sin pasar por el proceso de desarme, sorteo y armado de HU. NO SE SORTEAN</td></tr>
+          <tr><td class="dict-td-term">V4</td><td class="dict-td-mean">Volumen con step en edificio intermedio + contenerización</td><td class="dict-td-ctx">En este modelo los pallets y/o gaylords se montan con paquetes de diferentes destinos; su flujo es de Fulfillment  a SC01  y deben pasar por el proceso de desarme; sorteo y armado de HU.</td></tr>
+          <tr><td class="dict-td-term">Water Spider</td><td class="dict-td-mean">inyecta los gaylords</td><td class="dict-td-ctx">es un rol de apoyo en Lean Manufacturing dedicado a reabastecer de materiales y herramientas los puestos de trabajo para que los operarios no se detengan</td></tr>
+          <tr><td class="dict-td-term">Waterfill</td><td class="dict-td-mean">(Volumen total de la carga (m3) / Volumen total del camión (m3) )* 100</td><td class="dict-td-ctx">Es que tanto usamos el espacio total de una caja del camión, como si la llenamos de agua, imagina que tienes una caja gigante (el trailer) y que quieres llenarla con agua, si el trailer queda medio lleno, decidimos que tiene un waterfill del 50%. si está lleno hasta el tope, entonces es un waterfill del 100%.</td></tr>
+          <tr><td class="dict-td-term">Waves</td><td class="dict-td-mean">OLA</td><td class="dict-td-ctx">Es un grupo de pedidos que se procesan juntos al mismo tiempo. <br>roja _1 estado lejos<br>amarilla _2 medio lejor<br>verde _3 cerca no urge tanto<br>Aereo _ A<br>Retorno _R<br>Rojo no prioritario _6<br>Amarillo no prioritario _7</td></tr>
+          <tr><td class="dict-td-term">WBR</td><td class="dict-td-mean">Week Business review</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">WBRs</td><td class="dict-td-mean">Weekly Business Reviews</td><td class="dict-td-ctx">&mdash;</td></tr>
+          <tr><td class="dict-td-term">WOW</td><td class="dict-td-mean">Way Of Working</td><td class="dict-td-ctx">nuestra manera de trabajar</td></tr>
+          <tr><td class="dict-td-term">XD</td><td class="dict-td-mean">Cross Dock</td><td class="dict-td-ctx">llega mercancía y se reempaca para que vuelva a enviar a otro lado , conexiones nacionales</td></tr>
+          <tr><td class="dict-td-term">YMS</td><td class="dict-td-mean">Yard Management System</td><td class="dict-td-ctx">El YMS (Yard Management System) es el sistema de gestión para el control del patio y el acceso al centro logístico (FC, SVC o XD).<br>Esta herramienta se ha desarrollado para supervisar el movimiento de camiones (LH) y vehículos (LM) en el ecosistema de envíos.  A través de YMS, se tiene visibilidad de todos los checkpoints y tiempos de un conductor en un centro logístico.<br>Registro de entradas y salidas;<br>Gestión de credenciales;<br>Programación de la identificación del transportista/conductor;<br>Asignación de muelles a los conductores y notificación de cuándo deben dirigirse a su muelle;<br>Comprobación de los precintos de los vehículos.</td></tr>
+          <tr><td class="dict-td-term">Zona de Assembly</td><td class="dict-td-mean">&mdash;</td><td class="dict-td-ctx">Centro neurálgico. Post-inbound, los envíos son separados según su process path (GM, Large, Oversize).</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="dict-count" id="dictCount">283 términos</div>
+
   </div>
 
   <script>
@@ -209,6 +520,19 @@
         var rowCat = tr.querySelector('.kpi-td-cat').textContent.trim();
         tr.style.display = (cat === 'todos' || rowCat === cat) ? '' : 'none';
       });
+    }
+
+    function filterDict() {
+      var q = document.getElementById('dictSearch').value.trim().toLowerCase();
+      var rows = document.querySelectorAll('#dictTbody tr');
+      var visible = 0;
+      rows.forEach(function (tr) {
+        var text = tr.textContent.toLowerCase();
+        var show = q === '' || text.indexOf(q) !== -1;
+        tr.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      document.getElementById('dictCount').textContent = visible + (visible === 1 ? ' término' : ' términos');
     }
   </script>
 
