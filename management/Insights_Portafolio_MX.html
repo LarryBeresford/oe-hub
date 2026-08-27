@@ -82,7 +82,6 @@
 <body>
 <header>
   <h1 id="txtTitle">Insights de Portafolio — OE MLM (México)</h1>
-  <div class="sub" id="txtSub">Generado con el export "vista completa" de MELI Axis (lista_projetos.csv), filtrado a proyectos con CAD de México.</div>
   <div class="scope-badge" id="txtScope">✓ Alcance real: 303 proyectos de México</div>
 </header>
 <main>
@@ -158,7 +157,6 @@ let currentLang = 'es';
 const I18N = {
   es: {
     title: 'Insights de Portafolio — OE MLM (México)',
-    sub: 'Generado con el export "vista completa" de MELI Axis (lista_projetos.csv), filtrado a proyectos con CAD de México.',
     scope: (n) => `✓ Alcance real: ${n} proyectos de México`,
     findingsTitle: 'Hallazgos clave',
     lblTotal: 'Proyectos (México)', lblAtrasados: '% Atrasados', lblSaving: 'Savings acumulados (USD)',
@@ -185,7 +183,6 @@ const I18N = {
   },
   en: {
     title: 'Portfolio Insights — OE MLM (Mexico)',
-    sub: 'Generated from the "full view" export of MELI Axis (lista_projetos.csv), filtered to projects with a Mexico CAD.',
     scope: (n) => `✓ Real scope: ${n} projects from Mexico`,
     findingsTitle: 'Key findings',
     lblTotal: 'Projects (Mexico)', lblAtrasados: '% Delayed', lblSaving: 'Cumulative savings (USD)',
@@ -212,7 +209,6 @@ const I18N = {
   },
   pt: {
     title: 'Insights de Portfólio — OE MLM (México)',
-    sub: 'Gerado com o export "visão completa" do MELI Axis (lista_projetos.csv), filtrado a projetos com CAD do México.',
     scope: (n) => `✓ Alcance real: ${n} projetos do México`,
     findingsTitle: 'Principais achados',
     lblTotal: 'Projetos (México)', lblAtrasados: '% Atrasados', lblSaving: 'Savings acumulados (USD)',
@@ -244,7 +240,6 @@ function applyDashboardLang(lang){
   currentLang = lang;
   const t = I18N[lang];
   document.getElementById('txtTitle').textContent = t.title;
-  document.getElementById('txtSub').textContent = t.sub;
   document.getElementById('txtScope').textContent = t.scope(proyectos.length);
   document.getElementById('txtFindingsTitle').textContent = t.findingsTitle;
   document.getElementById('lblTotal').textContent = t.lblTotal;
