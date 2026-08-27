@@ -12,10 +12,6 @@
   body{margin:0;background:radial-gradient(circle at 15% 0%, #171717 0%, var(--bg) 45%);color:var(--text);font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
   header{background:#000;border-bottom:4px solid var(--yellow);padding:22px 32px;}
   header h1{margin:0;font-size:22px;letter-spacing:.01em;}
-  header .sub{color:var(--muted);font-size:13px;margin-top:6px;}
-  .scope-badge{display:inline-block;margin-top:10px;background:#123524;color:var(--green);border:1px solid var(--green);
-    padding:5px 12px;border-radius:20px;font-size:12px;transition:transform .15s ease;}
-  .scope-badge:hover{transform:translateY(-1px);}
   main{padding:26px 32px;max-width:1300px;margin:0 auto;}
   .findings{background:var(--panel);border-left:4px solid var(--yellow);border-radius:10px;padding:16px 20px;margin-bottom:24px;
     box-shadow:0 4px 16px rgba(0,0,0,.35);}
@@ -82,7 +78,6 @@
 <body>
 <header>
   <h1 id="txtTitle">Insights de Portafolio — OE MLM (México)</h1>
-  <div class="scope-badge" id="txtScope">✓ Alcance real: 303 proyectos de México</div>
 </header>
 <main>
   <div class="findings">
@@ -157,7 +152,6 @@ let currentLang = 'es';
 const I18N = {
   es: {
     title: 'Insights de Portafolio — OE MLM (México)',
-    scope: (n) => `✓ Alcance real: ${n} proyectos de México`,
     findingsTitle: 'Hallazgos clave',
     lblTotal: 'Proyectos (México)', lblAtrasados: '% Atrasados', lblSaving: 'Savings acumulados (USD)',
     lblCentros: 'Centros / CAD distintos', lblRollout: 'En Roll Out',
@@ -183,7 +177,6 @@ const I18N = {
   },
   en: {
     title: 'Portfolio Insights — OE MLM (Mexico)',
-    scope: (n) => `✓ Real scope: ${n} projects from Mexico`,
     findingsTitle: 'Key findings',
     lblTotal: 'Projects (Mexico)', lblAtrasados: '% Delayed', lblSaving: 'Cumulative savings (USD)',
     lblCentros: 'Distinct centers / CAD', lblRollout: 'In Roll Out',
@@ -209,7 +202,6 @@ const I18N = {
   },
   pt: {
     title: 'Insights de Portfólio — OE MLM (México)',
-    scope: (n) => `✓ Alcance real: ${n} projetos do México`,
     findingsTitle: 'Principais achados',
     lblTotal: 'Projetos (México)', lblAtrasados: '% Atrasados', lblSaving: 'Savings acumulados (USD)',
     lblCentros: 'Centros / CAD distintos', lblRollout: 'Em Roll Out',
@@ -240,7 +232,6 @@ function applyDashboardLang(lang){
   currentLang = lang;
   const t = I18N[lang];
   document.getElementById('txtTitle').textContent = t.title;
-  document.getElementById('txtScope').textContent = t.scope(proyectos.length);
   document.getElementById('txtFindingsTitle').textContent = t.findingsTitle;
   document.getElementById('lblTotal').textContent = t.lblTotal;
   document.getElementById('lblAtrasados').textContent = t.lblAtrasados;
