@@ -969,28 +969,17 @@
       </div>
       <div class="routine-panel" id="routine-nl">
         <div class="bulletin-month-group" style="margin-bottom:0">
-          <div class="bulletin-month-label">Julio 2026</div>
-          <div class="bulletin-grid wide">
-            <a class="bulletin-card wide" href="boletines/2026-07/Boletin_FirstMile.html" target="_blank" rel="noopener">
-              <div class="bulletin-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M8 12h8M8 16h8M8 8h3"/></svg></div>
-              <div class="bulletin-card-text"><div class="bulletin-card-title">FM + XD + SC + TOM</div><div class="bulletin-card-sub">Boletín mensual de Excelencia Operacional</div></div>
-              <div class="bulletin-card-link">Ver boletín <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
-            </a>
-            <a class="bulletin-card wide" href="boletines/2026-07/Boletin_ServiceCenter.html" target="_blank" rel="noopener">
-              <div class="bulletin-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M8 12h8M8 16h8M8 8h3"/></svg></div>
-              <div class="bulletin-card-text"><div class="bulletin-card-title">SVC + Last Mile</div><div class="bulletin-card-sub">Boletín mensual de Excelencia Operacional</div></div>
-              <div class="bulletin-card-link">Ver boletín <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
-            </a>
-            <a class="bulletin-card wide" href="boletines/2026-07/Boletin_Quality.html" target="_blank" rel="noopener">
-              <div class="bulletin-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M8 12h8M8 16h8M8 8h3"/></svg></div>
-              <div class="bulletin-card-text"><div class="bulletin-card-title">Quality</div><div class="bulletin-card-sub">Boletín mensual de Excelencia Operacional</div></div>
-              <div class="bulletin-card-link">Ver boletín <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
-            </a>
-            <div class="bulletin-card wide soon">
-              <div class="bulletin-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7Z"/></svg></div>
-              <div class="bulletin-card-text"><div class="soon-chip">Próximamente</div><div class="bulletin-card-title">Gestión</div><div class="bulletin-card-sub">Boletín de Gestión — en construcción (se integrará vía Streamlit)</div></div>
+          <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
+            <div class="bulletin-month-label" id="bvLabel" style="margin-bottom:0">Boletín más reciente</div>
+            <div class="routine-tabs" style="margin-bottom:0;">
+              <button class="routine-tab active" id="bvTabReciente" onclick="boletinesView('reciente')">Más reciente</button>
+              <button class="routine-tab" id="bvTabHistorico" onclick="boletinesView('historico')">Histórico</button>
             </div>
           </div>
+          <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:520px;">
+            <iframe id="boletinesDriveFrame" src="https://drive.google.com/embeddedfolderview?id=17nL1aQ9czQhJKASA01gFRUNqJHRzlET8#grid" style="width:100%; height:100%; border:none; display:block;" title="Boletines OE — carpeta de Drive"></iframe>
+          </div>
+          <div style="margin-top:10px; font-size:11.5px; color:#999;">¿No carga aquí? <a class="i18n-link" href="https://drive.google.com/drive/folders/1ePjVn_YPkW06k4BBRrhtpuW7p0QexZzn" target="_blank" rel="noopener" style="color:#999;">Abrir la carpeta completa en Drive ↗</a></div>
         </div>
 
         <div class="tool-grid wide" style="margin-top:16px">
@@ -1834,6 +1823,28 @@
     document.getElementById('routine-' + which).classList.add('active');
   }
 
+  const BOLETINES_DRIVE = {
+    reciente:  '17nL1aQ9czQhJKASA01gFRUNqJHRzlET8',
+    historico: '1YLbqPntXp914qiSoc9LcFi2XsxfcAsBh',
+  };
+  function boletinesView(which) {
+    const cl = currentLang();
+    const dict = cl === 'en' ? TEXT_EN : (cl === 'pt' ? TEXT_PT : null);
+    const t = function (es) { return (dict && dict[es]) ? dict[es] : es; };
+    const frame = document.getElementById('boletinesDriveFrame');
+    const label = document.getElementById('bvLabel');
+    const tabReciente = document.getElementById('bvTabReciente');
+    const tabHistorico = document.getElementById('bvTabHistorico');
+    if (!frame || !label || !tabReciente || !tabHistorico) return;
+    const id = BOLETINES_DRIVE[which] || BOLETINES_DRIVE.reciente;
+    frame.src = 'https://drive.google.com/embeddedfolderview?id=' + id + '#grid';
+    const origEs = which === 'historico' ? 'Histórico de boletines' : 'Boletín más reciente';
+    label.dataset.i18nOrig = origEs;
+    label.textContent = t(origEs);
+    tabReciente.classList.toggle('active', which !== 'historico');
+    tabHistorico.classList.toggle('active', which === 'historico');
+  }
+
   function learnTab(which) {
     document.querySelectorAll('.learn-tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.learn-panel').forEach(p => p.classList.remove('active'));
@@ -2023,6 +2034,11 @@
     'Entrega mensual de resultados del equipo.':'Monthly team results review.',
     'Histórico MBR':'MBR History',
     'Historial completo de entregas MBR del equipo.':'Full history of the team\'s MBR deliveries.',
+    'Boletín más reciente':'Latest newsletter',
+    'Histórico de boletines':'Newsletter history',
+    'Más reciente':'Latest',
+    'Histórico':'History',
+    'Abrir la carpeta completa en Drive ↗':'Open the full folder in Drive ↗',
     'Wiki de Rutinas':'Routines Wiki',
     'Wiki — Rutinas de Gestión':'Wiki — Management Routines',
     'Los 4 flujos recurrentes de OE Transportes MLM: Actualización de Proyectos, Backlog Continuo, Iniciativas Locales y Newsletter — con roles, fechas límite y recordatorios de cada uno.':'The 4 recurring flows of OE Transportes MLM: Project Update, Continuous Backlog, Local Initiatives, and Newsletter — with roles, deadlines, and reminders for each.',
@@ -2246,6 +2262,11 @@
     'Entrega mensual de resultados del equipo.':'Entrega mensal de resultados da equipe.',
     'Histórico MBR':'Histórico MBR',
     'Historial completo de entregas MBR del equipo.':'Histórico completo das entregas de MBR da equipe.',
+    'Boletín más reciente':'Boletim mais recente',
+    'Histórico de boletines':'Histórico de boletins',
+    'Más reciente':'Mais recente',
+    'Histórico':'Histórico',
+    'Abrir la carpeta completa en Drive ↗':'Abrir a pasta completa no Drive ↗',
     'Wiki de Rutinas':'Wiki de Rotinas',
     'Wiki — Rutinas de Gestión':'Wiki — Rotinas de Gestão',
     'Los 4 flujos recurrentes de OE Transportes MLM: Actualización de Proyectos, Backlog Continuo, Iniciativas Locales y Newsletter — con roles, fechas límite y recordatorios de cada uno.':'Os 4 fluxos recorrentes da OE Transportes MLM: Atualização de Projetos, Backlog Contínuo, Iniciativas Locais e Newsletter — com papéis, prazos e lembretes de cada um.',
