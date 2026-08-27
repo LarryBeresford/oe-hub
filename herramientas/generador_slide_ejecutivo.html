@@ -295,12 +295,32 @@ textarea { min-height: 52px; }
 <!-- APP BAR -->
 <div class="app-bar">
   <div class="logo">ML</div>
-  <h1>Generador de Slide Ejecutivo — Lean Projects</h1>
+  <h1 id="txtAppTitle">Generador de Slide Ejecutivo — Lean Projects</h1>
   <div class="actions">
-    <button class="btn-secondary" onclick="resetForm()">↺ Limpiar</button>
-    <button class="btn-primary" onclick="exportarHTML()">⬇ Exportar HTML</button>
+    <button class="btn-secondary" id="btnLimpiar" onclick="resetForm()">↺ Limpiar</button>
+    <button class="btn-primary" id="btnExportar" onclick="exportarHTML()">⬇ Exportar HTML</button>
   </div>
 </div>
+<script>
+  // Puente de idioma con el Hub (index.html lo controla via postMessage, mismo origen).
+  // Nota: por ahora solo traduce el encabezado superior; las etiquetas internas del
+  // formulario (Proyecto, KPIs, bullets, etc.) siguen en espanol.
+  (function () {
+    var APP_BAR_I18N = {
+      es: { title: 'Generador de Slide Ejecutivo — Lean Projects', limpiar: '↺ Limpiar', exportar: '⬇ Exportar HTML' },
+      en: { title: 'Executive Slide Generator — Lean Projects', limpiar: '↺ Clear', exportar: '⬇ Export HTML' },
+      pt: { title: 'Gerador de Slide Executivo — Lean Projects', limpiar: '↺ Limpar', exportar: '⬇ Exportar HTML' },
+    };
+    window.addEventListener('message', function (e) {
+      if (!e.data || e.data.type !== 'oeHubLang') return;
+      var t = APP_BAR_I18N[e.data.lang];
+      if (!t) return;
+      document.getElementById('txtAppTitle').textContent = t.title;
+      document.getElementById('btnLimpiar').textContent = t.limpiar;
+      document.getElementById('btnExportar').textContent = t.exportar;
+    });
+  })();
+</script>
 
 <div class="workspace">
 
