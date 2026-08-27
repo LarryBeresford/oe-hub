@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>OE MLM Hub — Vista previa v2</title>
+<title>OE MLM Hub</title>
 <style>
   :root {
     --yellow: #FFD001;
@@ -281,31 +281,31 @@
   .date-chip.c-quality { background: var(--tag-quality-bg); color: var(--tag-quality); }
   .date-item-text { font-size:12.5px; color:var(--dark); line-height:1.4; }
 
-  .story-grid { grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap:18px; }
+  .story-grid { grid-template-columns: repeat(auto-fill, minmax(360px,1fr)); gap:22px; }
   .story-card {
     background: var(--white); border:1px solid var(--border); border-radius:14px; overflow:hidden;
     transition: box-shadow 0.18s, transform 0.18s;
   }
   .story-card:hover { box-shadow: 0 10px 28px rgba(0,0,0,0.10); transform: translateY(-3px); }
-  .story-photo { width:100%; height:190px; object-fit:cover; display:block; background:#eee; }
-  .story-body { padding:18px 20px 20px; border-top:4px solid var(--yellow); }
+  .story-photo { width:100%; height:230px; object-fit:cover; display:block; background:#eee; }
+  .story-body { padding:22px 24px 26px; border-top:4px solid var(--yellow); }
   .story-card.tag-quality .story-body { border-top-color: var(--tag-quality); }
   .story-card.tag-fm .story-body { border-top-color: var(--tag-fm); }
   .story-card.tag-svc .story-body { border-top-color: var(--tag-svc); }
   .story-card.tag-mgmt .story-body { border-top-color: var(--tag-mgmt); }
   .story-tag {
-    display:inline-block; font-size:9.5px; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
-    color:var(--yellow-dark); background:var(--yellow-bg); padding:4px 9px; border-radius:5px; margin-bottom:10px;
+    display:inline-block; font-size:10.5px; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--yellow-dark); background:var(--yellow-bg); padding:5px 10px; border-radius:5px; margin-bottom:12px;
   }
   .story-card.tag-quality .story-tag { color:var(--tag-quality); background:var(--tag-quality-bg); }
   .story-card.tag-fm .story-tag { color:var(--tag-fm); background:var(--tag-fm-bg); }
   .story-card.tag-svc .story-tag { color:var(--tag-svc); background:var(--tag-svc-bg); }
   .story-card.tag-mgmt .story-tag { color:var(--tag-mgmt); background:var(--tag-mgmt-bg); }
-  .story-title { font-size:15px; font-weight:800; color:var(--dark); line-height:1.35; margin-bottom:6px; }
-  .story-area { font-size:11px; color:#999; margin-bottom:10px; }
+  .story-title { font-size:17px; font-weight:800; color:var(--dark); line-height:1.35; margin-bottom:8px; }
+  .story-area { font-size:12px; color:#999; margin-bottom:12px; }
   .story-summary { list-style:none; padding:0; margin:0; }
   .story-summary li {
-    position:relative; padding-left:15px; font-size:12.5px; color:#555; line-height:1.55; margin-bottom:4px;
+    position:relative; padding-left:16px; font-size:13.5px; color:#555; line-height:1.6; margin-bottom:6px;
   }
   .story-summary li::before {
     content:''; position:absolute; left:0; top:7px; width:6px; height:6px; border-radius:50%; background:var(--yellow-dark);
@@ -1693,7 +1693,7 @@
 
   function applyLang(lang) {
     document.documentElement.lang = lang;
-    document.title = lang === 'en' ? 'OE MLM Hub — Preview v2' : (lang === 'pt' ? 'OE MLM Hub — Prévia v2' : 'OE MLM Hub — Vista previa v2');
+    document.title = 'OE MLM Hub';
     document.getElementById('langEs').classList.toggle('active', lang === 'es');
     document.getElementById('langEn').classList.toggle('active', lang === 'en');
     document.getElementById('langPt').classList.toggle('active', lang === 'pt');
