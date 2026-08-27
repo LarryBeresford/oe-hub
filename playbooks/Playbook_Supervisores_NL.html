@@ -12,7 +12,7 @@
   if (window.self !== window.top) { document.documentElement.classList.add('embedded'); }
 </script>
 <style>
-  html.embedded .hdr, html.embedded .footer { display:none; }
+  html.embedded .hdr, html.embedded .footer, html.embedded .oe-contact { display:none; }
   html.embedded .content { padding-top:16px; }
   :root {
     --yellow: #FFD001;
@@ -143,6 +143,9 @@
     background: var(--yellow); padding: 18px 40px; margin-top: 10px;
     display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
   }
+  .oe-contact { font-size: 11px; color: #888; text-align: center; padding: 10px 40px 20px; }
+  .oe-contact a { color: #888; text-decoration: none; transition: color .15s ease; }
+  .oe-contact a:hover { color: var(--yellow-dark); }
   .footer .f-title { font-size: 13px; font-weight: 900; color: var(--dark); }
   .footer .f-sub { font-size: 10.5px; color: #444; }
   a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, [tabindex]:focus-visible {
@@ -334,6 +337,7 @@
     <div class="f-title">Playbook OE — Boletín Mensual · Supervisores</div>
     <div class="f-sub">Larry Beresford · Mónica Gallardo · Ricardo Almanza &nbsp;|&nbsp; PMO OE MLM</div>
   </div>
+  <div class="oe-contact">¿Dudas sobre el funcionamiento de la página, desarrollo UX o la comunidad de OE? Escríbele a <a href="mailto:larry.beresforddiaz@mercadolibre.com.mx">Larry Beresford Díaz</a>.</div>
 
 </div>
 </body>
