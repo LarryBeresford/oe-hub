@@ -632,13 +632,14 @@
 
     <button class="nav-direct nav-group" id="navManagement" onclick="toggleGroup('navManagement'); go('proyectos', this)">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7Z"/></svg></span>
-      <span>Management</span>
+      <span>Gestión</span>
       <span class="nav-chevron"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
     </button>
     <div class="nav-sub">
       <button class="nav-sub-item" onclick="go('proyectos', this)"><span>Proyectos</span></button>
       <button class="nav-sub-item" onclick="go('indicadores', this)"><span>Indicadores</span></button>
       <button class="nav-sub-item" onclick="go('management', this)"><span>Iniciativas</span></button>
+      <button class="nav-sub-item" id="navSlides" onclick="go('slides', this)"><span>Generador de Slides</span></button>
     </div>
 
     <button class="nav-direct nav-group" id="navRutinas" onclick="toggleGroup('navRutinas'); go('rutinas', this); setTimeout(()=>routineTab('bbr'),0)">
@@ -652,11 +653,15 @@
       <button class="nav-sub-item" onclick="go('rutinas', this); setTimeout(()=>routineTab('nl'),0)"><span>Newsletter</span></button>
     </div>
 
-    <button class="nav-direct" id="navSlides" onclick="go('slides', this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5Z"/><path d="M9 20h6M12 16v4"/></svg></span><span>Generador de Slides</span></button>
-
-    <button class="nav-direct" id="navDirectorio" onclick="go('directorio', this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="8" r="3.2"/><path d="M20 19v-1a3.8 3.8 0 0 0-2.7-3.6"/><path d="M14.3 4.2A3.2 3.2 0 0 1 16.2 10.8"/></svg></span><span>Directorio</span></button>
-
-    <button class="nav-direct" onclick="go('organigrama', this)"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.3"/><circle cx="5" cy="19" r="2.3"/><circle cx="12" cy="19" r="2.3"/><circle cx="19" cy="19" r="2.3"/><path d="M12 7.3V13M5 16.7V13h14v3.7M12 13v3.7"/></svg></span><span>Organigrama Completo</span></button>
+    <button class="nav-direct nav-group" id="navDirectorio" onclick="toggleGroup('navDirectorio'); go('directorio', this)">
+      <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="8" r="3.2"/><path d="M20 19v-1a3.8 3.8 0 0 0-2.7-3.6"/><path d="M14.3 4.2A3.2 3.2 0 0 1 16.2 10.8"/></svg></span>
+      <span>Directorio</span>
+      <span class="nav-chevron"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+    </button>
+    <div class="nav-sub">
+      <button class="nav-sub-item" id="navDirectorioItem" onclick="go('directorio', this)"><span>Directorio</span></button>
+      <button class="nav-sub-item" id="navOrganigrama" onclick="go('organigrama', this)"><span>Organigrama Completo</span></button>
+    </div>
 
     <button class="nav-direct nav-group" id="navAprendizaje" onclick="toggleGroup('navAprendizaje'); go('aprendizaje', this); setTimeout(()=>learnTab('playbooks'),0)">
       <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 3 8.5 12 13l9-4.5L12 4Z"/><path d="M6.5 10.6V15c0 1.4 2.5 3 5.5 3s5.5-1.6 5.5-3v-4.4"/></svg></span>
@@ -738,7 +743,7 @@
       <div class="quick-grid">
         <button class="quick-card c-mgmt" onclick="go('proyectos', null); openGroupFor('navManagement')">
           <div class="quick-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7Z"/></svg></div>
-          <div class="quick-card-title">Management</div>
+          <div class="quick-card-title">Gestión</div>
           <div class="quick-card-sub">Proyectos, indicadores e iniciativas del equipo, en un solo lugar.</div>
         </button>
         <button class="quick-card c-fm" onclick="go('rutinas', null); openGroupFor('navRutinas')">
@@ -746,7 +751,7 @@
           <div class="quick-card-title">Rutinas</div>
           <div class="quick-card-sub">BBR, MBR y el Newsletter mensual.</div>
         </button>
-        <button class="quick-card c-svc" onclick="go('directorio', document.getElementById('navDirectorio'))">
+        <button class="quick-card c-svc" onclick="go('directorio', document.getElementById('navDirectorioItem')); openGroupFor('navDirectorio')">
           <div class="quick-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9.5" cy="8" r="3.2"/><path d="M20 19v-1a3.8 3.8 0 0 0-2.7-3.6"/><path d="M14.3 4.2A3.2 3.2 0 0 1 16.2 10.8"/></svg></div>
           <div class="quick-card-title">Directorio</div>
           <div class="quick-card-sub">Líderes de OE por región, con correo directo.</div>
@@ -804,7 +809,7 @@
           <div class="quick-card-icon" style="margin-bottom:14px;"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7Z"/></svg></div>
           <div class="gestion-card-title">Ver todos los proyectos activos</div>
           <div class="gestion-card-sub">Portafolio completo de FM, XD, SVC, TOM y Quality, con % de avance y estado.</div>
-          <div class="gestion-card-link">Ir a Management <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
+          <div class="gestion-card-link">Ir a Gestión <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
         </button>
       </div>
 
@@ -825,7 +830,7 @@
           <div class="tool-card-text"><div class="tool-card-title">Grids clasificados</div><div class="tool-card-sub">Tableros de KPI y clasificación de operaciones por sitio.</div></div>
           <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
         </a>
-        <a class="tool-card wide" href="#" onclick="go('slides', document.getElementById('navSlides')); return false;">
+        <a class="tool-card wide" href="#" onclick="go('slides', document.getElementById('navSlides')); openGroupFor('navManagement'); return false;">
           <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5Z"/><path d="M9 20h6M12 16v4"/></svg></div>
           <div class="tool-card-text"><div class="tool-card-title">Generador de Slide Ejecutivo</div><div class="tool-card-sub">Arma el slide de status de un proyecto Lean (KPIs, fases, obstáculos) y expórtalo listo para la junta.</div></div>
           <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
@@ -867,7 +872,7 @@
 
     <div class="page" id="page-proyectos">
       <div class="page-header">
-        <div class="page-eyebrow">Management</div>
+        <div class="page-eyebrow">Gestión</div>
         <div class="page-title">Proyectos</div>
         <div class="page-desc">Portafolio de iniciativas de FM, XD, SVC, TOM y Quality.</div>
       </div>
@@ -901,7 +906,7 @@
 
     <div class="page" id="page-indicadores">
       <div class="page-header">
-        <div class="page-eyebrow">Management</div>
+        <div class="page-eyebrow">Gestión</div>
         <div class="page-title">Indicadores</div>
         <div class="page-desc">% de avance, proyectos en riesgo, top proyectos, resultados PET y comparativa entre áreas.</div>
       </div>
@@ -982,7 +987,7 @@
             </a>
             <div class="bulletin-card wide soon">
               <div class="bulletin-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7Z"/></svg></div>
-              <div class="bulletin-card-text"><div class="soon-chip">Próximamente</div><div class="bulletin-card-title">Management</div><div class="bulletin-card-sub">Boletín de Gestión — en construcción (se integrará vía Streamlit)</div></div>
+              <div class="bulletin-card-text"><div class="soon-chip">Próximamente</div><div class="bulletin-card-title">Gestión</div><div class="bulletin-card-sub">Boletín de Gestión — en construcción (se integrará vía Streamlit)</div></div>
             </div>
           </div>
         </div>
@@ -1189,7 +1194,7 @@
 
     <div class="page" id="page-management">
       <div class="page-header">
-        <div class="page-eyebrow">Management</div>
+        <div class="page-eyebrow">Gestión</div>
         <div class="page-title">Iniciativas</div>
         <div class="page-desc">Backlog Continuo e Iniciativas Locales — cómo una idea se convierte en iniciativa o proyecto.</div>
       </div>
@@ -1629,9 +1634,9 @@
 </main>
 
 <script>
-  const LABELS    = { inicio:'Inicio', proyectos:'Management · Proyectos', indicadores:'Management · Indicadores', rutinas:'Rutinas', directorio:'Directorio', organigrama:'Organigrama Completo', slides:'Generador de Slides', management:'Management · Iniciativas', aprendizaje:'Aprendizaje Continuo' };
-  const LABELS_EN = { inicio:'Home',   proyectos:'Management · Projects', indicadores:'Management · Indicators', rutinas:'Routines', directorio:'Directory', organigrama:'Full Org Chart', slides:'Slide Generator', management:'Management · Initiatives', aprendizaje:'Continuous Learning' };
-  const LABELS_PT = { inicio:'Início', proyectos:'Management · Projetos', indicadores:'Management · Indicadores', rutinas:'Rotinas', directorio:'Diretório', organigrama:'Organograma Completo', slides:'Gerador de Slides', management:'Management · Iniciativas', aprendizaje:'Aprendizado Contínuo' };
+  const LABELS    = { inicio:'Inicio', proyectos:'Gestión · Proyectos', indicadores:'Gestión · Indicadores', rutinas:'Rutinas', directorio:'Directorio', organigrama:'Directorio · Organigrama', slides:'Gestión · Generador de Slides', management:'Gestión · Iniciativas', aprendizaje:'Aprendizaje Continuo' };
+  const LABELS_EN = { inicio:'Home',   proyectos:'Management · Projects', indicadores:'Management · Indicators', rutinas:'Routines', directorio:'Directory', organigrama:'Directory · Full Org Chart', slides:'Management · Slide Generator', management:'Management · Initiatives', aprendizaje:'Continuous Learning' };
+  const LABELS_PT = { inicio:'Início', proyectos:'Gestão · Projetos', indicadores:'Gestão · Indicadores', rutinas:'Rotinas', directorio:'Diretório', organigrama:'Diretório · Organograma', slides:'Gestão · Gerador de Slides', management:'Gestão · Iniciativas', aprendizaje:'Aprendizado Contínuo' };
 
   function toggleSidebar() {
     document.body.classList.toggle('sidebar-collapsed');
@@ -1664,15 +1669,15 @@
      Tutoriales / Glosario. No busca contenido dentro de los iframes. */
   const NAV_DESTINATIONS = [
     { label: 'Inicio', hint: 'Pagina principal del Hub', go: function () { go('inicio', null); } },
-    { label: 'Management · Proyectos', hint: 'Portafolio de proyectos del equipo', go: function () { go('proyectos', null); openGroupFor('navManagement'); } },
-    { label: 'Management · Indicadores', hint: '% de avance, riesgo, resultados PET', go: function () { go('indicadores', null); openGroupFor('navManagement'); } },
-    { label: 'Management · Iniciativas', hint: 'Iniciativas del equipo', go: function () { go('management', null); openGroupFor('navManagement'); } },
+    { label: 'Gestión · Proyectos', hint: 'Portafolio de proyectos del equipo', go: function () { go('proyectos', null); openGroupFor('navManagement'); } },
+    { label: 'Gestión · Indicadores', hint: '% de avance, riesgo, resultados PET', go: function () { go('indicadores', null); openGroupFor('navManagement'); } },
+    { label: 'Gestión · Iniciativas', hint: 'Iniciativas del equipo', go: function () { go('management', null); openGroupFor('navManagement'); } },
+    { label: 'Gestión · Generador de Slides', hint: 'Slide de status ejecutivo para juntas', go: function () { go('slides', document.getElementById('navSlides')); openGroupFor('navManagement'); } },
     { label: 'Rutinas · BBR', hint: 'Entrega bisemanal de resultados', go: function () { go('rutinas', null); openGroupFor('navRutinas'); routineTab('bbr'); } },
     { label: 'Rutinas · MBR', hint: 'Entrega mensual de resultados', go: function () { go('rutinas', null); openGroupFor('navRutinas'); routineTab('mbr'); } },
     { label: 'Rutinas · Newsletter', hint: 'Boletin mensual de OE', go: function () { go('rutinas', null); openGroupFor('navRutinas'); routineTab('nl'); } },
-    { label: 'Generador de Slides', hint: 'Slide de status ejecutivo para juntas', go: function () { go('slides', document.getElementById('navSlides')); } },
-    { label: 'Directorio', hint: 'Lideres de OE por region, con correo directo', go: function () { go('directorio', document.getElementById('navDirectorio')); } },
-    { label: 'Organigrama Completo', hint: 'Estructura de equipo 2026', go: function () { go('organigrama', null); } },
+    { label: 'Directorio', hint: 'Lideres de OE por region, con correo directo', go: function () { go('directorio', document.getElementById('navDirectorioItem')); openGroupFor('navDirectorio'); } },
+    { label: 'Directorio · Organigrama Completo', hint: 'Estructura de equipo 2026', go: function () { go('organigrama', document.getElementById('navOrganigrama')); openGroupFor('navDirectorio'); } },
     { label: 'Aprendizaje Continuo · Playbooks', hint: 'Guias paso a paso', go: function () { go('aprendizaje', document.getElementById('navAprendizaje')); openGroupFor('navAprendizaje'); learnTab('playbooks'); } },
     { label: 'Aprendizaje Continuo · Sesiones grabadas', hint: 'Grabaciones de capacitaciones', go: function () { go('aprendizaje', document.getElementById('navAprendizaje')); openGroupFor('navAprendizaje'); learnTab('sesiones'); } },
     { label: 'Aprendizaje Continuo · Glosario OE', hint: 'Siglas y terminos de Excelencia Operacional', go: function () { go('aprendizaje', document.getElementById('navAprendizaje')); openGroupFor('navAprendizaje'); learnTab('glosario'); } },
