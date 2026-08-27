@@ -896,7 +896,7 @@
       <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
         <button onclick="fullscreenIframe('insightsFrameProyectos')" aria-label="Ver en pantalla completa" style="display:flex; align-items:center; gap:6px; background:var(--dark); color:var(--white); border:none; border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:inherit;">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke="currentColor"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
-          Pantalla completa
+          <span class="btn-fs-label">Pantalla completa</span>
         </button>
       </div>
       <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 230px); min-height:600px;">
@@ -913,7 +913,7 @@
       <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
         <button onclick="fullscreenIframe('insightsFrameIndicadores')" aria-label="Ver en pantalla completa" style="display:flex; align-items:center; gap:6px; background:var(--dark); color:var(--white); border:none; border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:inherit;">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke="currentColor"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
-          Pantalla completa
+          <span class="btn-fs-label">Pantalla completa</span>
         </button>
       </div>
       <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 230px); min-height:600px;">
@@ -1181,7 +1181,7 @@
       <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
         <button onclick="fullscreenIframe('slidesFrame')" aria-label="Ver en pantalla completa" style="display:flex; align-items:center; gap:6px; background:var(--dark); color:var(--white); border:none; border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:inherit;">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke="currentColor"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
-          Pantalla completa
+          <span class="btn-fs-label">Pantalla completa</span>
         </button>
       </div>
       <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 230px); min-height:600px;">
@@ -1198,7 +1198,7 @@
       <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
         <button onclick="fullscreenIframe('boletinesGenFrame')" aria-label="Ver en pantalla completa" style="display:flex; align-items:center; gap:6px; background:var(--dark); color:var(--white); border:none; border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:inherit;">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke="currentColor"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
-          Pantalla completa
+          <span class="btn-fs-label">Pantalla completa</span>
         </button>
       </div>
       <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 230px); min-height:600px;">
@@ -1728,14 +1728,17 @@
     cmdkActiveIndex = 0;
     const el = document.getElementById('cmdkResults');
     if (!el) return;
+    const cl = currentLang();
+    const dict = cl === 'en' ? TEXT_EN : (cl === 'pt' ? TEXT_PT : null);
+    const t = function (es) { return (dict && dict[es]) ? dict[es] : es; };
     if (!cmdkFiltered.length) {
-      el.innerHTML = '<div class="cmdk-empty">Sin resultados</div>';
+      el.innerHTML = '<div class="cmdk-empty">' + t('Sin resultados') + '</div>';
       return;
     }
     el.innerHTML = cmdkFiltered.map(function (d, i) {
       return '<button type="button" class="cmdk-item' + (i === 0 ? ' active' : '') + '" data-idx="' + i + '" onclick="runCommandItem(' + i + ')">' +
-        '<div class="cmdk-item-label">' + d.label + '</div>' +
-        (d.hint ? '<div class="cmdk-item-hint">' + d.hint + '</div>' : '') +
+        '<div class="cmdk-item-label">' + t(d.label) + '</div>' +
+        (d.hint ? '<div class="cmdk-item-hint">' + t(d.hint) + '</div>' : '') +
         '</button>';
     }).join('');
   }
@@ -1870,7 +1873,14 @@
       if (show) visible++;
     });
     var countEl = document.getElementById('regCount');
-    if (countEl) countEl.textContent = visible + (visible === 1 ? ' sitio' : ' sitios');
+    if (countEl) {
+      var cl = currentLang();
+      var suffix;
+      if (cl === 'en') { suffix = visible === 1 ? ' site' : ' sites'; }
+      else if (cl === 'pt') { suffix = visible === 1 ? ' site' : ' sites'; }
+      else { suffix = visible === 1 ? ' sitio' : ' sitios'; }
+      countEl.textContent = visible + suffix;
+    }
   }
 
   // Pega aqui la URL del Web App de Apps Script una vez que crees el Sheet + despliegues el script
@@ -1884,10 +1894,13 @@
     const descEl = document.getElementById('sugDesc');
     const btn = document.querySelector('.suggest-submit');
     const confirmEl = document.getElementById('sugConfirm');
+    const cl = currentLang();
+    const dict = cl === 'en' ? TEXT_EN : (cl === 'pt' ? TEXT_PT : null);
+    const t = function (es) { return (dict && dict[es]) ? dict[es] : es; };
 
     const desc = descEl.value.trim();
     if (!desc) {
-      confirmEl.textContent = 'Escribe una descripción antes de enviar.';
+      confirmEl.textContent = t('Escribe una descripción antes de enviar.');
       confirmEl.classList.add('show', 'error');
       return;
     }
@@ -1897,20 +1910,18 @@
       tipo: tipoSel.selectedIndex > 0 ? tipoSel.value : '',
       descripcion: desc,
       fecha: new Date().toISOString(),
-      idioma: currentLang(),
+      idioma: cl,
     };
 
     if (!SUGGESTIONS_ENDPOINT) {
-      confirmEl.classList.remove('error');
-      confirmEl.textContent = 'Sugerencia enviada con éxito (vista previa: aquí se conectaría a un Google Sheet vía Apps Script).';
-      confirmEl.classList.add('show');
-      areaSel.selectedIndex = 0; tipoSel.selectedIndex = 0; descEl.value = '';
+      confirmEl.textContent = t('Este formulario todavía no está conectado. Avísale a Larry directamente mientras tanto.');
+      confirmEl.classList.add('show', 'error');
       return;
     }
 
     const originalBtnText = btn.textContent;
     btn.disabled = true;
-    btn.textContent = 'Enviando...';
+    btn.textContent = t('Enviando...');
     fetch(SUGGESTIONS_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // evita el preflight OPTIONS con Apps Script
@@ -1918,12 +1929,12 @@
     })
       .then(() => {
         confirmEl.classList.remove('error');
-        confirmEl.textContent = 'Sugerencia enviada con éxito. ¡Gracias!';
+        confirmEl.textContent = t('Sugerencia enviada con éxito. ¡Gracias!');
         confirmEl.classList.add('show');
         areaSel.selectedIndex = 0; tipoSel.selectedIndex = 0; descEl.value = '';
       })
       .catch(() => {
-        confirmEl.textContent = 'No se pudo enviar. Intenta de nuevo en un momento.';
+        confirmEl.textContent = t('No se pudo enviar. Intenta de nuevo en un momento.');
         confirmEl.classList.add('show', 'error');
       })
       .finally(() => { btn.disabled = false; btn.textContent = originalBtnText; });
@@ -2132,6 +2143,18 @@
     'Sortation Center | Process Path':'Sortation Center | Process Path',
     'First Mile | TMED':'First Mile | TMED',
     'Quality Audits':'Quality Audits', 'Fill Rate':'Fill Rate',
+    'SVC + LM':'SVC + LM', 'XD, SC + FM':'XD, SC + FM', 'Costo &amp; Eficiencia':'Costo &amp; Eficiencia',
+    'To be hire · Supervisor MRN':'To be hire · Supervisor MRN',
+    'To be hire · BPP / ICQA / Damage':'To be hire · BPP / ICQA / Damage',
+    'To be hire · GM: Despacho':'To be hire · GM: Despacho',
+    'To be hire · BPP':'To be hire · BPP',
+    'To be hire · Manager':'To be hire · Manager',
+    'To be hire · Quality Audits':'To be hire · Quality Audits',
+    'To be hire · Airhub':'To be hire · Airhub',
+    'To be hire · Portafolio Big Bets':'To be hire · Portfolio Big Bets',
+    'To be hire':'To be hire',
+    'Data Analytics | BI':'Data Analytics | BI',
+    'Abrir ↗':'Open ↗',
     'Backlog Continuo e Iniciativas Locales — cómo una idea se convierte en iniciativa o proyecto.':'Continuous Backlog and Local Initiatives — how an idea becomes an initiative or project.',
     'Backlog Continuo':'Continuous Backlog', 'Iniciativas Locales':'Local Initiatives',
     'Boletín de Gestión (unificado)':'Management Bulletin (unified)',
@@ -2149,6 +2172,45 @@
     'Zona':'Zone', 'Región':'Region', 'Subregión':'Subregion', 'Sitio':'Site',
     'Listado completo de sitios (código SVC/XD) con su nueva zona, región y subregión, sin nombres. La hoja original de Nueva Regionalización también incluye el detalle de managers y stakeholders por sitio; ese detalle no se publica en el Hub.':
       'Full list of sites (SVC/XD code) with their new zone, region and subregion, with no names. The original Nueva Regionalización sheet also includes the manager/stakeholder detail per site; that detail is not published on the Hub.',
+
+    // Command palette (Ctrl+K) — labels y hints de NAV_DESTINATIONS
+    'Pagina principal del Hub':'Main Hub page',
+    'Portafolio de proyectos del equipo':'Team project portfolio',
+    'Gestión · Indicadores':'Management · Indicators',
+    '% de avance, riesgo, resultados PET':'% progress, risk, PET results',
+    'Iniciativas del equipo':'Team initiatives',
+    'Slide de status ejecutivo para juntas':'Executive status slide for meetings',
+    'App de Streamlit para armar los 3 newsletters':'Streamlit app to build the 3 newsletters',
+    'Entrega bisemanal de resultados':'Biweekly results review',
+    'Entrega mensual de resultados':'Monthly results review',
+    'Boletin mensual de OE':'Monthly OE newsletter',
+    'Lideres de OE por region, con correo directo':'OE leaders by region, with direct email',
+    'Estructura de equipo 2026':'2026 team structure',
+    'Guias paso a paso':'Step-by-step guides',
+    'Grabaciones de capacitaciones':'Training recordings',
+    'Siglas y terminos de Excelencia Operacional':'Operational Excellence acronyms and terms',
+    'Master File y Nueva Regionalizacion':'Master File and New Regionalization',
+    'Video-tutoriales de Monica Gallardo':'Video tutorials by Monica Gallardo',
+    'Playbook OE — Boletin Mensual (pagina completa)':'OE Playbook — Monthly Newsletter (full page)',
+    'Glosario OE (pagina completa)':'OE Glossary (full page)',
+    'Biblioteca / Documentos de referencia (pagina completa)':'Library / Reference documents (full page)',
+    'Tutoriales MELI Axis (pagina completa)':'MELI Axis Tutorials (full page)',
+    'Sesiones grabadas (pagina completa)':'Recorded sessions (full page)',
+    'Se abre en una pestaña nueva':'Opens in a new tab',
+    'Sin resultados':'No results',
+    'Busqueda rapida (Ctrl+K)':'Quick search (Ctrl+K)',
+    'Busqueda rapida del Hub':'Hub quick search',
+    'Cerrar busqueda':'Close search',
+    'Contraer/expandir menu':'Collapse/expand menu',
+    'Abrir menu':'Open menu',
+    'Cerrar novedades':'Close updates',
+    'Ver en pantalla completa':'View fullscreen',
+    'Pantalla completa':'Fullscreen',
+    'Escribe una descripción antes de enviar.':'Write a description before sending.',
+    'Este formulario todavía no está conectado. Avísale a Larry directamente mientras tanto.':'This form isn\'t connected yet. Let Larry know directly in the meantime.',
+    'Enviando...':'Sending...',
+    'Sugerencia enviada con éxito. ¡Gracias!':'Suggestion sent successfully. Thank you!',
+    'No se pudo enviar. Intenta de nuevo en un momento.':'Couldn\'t send it. Try again in a moment.',
   };
 
   /* Mismo criterio que TEXT_EN: no se traduce nada que no este aqui
@@ -2354,6 +2416,18 @@
     'Sortation Center | Process Path':'Sortation Center | Process Path',
     'First Mile | TMED':'First Mile | TMED',
     'Quality Audits':'Quality Audits', 'Fill Rate':'Fill Rate',
+    'SVC + LM':'SVC + LM', 'XD, SC + FM':'XD, SC + FM', 'Costo &amp; Eficiencia':'Custo &amp; Eficiência',
+    'To be hire · Supervisor MRN':'A contratar · Supervisor MRN',
+    'To be hire · BPP / ICQA / Damage':'A contratar · BPP / ICQA / Damage',
+    'To be hire · GM: Despacho':'A contratar · GM: Despacho',
+    'To be hire · BPP':'A contratar · BPP',
+    'To be hire · Manager':'A contratar · Manager',
+    'To be hire · Quality Audits':'A contratar · Quality Audits',
+    'To be hire · Airhub':'A contratar · Airhub',
+    'To be hire · Portafolio Big Bets':'A contratar · Portfólio Big Bets',
+    'To be hire':'A contratar',
+    'Data Analytics | BI':'Data Analytics | BI',
+    'Abrir ↗':'Abrir ↗',
     'Backlog Continuo e Iniciativas Locales — cómo una idea se convierte en iniciativa o proyecto.':'Backlog Contínuo e Iniciativas Locais — como uma ideia se transforma em iniciativa ou projeto.',
     'Backlog Continuo':'Backlog Contínuo', 'Iniciativas Locales':'Iniciativas Locais',
     'Boletín de Gestión (unificado)':'Boletim de Gestão (unificado)',
@@ -2371,6 +2445,45 @@
     'Zona':'Zona', 'Región':'Região', 'Subregión':'Subregião', 'Sitio':'Site',
     'Listado completo de sitios (código SVC/XD) con su nueva zona, región y subregión, sin nombres. La hoja original de Nueva Regionalización también incluye el detalle de managers y stakeholders por sitio; ese detalle no se publica en el Hub.':
       'Lista completa de sites (código SVC/XD) com sua nova zona, região e subregião, sem nomes. A planilha original de Nueva Regionalização também traz o detalhe de managers e stakeholders por site; esse detalhe não é publicado no Hub.',
+
+    // Command palette (Ctrl+K) — labels e hints de NAV_DESTINATIONS
+    'Pagina principal del Hub':'Página principal do Hub',
+    'Portafolio de proyectos del equipo':'Portfólio de projetos da equipe',
+    'Gestión · Indicadores':'Gestão · Indicadores',
+    '% de avance, riesgo, resultados PET':'% de avanço, risco, resultados PET',
+    'Iniciativas del equipo':'Iniciativas da equipe',
+    'Slide de status ejecutivo para juntas':'Slide de status executivo para reuniões',
+    'App de Streamlit para armar los 3 newsletters':'App de Streamlit para montar os 3 newsletters',
+    'Entrega bisemanal de resultados':'Entrega quinzenal de resultados',
+    'Entrega mensual de resultados':'Entrega mensal de resultados',
+    'Boletin mensual de OE':'Boletim mensal de OE',
+    'Lideres de OE por region, con correo directo':'Líderes de OE por região, com e-mail direto',
+    'Estructura de equipo 2026':'Estrutura de equipe 2026',
+    'Guias paso a paso':'Guias passo a passo',
+    'Grabaciones de capacitaciones':'Gravações de treinamentos',
+    'Siglas y terminos de Excelencia Operacional':'Siglas e termos de Excelência Operacional',
+    'Master File y Nueva Regionalizacion':'Master File e Nova Regionalização',
+    'Video-tutoriales de Monica Gallardo':'Videotutoriais de Monica Gallardo',
+    'Playbook OE — Boletin Mensual (pagina completa)':'Playbook OE — Boletim Mensal (página completa)',
+    'Glosario OE (pagina completa)':'Glossário OE (página completa)',
+    'Biblioteca / Documentos de referencia (pagina completa)':'Biblioteca / Documentos de referência (página completa)',
+    'Tutoriales MELI Axis (pagina completa)':'Tutoriais MELI Axis (página completa)',
+    'Sesiones grabadas (pagina completa)':'Sessões gravadas (página completa)',
+    'Se abre en una pestaña nueva':'Abre em uma nova aba',
+    'Sin resultados':'Sem resultados',
+    'Busqueda rapida (Ctrl+K)':'Busca rápida (Ctrl+K)',
+    'Busqueda rapida del Hub':'Busca rápida do Hub',
+    'Cerrar busqueda':'Fechar busca',
+    'Contraer/expandir menu':'Recolher/expandir menu',
+    'Abrir menu':'Abrir menu',
+    'Cerrar novedades':'Fechar novidades',
+    'Ver en pantalla completa':'Ver em tela cheia',
+    'Pantalla completa':'Tela cheia',
+    'Escribe una descripción antes de enviar.':'Escreva uma descrição antes de enviar.',
+    'Este formulario todavía no está conectado. Avísale a Larry directamente mientras tanto.':'Este formulário ainda não está conectado. Avise o Larry diretamente enquanto isso.',
+    'Enviando...':'Enviando...',
+    'Sugerencia enviada con éxito. ¡Gracias!':'Sugestão enviada com sucesso. Obrigado!',
+    'No se pudo enviar. Intenta de nuevo en un momento.':'Não foi possível enviar. Tente novamente em instantes.',
   };
 
   const I18N_SELECTOR = [
@@ -2387,8 +2500,10 @@
     '.coming-soon-title', '.coming-soon-sub', '.routine-tab', '.learn-tab',
     '.bulletin-month-label', '.bulletin-card-title', '.bulletin-card-sub', '.bulletin-card-link',
     '.org-top-role', '.region-note', '.orgfull-tier-label', '.orgfull-role',
+    '.org-role', '.org-col-label', '.orgfull-col-title',
     '.learn-card-title', '.learn-card-sub', '.i18n-link',
-    '.bib-section-title', '.bib-note', '.bib-table thead th',
+    '.bib-section-title', '.bib-note', '.bib-table thead th', '.bib-open',
+    '.btn-fs-label',
     '#sugArea option', '#sugTipo option'
   ].join(', ');
 
@@ -2421,6 +2536,32 @@
       if (sugDesc.dataset.i18nPh === undefined) { sugDesc.dataset.i18nPh = sugDesc.getAttribute('placeholder') || ''; }
       var phEn = 'Tell us your idea...', phPt = 'Conte-nos sua ideia...';
       sugDesc.setAttribute('placeholder', lang === 'en' ? phEn : (lang === 'pt' ? phPt : sugDesc.dataset.i18nPh));
+    }
+    var regSearch = document.getElementById('regSearch');
+    if (regSearch) {
+      if (regSearch.dataset.i18nPh === undefined) { regSearch.dataset.i18nPh = regSearch.getAttribute('placeholder') || ''; }
+      var rsEn = 'Search site, region or subregion...', rsPt = 'Buscar site, região ou sub-região...';
+      regSearch.setAttribute('placeholder', lang === 'en' ? rsEn : (lang === 'pt' ? rsPt : regSearch.dataset.i18nPh));
+      filterSites();
+    }
+    document.querySelectorAll('[aria-label]').forEach(function (el) {
+      if (el.dataset.i18nAria === undefined) { el.dataset.i18nAria = el.getAttribute('aria-label'); }
+      var origAria = el.dataset.i18nAria;
+      el.setAttribute('aria-label', (lang === 'es' || !dict || !dict.hasOwnProperty(origAria)) ? origAria : dict[origAria]);
+    });
+    document.querySelectorAll('[title]').forEach(function (el) {
+      if (el.dataset.i18nTitle === undefined) { el.dataset.i18nTitle = el.getAttribute('title'); }
+      var origTitle = el.dataset.i18nTitle;
+      el.setAttribute('title', (lang === 'es' || !dict || !dict.hasOwnProperty(origTitle)) ? origTitle : dict[origTitle]);
+    });
+
+    var cmdkInput = document.getElementById('cmdkInput');
+    if (cmdkInput) {
+      if (cmdkInput.dataset.i18nPh === undefined) { cmdkInput.dataset.i18nPh = cmdkInput.getAttribute('placeholder') || ''; }
+      var ckEn = 'Search the Hub...', ckPt = 'Buscar no Hub...';
+      cmdkInput.setAttribute('placeholder', lang === 'en' ? ckEn : (lang === 'pt' ? ckPt : cmdkInput.dataset.i18nPh));
+      var cmdkBackdrop = document.getElementById('cmdkBackdrop');
+      if (cmdkBackdrop && cmdkBackdrop.classList.contains('open')) { renderCommandResults(cmdkInput.value); }
     }
 
     var current = document.querySelector('.page.active');
