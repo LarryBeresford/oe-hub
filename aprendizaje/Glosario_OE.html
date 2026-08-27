@@ -33,6 +33,22 @@
   .term-name { font-size:14.5px; font-weight:800; color:var(--dark); margin-bottom:6px; }
   .term-def { font-size:12.5px; color:#666; line-height:1.5; }
 
+  .section-title { font-size:11px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:#999; margin:34px 0 12px; }
+  .section-title:first-of-type { margin-top:0; }
+  .kpi-filters { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
+  .kpi-filter-btn { border:1px solid var(--border); background:var(--white); color:#666; font-size:11.5px; font-weight:700; padding:6px 12px; border-radius:20px; cursor:pointer; font-family:inherit; }
+  .kpi-filter-btn.active { background:var(--dark); color:var(--white); border-color:var(--dark); }
+  .kpi-table-wrap { background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:auto; max-height:640px; }
+  .kpi-table { width:100%; border-collapse:collapse; font-size:12.5px; }
+  .kpi-table thead th { position:sticky; top:0; background:var(--light-bg); text-align:left; padding:10px 14px; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:#999; z-index:1; }
+  .kpi-table td { padding:9px 14px; border-top:1px solid var(--border); vertical-align:top; }
+  .kpi-table tr:hover td { background:var(--light-bg); }
+  .kpi-td-cat { font-size:10.5px; font-weight:800; letter-spacing:.03em; color:var(--yellow-dark); white-space:nowrap; }
+  .kpi-td-sub { font-size:11px; color:#999; white-space:nowrap; }
+  .kpi-td-name { font-weight:800; color:var(--dark); white-space:nowrap; }
+  .kpi-td-alias { font-size:11.5px; color:#666; white-space:nowrap; }
+  .kpi-td-desc { color:#555; }
+
   .footer { background: var(--yellow); padding: 16px 40px; margin-top: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
   .footer .f-title { font-size: 13px; font-weight: 900; color: var(--dark); }
   .footer .f-sub { font-size: 10.5px; color: #444; }
@@ -101,7 +117,100 @@
         <div class="term-def">Indicador clave de desempeño.</div>
       </div>
     </div>
+
+    <div class="section-title">Glosario de KPIs</div>
+    <div class="kpi-filters" id="kpiFilters">
+      <button class="kpi-filter-btn active" data-cat="todos" onclick="filterKpis('todos', this)">Todos</button>
+      <button class="kpi-filter-btn" data-cat="LAST MILE" onclick="filterKpis('LAST MILE', this)">Last Mile</button>
+      <button class="kpi-filter-btn" data-cat="DELAY" onclick="filterKpis('DELAY', this)">Delay</button>
+      <button class="kpi-filter-btn" data-cat="FLOW" onclick="filterKpis('FLOW', this)">Flow</button>
+      <button class="kpi-filter-btn" data-cat="PEOPLE" onclick="filterKpis('PEOPLE', this)">People</button>
+    </div>
+    <div class="kpi-table-wrap">
+      <table class="kpi-table">
+        <thead>
+          <tr>
+            <th>Categoría</th>
+            <th>Subcategoría</th>
+            <th>KPI</th>
+            <th>Alias</th>
+            <th>Descripción</th>
+          </tr>
+        </thead>
+        <tbody id="kpiTbody">
+          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">DELIVERY SUCCESS</td><td class="kpi-td-alias">DS</td><td class="kpi-td-desc">Porcentaje de paquetes que llegaron a su destino comparado con el total de paquetes despachados.</td></tr>
+          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">DELIVERY SUCCESS COMERCIAL</td><td class="kpi-td-alias">DS COMERCIAL</td><td class="kpi-td-desc">Porcentaje de paquetes que llegaron a su destino comercial comparado con el total de paquetes despachados a un destino comercial.</td></tr>
+          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">SHARE NOT DELIVERED</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Porcentaje de paquetes que no llegaron a su destino en comparación con el total de paquetes despachados.</td></tr>
+          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">ON ROUTE HOURS</td><td class="kpi-td-alias">ORH</td><td class="kpi-td-desc">Promedio de horas que pasan los envíos en ruta desde X hasta X.</td></tr>
+          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">SHIPMENTS PER ROUTE</td><td class="kpi-td-alias">SPR</td><td class="kpi-td-desc">Promedio de paquetes que se envían por cada ruta.</td></tr>
+          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">EXECUTED ROUTES</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Número total de rutas que se ejecutaron.</td></tr>
+          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">SPORH</td><td class="kpi-td-alias">SPORH</td><td class="kpi-td-desc">Promedio de paquetes que se mueven por cada hora en ruta.</td></tr>
+          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">ADDRESS QUALITY</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Porcentaje de paquetes entregados cuyo geopunto de entrega se encontraba a 100 metros o menos del geopunto planeado comparado con el total de paquetes despachados.</td></tr>
+          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">SHARE BY SHIPMENTS</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Porcentaje de paquetes despachados que se hicieron usando un tipo de entrega específico (Delivery Model).</td></tr>
+          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">STEM IN</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Promedio de tiempo que tarda en regresar la ruta al centro de servicio (SVC).</td></tr>
+          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">SHARE AMBULANCIAS</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Porcentaje de rutas no planeadas que recibieron todos sus paquetes de otras unidades en relación al total de rutas ejecutadas.</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY SELLER</td><td class="kpi-td-name">PICKUP SUCCESS + 1</td><td class="kpi-td-alias">PU+1</td><td class="kpi-td-desc">Paquetes listos para colectar pero fueron recolectados un día después porque el vendedor no los tenía listos.</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY SELLER</td><td class="kpi-td-name">SELLER DELAY</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes que el seller (vendedor) marcó como listos para recolectar después de la fecha planeada de colecta.</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY SELLER</td><td class="kpi-td-name">INYECCION CRUZADA</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes que debían recogerse con el seller, pero se dejaron en un place después de la fecha planeada de colecta.</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY FM/XD</td><td class="kpi-td-name">PICKUP SUCCESS &gt;= 2</td><td class="kpi-td-alias">PU&gt;=2</td><td class="kpi-td-desc">Paquetes listos para ser recolectados, pero fueron colecados 2 o más días después de la fecha planificada.</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY FM/XD</td><td class="kpi-td-name">LATE ARRIVAL XD</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes que llegan tarde al crossdock (XD) desde First Mile (FM).</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY XD</td><td class="kpi-td-name">AIR TO GND</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes con demora debido el &#x27;cambio de transportista&#x27; de Meli Air a Ground.</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY XD</td><td class="kpi-td-name">WRONG LOGISTIC CENTER</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes enviados al crossdock (XD) o Fullfillment (FBM) equivocado.</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY XD</td><td class="kpi-td-name">LATE CHEK OUT</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes con demora porque fueron despachados después del tiempo planeado (CPT).</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY XD</td><td class="kpi-td-name">BACKLOG</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes despachados tarde porque no salieron el mismo día planeado, sino después.</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY XD</td><td class="kpi-td-name">MISSORT</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes enviados al centro de servicio (SVC) equivocado.</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY XD</td><td class="kpi-td-name">MELI A CCS</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes despachados con retraso por el &#x27;cambio de transportista&#x27; de Mercado Envíos a un &#x27;Commercial Carrier&#x27;.</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY FBM</td><td class="kpi-td-name">BACKLOG</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes con demora por no ser despachados el mismo día y fueron despachados al día siguiente o dias despues</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY FBM</td><td class="kpi-td-name">LATE CHEK OUT</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes con demora por ser despachado después del CPT plan.</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY FBM</td><td class="kpi-td-name">MISSORT</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes enviados a un SVC erróneo.</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY FBM</td><td class="kpi-td-name">WRONG LOGISTIC CENTER</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes enviados a un XD/FBM erróneo.</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY FBM</td><td class="kpi-td-name">AIR TO GROUND</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes con demora a causa del Cambio de Transportista de Meli Air a Terrestre.</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY LH</td><td class="kpi-td-name">LINEHAUL GROUND</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes con demora porque las unidades de media milla excedieron el tiempo en tránsito de un site a otro.</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY LH</td><td class="kpi-td-name">LATE BLD DISPATCH</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes despachados a tiempo (On Time), pero la unidad de LH estuvo más de 1 hora sin salir del XD o FBM.</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY LH</td><td class="kpi-td-name">LH AIR DELAY</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes con demora porque el traslado aéreo tomó más tiempo entre un sitio y otro.</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY LH</td><td class="kpi-td-name">CAMBIO DE TRANSPORTISTA</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes con demora a causa del &#x27;Cambio de Transportista&#x27; no identificado.</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY SVC</td><td class="kpi-td-name">LATE DISPATCH</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes con demora por problemas en el centro de servicio (SVC).</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY SVC</td><td class="kpi-td-name">SIDELINE</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes que llegaron a tiempo en la etapa Linehaul (LH), pero salieron tarde del SVC.</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">OTHERS</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes con demora cuya causa no se puede identificar porque les falta información de seguimiento.</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY FLEX</td><td class="kpi-td-name">FLEX</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes con demora causada por &#x27;Flex&#x27;.</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY CC</td><td class="kpi-td-name">COMMERCIAL CARRIERS</td><td class="kpi-td-alias">CC</td><td class="kpi-td-desc">Paquetes con demora causada por &#x27;Commercial Carrier&#x27;.</td></tr>
+          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY FM/XD</td><td class="kpi-td-name">PU TO XD DELAY</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes que tardaron 1 día o más en llegar desde el First Mile (FM) al Crossdock (XD).</td></tr>
+          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">ME EXTRA</td><td class="kpi-td-name">ACCEPTANCE RATE</td><td class="kpi-td-alias">AR</td><td class="kpi-td-desc">Porcentaje de rutas aceptadas por conductores en el modelo MELI EXTRA respecto a todas las rutas que se ofrecieron en este modelo.</td></tr>
+          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">ME EXTRA</td><td class="kpi-td-name">OFFERED ROTES</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Número total de rutas ofrecidas a los conductores bajo el modelo MELI EXTRA.</td></tr>
+          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">ME EXTRA</td><td class="kpi-td-name">ACCEPTED ROUTES</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Número total de rutas aceptadas por los conductores del modelo MELI EXTRA.</td></tr>
+          <tr><td class="kpi-td-cat">PEOPLE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">HEADCOUNT ACTIVO</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Promedio de empleados activos en un periodo de tiempo determinado.</td></tr>
+          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">INVENTARIO TOTAL</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Total de unidades asignadas por contrato a cada proveedor (MLP) para el proyecto Last Mile (LM), sin incluir unidades de First Mile (FM) ni reemplazos.</td></tr>
+          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">RENTAL REPLACEMENT</td><td class="kpi-td-alias">Reemplazos</td><td class="kpi-td-desc">Unidades que el proveedor (MLP) puso para reemplazar las unidades RENTALS que no están disponibles o están dañadas.</td></tr>
+          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">INVENTARIO DISPONIBLE</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Total de unidades listas para ejecutar rutas, descontando las que están en mantenimiento preventivo, robos y sumando los reemplazos.</td></tr>
+          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">SCHEDULE</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Unidades que en el &#x27;Schedule&#x27; están marcadas bajo el modelo de entrega de &quot;RENTALS&quot;.</td></tr>
+          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">ROUTED</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Unidades que el equipo de &#x27;ROUTING&#x27; planeó usando vehículos tipo &#x27;RENTAL&#x27;.</td></tr>
+          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">EXECUTED</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Unidades ejecutadas sin contar dobles vueltas, backups de Casanova ni rutas mixtas FM en LM que salieron con Delivery Model &quot;RENTALS&quot;. Se consideran los reemplazos.</td></tr>
+          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">UTILIZACION PURA</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Porcentaje de unidades que fueron ejecutadas en rutas respecto al total de unidades del inventario.</td></tr>
+          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">UTILIZACION DISPONIBLE</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Porcentaje de unidades que fueron ejecutadas en rutas respecto al inventario disponible.</td></tr>
+          <tr><td class="kpi-td-cat">FLOW</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">INDUCIDO DEL DIA</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes procesados (inducidos) en el primer, segundo o tercer ciclo del mismo día programado.</td></tr>
+          <tr><td class="kpi-td-cat">FLOW</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">LINEHAUL DELAY</td><td class="kpi-td-alias">LH_DELAY</td><td class="kpi-td-desc">Paquetes con demora por Llegada tardía de LH vs su CPT.</td></tr>
+          <tr><td class="kpi-td-cat">FLOW</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">MANIFESTED NOY RECEIVED</td><td class="kpi-td-alias">MNR</td><td class="kpi-td-desc">Paquetes que se manifiestan pero no se reciben (se despachan de origen pero no llegan en el LH al SVC)</td></tr>
+          <tr><td class="kpi-td-cat">FLOW</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">BLANK</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes que no pueden ser asignados a ruta porque no tuvieron despacho virtual desde origen y su etiqueta está sale blanca.</td></tr>
+          <tr><td class="kpi-td-cat">FLOW</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">BACKLOG</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes que llegan al SVC antes de la hora estimada (ETA), pero salen después del tiempo planeado de despacho.</td></tr>
+          <tr><td class="kpi-td-cat">FLOW</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">RETURN TO STATION</td><td class="kpi-td-alias">RTS</td><td class="kpi-td-desc">Paquetes que regresan a la estación (SVC).</td></tr>
+          <tr><td class="kpi-td-cat">FLOW</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">BUYERS CHOICE</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes cuya fecha de entrega fue elegida por el cliente.</td></tr>
+          <tr><td class="kpi-td-cat">FLOW</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">RTS INDUCCION ADELANTANDA</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes que fueron procesados en la inducción 2 o más veces al día para adelantar el proceso.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
+
+  <script>
+    function filterKpis(cat, btn) {
+      document.querySelectorAll('#kpiFilters .kpi-filter-btn').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      document.querySelectorAll('#kpiTbody tr').forEach(function (tr) {
+        var rowCat = tr.querySelector('.kpi-td-cat').textContent.trim();
+        tr.style.display = (cat === 'todos' || rowCat === cat) ? '' : 'none';
+      });
+    }
+  </script>
 
   <div class="footer">
     <div class="f-title">Aprendizaje Continuo · Glosario OE</div>
