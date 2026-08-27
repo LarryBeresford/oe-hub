@@ -55,6 +55,14 @@
     padding:7px 12px;font-size:12px;cursor:pointer;font-family:inherit;
     transition:border-color .15s ease, color .15s ease, transform .12s ease;}
   .clearBtn:hover{border-color:var(--yellow);color:var(--yellow);transform:translateY(-1px);}
+  .snapBtn{background:var(--yellow);color:#111;border:1px solid var(--yellow);border-radius:6px;
+    padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;
+    transition:transform .12s ease, box-shadow .15s ease;}
+  .snapBtn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(255,230,0,.25);}
+  .diagBtn{background:transparent;color:var(--yellow);border:1.5px solid var(--yellow);border-radius:6px;
+    padding:6.5px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.02em;
+    transition:background-color .15s ease, transform .12s ease, box-shadow .15s ease;}
+  .diagBtn:hover{background:rgba(255,230,0,.1);transform:translateY(-1px);box-shadow:0 6px 16px rgba(255,230,0,.15);}
   .count{font-size:12px;color:var(--muted);margin-bottom:8px;}
   h3.section{font-size:15px;border-bottom:2px solid var(--yellow);padding-bottom:6px;margin:30px 0 12px;}
   .tablewrap{max-height:520px;overflow-y:auto;border-radius:10px;border:1px solid var(--border);box-shadow:0 4px 16px rgba(0,0,0,.3);}
@@ -121,6 +129,8 @@
     <div class="chkwrap"><input type="checkbox" id="fSoloAtrasados"><label for="fSoloAtrasados" id="lblSoloAtrasados" style="margin:0;">Solo atrasados</label></div>
     <div class="chkwrap"><input type="checkbox" id="fSoloRollout"><label for="fSoloRollout" id="lblSoloRollout" style="margin:0;">Solo Roll Out</label></div>
     <div><button type="button" class="clearBtn" id="fClear" onclick="clearFilters()">Limpiar filtros</button></div>
+    <div><button type="button" class="snapBtn" id="fSnapshot" onclick="generateSnapshot()">Generar snapshot</button></div>
+    <div><button type="button" class="diagBtn" id="fDiagnostic" onclick="generateDiagnostic()">Generar diagnóstico</button></div>
   </div>
   <div class="count" id="countLbl"></div>
   <div class="tablewrap">
@@ -160,6 +170,7 @@ const I18N = {
     lblCad: 'Centro / CAD', lblTime: 'Equipo', lblEtapa: 'Etapa actual', lblPrioridad: 'Prioridad',
     lblSoloAtrasados: 'Solo atrasados', lblSoloRollout: 'Solo Roll Out',
     clear: 'Limpiar filtros',
+    btnSnapshot: 'Generar snapshot',
     thProyecto:'Proyecto', thCad:'CAD', thEtapa:'Etapa actual', thPrioridad:'Prioridad', thTags:'Tags',
     thAtrasado:'Atrasado', thSuccess:'Success Rate', thSaving:'Saving (USD)', thEquipo:'Equipo',
     footer: 'OE MLM · datos exportados de MELI Axis (vista completa) · filtrado a CAD de México',
@@ -174,6 +185,58 @@ const I18N = {
       <li>Cubre <strong>${centros} centros/CAD distintos</strong>.</li>
       <li><strong>${rollout} proyectos</strong> están etiquetados como "Roll Out" (despliegue en curso).</li>
     `,
+    snapTitle: 'Snapshot de Portafolio — OE MLM (México)',
+    snapGenerated: (d) => `Generado el ${d} desde OE Hub`,
+    snapFiltersTitle: 'Filtros aplicados',
+    snapNoFilters: 'Ninguno — vista completa del portafolio',
+    snapKpisTitle: 'Resumen (KPIs)',
+    snapStatsTitle: 'Estadísticas adicionales',
+    snapByEtapa: 'Distribución por etapa',
+    snapByPrioridad: 'Distribución por prioridad',
+    snapTopCadCount: 'CAD con más proyectos',
+    snapTopCadSaving: 'CAD con más savings (USD)',
+    snapConclusionsTitle: 'Conclusiones',
+    snapTableTitle: 'Proyectos incluidos en este snapshot',
+    snapFooter: (d) => `Snapshot generado desde OE Hub el ${d} · datos de MELI Axis (CSV descargados y procesados)`,
+    snapNoData: 'No hay proyectos que coincidan con los filtros seleccionados.',
+    concTotal: (total, pct, atrasados) => `De los <strong>${total} proyectos</strong> en esta selección, <strong>${atrasados} (${pct}%)</strong> están atrasados.`,
+    concEtapa: (etapa, n, pct) => `La etapa con más proyectos es <strong>"${etapa}"</strong>, con ${n} proyectos (${pct}% de la selección).`,
+    concPrioridad: (pr, n) => `La prioridad más frecuente es <strong>"${pr}"</strong>, con ${n} proyectos.`,
+    concCad: (cad, n) => `El centro/CAD con más proyectos es <strong>${cad}</strong>, con ${n} proyectos.`,
+    concSaving: (total) => `Los savings acumulados de esta selección suman <strong>$${total.toLocaleString()} USD</strong>.`,
+    concRollout: (n, total) => `<strong>${n} de ${total} proyectos</strong> están en etapa de Roll Out (despliegue en curso).`,
+    concSuccess: (avg) => `El Success Rate promedio de esta selección es de <strong>${avg}%</strong>.`,
+    btnDiagnostic: 'Generar diagnóstico',
+    diagTitle: 'Diagnóstico de Portafolio — OE MLM (México)',
+    diagGenerated: (d) => `Generado el ${d} desde OE Hub`,
+    diagFooter: (d) => `Diagnóstico generado desde OE Hub el ${d} · datos de MELI Axis (CSV descargados y procesados)`,
+    diagNoData: 'No hay proyectos que coincidan con los filtros seleccionados para generar el diagnóstico.',
+    diagLevelOk: 'Saludable', diagLevelWarn: 'Atención', diagLevelAlert: 'Riesgo',
+    diagS1Title: 'Salud general del portafolio',
+    diagS1Text: (total, atrasados, pct) => `De los ${total} proyectos en esta selección, ${atrasados} están atrasados (${pct}%).`,
+    diagS1ConcOk: (pct) => `Nivel de atraso bajo (${pct}%). El portafolio está saludable; no se requiere acción inmediata.`,
+    diagS1ConcWarn: (pct) => `Nivel de atraso moderado (${pct}%). Conviene monitorear de cerca los proyectos atrasados esta semana.`,
+    diagS1ConcAlert: (pct) => `Nivel de atraso alto (${pct}%). Se recomienda escalar y revisar causas raíz de inmediato.`,
+    diagS2Title: 'Cuello de botella por etapa',
+    diagS2Text: (etapa, n, pctTotal) => `La etapa "${etapa}" concentra la mayor parte del portafolio: ${n} proyectos (${pctTotal}% del total analizado).`,
+    diagS2ConcOk: (etapa) => `"${etapa}" no muestra una tasa de atraso elevada respecto al resto — la distribución por etapas luce saludable.`,
+    diagS2ConcWarn: (etapa, pctDelay) => `"${etapa}" además tiene una tasa de atraso de ${pctDelay}%, por encima del promedio del portafolio — vale la pena revisar qué está frenando esta etapa.`,
+    diagS3Title: 'Prioridad vs. atraso',
+    diagS3Text: (prioridad, pctDelay, n) => `Los ${n} proyectos de prioridad "${prioridad}" tienen una tasa de atraso de ${pctDelay}%.`,
+    diagS3ConcOk: () => `Los proyectos de prioridad Alta no muestran mayor atraso que el resto del portafolio — el enfoque actual parece adecuado.`,
+    diagS3ConcAlert: (pctDelay) => `Los proyectos de prioridad Alta tienen una tasa de atraso de ${pctDelay}%, igual o mayor que el resto del portafolio — se recomienda reforzar el seguimiento en estos proyectos.`,
+    diagS4Title: 'Concentración por CAD / Centro',
+    diagS4Text: (cad, n) => `El centro/CAD con más proyectos en esta selección es "${cad}", con ${n} proyectos.`,
+    diagS4ConcOk: (cad) => `"${cad}" no concentra una tasa de atraso desproporcionada — la carga entre centros luce balanceada.`,
+    diagS4ConcWarn: (cad, pctDelay) => `"${cad}" concentra además una tasa de atraso de ${pctDelay}%, por lo que conviene priorizar el seguimiento ahí.`,
+    diagS5Title: 'Carga por equipo',
+    diagS5Text: (equipo, n) => `El equipo con más proyectos asignados es "${equipo}", con ${n} proyectos.`,
+    diagS5ConcOk: (equipo) => `La carga de "${equipo}" no muestra una tasa de atraso desproporcionada frente al resto de los equipos.`,
+    diagS5ConcWarn: (equipo, pctDelay) => `"${equipo}" tiene una tasa de atraso de ${pctDelay}%, por encima del promedio — podría valer la pena redistribuir carga o reforzar el equipo.`,
+    diagS6Title: 'Roll Out y Success Rate',
+    diagS6Text: (pctRollout, avgSuccess) => `${pctRollout}% de los proyectos de esta selección están en etapa de Roll Out. El Success Rate promedio es ${avgSuccess}%.`,
+    diagS6ConcOk: () => `El portafolio muestra buena madurez: alto Success Rate y avance saludable hacia Roll Out.`,
+    diagS6ConcWarn: (avgSuccess) => `El Success Rate promedio (${avgSuccess}%) está por debajo del objetivo recomendado — conviene revisar la calidad de ejecución antes de escalar más proyectos a Roll Out.`,
   },
   en: {
     title: 'Portfolio Insights — OE MLM (Mexico)',
@@ -185,6 +248,7 @@ const I18N = {
     lblCad: 'Center / CAD', lblTime: 'Team', lblEtapa: 'Current stage', lblPrioridad: 'Priority',
     lblSoloAtrasados: 'Delayed only', lblSoloRollout: 'Roll Out only',
     clear: 'Clear filters',
+    btnSnapshot: 'Generate snapshot',
     thProyecto:'Project', thCad:'CAD', thEtapa:'Current stage', thPrioridad:'Priority', thTags:'Tags',
     thAtrasado:'Delayed', thSuccess:'Success Rate', thSaving:'Saving (USD)', thEquipo:'Team',
     footer: 'OE MLM · data exported from MELI Axis (full view) · filtered to Mexico CAD',
@@ -199,6 +263,58 @@ const I18N = {
       <li>Covers <strong>${centros} distinct centers/CAD</strong>.</li>
       <li><strong>${rollout} projects</strong> are tagged "Roll Out" (in deployment).</li>
     `,
+    snapTitle: 'Portfolio Snapshot — OE MLM (Mexico)',
+    snapGenerated: (d) => `Generated on ${d} from the OE Hub`,
+    snapFiltersTitle: 'Applied filters',
+    snapNoFilters: 'None — full portfolio view',
+    snapKpisTitle: 'Summary (KPIs)',
+    snapStatsTitle: 'Additional statistics',
+    snapByEtapa: 'Breakdown by stage',
+    snapByPrioridad: 'Breakdown by priority',
+    snapTopCadCount: 'CAD with most projects',
+    snapTopCadSaving: 'CAD with most savings (USD)',
+    snapConclusionsTitle: 'Conclusions',
+    snapTableTitle: 'Projects included in this snapshot',
+    snapFooter: (d) => `Snapshot generated from the OE Hub on ${d} · data from MELI Axis (CSV downloaded and processed)`,
+    snapNoData: 'No projects match the selected filters.',
+    concTotal: (total, pct, atrasados) => `Of the <strong>${total} projects</strong> in this selection, <strong>${atrasados} (${pct}%)</strong> are delayed.`,
+    concEtapa: (etapa, n, pct) => `The stage with the most projects is <strong>"${etapa}"</strong>, with ${n} projects (${pct}% of the selection).`,
+    concPrioridad: (pr, n) => `The most common priority is <strong>"${pr}"</strong>, with ${n} projects.`,
+    concCad: (cad, n) => `The center/CAD with the most projects is <strong>${cad}</strong>, with ${n} projects.`,
+    concSaving: (total) => `Cumulative savings for this selection total <strong>$${total.toLocaleString()} USD</strong>.`,
+    concRollout: (n, total) => `<strong>${n} of ${total} projects</strong> are in the Roll Out stage (in deployment).`,
+    concSuccess: (avg) => `The average Success Rate for this selection is <strong>${avg}%</strong>.`,
+    btnDiagnostic: 'Generate diagnosis',
+    diagTitle: 'Portfolio Diagnosis — OE MLM (Mexico)',
+    diagGenerated: (d) => `Generated on ${d} from the OE Hub`,
+    diagFooter: (d) => `Diagnosis generated from the OE Hub on ${d} · data from MELI Axis (CSV downloaded and processed)`,
+    diagNoData: 'No projects match the selected filters to generate the diagnosis.',
+    diagLevelOk: 'Healthy', diagLevelWarn: 'Attention', diagLevelAlert: 'Risk',
+    diagS1Title: 'Overall portfolio health',
+    diagS1Text: (total, atrasados, pct) => `Of the ${total} projects in this selection, ${atrasados} are delayed (${pct}%).`,
+    diagS1ConcOk: (pct) => `Low delay level (${pct}%). The portfolio is healthy; no immediate action needed.`,
+    diagS1ConcWarn: (pct) => `Moderate delay level (${pct}%). Worth closely monitoring delayed projects this week.`,
+    diagS1ConcAlert: (pct) => `High delay level (${pct}%). Escalation and root-cause review are recommended immediately.`,
+    diagS2Title: 'Bottleneck by stage',
+    diagS2Text: (etapa, n, pctTotal) => `The "${etapa}" stage concentrates most of the portfolio: ${n} projects (${pctTotal}% of the total analyzed).`,
+    diagS2ConcOk: (etapa) => `"${etapa}" doesn't show an elevated delay rate compared to the rest — the stage distribution looks healthy.`,
+    diagS2ConcWarn: (etapa, pctDelay) => `"${etapa}" also has a delay rate of ${pctDelay}%, above the portfolio average — worth reviewing what's slowing this stage down.`,
+    diagS3Title: 'Priority vs. delay',
+    diagS3Text: (prioridad, pctDelay, n) => `The ${n} projects with "${prioridad}" priority have a delay rate of ${pctDelay}%.`,
+    diagS3ConcOk: () => `High-priority projects don't show more delay than the rest of the portfolio — the current focus looks adequate.`,
+    diagS3ConcAlert: (pctDelay) => `High-priority projects have a delay rate of ${pctDelay}%, equal to or higher than the rest of the portfolio — closer follow-up on these projects is recommended.`,
+    diagS4Title: 'Concentration by CAD / Center',
+    diagS4Text: (cad, n) => `The center/CAD with the most projects in this selection is "${cad}", with ${n} projects.`,
+    diagS4ConcOk: (cad) => `"${cad}" doesn't concentrate a disproportionate delay rate — the load across centers looks balanced.`,
+    diagS4ConcWarn: (cad, pctDelay) => `"${cad}" also concentrates a delay rate of ${pctDelay}%, so it's worth prioritizing follow-up there.`,
+    diagS5Title: 'Team workload',
+    diagS5Text: (equipo, n) => `The team with the most assigned projects is "${equipo}", with ${n} projects.`,
+    diagS5ConcOk: (equipo) => `"${equipo}"'s workload doesn't show a disproportionate delay rate compared to the rest of the teams.`,
+    diagS5ConcWarn: (equipo, pctDelay) => `"${equipo}" has a delay rate of ${pctDelay}%, above average — it might be worth redistributing workload or reinforcing the team.`,
+    diagS6Title: 'Roll Out and Success Rate',
+    diagS6Text: (pctRollout, avgSuccess) => `${pctRollout}% of the projects in this selection are in the Roll Out stage. The average Success Rate is ${avgSuccess}%.`,
+    diagS6ConcOk: () => `The portfolio shows good maturity: high Success Rate and healthy progress toward Roll Out.`,
+    diagS6ConcWarn: (avgSuccess) => `The average Success Rate (${avgSuccess}%) is below the recommended target — worth reviewing execution quality before rolling out more projects.`,
   },
   pt: {
     title: 'Insights de Portfólio — OE MLM (México)',
@@ -210,6 +326,7 @@ const I18N = {
     lblCad: 'Centro / CAD', lblTime: 'Equipe', lblEtapa: 'Etapa atual', lblPrioridad: 'Prioridade',
     lblSoloAtrasados: 'Só atrasados', lblSoloRollout: 'Só Roll Out',
     clear: 'Limpar filtros',
+    btnSnapshot: 'Gerar snapshot',
     thProyecto:'Projeto', thCad:'CAD', thEtapa:'Etapa atual', thPrioridad:'Prioridade', thTags:'Tags',
     thAtrasado:'Atrasado', thSuccess:'Success Rate', thSaving:'Saving (USD)', thEquipo:'Equipe',
     footer: 'OE MLM · dados exportados do MELI Axis (visão completa) · filtrado a CAD do México',
@@ -224,6 +341,58 @@ const I18N = {
       <li>Cobre <strong>${centros} centros/CAD distintos</strong>.</li>
       <li><strong>${rollout} projetos</strong> estão marcados como "Roll Out" (em implantação).</li>
     `,
+    snapTitle: 'Snapshot de Portfólio — OE MLM (México)',
+    snapGenerated: (d) => `Gerado em ${d} a partir do OE Hub`,
+    snapFiltersTitle: 'Filtros aplicados',
+    snapNoFilters: 'Nenhum — visão completa do portfólio',
+    snapKpisTitle: 'Resumo (KPIs)',
+    snapStatsTitle: 'Estatísticas adicionais',
+    snapByEtapa: 'Distribuição por etapa',
+    snapByPrioridad: 'Distribuição por prioridade',
+    snapTopCadCount: 'CAD com mais projetos',
+    snapTopCadSaving: 'CAD com mais savings (USD)',
+    snapConclusionsTitle: 'Conclusões',
+    snapTableTitle: 'Projetos incluídos neste snapshot',
+    snapFooter: (d) => `Snapshot gerado a partir do OE Hub em ${d} · dados do MELI Axis (CSV baixados e processados)`,
+    snapNoData: 'Nenhum projeto corresponde aos filtros selecionados.',
+    concTotal: (total, pct, atrasados) => `Dos <strong>${total} projetos</strong> nesta seleção, <strong>${atrasados} (${pct}%)</strong> estão atrasados.`,
+    concEtapa: (etapa, n, pct) => `A etapa com mais projetos é <strong>"${etapa}"</strong>, com ${n} projetos (${pct}% da seleção).`,
+    concPrioridad: (pr, n) => `A prioridade mais comum é <strong>"${pr}"</strong>, com ${n} projetos.`,
+    concCad: (cad, n) => `O centro/CAD com mais projetos é <strong>${cad}</strong>, com ${n} projetos.`,
+    concSaving: (total) => `Os savings acumulados desta seleção somam <strong>$${total.toLocaleString()} USD</strong>.`,
+    concRollout: (n, total) => `<strong>${n} de ${total} projetos</strong> estão na etapa de Roll Out (em implantação).`,
+    concSuccess: (avg) => `O Success Rate médio desta seleção é de <strong>${avg}%</strong>.`,
+    btnDiagnostic: 'Gerar diagnóstico',
+    diagTitle: 'Diagnóstico de Portfólio — OE MLM (México)',
+    diagGenerated: (d) => `Gerado em ${d} a partir do OE Hub`,
+    diagFooter: (d) => `Diagnóstico gerado a partir do OE Hub em ${d} · dados do MELI Axis (CSV baixados e processados)`,
+    diagNoData: 'Nenhum projeto corresponde aos filtros selecionados para gerar o diagnóstico.',
+    diagLevelOk: 'Saudável', diagLevelWarn: 'Atenção', diagLevelAlert: 'Risco',
+    diagS1Title: 'Saúde geral do portfólio',
+    diagS1Text: (total, atrasados, pct) => `Dos ${total} projetos nesta seleção, ${atrasados} estão atrasados (${pct}%).`,
+    diagS1ConcOk: (pct) => `Nível de atraso baixo (${pct}%). O portfólio está saudável; nenhuma ação imediata é necessária.`,
+    diagS1ConcWarn: (pct) => `Nível de atraso moderado (${pct}%). Vale a pena monitorar de perto os projetos atrasados esta semana.`,
+    diagS1ConcAlert: (pct) => `Nível de atraso alto (${pct}%). Recomenda-se escalar e revisar as causas raiz imediatamente.`,
+    diagS2Title: 'Gargalo por etapa',
+    diagS2Text: (etapa, n, pctTotal) => `A etapa "${etapa}" concentra a maior parte do portfólio: ${n} projetos (${pctTotal}% do total analisado).`,
+    diagS2ConcOk: (etapa) => `"${etapa}" não apresenta uma taxa de atraso elevada em relação ao resto — a distribuição por etapas parece saudável.`,
+    diagS2ConcWarn: (etapa, pctDelay) => `"${etapa}" também tem uma taxa de atraso de ${pctDelay}%, acima da média do portfólio — vale a pena revisar o que está travando esta etapa.`,
+    diagS3Title: 'Prioridade vs. atraso',
+    diagS3Text: (prioridad, pctDelay, n) => `Os ${n} projetos de prioridade "${prioridad}" têm uma taxa de atraso de ${pctDelay}%.`,
+    diagS3ConcOk: () => `Os projetos de prioridade Alta não apresentam mais atraso que o resto do portfólio — o foco atual parece adequado.`,
+    diagS3ConcAlert: (pctDelay) => `Os projetos de prioridade Alta têm uma taxa de atraso de ${pctDelay}%, igual ou maior que o resto do portfólio — recomenda-se reforçar o acompanhamento desses projetos.`,
+    diagS4Title: 'Concentração por CAD / Centro',
+    diagS4Text: (cad, n) => `O centro/CAD com mais projetos nesta seleção é "${cad}", com ${n} projetos.`,
+    diagS4ConcOk: (cad) => `"${cad}" não concentra uma taxa de atraso desproporcional — a carga entre centros parece equilibrada.`,
+    diagS4ConcWarn: (cad, pctDelay) => `"${cad}" também concentra uma taxa de atraso de ${pctDelay}%, por isso vale a pena priorizar o acompanhamento ali.`,
+    diagS5Title: 'Carga por equipe',
+    diagS5Text: (equipo, n) => `A equipe com mais projetos atribuídos é "${equipo}", com ${n} projetos.`,
+    diagS5ConcOk: (equipo) => `A carga de "${equipo}" não apresenta uma taxa de atraso desproporcional em relação às demais equipes.`,
+    diagS5ConcWarn: (equipo, pctDelay) => `"${equipo}" tem uma taxa de atraso de ${pctDelay}%, acima da média — pode valer a pena redistribuir a carga ou reforçar a equipe.`,
+    diagS6Title: 'Roll Out e Success Rate',
+    diagS6Text: (pctRollout, avgSuccess) => `${pctRollout}% dos projetos desta seleção estão na etapa de Roll Out. O Success Rate médio é ${avgSuccess}%.`,
+    diagS6ConcOk: () => `O portfólio mostra boa maturidade: alto Success Rate e avanço saudável para Roll Out.`,
+    diagS6ConcWarn: (avgSuccess) => `O Success Rate médio (${avgSuccess}%) está abaixo da meta recomendada — vale a pena revisar a qualidade de execução antes de escalar mais projetos para Roll Out.`,
   },
 };
 
@@ -248,6 +417,8 @@ function applyDashboardLang(lang){
   document.getElementById('lblSoloAtrasados').textContent = t.lblSoloAtrasados;
   document.getElementById('lblSoloRollout').textContent = t.lblSoloRollout;
   document.getElementById('fClear').textContent = t.clear;
+  document.getElementById('fSnapshot').textContent = t.btnSnapshot;
+  document.getElementById('fDiagnostic').textContent = t.btnDiagnostic;
   document.getElementById('thProyecto').textContent = t.thProyecto;
   document.getElementById('thCad').textContent = t.thCad;
   document.getElementById('thEtapa').textContent = t.thEtapa;
@@ -371,6 +542,449 @@ function clearFilters(){
     updateMsLabel(name);
   });
   update();
+}
+
+// ==================== Snapshot (reporte estático de la selección actual) ====================
+function computeSnapshotStats(filtered){
+  const byEtapaMap = {}, byPrioridadMap = {}, byCadCount = {}, byCadSaving = {};
+  let successSum = 0, successN = 0;
+  filtered.forEach(p => {
+    if (p.etapa) byEtapaMap[p.etapa] = (byEtapaMap[p.etapa]||0) + 1;
+    const pr = p.prioridad || '—';
+    byPrioridadMap[pr] = (byPrioridadMap[pr]||0) + 1;
+    if (p.cad) {
+      byCadCount[p.cad] = (byCadCount[p.cad]||0) + 1;
+      byCadSaving[p.cad] = (byCadSaving[p.cad]||0) + (p.saving||0);
+    }
+    const sr = parseFloat(String(p.successRate).replace('%',''));
+    if (!isNaN(sr)) { successSum += sr; successN++; }
+  });
+  const toSortedArr = (map) => Object.entries(map).sort((a,b) => b[1]-a[1]);
+  return {
+    total: filtered.length,
+    byEtapa: toSortedArr(byEtapaMap),
+    byPrioridad: toSortedArr(byPrioridadMap),
+    topCadCount: toSortedArr(byCadCount).slice(0,5),
+    topCadSaving: Object.entries(byCadSaving).sort((a,b) => b[1]-a[1]).slice(0,5),
+    avgSuccess: successN ? (successSum/successN) : null,
+  };
+}
+function buildConclusions(filtered, stats, t){
+  const total = stats.total;
+  if (!total) return [t.snapNoData];
+  const atrasados = filtered.filter(p => p.atrasado==='Sí').length;
+  const pctAtrasados = Math.round(100*atrasados/total);
+  const rollout = filtered.filter(p => p.rollout).length;
+  const savingTotal = Math.round(filtered.reduce((a,p) => a+(p.saving||0), 0));
+  const topEtapa = stats.byEtapa[0];
+  const topPrioridad = stats.byPrioridad[0];
+  const topCad = stats.topCadCount[0];
+  const list = [t.concTotal(total, pctAtrasados, atrasados)];
+  if (topEtapa) list.push(t.concEtapa(topEtapa[0], topEtapa[1], Math.round(100*topEtapa[1]/total)));
+  if (topPrioridad) list.push(t.concPrioridad(topPrioridad[0], topPrioridad[1]));
+  if (topCad) list.push(t.concCad(topCad[0], topCad[1]));
+  list.push(t.concSaving(savingTotal));
+  list.push(t.concRollout(rollout, total));
+  if (stats.avgSuccess != null) list.push(t.concSuccess(Math.round(stats.avgSuccess)));
+  return list;
+}
+function activeFiltersSummary(t){
+  const parts = [];
+  const busqueda = document.getElementById('fBusqueda').value.trim();
+  if (busqueda) parts.push(`${t.lblBusqueda}: "${esc(busqueda)}"`);
+  Object.keys(FIELD_MAP).forEach(name => {
+    const { key } = FIELD_MAP[name];
+    if (state[key].size > 0) parts.push(`${t['lbl'+name]}: ${[...state[key]].map(esc).join(', ')}`);
+  });
+  if (document.getElementById('fSoloAtrasados').checked) parts.push(t.lblSoloAtrasados);
+  if (document.getElementById('fSoloRollout').checked) parts.push(t.lblSoloRollout);
+  return parts;
+}
+function buildSnapshotHtml(filtered, stats, conclusions, filtersUsed, t){
+  const now = new Date();
+  const generatedStr = now.toLocaleString(currentLang==='en' ? 'en-US' : currentLang==='pt' ? 'pt-BR' : 'es-MX',
+    { day:'2-digit', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit' });
+  const atrasados = filtered.filter(p => p.atrasado==='Sí').length;
+  const savingTotal = Math.round(filtered.reduce((a,p) => a+(p.saving||0), 0));
+  const centros = new Set(filtered.map(p => p.cad)).size;
+  const rollout = filtered.filter(p => p.rollout).length;
+  const pct = filtered.length ? Math.round(100*atrasados/filtered.length) : 0;
+
+  const kpiHtml = `
+    <div class="kpis">
+      <div class="kpi"><div class="val">${filtered.length}</div><div class="lbl">${esc(t.lblTotal)}</div></div>
+      <div class="kpi alert"><div class="val">${pct}%</div><div class="lbl">${esc(t.lblAtrasados)}</div></div>
+      <div class="kpi"><div class="val">$${savingTotal.toLocaleString()}</div><div class="lbl">${esc(t.lblSaving)}</div></div>
+      <div class="kpi"><div class="val">${centros}</div><div class="lbl">${esc(t.lblCentros)}</div></div>
+      <div class="kpi"><div class="val">${rollout}</div><div class="lbl">${esc(t.lblRollout)}</div></div>
+    </div>`;
+
+  const filtersHtml = filtersUsed.length
+    ? `<ul>${filtersUsed.map(f => `<li>${f}</li>`).join('')}</ul>`
+    : `<p style="color:var(--muted)">${esc(t.snapNoFilters)}</p>`;
+
+  const distList = (arr) => arr.length
+    ? `<ul>${arr.map(([k,v]) => `<li>${esc(k)}: <strong>${v}</strong></li>`).join('')}</ul>`
+    : `<p style="color:var(--muted)">—</p>`;
+  const cadSavingList = (arr) => arr.length
+    ? `<ul>${arr.map(([k,v]) => `<li>${esc(k)}: <strong>$${Math.round(v).toLocaleString()}</strong></li>`).join('')}</ul>`
+    : `<p style="color:var(--muted)">—</p>`;
+
+  const conclusionsHtml = `<ul>${conclusions.map(c => `<li>${c}</li>`).join('')}</ul>`;
+
+  const rowsHtml = filtered.length ? filtered.map(p => `
+    <tr>
+      <td>${esc(p.proyecto)}</td><td>${esc(p.cad)}</td><td>${esc(p.etapa)}</td><td>${badge(p.prioridad,'prioridad')}</td>
+      <td style="color:var(--muted);font-size:11px;">${esc(p.tags)}</td>
+      <td>${badge(p.atrasado,'atraso')}</td><td>${esc(p.successRate)}</td><td>$${(p.saving||0).toLocaleString()}</td><td>${esc(p.time)}</td>
+    </tr>`).join('') : `<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:18px;">${esc(t.snapNoData)}</td></tr>`;
+
+  return `<!DOCTYPE html>
+<html lang="${currentLang}">
+<head>
+<meta charset="UTF-8">
+<title>${esc(t.snapTitle)}</title>
+<style>
+  :root{ --bg:#111111; --panel:#1b1b1b; --panel2:#232323; --yellow:#FFE600; --text:#f2f2f2; --muted:#9a9a9a; --red:#e74c3c; --green:#2ecc71; --border:#333; }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;}
+  header{background:#000;border-bottom:4px solid var(--yellow);padding:22px 32px;}
+  header h1{margin:0;font-size:20px;}
+  header .sub{color:var(--muted);font-size:12px;margin-top:6px;}
+  main{padding:26px 32px;max-width:1200px;margin:0 auto;}
+  section{background:var(--panel);border-radius:10px;padding:18px 20px;margin-bottom:22px;border:1px solid var(--border);}
+  section h2{margin:0 0 10px;font-size:15px;color:var(--yellow);border-bottom:2px solid var(--yellow);padding-bottom:6px;}
+  .findings{border-left:4px solid var(--yellow);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  ul{margin:0;padding-left:18px;font-size:13px;line-height:1.8;}
+  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
+  .kpi{background:linear-gradient(180deg, var(--panel2) 0%, var(--panel) 100%);border-radius:12px;padding:18px 16px;text-align:center;border:1px solid var(--border);}
+  .kpi .val{font-size:24px;font-weight:700;color:var(--yellow);}
+  .kpi .lbl{font-size:11px;color:var(--muted);margin-top:4px;}
+  .kpi.alert .val{color:var(--red);}
+  .tablewrap{max-height:520px;overflow-y:auto;border-radius:10px;border:1px solid var(--border);}
+  table{width:100%;border-collapse:collapse;background:var(--panel);font-size:12.5px;}
+  th{background:var(--panel2);text-align:left;padding:10px;color:var(--yellow);font-size:11px;text-transform:uppercase;position:sticky;top:0;}
+  td{padding:9px 10px;border-top:1px solid var(--border);}
+  .badge{padding:2px 8px;border-radius:12px;font-size:10.5px;font-weight:600;white-space:nowrap;}
+  .badge.si{background:rgba(231,76,60,.18);color:var(--red);}
+  .badge.no{background:rgba(46,204,113,.18);color:var(--green);}
+  .badge.p{background:rgba(255,230,0,.15);color:var(--yellow);}
+  .badge.blank{background:#333;color:var(--muted);}
+  footer{color:var(--muted);font-size:11px;text-align:center;padding:24px;}
+</style>
+</head>
+<body>
+<header>
+  <h1>${esc(t.snapTitle)}</h1>
+  <div class="sub">${esc(t.snapGenerated(generatedStr))}</div>
+</header>
+<main>
+  <section class="findings">
+    <h2>${esc(t.snapFiltersTitle)}</h2>
+    ${filtersHtml}
+  </section>
+  <section>
+    <h2>${esc(t.snapKpisTitle)}</h2>
+    ${kpiHtml}
+  </section>
+  <section class="findings">
+    <h2>${esc(t.snapConclusionsTitle)}</h2>
+    ${conclusionsHtml}
+  </section>
+  <section>
+    <h2>${esc(t.snapStatsTitle)}</h2>
+    <div class="grid2">
+      <div><h3 style="font-size:13px;color:var(--text);">${esc(t.snapByEtapa)}</h3>${distList(stats.byEtapa)}</div>
+      <div><h3 style="font-size:13px;color:var(--text);">${esc(t.snapByPrioridad)}</h3>${distList(stats.byPrioridad)}</div>
+      <div><h3 style="font-size:13px;color:var(--text);">${esc(t.snapTopCadCount)}</h3>${distList(stats.topCadCount)}</div>
+      <div><h3 style="font-size:13px;color:var(--text);">${esc(t.snapTopCadSaving)}</h3>${cadSavingList(stats.topCadSaving)}</div>
+    </div>
+  </section>
+  <section>
+    <h2>${esc(t.snapTableTitle)}</h2>
+    <div class="tablewrap">
+    <table>
+      <thead><tr>
+        <th>${esc(t.thProyecto)}</th><th>${esc(t.thCad)}</th><th>${esc(t.thEtapa)}</th><th>${esc(t.thPrioridad)}</th><th>${esc(t.thTags)}</th>
+        <th>${esc(t.thAtrasado)}</th><th>${esc(t.thSuccess)}</th><th>${esc(t.thSaving)}</th><th>${esc(t.thEquipo)}</th>
+      </tr></thead>
+      <tbody>${rowsHtml}</tbody>
+    </table>
+    </div>
+  </section>
+</main>
+<footer>${esc(t.snapFooter(generatedStr))}</footer>
+</body>
+</html>`;
+}
+function generateSnapshot(){
+  const t = I18N[currentLang];
+  const filtered = getFiltered();
+  const stats = computeSnapshotStats(filtered);
+  const conclusions = buildConclusions(filtered, stats, t);
+  const filtersUsed = activeFiltersSummary(t);
+  const html = buildSnapshotHtml(filtered, stats, conclusions, filtersUsed, t);
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const stamp = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = `Snapshot_Portafolio_MX_${stamp}.html`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+// ==================== Diagnóstico (gráficas + explicación + conclusión) ====================
+function classifyLevel(pct, warnAt, alertAt){
+  if (pct >= alertAt) return 'alert';
+  if (pct >= warnAt) return 'warn';
+  return 'ok';
+}
+const DIAG_COLOR = { ok: '#2ecc71', warn: '#FFE600', alert: '#e74c3c' };
+
+function computeDiagnosticData(filtered){
+  const total = filtered.length;
+  const atrasados = filtered.filter(p => p.atrasado==='Sí').length;
+  const pctAtrasados = total ? Math.round(100*atrasados/total) : 0;
+
+  const groupBy = (keyFn) => {
+    const map = {};
+    filtered.forEach(p => {
+      const k = keyFn(p);
+      if (!k) return;
+      if (!map[k]) map[k] = { n:0, atrasados:0, saving:0 };
+      map[k].n++;
+      if (p.atrasado==='Sí') map[k].atrasados++;
+      map[k].saving += (p.saving||0);
+    });
+    return Object.entries(map).map(([label,v]) => ({
+      label, n:v.n, atrasados:v.atrasados, saving:v.saving,
+      pctDelay: v.n ? Math.round(100*v.atrasados/v.n) : 0,
+    })).sort((a,b) => b.n-a.n);
+  };
+
+  const etapaArr = groupBy(p => p.etapa);
+  const prioArr = groupBy(p => p.prioridad || '—');
+  const cadArr = groupBy(p => p.cad).slice(0,6);
+  const equipoArr = groupBy(p => p.time).slice(0,8);
+
+  const rollout = filtered.filter(p => p.rollout).length;
+  const pctRollout = total ? Math.round(100*rollout/total) : 0;
+  let successSum = 0, successN = 0;
+  filtered.forEach(p => {
+    const sr = parseFloat(String(p.successRate).replace('%',''));
+    if (!isNaN(sr)) { successSum += sr; successN++; }
+  });
+  const avgSuccess = successN ? Math.round(successSum/successN) : null;
+
+  return { total, atrasados, pctAtrasados, etapaArr, prioArr, cadArr, equipoArr, rollout, pctRollout, avgSuccess };
+}
+
+function svgDonut(pct, color){
+  const size = 150, stroke = 16, r = size/2 - stroke;
+  const c = 2*Math.PI*r;
+  const offset = c - (Math.max(0,Math.min(100,pct))/100)*c;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="#2a2a2a" stroke-width="${stroke}"/>
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${color}" stroke-width="${stroke}"
+      stroke-dasharray="${c}" stroke-dashoffset="${offset}" stroke-linecap="round"
+      transform="rotate(-90 ${size/2} ${size/2})" style="transition:stroke-dashoffset .3s ease;"/>
+    <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" font-size="26" font-weight="800" fill="#f2f2f2">${pct}%</text>
+  </svg>`;
+}
+function dbarRows(items, opts){
+  opts = opts || {};
+  const max = opts.max || Math.max(...items.map(i => i.n), 1);
+  const unit = opts.unit || '';
+  return items.map(i => {
+    const w = Math.max(3, Math.round(100*i.n/max));
+    const color = opts.colorFn ? opts.colorFn(i) : (opts.color || 'var(--yellow)');
+    return `<div class="dbar-row">
+      <div class="dbar-label" title="${esc(i.label)}">${esc(i.label)}</div>
+      <div class="dbar-track"><div class="dbar-fill" style="width:${w}%;background:${color}"></div></div>
+      <div class="dbar-value">${i.n}${unit}</div>
+    </div>`;
+  }).join('');
+}
+function dbarSplitRows(items){
+  return items.map(i => {
+    const pctA = i.n ? Math.round(100*i.atrasados/i.n) : 0;
+    return `<div class="dbar-row">
+      <div class="dbar-label" title="${esc(i.label)}">${esc(i.label)}</div>
+      <div class="dbar-track dbar-split">
+        <div class="dbar-fill-red" style="width:${pctA}%"></div>
+        <div class="dbar-fill-green" style="width:${100-pctA}%"></div>
+      </div>
+      <div class="dbar-value">${i.atrasados}/${i.n} (${pctA}%)</div>
+    </div>`;
+  }).join('');
+}
+function diagChip(level, t){
+  return `<span class="diag-chip ${level}">${esc(t['diagLevel'+level.charAt(0).toUpperCase()+level.slice(1)])}</span>`;
+}
+function diagBlock(title, level, chartHtml, textHtml, concHtml, t){
+  return `<section class="diag-block">
+    <div class="diag-head"><h2>${esc(title)}</h2>${diagChip(level, t)}</div>
+    <div class="diag-chart">${chartHtml}</div>
+    <p class="diag-text">${textHtml}</p>
+    <div class="diag-conclusion ${level}">${concHtml}</div>
+  </section>`;
+}
+function buildDiagnosticHtml(filtered, data, filtersUsed, t){
+  const now = new Date();
+  const generatedStr = now.toLocaleString(currentLang==='en' ? 'en-US' : currentLang==='pt' ? 'pt-BR' : 'es-MX',
+    { day:'2-digit', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit' });
+
+  const filtersHtml = filtersUsed.length
+    ? `<ul>${filtersUsed.map(f => `<li>${f}</li>`).join('')}</ul>`
+    : `<p style="color:var(--muted)">${esc(t.snapNoFilters)}</p>`;
+
+  let blocks = '';
+  if (!data.total) {
+    blocks = `<section class="diag-block"><p class="diag-text">${esc(t.diagNoData)}</p></section>`;
+  } else {
+    // S1 — Salud general
+    const l1 = classifyLevel(data.pctAtrasados, 15, 30);
+    blocks += diagBlock(t.diagS1Title, l1,
+      svgDonut(data.pctAtrasados, DIAG_COLOR[l1]),
+      t.diagS1Text(data.total, data.atrasados, data.pctAtrasados),
+      l1==='ok' ? t.diagS1ConcOk(data.pctAtrasados) : l1==='warn' ? t.diagS1ConcWarn(data.pctAtrasados) : t.diagS1ConcAlert(data.pctAtrasados),
+      t);
+
+    // S2 — Cuello de botella por etapa
+    if (data.etapaArr.length) {
+      const top = data.etapaArr[0];
+      const pctTotal = Math.round(100*top.n/data.total);
+      const l2 = top.pctDelay >= (data.pctAtrasados + 15) ? 'warn' : 'ok';
+      blocks += diagBlock(t.diagS2Title, l2,
+        `<div style="width:100%;max-width:640px;">${dbarRows(data.etapaArr, { colorFn: (i) => i===top ? 'var(--yellow)' : '#555' })}</div>`,
+        t.diagS2Text(top.label, top.n, pctTotal),
+        l2==='ok' ? t.diagS2ConcOk(top.label) : t.diagS2ConcWarn(top.label, top.pctDelay),
+        t);
+    }
+
+    // S3 — Prioridad vs atraso
+    if (data.prioArr.length) {
+      const alta = data.prioArr.find(p => /alta|high|alto/i.test(p.label)) || data.prioArr[0];
+      const l3 = (alta.pctDelay > 0 && alta.pctDelay >= data.pctAtrasados) ? 'alert' : 'ok';
+      blocks += diagBlock(t.diagS3Title, l3,
+        `<div style="width:100%;max-width:640px;">${dbarSplitRows(data.prioArr)}</div>`,
+        t.diagS3Text(alta.label, alta.pctDelay, alta.n),
+        l3==='ok' ? t.diagS3ConcOk() : t.diagS3ConcAlert(alta.pctDelay),
+        t);
+    }
+
+    // S4 — Concentración por CAD
+    if (data.cadArr.length) {
+      const top = data.cadArr[0];
+      const l4 = top.pctDelay >= (data.pctAtrasados + 15) ? 'warn' : 'ok';
+      blocks += diagBlock(t.diagS4Title, l4,
+        `<div style="width:100%;max-width:640px;">${dbarRows(data.cadArr, { colorFn: (i) => i===top ? 'var(--yellow)' : '#555' })}</div>`,
+        t.diagS4Text(top.label, top.n),
+        l4==='ok' ? t.diagS4ConcOk(top.label) : t.diagS4ConcWarn(top.label, top.pctDelay),
+        t);
+    }
+
+    // S5 — Carga por equipo
+    if (data.equipoArr.length) {
+      const top = data.equipoArr[0];
+      const l5 = top.pctDelay >= (data.pctAtrasados + 15) ? 'warn' : 'ok';
+      blocks += diagBlock(t.diagS5Title, l5,
+        `<div style="width:100%;max-width:640px;">${dbarRows(data.equipoArr, { colorFn: (i) => i===top ? 'var(--yellow)' : '#555' })}</div>`,
+        t.diagS5Text(top.label, top.n),
+        l5==='ok' ? t.diagS5ConcOk(top.label) : t.diagS5ConcWarn(top.label, top.pctDelay),
+        t);
+    }
+
+    // S6 — Roll Out y Success Rate
+    const avg = data.avgSuccess != null ? data.avgSuccess : 0;
+    const l6 = (data.avgSuccess == null || avg >= 75) ? 'ok' : 'warn';
+    blocks += diagBlock(t.diagS6Title, l6,
+      svgDonut(data.pctRollout, '#FFE600'),
+      t.diagS6Text(data.pctRollout, data.avgSuccess != null ? data.avgSuccess : '—'),
+      l6==='ok' ? t.diagS6ConcOk() : t.diagS6ConcWarn(avg),
+      t);
+  }
+
+  return `<!DOCTYPE html>
+<html lang="${currentLang}">
+<head>
+<meta charset="UTF-8">
+<title>${esc(t.diagTitle)}</title>
+<style>
+  :root{ --bg:#111111; --panel:#1b1b1b; --panel2:#232323; --yellow:#FFE600; --text:#f2f2f2; --muted:#9a9a9a; --red:#e74c3c; --green:#2ecc71; --border:#333; }
+  *{box-sizing:border-box;}
+  body{margin:0;background:radial-gradient(circle at 15% 0%, #171717 0%, var(--bg) 45%);color:var(--text);
+    font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+  header{background:#000;border-bottom:4px solid var(--yellow);padding:26px 36px;}
+  header h1{margin:0;font-size:22px;letter-spacing:.01em;}
+  header .sub{color:var(--muted);font-size:12px;margin-top:8px;}
+  main{padding:28px 36px 40px;max-width:1000px;margin:0 auto;}
+  .filters-card{background:var(--panel);border-left:4px solid var(--yellow);border-radius:10px;
+    padding:16px 20px;margin-bottom:26px;box-shadow:0 4px 16px rgba(0,0,0,.35);}
+  .filters-card h2{margin:0 0 8px;font-size:13px;color:var(--yellow);text-transform:uppercase;letter-spacing:.06em;}
+  .filters-card ul{margin:0;padding-left:18px;font-size:13px;line-height:1.7;}
+  .diag-block{background:linear-gradient(180deg, var(--panel2) 0%, var(--panel) 100%);border:1px solid var(--border);
+    border-radius:14px;padding:26px 28px;margin-bottom:22px;box-shadow:0 8px 24px rgba(0,0,0,.35);}
+  .diag-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+  .diag-head h2{margin:0;font-size:16px;font-weight:800;letter-spacing:.01em;}
+  .diag-chip{font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:5px 13px;border-radius:20px;}
+  .diag-chip.ok{background:rgba(46,204,113,.15);color:var(--green);}
+  .diag-chip.warn{background:rgba(255,230,0,.15);color:var(--yellow);}
+  .diag-chip.alert{background:rgba(231,76,60,.18);color:var(--red);}
+  .diag-chart{display:flex;justify-content:center;margin-bottom:20px;}
+  .diag-text{font-size:13.5px;line-height:1.7;color:var(--text);margin:0 0 16px;text-align:center;}
+  .diag-conclusion{border-left:3px solid var(--yellow);border-radius:8px;padding:13px 18px;font-size:13px;
+    line-height:1.65;background:rgba(255,255,255,.02);}
+  .diag-conclusion.ok{border-left-color:var(--green);}
+  .diag-conclusion.warn{border-left-color:var(--yellow);}
+  .diag-conclusion.alert{border-left-color:var(--red);}
+  .dbar-row{display:flex;align-items:center;gap:12px;margin:0 auto 11px;width:100%;}
+  .dbar-label{width:160px;font-size:12px;color:var(--muted);flex-shrink:0;text-align:right;white-space:nowrap;
+    overflow:hidden;text-overflow:ellipsis;}
+  .dbar-track{flex:1;height:14px;background:#2a2a2a;border-radius:7px;overflow:hidden;display:flex;}
+  .dbar-fill{height:100%;border-radius:7px;}
+  .dbar-fill-red{height:100%;background:var(--red);}
+  .dbar-fill-green{height:100%;background:var(--green);}
+  .dbar-value{width:90px;font-size:11.5px;color:var(--muted);flex-shrink:0;}
+  footer{color:var(--muted);font-size:11px;text-align:center;padding:26px;}
+</style>
+</head>
+<body>
+<header>
+  <h1>${esc(t.diagTitle)}</h1>
+  <div class="sub">${esc(t.diagGenerated(generatedStr))}</div>
+</header>
+<main>
+  <div class="filters-card">
+    <h2>${esc(t.snapFiltersTitle)}</h2>
+    ${filtersHtml}
+  </div>
+  ${blocks}
+</main>
+<footer>${esc(t.diagFooter(generatedStr))}</footer>
+</body>
+</html>`;
+}
+function generateDiagnostic(){
+  const t = I18N[currentLang];
+  const filtered = getFiltered();
+  const data = computeDiagnosticData(filtered);
+  const filtersUsed = activeFiltersSummary(t);
+  const html = buildDiagnosticHtml(filtered, data, filtersUsed, t);
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const stamp = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = `Diagnostico_Portafolio_MX_${stamp}.html`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 buildMultiSelects();
