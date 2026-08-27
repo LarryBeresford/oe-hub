@@ -8,7 +8,7 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --yellow: #FFE600; --black: #111; --white: #FFF;
+  --yellow: #FFD001; --black: #111; --white: #FFF;
   --gray: #555; --gray-light: #F4F4F4; --gray-border: #E0E0E0;
   --gray2: #333; --gray3: #222; --darkbg: #1A1A1A;
   --green: #00A650; --orange: #FF8C00; --red: #D62828;
@@ -69,6 +69,11 @@ body { font-family: var(--font); background: #1C1C1C; color: var(--black); min-h
 
 /* ── WORKSPACE ── */
 .workspace { display: grid; grid-template-columns: 400px 1fr; align-items: start; }
+@media (max-width: 900px) {
+  .workspace { grid-template-columns: 1fr; }
+  .form-panel { height: auto; max-height: 60vh; border-right: none; border-bottom: 3px solid var(--yellow); }
+  .preview-panel { height: auto; position: static; }
+}
 
 /* ── FORM PANEL ── */
 .form-panel { background: #F7F7F7; overflow-y: auto; border-right: 1px solid #DDD; scroll-behavior: smooth; height: 100vh; }
@@ -99,6 +104,7 @@ textarea { min-height: 52px; }
   font-size: 11px; font-weight: 700; cursor: pointer; text-align: center;
   background: var(--white); transition: all 0.15s; font-family: var(--font);
 }
+.status-btn:hover { border-color: #BBB; }
 .status-btn.sel-green  { border-color: var(--green);  background: #E8F9F1; color: var(--green); }
 .status-btn.sel-orange { border-color: var(--orange); background: #FFF4E8; color: var(--orange); }
 .status-btn.sel-red    { border-color: var(--red);    background: #FDECEA; color: var(--red); }
@@ -129,6 +135,7 @@ textarea { min-height: 52px; }
 .phase-item { display: flex; flex-direction: column; align-items: center; gap: 3px; flex: 1; min-width: 60px; }
 .phase-item label { font-size: 8px; text-align: center; }
 .phase-dot { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #DDD; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; }
+.phase-dot:hover { border-color: var(--yellow); transform: scale(1.08); }
 .phase-dot.done    { background: var(--green);  border-color: var(--green);  color: white; }
 .phase-dot.active  { background: var(--yellow); border-color: #C8B600; color: #000; }
 .phase-dot.pending { background: #EEE; color: #AAA; }
