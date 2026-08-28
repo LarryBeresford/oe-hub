@@ -306,32 +306,12 @@ textarea { min-height: 52px; }
 <!-- APP BAR -->
 <div class="app-bar">
   <div class="logo">ML</div>
-  <h1 id="txtAppTitle">Generador de Slide Ejecutivo — Lean Projects</h1>
+  <h1 id="txtAppTitle" data-i18n="appTitle">Generador de Slide Ejecutivo — Lean Projects</h1>
   <div class="actions">
-    <button class="btn-secondary" id="btnLimpiar" onclick="resetForm()">↺ Limpiar</button>
-    <button class="btn-primary" id="btnExportar" onclick="exportarHTML()">⬇ Exportar HTML</button>
+    <button class="btn-secondary" id="btnLimpiar" data-i18n="btnLimpiar" onclick="resetForm()">↺ Limpiar</button>
+    <button class="btn-primary" id="btnExportar" data-i18n="btnExportar" onclick="exportarHTML()">⬇ Exportar HTML</button>
   </div>
 </div>
-<script>
-  // Puente de idioma con el Hub (index.html lo controla via postMessage, mismo origen).
-  // Nota: por ahora solo traduce el encabezado superior; las etiquetas internas del
-  // formulario (Proyecto, KPIs, bullets, etc.) siguen en espanol.
-  (function () {
-    var APP_BAR_I18N = {
-      es: { title: 'Generador de Slide Ejecutivo — Lean Projects', limpiar: '↺ Limpiar', exportar: '⬇ Exportar HTML' },
-      en: { title: 'Executive Slide Generator — Lean Projects', limpiar: '↺ Clear', exportar: '⬇ Export HTML' },
-      pt: { title: 'Gerador de Slide Executivo — Lean Projects', limpiar: '↺ Limpar', exportar: '⬇ Exportar HTML' },
-    };
-    window.addEventListener('message', function (e) {
-      if (!e.data || e.data.type !== 'oeHubLang') return;
-      var t = APP_BAR_I18N[e.data.lang];
-      if (!t) return;
-      document.getElementById('txtAppTitle').textContent = t.title;
-      document.getElementById('btnLimpiar').textContent = t.limpiar;
-      document.getElementById('btnExportar').textContent = t.exportar;
-    });
-  })();
-</script>
 
 <div class="workspace">
 
@@ -340,65 +320,65 @@ textarea { min-height: 52px; }
 
   <!-- PROYECTO / HISTORIAL -->
   <div class="proj-bar">
-    <label>Proyecto</label>
+    <label data-i18n="lblProyecto">Proyecto</label>
     <select id="proj-select" onchange="onProjectSelectChange()">
-      <option value="">— Ningún proyecto seleccionado —</option>
+      <option value="" data-i18n="optNingunProyecto">— Ningún proyecto seleccionado —</option>
     </select>
-    <button class="btn-secondary" style="width:100%;margin-top:6px;padding:7px;font-size:11px;" onclick="crearNuevoProyecto()">+ Crear nuevo proyecto</button>
+    <button class="btn-secondary" style="width:100%;margin-top:6px;padding:7px;font-size:11px;" data-i18n="btnCrearProyecto" onclick="crearNuevoProyecto()">+ Crear nuevo proyecto</button>
 
-    <label>Historial</label>
+    <label data-i18n="lblHistorial">Historial</label>
     <select id="history-select" onchange="onHistoryChange()">
-      <option value="">— Mes actual (sin guardar) —</option>
+      <option value="" data-i18n="optMesActual">— Mes actual (sin guardar) —</option>
     </select>
 
-    <button class="btn-primary" style="padding:6px 16px;font-size:11px;width:100%;" onclick="guardarMesActual()">💾 Guardar este mes</button>
+    <button class="btn-primary" style="padding:6px 16px;font-size:11px;width:100%;" data-i18n="btnGuardarMes" onclick="guardarMesActual()">💾 Guardar este mes</button>
 
     <div class="proj-status" id="proj-status">
-      <div class="dot"></div><span>Sin guardar</span>
+      <div class="dot"></div><span data-i18n="statusSinGuardar">Sin guardar</span>
     </div>
   </div>
 
   <!-- IDENTIFICACIÓN -->
   <div class="form-section">
-    <div class="form-section-title">Identificación</div>
-    <label>Nombre del Proyecto</label>
+    <div class="form-section-title" data-i18n="secIdentificacion">Identificación</div>
+    <label data-i18n="lblNombreProyecto">Nombre del Proyecto</label>
     <input type="text" id="f-nombre" value="PYMES Inbound" oninput="render()">
-    <label>Subtítulo / Área</label>
+    <label data-i18n="lblSubtitulo">Subtítulo / Área</label>
     <input type="text" id="f-sub" value="Inbound · Proyecto Estratégico" oninput="render()">
     <div class="row-2">
       <div>
-        <label>Tipo de Proyecto</label>
+        <label data-i18n="lblTipoProyecto">Tipo de Proyecto</label>
         <select id="f-tipo" onchange="render()">
-          <option>MVP</option>
-          <option>Discovery</option>
-          <option>Implement</option>
-          <option>POC</option>
-          <option>Estrategico</option>
+          <option data-i18n="optTipoMVP">MVP</option>
+          <option data-i18n="optTipoDiscovery">Discovery</option>
+          <option data-i18n="optTipoImplement">Implement</option>
+          <option data-i18n="optTipoPOC">POC</option>
+          <option data-i18n="optTipoEstrategico">Estrategico</option>
         </select>
       </div>
       <div>
-        <label>Último Update</label>
+        <label data-i18n="lblUltimoUpdate">Último Update</label>
         <input type="text" id="f-update" value="Jul 26" oninput="render()">
       </div>
     </div>
-    <label>Estado General</label>
+    <label data-i18n="lblEstadoGeneral">Estado General</label>
     <div class="status-btns" id="status-btns">
-      <button class="status-btn sel-green" onclick="setStatus('green',this)">🟢 On Track</button>
-      <button class="status-btn" onclick="setStatus('orange',this)">🟡 En Riesgo</button>
-      <button class="status-btn" onclick="setStatus('red',this)">🔴 Off Track</button>
+      <button class="status-btn sel-green" data-i18n="statusGreen" onclick="setStatus('green',this)">🟢 On Track</button>
+      <button class="status-btn" data-i18n="statusOrange" onclick="setStatus('orange',this)">🟡 En Riesgo</button>
+      <button class="status-btn" data-i18n="statusRed" onclick="setStatus('red',this)">🔴 Off Track</button>
     </div>
   </div>
 
   <!-- EQUIPO -->
   <div class="form-section">
-    <div class="form-section-title">Equipo</div>
+    <div class="form-section-title" data-i18n="secEquipo">Equipo</div>
     <div class="row-2">
-      <div><label>OE</label><input type="text" id="f-oe" value="Mariana Novoa, Jonatan Juárez" oninput="render()"></div>
-      <div><label>CIC / PMO</label><input type="text" id="f-cic" value="Maria Ayala, Tamara" oninput="render()"></div>
+      <div><label data-i18n="lblOE">OE</label><input type="text" id="f-oe" value="Mariana Novoa, Jonatan Juárez" oninput="render()"></div>
+      <div><label data-i18n="lblCIC">CIC / PMO</label><input type="text" id="f-cic" value="Maria Ayala, Tamara" oninput="render()"></div>
     </div>
     <div class="row-2">
       <div>
-        <label>Avance % (barra)</label>
+        <label data-i18n="lblAvance">Avance % (barra)</label>
         <input type="text" id="f-avance" value="58" oninput="render()">
       </div>
 
@@ -407,77 +387,77 @@ textarea { min-height: 52px; }
 
   <!-- CONTEXTO -->
   <div class="form-section">
-    <div class="form-section-title">Contexto del Proyecto</div>
-    <label>Situación / Dolor</label>
+    <div class="form-section-title" data-i18n="secContexto">Contexto del Proyecto</div>
+    <label data-i18n="lblSituacion">Situación / Dolor</label>
     <textarea id="f-situacion" rows="2" oninput="render()">Actualmente se tienen 3 tecnologías de medición de los diferentes path de shp. No existe tecnología que ayude a la medición de los shp catalogados como OVERSIZE con paquetes amorfos.</textarea>
   </div>
 
   <!-- KPIs -->
   <div class="form-section">
-    <div class="form-section-title">KPIs con Tendencia</div>
+    <div class="form-section-title" data-i18n="secKPIs">KPIs con Tendencia</div>
     <div id="kpis-container"></div>
-    <button class="add-kpi-btn" onclick="addKPI()">+ Agregar KPI</button>
+    <button class="add-kpi-btn" data-i18n="btnAgregarKPI" onclick="addKPI()">+ Agregar KPI</button>
   </div>
 
   <!-- FASES -->
   <div class="form-section">
-    <div class="form-section-title">Fases del Proyecto</div>
-    <p style="font-size:10px;color:#999;margin-bottom:8px;">Clic para cambiar: pendiente → completado → activo → pendiente</p>
+    <div class="form-section-title" data-i18n="secFases">Fases del Proyecto</div>
+    <p style="font-size:10px;color:#999;margin-bottom:8px;" data-i18n="hintFases">Clic para cambiar: pendiente → completado → activo → pendiente</p>
     <div id="fases-editor"></div>
   </div>
 
   <!-- LO QUE PASÓ -->
   <div class="form-section">
-    <div class="form-section-title">⚡ Lo que pasó este mes</div>
+    <div class="form-section-title" data-i18n="secLoQuePaso">⚡ Lo que pasó este mes</div>
     <div class="bullet-list" id="paso-editor"></div>
-    <button class="add-btn" onclick="addBullet('paso-editor')">+ Agregar punto</button>
+    <button class="add-btn" data-i18n="btnAgregarPunto" onclick="addBullet('paso-editor')">+ Agregar punto</button>
   </div>
 
   <!-- PRÓXIMOS PASOS -->
   <div class="form-section">
-    <div class="form-section-title">🎯 Próximos pasos</div>
+    <div class="form-section-title" data-i18n="secProximosPasos">🎯 Próximos pasos</div>
     <div class="bullet-list" id="pasos-editor"></div>
-    <button class="add-btn" onclick="addBullet('pasos-editor')">+ Agregar paso</button>
+    <button class="add-btn" data-i18n="btnAgregarPaso" onclick="addBullet('pasos-editor')">+ Agregar paso</button>
   </div>
 
   <!-- SAVING (opcional) -->
   <div class="form-section">
-    <div class="form-section-title">💰 Saving / Impacto (opcional)</div>
+    <div class="form-section-title" data-i18n="secSaving">💰 Saving / Impacto (opcional)</div>
     <div class="row-2">
-      <div><label>Título del box</label><input type="text" id="f-saving-title" value="META ANUAL LH SAVING" oninput="render()"></div>
-      <div><label>Número grande</label><input type="text" id="f-saving-num" value="US$3.3M" oninput="render()"></div>
+      <div><label data-i18n="lblTituloBox">Título del box</label><input type="text" id="f-saving-title" value="META ANUAL LH SAVING" oninput="render()"></div>
+      <div><label data-i18n="lblNumeroGrande">Número grande</label><input type="text" id="f-saving-num" value="US$3.3M" oninput="render()"></div>
     </div>
-    <label>Subtítulo</label>
+    <label data-i18n="lblSubtituloSaving">Subtítulo</label>
     <input type="text" id="f-saving-sub" value="objetivo 2026 · SPR +50% mín · 50 vehíc./sem." oninput="render()">
-    <label>Referencia adicional (opcional)</label>
+    <label data-i18n="lblReferenciaAdicional">Referencia adicional (opcional)</label>
     <input type="text" id="f-saving-vs" value="YTD real: US$1.3M · Target YTD: US$1.5M" oninput="render()">
   </div>
 
   <!-- IMAGEN -->
   <div class="form-section">
-    <div class="form-section-title">🖼 Imagen / Gráfica (opcional)</div>
-    <p style="font-size:10px;color:#999;margin-bottom:6px;">Aparece en la columna derecha, encima de los obstáculos. Ideal para dashboards, gráficas o tablas de análisis.</p>
+    <div class="form-section-title" data-i18n="secImagen">🖼 Imagen / Gráfica (opcional)</div>
+    <p style="font-size:10px;color:#999;margin-bottom:6px;" data-i18n="hintImagen">Aparece en la columna derecha, encima de los obstáculos. Ideal para dashboards, gráficas o tablas de análisis.</p>
     <div class="img-drop" id="img-drop">
       <input type="file" accept="image/*" onchange="handleImage(this)">
       <div class="img-icon">📊</div>
-      <p>Arrastra aquí o haz clic para subir</p>
-      <p class="img-hint">PNG, JPG, GIF — captura de dashboard, gráfica, tabla</p>
+      <p data-i18n="dropText">Arrastra aquí o haz clic para subir</p>
+      <p class="img-hint" data-i18n="dropHint">PNG, JPG, GIF — captura de dashboard, gráfica, tabla</p>
     </div>
     <div id="img-preview-container"></div>
-    <label style="margin-top:8px;">Pie de imagen (opcional)</label>
-    <input type="text" id="f-img-caption" placeholder="Ej: Mismatch Operacional — W18 a W27" oninput="render()">
+    <label style="margin-top:8px;" data-i18n="lblPieImagen">Pie de imagen (opcional)</label>
+    <input type="text" id="f-img-caption" data-i18n-ph="phPieImagen" placeholder="Ej: Mismatch Operacional — W18 a W27" oninput="render()">
   </div>
 
   <!-- OBSTÁCULOS -->
   <div class="form-section">
-    <div class="form-section-title">⚠ Obstáculos</div>
+    <div class="form-section-title" data-i18n="secObstaculos">⚠ Obstáculos</div>
     <div class="bullet-list" id="obs-editor"></div>
-    <button class="add-btn" onclick="addBullet('obs-editor')">+ Agregar obstáculo</button>
+    <button class="add-btn" data-i18n="btnAgregarObstaculo" onclick="addBullet('obs-editor')">+ Agregar obstáculo</button>
   </div>
 
   <!-- DECISIÓN -->
   <div class="form-section">
-    <div class="form-section-title">💬 Se requiere del Head</div>
+    <div class="form-section-title" data-i18n="secDecision">💬 Se requiere del Head</div>
     <textarea id="f-decision" rows="3" oninput="render()">Ampliar ventana de cumplimiento Adherencia a W32, considerando instalación CONLIDA y semanas atípicas por eventos deportivos.</textarea>
   </div>
 
@@ -485,16 +465,324 @@ textarea { min-height: 52px; }
 
 <!-- ══════ PREVIEW PANEL ══════ -->
 <div class="preview-panel">
-  <div class="preview-label">Vista Previa del Slide</div>
+  <div class="preview-label" data-i18n="previewLabel">Vista Previa del Slide</div>
   <div class="slide" id="slide-preview"></div>
 </div>
 
 </div><!-- workspace -->
 
 <script>
+// ══════════════════════════════════════════════════════════════════════════
+// I18N — diccionario completo ES/EN/PT + aplicador de idioma
+// ══════════════════════════════════════════════════════════════════════════
+const TOOL_I18N = {
+  es: {
+    appTitle: 'Generador de Slide Ejecutivo — Lean Projects',
+    btnLimpiar: '↺ Limpiar',
+    btnExportar: '⬇ Exportar HTML',
+    lblProyecto: 'Proyecto',
+    optNingunProyecto: '— Ningún proyecto seleccionado —',
+    btnCrearProyecto: '+ Crear nuevo proyecto',
+    lblHistorial: 'Historial',
+    optMesActual: '— Mes actual (sin guardar) —',
+    btnGuardarMes: '💾 Guardar este mes',
+    statusSinGuardar: 'Sin guardar',
+    statusGuardado: 'Guardado',
+    statusCambiosSinGuardar: 'Cambios sin guardar',
+    secIdentificacion: 'Identificación',
+    lblNombreProyecto: 'Nombre del Proyecto',
+    lblSubtitulo: 'Subtítulo / Área',
+    lblTipoProyecto: 'Tipo de Proyecto',
+    optTipoMVP: 'MVP', optTipoDiscovery: 'Discovery', optTipoImplement: 'Implement', optTipoPOC: 'POC', optTipoEstrategico: 'Estrategico',
+    lblUltimoUpdate: 'Último Update',
+    lblEstadoGeneral: 'Estado General',
+    statusGreen: '🟢 On Track', statusOrange: '🟡 En Riesgo', statusRed: '🔴 Off Track',
+    secEquipo: 'Equipo',
+    lblOE: 'OE', lblCIC: 'CIC / PMO',
+    lblAvance: 'Avance % (barra)',
+    secContexto: 'Contexto del Proyecto',
+    lblSituacion: 'Situación / Dolor',
+    secKPIs: 'KPIs con Tendencia',
+    btnAgregarKPI: '+ Agregar KPI',
+    secFases: 'Fases del Proyecto',
+    hintFases: 'Clic para cambiar: pendiente → completado → activo → pendiente',
+    secLoQuePaso: '⚡ Lo que pasó este mes',
+    btnAgregarPunto: '+ Agregar punto',
+    secProximosPasos: '🎯 Próximos pasos',
+    btnAgregarPaso: '+ Agregar paso',
+    secSaving: '💰 Saving / Impacto (opcional)',
+    lblTituloBox: 'Título del box',
+    lblNumeroGrande: 'Número grande',
+    lblSubtituloSaving: 'Subtítulo',
+    lblReferenciaAdicional: 'Referencia adicional (opcional)',
+    secImagen: '🖼 Imagen / Gráfica (opcional)',
+    hintImagen: 'Aparece en la columna derecha, encima de los obstáculos. Ideal para dashboards, gráficas o tablas de análisis.',
+    dropText: 'Arrastra aquí o haz clic para subir',
+    dropHint: 'PNG, JPG, GIF — captura de dashboard, gráfica, tabla',
+    lblPieImagen: 'Pie de imagen (opcional)',
+    phPieImagen: 'Ej: Mismatch Operacional — W18 a W27',
+    secObstaculos: '⚠ Obstáculos',
+    btnAgregarObstaculo: '+ Agregar obstáculo',
+    secDecision: '💬 Se requiere del Head',
+    previewLabel: 'Vista Previa del Slide',
+    kpiNombreLbl: 'Nombre del KPI',
+    kpiRefLbl: 'Referencia (Base · Target)',
+    kpiTargetLbl: 'Target',
+    kpiMesInicioLbl: 'Mes inicio',
+    kpiMayorMejorLbl: '¿Mayor es mejor?',
+    kpiMayorSi: 'Sí (mayor=mejor)', kpiMayorNo: 'No (menor=mejor)',
+    kpiValoresLbl: 'Valores mensuales (separados por coma)',
+    fases: ['Idea','Planning','Diagnóstico','Diseño','Implementación','Sustentabilidad','Final'],
+    meses: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+    slUltimoUpdate: 'Último update',
+    slEstadoGeneral: 'Estado general',
+    slSituacion: 'Situación / Dolor',
+    slKpisTitle: '📊 KPIs — Tendencia mensual',
+    slFaseTitle: '📍 Fase actual',
+    slLoquePaso: '⚡ Lo que pasó este mes',
+    slProximosPasos: '🎯 Próximos pasos',
+    slObstaculos: '⚠ Obstáculos activos',
+    slDecision: '💬 Se requiere del Head',
+    slOE: 'OE', slCIC: 'CIC / PMO', slAvance: 'Avance',
+    warnMarcar: 'Marcar como advertencia',
+    quitarImagen: 'Quitar imagen',
+    modalNombreNuevoProyecto: 'Nombre del nuevo proyecto (ej: PYMES Inbound)',
+    modalErrorIndice: '⚠ No se pudo guardar el índice de proyectos: ',
+    modalErrorIndiceSuffix: '\n\nEl proyecto se creará solo en esta sesión, pero no persistirá al recargar la página.',
+    modalErrorCargando: '⚠ Error cargando el proyecto: ',
+    modalEtiquetaGuardado: 'Etiqueta para este guardado (ej: "Jul 2026")',
+    modalPrimeroProyecto: 'Primero selecciona o crea un proyecto arriba.',
+    modalGuardadoOk: '✅ Guardado: ',
+    modalErrorGuardar: '❌ Error al guardar: ',
+    modalLimpiarConfirm: '¿Limpiar todo el formulario?',
+    modalCancelar: 'Cancelar', modalAceptar: 'Aceptar', modalEntendido: 'Entendido', modalConfirmar: 'Confirmar',
+    noticeLocalOnly: '⚠ Historial guardado solo en este navegador (no compartido con el equipo). Para historial compartido, abre este generador dentro de Claude.ai.',
+    noticeLocalBlocked: '❌ Este navegador está bloqueando el guardado local (localStorage deshabilitado). Es probable que una política de seguridad corporativa lo impida. Prueba en otro navegador o en modo normal (no incógnito).',
+  },
+  en: {
+    appTitle: 'Executive Slide Generator — Lean Projects',
+    btnLimpiar: '↺ Clear',
+    btnExportar: '⬇ Export HTML',
+    lblProyecto: 'Project',
+    optNingunProyecto: '— No project selected —',
+    btnCrearProyecto: '+ Create new project',
+    lblHistorial: 'History',
+    optMesActual: '— Current month (unsaved) —',
+    btnGuardarMes: '💾 Save this month',
+    statusSinGuardar: 'Not saved',
+    statusGuardado: 'Saved',
+    statusCambiosSinGuardar: 'Unsaved changes',
+    secIdentificacion: 'Identification',
+    lblNombreProyecto: 'Project Name',
+    lblSubtitulo: 'Subtitle / Area',
+    lblTipoProyecto: 'Project Type',
+    optTipoMVP: 'MVP', optTipoDiscovery: 'Discovery', optTipoImplement: 'Implement', optTipoPOC: 'POC', optTipoEstrategico: 'Strategic',
+    lblUltimoUpdate: 'Last Update',
+    lblEstadoGeneral: 'Overall Status',
+    statusGreen: '🟢 On Track', statusOrange: '🟡 At Risk', statusRed: '🔴 Off Track',
+    secEquipo: 'Team',
+    lblOE: 'OE', lblCIC: 'CIC / PMO',
+    lblAvance: 'Progress % (bar)',
+    secContexto: 'Project Context',
+    lblSituacion: 'Situation / Pain Point',
+    secKPIs: 'KPIs with Trend',
+    btnAgregarKPI: '+ Add KPI',
+    secFases: 'Project Phases',
+    hintFases: 'Click to change: pending → completed → active → pending',
+    secLoQuePaso: '⚡ What happened this month',
+    btnAgregarPunto: '+ Add point',
+    secProximosPasos: '🎯 Next steps',
+    btnAgregarPaso: '+ Add step',
+    secSaving: '💰 Saving / Impact (optional)',
+    lblTituloBox: 'Box title',
+    lblNumeroGrande: 'Large number',
+    lblSubtituloSaving: 'Subtitle',
+    lblReferenciaAdicional: 'Additional reference (optional)',
+    secImagen: '🖼 Image / Chart (optional)',
+    hintImagen: 'Appears in the right column, above the obstacles. Ideal for dashboards, charts or analysis tables.',
+    dropText: 'Drag here or click to upload',
+    dropHint: 'PNG, JPG, GIF — dashboard, chart or table screenshot',
+    lblPieImagen: 'Image caption (optional)',
+    phPieImagen: 'E.g.: Operational Mismatch — W18 to W27',
+    secObstaculos: '⚠ Obstacles',
+    btnAgregarObstaculo: '+ Add obstacle',
+    secDecision: '💬 Needed from the Head',
+    previewLabel: 'Slide Preview',
+    kpiNombreLbl: 'KPI Name',
+    kpiRefLbl: 'Reference (Base · Target)',
+    kpiTargetLbl: 'Target',
+    kpiMesInicioLbl: 'Start month',
+    kpiMayorMejorLbl: 'Higher is better?',
+    kpiMayorSi: 'Yes (higher=better)', kpiMayorNo: 'No (lower=better)',
+    kpiValoresLbl: 'Monthly values (comma-separated)',
+    fases: ['Idea','Planning','Diagnosis','Design','Implementation','Sustainability','Final'],
+    meses: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    slUltimoUpdate: 'Last update',
+    slEstadoGeneral: 'Overall status',
+    slSituacion: 'Situation / Pain Point',
+    slKpisTitle: '📊 KPIs — Monthly trend',
+    slFaseTitle: '📍 Current phase',
+    slLoquePaso: '⚡ What happened this month',
+    slProximosPasos: '🎯 Next steps',
+    slObstaculos: '⚠ Active obstacles',
+    slDecision: '💬 Needed from the Head',
+    slOE: 'OE', slCIC: 'CIC / PMO', slAvance: 'Progress',
+    warnMarcar: 'Mark as warning',
+    quitarImagen: 'Remove image',
+    modalNombreNuevoProyecto: 'Name of the new project (e.g.: PYMES Inbound)',
+    modalErrorIndice: '⚠ Could not save the project index: ',
+    modalErrorIndiceSuffix: '\n\nThe project will be created only in this session, but will not persist after reloading the page.',
+    modalErrorCargando: '⚠ Error loading the project: ',
+    modalEtiquetaGuardado: 'Label for this save (e.g.: "Jul 2026")',
+    modalPrimeroProyecto: 'First select or create a project above.',
+    modalGuardadoOk: '✅ Saved: ',
+    modalErrorGuardar: '❌ Error saving: ',
+    modalLimpiarConfirm: 'Clear the whole form?',
+    modalCancelar: 'Cancel', modalAceptar: 'Accept', modalEntendido: 'Got it', modalConfirmar: 'Confirm',
+    noticeLocalOnly: '⚠ History saved only in this browser (not shared with the team). For shared history, open this generator inside Claude.ai.',
+    noticeLocalBlocked: '❌ This browser is blocking local storage (localStorage disabled). A corporate security policy is likely preventing it. Try another browser or normal (non-incognito) mode.',
+  },
+  pt: {
+    appTitle: 'Gerador de Slide Executivo — Lean Projects',
+    btnLimpiar: '↺ Limpar',
+    btnExportar: '⬇ Exportar HTML',
+    lblProyecto: 'Projeto',
+    optNingunProyecto: '— Nenhum projeto selecionado —',
+    btnCrearProyecto: '+ Criar novo projeto',
+    lblHistorial: 'Histórico',
+    optMesActual: '— Mês atual (não salvo) —',
+    btnGuardarMes: '💾 Salvar este mês',
+    statusSinGuardar: 'Não salvo',
+    statusGuardado: 'Salvo',
+    statusCambiosSinGuardar: 'Alterações não salvas',
+    secIdentificacion: 'Identificação',
+    lblNombreProyecto: 'Nome do Projeto',
+    lblSubtitulo: 'Subtítulo / Área',
+    lblTipoProyecto: 'Tipo de Projeto',
+    optTipoMVP: 'MVP', optTipoDiscovery: 'Discovery', optTipoImplement: 'Implement', optTipoPOC: 'POC', optTipoEstrategico: 'Estratégico',
+    lblUltimoUpdate: 'Última Atualização',
+    lblEstadoGeneral: 'Status Geral',
+    statusGreen: '🟢 No Prazo', statusOrange: '🟡 Em Risco', statusRed: '🔴 Fora do Prazo',
+    secEquipo: 'Equipe',
+    lblOE: 'OE', lblCIC: 'CIC / PMO',
+    lblAvance: 'Progresso % (barra)',
+    secContexto: 'Contexto do Projeto',
+    lblSituacion: 'Situação / Dor',
+    secKPIs: 'KPIs com Tendência',
+    btnAgregarKPI: '+ Adicionar KPI',
+    secFases: 'Fases do Projeto',
+    hintFases: 'Clique para mudar: pendente → concluído → ativo → pendente',
+    secLoQuePaso: '⚡ O que aconteceu este mês',
+    btnAgregarPunto: '+ Adicionar ponto',
+    secProximosPasos: '🎯 Próximos passos',
+    btnAgregarPaso: '+ Adicionar passo',
+    secSaving: '💰 Economia / Impacto (opcional)',
+    lblTituloBox: 'Título do box',
+    lblNumeroGrande: 'Número grande',
+    lblSubtituloSaving: 'Subtítulo',
+    lblReferenciaAdicional: 'Referência adicional (opcional)',
+    secImagen: '🖼 Imagem / Gráfico (opcional)',
+    hintImagen: 'Aparece na coluna direita, acima dos obstáculos. Ideal para dashboards, gráficos ou tabelas de análise.',
+    dropText: 'Arraste aqui ou clique para enviar',
+    dropHint: 'PNG, JPG, GIF — captura de dashboard, gráfico ou tabela',
+    lblPieImagen: 'Legenda da imagem (opcional)',
+    phPieImagen: 'Ex.: Mismatch Operacional — W18 a W27',
+    secObstaculos: '⚠ Obstáculos',
+    btnAgregarObstaculo: '+ Adicionar obstáculo',
+    secDecision: '💬 Necessário do Head',
+    previewLabel: 'Pré-visualização do Slide',
+    kpiNombreLbl: 'Nome do KPI',
+    kpiRefLbl: 'Referência (Base · Target)',
+    kpiTargetLbl: 'Target',
+    kpiMesInicioLbl: 'Mês inicial',
+    kpiMayorMejorLbl: 'Maior é melhor?',
+    kpiMayorSi: 'Sim (maior=melhor)', kpiMayorNo: 'Não (menor=melhor)',
+    kpiValoresLbl: 'Valores mensais (separados por vírgula)',
+    fases: ['Ideia','Planning','Diagnóstico','Design','Implementação','Sustentabilidade','Final'],
+    meses: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+    slUltimoUpdate: 'Última atualização',
+    slEstadoGeneral: 'Status geral',
+    slSituacion: 'Situação / Dor',
+    slKpisTitle: '📊 KPIs — Tendência mensal',
+    slFaseTitle: '📍 Fase atual',
+    slLoquePaso: '⚡ O que aconteceu este mês',
+    slProximosPasos: '🎯 Próximos passos',
+    slObstaculos: '⚠ Obstáculos ativos',
+    slDecision: '💬 Necessário do Head',
+    slOE: 'OE', slCIC: 'CIC / PMO', slAvance: 'Progresso',
+    warnMarcar: 'Marcar como alerta',
+    quitarImagen: 'Remover imagem',
+    modalNombreNuevoProyecto: 'Nome do novo projeto (ex.: PYMES Inbound)',
+    modalErrorIndice: '⚠ Não foi possível salvar o índice de projetos: ',
+    modalErrorIndiceSuffix: '\n\nO projeto será criado somente nesta sessão, mas não persistirá ao recarregar a página.',
+    modalErrorCargando: '⚠ Erro ao carregar o projeto: ',
+    modalEtiquetaGuardado: 'Etiqueta para este salvamento (ex.: "Jul 2026")',
+    modalPrimeroProyecto: 'Primeiro selecione ou crie um projeto acima.',
+    modalGuardadoOk: '✅ Salvo: ',
+    modalErrorGuardar: '❌ Erro ao salvar: ',
+    modalLimpiarConfirm: 'Limpar todo o formulário?',
+    modalCancelar: 'Cancelar', modalAceptar: 'Aceitar', modalEntendido: 'Entendido', modalConfirmar: 'Confirmar',
+    noticeLocalOnly: '⚠ Histórico salvo apenas neste navegador (não compartilhado com a equipe). Para histórico compartilhado, abra este gerador dentro do Claude.ai.',
+    noticeLocalBlocked: '❌ Este navegador está bloqueando o armazenamento local (localStorage desabilitado). É provável que uma política de segurança corporativa esteja impedindo isso. Tente outro navegador ou o modo normal (não anônimo).',
+  },
+};
+
+let TOOL_LANG = 'es';
+function tI18n(key) { return (TOOL_I18N[TOOL_LANG] && TOOL_I18N[TOOL_LANG][key] !== undefined) ? TOOL_I18N[TOOL_LANG][key] : (TOOL_I18N.es[key] || key); }
+
+function applyToolI18n(lang) {
+  TOOL_LANG = TOOL_I18N[lang] ? lang : 'es';
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (TOOL_I18N.es[key] !== undefined) el.textContent = tI18n(key);
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const key = el.dataset.i18nPh;
+    if (TOOL_I18N.es[key] !== undefined) el.placeholder = tI18n(key);
+  });
+
+  FASE_NAMES = TOOL_I18N[TOOL_LANG].fases;
+
+  // Re-render dynamic pieces so they pick up the new language
+  if (typeof renderFasesEditor === 'function') renderFasesEditor();
+  if (typeof renderKPIEditor === 'function') renderKPIEditor();
+  if (typeof renderImagePreview === 'function') renderImagePreview();
+  if (typeof render === 'function') render();
+
+  // Bullet "mark as warning" button titles (dynamically created, not covered by data-i18n)
+  document.querySelectorAll('.bullet-row button.remove-btn[title]').forEach(btn => {
+    btn.title = tI18n('warnMarcar');
+  });
+
+  // Project-bar default option placeholders (regenerated async, but nudge them now too)
+  if (typeof refreshProjectSelect === 'function') refreshProjectSelect();
+  if (typeof refreshHistorySelect === 'function') refreshHistorySelect();
+
+  // Storage notice (created once by initPersistence, if present)
+  const notice = document.getElementById('storageNotice');
+  if (notice) {
+    notice.textContent = notice.dataset.variant === 'blocked' ? tI18n('noticeLocalBlocked') : tI18n('noticeLocalOnly');
+  }
+
+  // Proj-status: keep in sync with current saved/unsaved state
+  if (typeof currentProjectName !== 'undefined' && currentProjectName) {
+    if (typeof hasUnsavedChanges !== 'undefined' && hasUnsavedChanges) {
+      if (typeof markUnsaved === 'function') markUnsaved();
+    } else {
+      if (typeof markSaved === 'function') markSaved();
+    }
+  }
+}
+
+window.addEventListener('message', function (e) {
+  if (!e.data || e.data.type !== 'oeHubLang') return;
+  applyToolI18n(e.data.lang);
+});
+
 // ── STATE ──────────────────────────────────────────────────────────────────────
 let currentStatus = 'green';
-const FASE_NAMES = ['Idea','Planning','Diagnóstico','Diseño','Implementación','Sustentabilidad','Final'];
+let FASE_NAMES = ['Idea','Planning','Diagnóstico','Diseño','Implementación','Sustentabilidad','Final'];
 let faseStates   = ['done','done','done','done','active','pending','pending'];
 let uploadedImageSrc = null;
 
@@ -546,7 +834,7 @@ function renderImagePreview() {
   c.innerHTML = `
     <div class="img-preview-wrap">
       <img src="${uploadedImageSrc}" alt="preview">
-      <button class="img-clear" onclick="clearImage()" title="Quitar imagen" aria-label="Quitar imagen">×</button>
+      <button class="img-clear" onclick="clearImage()" title="${tI18n('quitarImagen')}" aria-label="${tI18n('quitarImagen')}">×</button>
     </div>`;
 }
 
@@ -615,7 +903,7 @@ function addBullet(editorId, value='', isWarn=false) {
   ta.oninput = render;
   const warnBtn = document.createElement('button');
   warnBtn.className = 'remove-btn';
-  warnBtn.title = 'Marcar como advertencia';
+  warnBtn.title = tI18n('warnMarcar');
   warnBtn.textContent = '⚠';
   warnBtn.style.color = isWarn ? '#FF8C00' : '#AAA';
   warnBtn.onclick = () => {
@@ -651,7 +939,7 @@ function renderKPIEditor() {
 
     const nameWrap = document.createElement('div');
     const nameLbl = document.createElement('label');
-    nameLbl.textContent = 'Nombre del KPI';
+    nameLbl.textContent = tI18n('kpiNombreLbl');
     const nameInp = document.createElement('input');
     nameInp.type = 'text'; nameInp.value = kpi.name; nameInp.style.fontSize='11px';
     nameInp.oninput = e => { kpis[ki].name = e.target.value; render(); };
@@ -659,7 +947,7 @@ function renderKPIEditor() {
 
     const refWrap = document.createElement('div');
     const refLbl = document.createElement('label');
-    refLbl.textContent = 'Referencia (Base · Target)';
+    refLbl.textContent = tI18n('kpiRefLbl');
     const refInp = document.createElement('input');
     refInp.type = 'text'; refInp.value = kpi.refs; refInp.style.fontSize='11px';
     refInp.oninput = e => { kpis[ki].refs = e.target.value; render(); };
@@ -678,7 +966,7 @@ function renderKPIEditor() {
 
     const targetWrap = document.createElement('div');
     const targetLbl = document.createElement('label');
-    targetLbl.textContent = 'Target';
+    targetLbl.textContent = tI18n('kpiTargetLbl');
     const targetInp = document.createElement('input');
     targetInp.type='text'; targetInp.value=kpi.target; targetInp.style.fontSize='11px';
     targetInp.oninput = e => { kpis[ki].target = parseFloat(e.target.value)||0; render(); };
@@ -686,7 +974,7 @@ function renderKPIEditor() {
 
     const weekWrap = document.createElement('div');
     const weekLbl = document.createElement('label');
-    weekLbl.textContent = 'Mes inicio';
+    weekLbl.textContent = tI18n('kpiMesInicioLbl');
     const weekInp = document.createElement('input');
     weekInp.type='text'; weekInp.value=kpi.weekStart||'Ene'; weekInp.style.fontSize='11px';
     weekInp.oninput = e => { kpis[ki].weekStart = e.target.value; render(); };
@@ -694,10 +982,10 @@ function renderKPIEditor() {
 
     const dirWrap = document.createElement('div');
     const dirLbl = document.createElement('label');
-    dirLbl.textContent = '¿Mayor es mejor?';
+    dirLbl.textContent = tI18n('kpiMayorMejorLbl');
     const dirSel = document.createElement('select');
     dirSel.style.fontSize='11px';
-    ['Sí (mayor=mejor)','No (menor=mejor)'].forEach((opt,idx) => {
+    [tI18n('kpiMayorSi'), tI18n('kpiMayorNo')].forEach((opt,idx) => {
       const o = document.createElement('option');
       o.value = idx===0?'1':'0'; o.textContent = opt;
       if ((kpi.higherIsBetter && idx===0)||(!kpi.higherIsBetter && idx===1)) o.selected=true;
@@ -710,7 +998,7 @@ function renderKPIEditor() {
 
     // Values row
     const valLbl = document.createElement('label');
-    valLbl.textContent = 'Valores mensuales (separados por coma)';
+    valLbl.textContent = tI18n('kpiValoresLbl');
     const valInp = document.createElement('input');
     valInp.type='text'; valInp.value=kpi.values.join(','); valInp.style.fontSize='11px';
     valInp.oninput = e => {
@@ -737,10 +1025,14 @@ function sparklineHTML(values, target, higherIsBetter, weekStart) {
   const range = max - min || 1;
   const maxH = 30;
   const n = values.length;
-  const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-  const startLabel = weekStart || 'Ene';
-  const startIdx = MESES.indexOf(startLabel);
-  const endLbl = startIdx >= 0 ? MESES[Math.min(startIdx + n - 1, 11)] : startLabel;
+  // Los valores guardados (weekStart) siempre usan abreviaturas en español —
+  // el índice se calcula contra ese array canónico; solo la etiqueta mostrada se traduce.
+  const MESES_ES = TOOL_I18N.es.meses;
+  const MESES_DISPLAY = TOOL_I18N[TOOL_LANG].meses;
+  const rawStartLabel = weekStart || MESES_ES[0];
+  const startIdx = MESES_ES.indexOf(rawStartLabel);
+  const startLabel = startIdx >= 0 ? MESES_DISPLAY[startIdx] : rawStartLabel;
+  const endLbl = startIdx >= 0 ? MESES_DISPLAY[Math.min(startIdx + n - 1, 11)] : rawStartLabel;
 
   let tlineStyle = '';
   if (target !== null) {
@@ -791,7 +1083,7 @@ function kpiStatus(values, target, higherIsBetter) {
 // ── MAIN RENDER ───────────────────────────────────────────────────────────────
 function render() {
   const v = id => (document.getElementById(id)||{}).value || '';
-  const statusMap = { green:'🟢 On Track', orange:'🟡 En Riesgo', red:'🔴 Off Track' };
+  const statusMap = { green: tI18n('statusGreen'), orange: tI18n('statusOrange'), red: tI18n('statusRed') };
   const paso    = getBullets('paso-editor');
   const proxPasos = getBullets('pasos-editor');
   const obs     = getBullets('obs-editor');
@@ -856,10 +1148,10 @@ function render() {
         <div class="sl-sub">${v('f-sub')}</div>
       </div>
 
-      <div class="sl-meta"><strong>${v('f-update')}</strong>Último update</div>
+      <div class="sl-meta"><strong>${v('f-update')}</strong>${tI18n('slUltimoUpdate')}</div>
       <div class="sl-status-wrap">
         <div class="sl-pill ${currentStatus}">${statusMap[currentStatus]}</div>
-        <div class="sl-status-lbl">Estado general</div>
+        <div class="sl-status-lbl">${tI18n('slEstadoGeneral')}</div>
       </div>
     </div>
 
@@ -867,7 +1159,7 @@ function render() {
     ${v('f-situacion') ? `
     <div class="sl-context">
       <div class="sl-context-block">
-        <div class="sl-ctx-label">Situación / Dolor</div>
+        <div class="sl-ctx-label">${tI18n('slSituacion')}</div>
         <div class="sl-ctx-text">${v('f-situacion')}</div>
       </div>
     </div>` : ''}
@@ -877,10 +1169,10 @@ function render() {
 
       <!-- COL 1: KPIs + FASES -->
       <div class="sl-col">
-        <div class="sl-col-title">📊 KPIs — Tendencia mensual</div>
+        <div class="sl-col-title">${tI18n('slKpisTitle')}</div>
         ${kpiCardsHTML}
         <div>
-          <div class="sl-col-title" style="margin-bottom:8px;">📍 Fase actual</div>
+          <div class="sl-col-title" style="margin-bottom:8px;">${tI18n('slFaseTitle')}</div>
           <div class="sl-fase">${fasesHTML}</div>
         </div>
       </div>
@@ -889,9 +1181,9 @@ function render() {
 
       <!-- COL 2: NARRATIVA + SAVING -->
       <div class="sl-col">
-        <div class="sl-col-title">⚡ Lo que pasó este mes</div>
+        <div class="sl-col-title">${tI18n('slLoquePaso')}</div>
         ${bHTML(paso)}
-        <div class="sl-col-title">🎯 Próximos pasos</div>
+        <div class="sl-col-title">${tI18n('slProximosPasos')}</div>
         ${pasosHTML}
         ${savingHTML}
       </div>
@@ -901,10 +1193,10 @@ function render() {
       <!-- COL 3: IMAGEN (opcional) + OBSTÁCULOS + DECISIÓN -->
       <div class="sl-col">
         ${imgHTML}
-        <div class="sl-col-title">⚠ Obstáculos activos</div>
+        <div class="sl-col-title">${tI18n('slObstaculos')}</div>
         ${bHTML(obs, 'warn')}
         <div class="sl-decision">
-          <div class="sl-decision-title">💬 Se requiere del Head</div>
+          <div class="sl-decision-title">${tI18n('slDecision')}</div>
           <p>${v('f-decision')}</p>
         </div>
       </div>
@@ -913,10 +1205,10 @@ function render() {
 
     <!-- FOOTER -->
     <div class="sl-footer">
-      <div><div class="ft-lbl">OE</div><div class="ft-name"><span>${v('f-oe')}</span></div></div>
-      <div><div class="ft-lbl">CIC / PMO</div><div class="ft-name"><span>${v('f-cic')}</span></div></div>
+      <div><div class="ft-lbl">${tI18n('slOE')}</div><div class="ft-name"><span>${v('f-oe')}</span></div></div>
+      <div><div class="ft-lbl">${tI18n('slCIC')}</div><div class="ft-name"><span>${v('f-cic')}</span></div></div>
       <div class="ft-progress">
-        <div style="font-size:9px;color:#D0D0D0">Avance</div>
+        <div style="font-size:9px;color:#D0D0D0">${tI18n('slAvance')}</div>
         <div class="ft-bar"><div class="ft-fill" style="width:${avance}%"></div></div>
         <div class="ft-pct">${avance}%</div>
       </div>
@@ -941,7 +1233,7 @@ ${slideHTML}
 
 // ── RESET ──────────────────────────────────────────────────────────────────────
 async function resetForm() {
-  const ok = await modalConfirm('¿Limpiar todo el formulario?');
+  const ok = await modalConfirm(tI18n('modalLimpiarConfirm'));
   if (!ok) return;
   resetFormSilent();
   render();
@@ -968,8 +1260,8 @@ function modalPrompt(title, defaultValue = '') {
         <h3>${title}</h3>
         <input type="text" id="modal-input" value="${defaultValue.replace(/"/g,'&quot;')}">
         <div class="modal-actions">
-          <button class="modal-btn-cancel" id="modal-cancel">Cancelar</button>
-          <button class="modal-btn-ok" id="modal-ok">Aceptar</button>
+          <button class="modal-btn-cancel" id="modal-cancel">${tI18n('modalCancelar')}</button>
+          <button class="modal-btn-ok" id="modal-ok">${tI18n('modalAceptar')}</button>
         </div>
       </div>`;
     document.body.appendChild(overlay);
@@ -998,7 +1290,7 @@ function modalAlert(message) {
       <div class="modal-box">
         <h3>${message}</h3>
         <div class="modal-actions">
-          <button class="modal-btn-ok" id="modal-ok">Entendido</button>
+          <button class="modal-btn-ok" id="modal-ok">${tI18n('modalEntendido')}</button>
         </div>
       </div>`;
     document.body.appendChild(overlay);
@@ -1014,8 +1306,8 @@ function modalConfirm(message) {
       <div class="modal-box">
         <h3>${message}</h3>
         <div class="modal-actions">
-          <button class="modal-btn-cancel" id="modal-cancel">Cancelar</button>
-          <button class="modal-btn-ok" id="modal-ok">Confirmar</button>
+          <button class="modal-btn-cancel" id="modal-cancel">${tI18n('modalCancelar')}</button>
+          <button class="modal-btn-ok" id="modal-ok">${tI18n('modalConfirmar')}</button>
         </div>
       </div>`;
     document.body.appendChild(overlay);
@@ -1149,7 +1441,7 @@ async function refreshProjectSelect() {
   const list = await getProjectsIndex();
   const sel = document.getElementById('proj-select');
   const currentVal = sel.value;
-  sel.innerHTML = '<option value="">— Ningún proyecto seleccionado —</option>' +
+  sel.innerHTML = `<option value="">${tI18n('optNingunProyecto')}</option>` +
     list.map(name => `<option value="${escapeAttr(name)}">${name}</option>`).join('');
   if (list.includes(currentVal)) sel.value = currentVal;
 }
@@ -1177,13 +1469,13 @@ function currentMonthKey() {
 function monthLabel(key, customLabel) {
   if (customLabel) return customLabel;
   const [y,m] = key.split('-');
-  const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const MESES = TOOL_I18N[TOOL_LANG].meses;
   return `${MESES[parseInt(m,10)-1]} ${y}`;
 }
 
 async function refreshHistorySelect() {
   const sel = document.getElementById('history-select');
-  sel.innerHTML = '<option value="">— Mes actual (sin guardar) —</option>';
+  sel.innerHTML = `<option value="">${tI18n('optMesActual')}</option>`;
   if (!currentProjectName) return;
   const data = await getProjectData(currentProjectName);
   const order = data.order || Object.keys(data.months);
@@ -1196,7 +1488,7 @@ async function refreshHistorySelect() {
 
 // ── EVENTOS DE UI ──────────────────────────────────────────────────────────────
 async function crearNuevoProyecto() {
-  const name = await modalPrompt('Nombre del nuevo proyecto (ej: PYMES Inbound)');
+  const name = await modalPrompt(tI18n('modalNombreNuevoProyecto'));
   if (!name || !name.trim()) return;
   const cleanName = name.trim();
 
@@ -1207,7 +1499,7 @@ async function crearNuevoProyecto() {
       await saveProjectsIndex(list);
     }
   } catch(e) {
-    await modalAlert('⚠ No se pudo guardar el índice de proyectos: ' + e.message + '\n\nEl proyecto se creará solo en esta sesión, pero no persistirá al recargar la página.');
+    await modalAlert(tI18n('modalErrorIndice') + e.message + tI18n('modalErrorIndiceSuffix'));
   }
 
   const sel = document.getElementById('proj-select');
@@ -1248,7 +1540,7 @@ async function onProjectSelectChange() {
     }
     await refreshHistorySelect();
   } catch(e) {
-    await modalAlert('⚠ Error cargando el proyecto: ' + e.message);
+    await modalAlert(tI18n('modalErrorCargando') + e.message);
   }
 }
 
@@ -1267,10 +1559,10 @@ async function onHistoryChange() {
 
 async function guardarMesActual() {
   if (!currentProjectName) {
-    await modalAlert('Primero selecciona o crea un proyecto arriba.');
+    await modalAlert(tI18n('modalPrimeroProyecto'));
     return;
   }
-  const label = await modalPrompt('Etiqueta para este guardado (ej: "Jul 2026")', monthLabel(currentMonthKey()));
+  const label = await modalPrompt(tI18n('modalEtiquetaGuardado'), monthLabel(currentMonthKey()));
   if (label === null) return;
 
   const data = await getProjectData(currentProjectName);
@@ -1286,9 +1578,9 @@ async function guardarMesActual() {
     markSaved();
     await refreshHistorySelect();
     document.getElementById('history-select').value = finalKey;
-    await modalAlert(`✅ Guardado: ${currentProjectName} — ${label}`);
+    await modalAlert(`${tI18n('modalGuardadoOk')}${currentProjectName} — ${label}`);
   } catch(e) {
-    await modalAlert('❌ Error al guardar: ' + e.message);
+    await modalAlert(tI18n('modalErrorGuardar') + e.message);
   }
 }
 
@@ -1296,13 +1588,13 @@ function markUnsaved() {
   hasUnsavedChanges = true;
   const el = document.getElementById('proj-status');
   el.className = 'proj-status unsaved';
-  el.innerHTML = '<div class="dot"></div><span>Cambios sin guardar</span>';
+  el.innerHTML = `<div class="dot"></div><span>${tI18n('statusCambiosSinGuardar')}</span>`;
 }
 function markSaved() {
   hasUnsavedChanges = false;
   const el = document.getElementById('proj-status');
   el.className = 'proj-status saved';
-  el.innerHTML = '<div class="dot"></div><span>Guardado</span>';
+  el.innerHTML = `<div class="dot"></div><span>${tI18n('statusGuardado')}</span>`;
 }
 
 // Reset silencioso (sin confirm dialog) usado internamente al cambiar de proyecto
@@ -1348,13 +1640,16 @@ async function initPersistence() {
 
     const bar = document.querySelector('.proj-bar');
     const notice = document.createElement('div');
+    notice.id = 'storageNotice';
     notice.style.cssText = 'width:100%;background:#3A2A00;color:#FFD980;font-size:9px;padding:6px 8px;border-radius:4px;margin-top:4px;line-height:1.4;';
     if (localStorageWorks) {
-      notice.innerHTML = '⚠ Historial guardado solo en este navegador (no compartido con el equipo). Para historial compartido, abre este generador dentro de Claude.ai.';
+      notice.dataset.variant = 'ok';
+      notice.textContent = tI18n('noticeLocalOnly');
     } else {
+      notice.dataset.variant = 'blocked';
       notice.style.background = '#3A0A0A';
       notice.style.color = '#FFB0B0';
-      notice.innerHTML = '❌ Este navegador está bloqueando el guardado local (localStorage deshabilitado). Es probable que una política de seguridad corporativa lo impida. Prueba en otro navegador o en modo normal (no incógnito).';
+      notice.textContent = tI18n('noticeLocalBlocked');
     }
     bar.appendChild(notice);
   }
