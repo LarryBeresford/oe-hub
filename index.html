@@ -975,10 +975,28 @@
               <button class="routine-tab" id="bvTabHistorico" onclick="boletinesView('historico')">Histórico</button>
             </div>
           </div>
-          <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:520px;">
-            <iframe id="boletinesDriveFrame" src="https://drive.google.com/embeddedfolderview?id=17nL1aQ9czQhJKASA01gFRUNqJHRzlET8#grid" style="width:100%; height:100%; border:none; display:block;" title="Boletines OE — carpeta de Drive"></iframe>
+
+          <div id="bvPanelReciente">
+            <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+              <div class="routine-tabs" style="margin-bottom:0;">
+                <button class="routine-tab active" id="bvAreaFirstmile" onclick="boletinArea('firstmile')">First Mile</button>
+                <button class="routine-tab" id="bvAreaServicecenter" onclick="boletinArea('servicecenter')">Service Center</button>
+                <button class="routine-tab" id="bvAreaQuality" onclick="boletinArea('quality')">Quality</button>
+              </div>
+              <div class="list-item-date" style="margin:0;">Julio 2026</div>
+            </div>
+            <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:520px;">
+              <iframe id="boletinPreviewFrame" src="boletines/2026-07/Boletin_FirstMile.html" style="width:100%; height:100%; border:none; display:block;" title="Vista previa del boletín más reciente"></iframe>
+            </div>
+            <div style="margin-top:10px; font-size:11.5px; color:#999;">¿No carga aquí? <a class="i18n-link" id="bvOpenFull" href="boletines/2026-07/Boletin_FirstMile.html" target="_blank" rel="noopener" style="color:#999;">Abrir el boletín completo ↗</a></div>
           </div>
-          <div style="margin-top:10px; font-size:11.5px; color:#999;">¿No carga aquí? <a class="i18n-link" href="https://drive.google.com/drive/folders/1ePjVn_YPkW06k4BBRrhtpuW7p0QexZzn" target="_blank" rel="noopener" style="color:#999;">Abrir la carpeta completa en Drive ↗</a></div>
+
+          <div id="bvPanelHistorico" style="display:none">
+            <div style="background:var(--yellow-bg); border:1px dashed var(--yellow-dark); border-radius:12px; padding:20px;">
+              <div class="list-item-text">Aún no hay boletines de meses anteriores archivados — julio 2026 es el primero y está en "Más reciente". A partir del próximo mes, aquí se irán acumulando los boletines de meses pasados.</div>
+            </div>
+            <div style="margin-top:10px; font-size:11.5px; color:#999;">¿Prefieres verlo en Drive? <a class="i18n-link" href="https://drive.google.com/drive/folders/1YLbqPntXp914qiSoc9LcFi2XsxfcAsBh" target="_blank" rel="noopener" style="color:#999;">Abrir carpeta de histórico ↗</a></div>
+          </div>
         </div>
 
         <div class="tool-grid wide" style="margin-top:16px">
@@ -1825,26 +1843,45 @@
     document.getElementById('routine-' + which).classList.add('active');
   }
 
-  const BOLETINES_DRIVE = {
-    reciente:  '17nL1aQ9czQhJKASA01gFRUNqJHRzlET8',
-    historico: '1YLbqPntXp914qiSoc9LcFi2XsxfcAsBh',
+  const BOLETINES_DRIVE_HISTORICO = 'https://drive.google.com/drive/folders/1YLbqPntXp914qiSoc9LcFi2XsxfcAsBh';
+
+  const BOLETIN_FILES = {
+    firstmile:     'boletines/2026-07/Boletin_FirstMile.html',
+    servicecenter: 'boletines/2026-07/Boletin_ServiceCenter.html',
+    quality:       'boletines/2026-07/Boletin_Quality.html',
   };
+  const BOLETIN_AREA_IDS = ['firstmile', 'servicecenter', 'quality'];
+
+  function boletinArea(area) {
+    const src = BOLETIN_FILES[area];
+    if (!src) return;
+    const frame = document.getElementById('boletinPreviewFrame');
+    const openFull = document.getElementById('bvOpenFull');
+    if (frame) frame.src = src;
+    if (openFull) openFull.href = src;
+    BOLETIN_AREA_IDS.forEach(function (a) {
+      const btn = document.getElementById('bvArea' + a.charAt(0).toUpperCase() + a.slice(1));
+      if (btn) btn.classList.toggle('active', a === area);
+    });
+  }
+
   function boletinesView(which) {
     const cl = currentLang();
     const dict = cl === 'en' ? TEXT_EN : (cl === 'pt' ? TEXT_PT : null);
     const t = function (es) { return (dict && dict[es]) ? dict[es] : es; };
-    const frame = document.getElementById('boletinesDriveFrame');
     const label = document.getElementById('bvLabel');
     const tabReciente = document.getElementById('bvTabReciente');
     const tabHistorico = document.getElementById('bvTabHistorico');
-    if (!frame || !label || !tabReciente || !tabHistorico) return;
-    const id = BOLETINES_DRIVE[which] || BOLETINES_DRIVE.reciente;
-    frame.src = 'https://drive.google.com/embeddedfolderview?id=' + id + '#grid';
+    const panelReciente = document.getElementById('bvPanelReciente');
+    const panelHistorico = document.getElementById('bvPanelHistorico');
+    if (!label || !tabReciente || !tabHistorico || !panelReciente || !panelHistorico) return;
     const origEs = which === 'historico' ? 'Histórico de boletines' : 'Boletín más reciente';
     label.dataset.i18nOrig = origEs;
     label.textContent = t(origEs);
     tabReciente.classList.toggle('active', which !== 'historico');
     tabHistorico.classList.toggle('active', which === 'historico');
+    panelReciente.style.display = which === 'historico' ? 'none' : '';
+    panelHistorico.style.display = which === 'historico' ? '' : 'none';
   }
 
   function learnTab(which) {
@@ -2049,6 +2086,9 @@
     'Más reciente':'Latest',
     'Histórico':'History',
     'Abrir la carpeta completa en Drive ↗':'Open the full folder in Drive ↗',
+    'Abrir el boletín completo ↗':'Open full newsletter ↗',
+    'Abrir carpeta de histórico ↗':'Open history folder ↗',
+    'Aún no hay boletines de meses anteriores archivados — julio 2026 es el primero y está en "Más reciente". A partir del próximo mes, aquí se irán acumulando los boletines de meses pasados.':'There are no archived newsletters from previous months yet — July 2026 is the first one and it\'s under "Latest". Starting next month, past newsletters will accumulate here.',
     'Julio 2026':'July 2026',
     'Boletín mensual de Excelencia Operacional':'Monthly Operational Excellence newsletter',
     'Ver boletín':'View newsletter',
@@ -2322,6 +2362,9 @@
     'Más reciente':'Mais recente',
     'Histórico':'Histórico',
     'Abrir la carpeta completa en Drive ↗':'Abrir a pasta completa no Drive ↗',
+    'Abrir el boletín completo ↗':'Abrir o boletim completo ↗',
+    'Abrir carpeta de histórico ↗':'Abrir pasta de histórico ↗',
+    'Aún no hay boletines de meses anteriores archivados — julio 2026 es el primero y está en "Más reciente". A partir del próximo mes, aquí se irán acumulando los boletines de meses pasados.':'Ainda não há boletins de meses anteriores arquivados — julho de 2026 é o primeiro e está em "Mais recente". A partir do próximo mês, os boletins de meses passados vão se acumulando aqui.',
     'Julio 2026':'Julho de 2026',
     'Boletín mensual de Excelencia Operacional':'Boletim mensal de Excelência Operacional',
     'Ver boletín':'Ver boletim',
