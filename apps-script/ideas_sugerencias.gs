@@ -40,6 +40,8 @@
  */
 
 // ID de la Sheet de datos (parte de la URL entre /d/ y /edit).
+// Sheet "Sugerencias_HUB_OE" -- para consultar las sugerencias enviadas:
+// https://docs.google.com/spreadsheets/d/1KF896f43oq1a_RF4xrJ5Cdgjw2GN6cwhg25d8Y5DbGA/edit
 var SHEET_ID = '1KF896f43oq1a_RF4xrJ5Cdgjw2GN6cwhg25d8Y5DbGA'; // Sugerencias_HUB_OE
 
 function doPost(e) {
