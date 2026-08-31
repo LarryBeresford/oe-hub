@@ -28,7 +28,20 @@
 
 function doPost(e) {
   try {
-    var data = JSON.parse(e.postData.contents);
+    // El Hub manda los datos como formulario normal (e.parameter), no como
+    // JSON -- eso permite enviarlo via un <form> a un iframe oculto en vez de
+    // fetch(), lo cual evita el bloqueo de CORS / sesion de Google que da
+    // Apps Script cuando el despliegue es "Cualquier usuario de <dominio>"
+    // (Workspace) en vez de publico. Se deja el JSON como respaldo por si
+    // algun dia se vuelve a llamar con fetch().
+    var data;
+    if (e.parameter && Object.keys(e.parameter).length) {
+      data = e.parameter;
+    } else if (e.postData && e.postData.contents) {
+      data = JSON.parse(e.postData.contents);
+    } else {
+      data = {};
+    }
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
 
     sheet.appendRow([

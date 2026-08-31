@@ -2031,22 +2031,58 @@
     const originalBtnText = btn.textContent;
     btn.disabled = true;
     btn.textContent = t('Enviando...');
-    fetch(SUGGESTIONS_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // evita el preflight OPTIONS con Apps Script
-      body: JSON.stringify(payload),
-    })
-      .then(() => {
-        confirmEl.classList.remove('error');
-        confirmEl.textContent = t('Sugerencia enviada con éxito. ¡Gracias!');
-        confirmEl.classList.add('show');
-        areaSel.selectedIndex = 0; tipoSel.selectedIndex = 0; descEl.value = '';
-      })
-      .catch(() => {
-        confirmEl.textContent = t('No se pudo enviar. Intenta de nuevo en un momento.');
-        confirmEl.classList.add('show', 'error');
-      })
-      .finally(() => { btn.disabled = false; btn.textContent = originalBtnText; });
+
+    // Envio via formulario oculto + iframe oculto (NO fetch): el Apps Script
+    // esta desplegado como "Cualquier usuario de <dominio Workspace>" (la
+    // opcion mas abierta que permite la politica de la empresa; "Cualquier
+    // usuario" publico no esta disponible). Un fetch() no manda la sesion de
+    // Google del navegador en una peticion cruzada y ademas choca con CORS al
+    // leer la respuesta. Una navegacion real (form -> iframe oculto) si manda
+    // esa sesion y no necesita leer la respuesta para funcionar.
+    let iframe = document.getElementById('sugHiddenFrame');
+    if (!iframe) {
+      iframe = document.createElement('iframe');
+      iframe.name = 'sugHiddenFrame';
+      iframe.id = 'sugHiddenFrame';
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+    }
+
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = SUGGESTIONS_ENDPOINT;
+    form.target = 'sugHiddenFrame';
+    form.style.display = 'none';
+    Object.keys(payload).forEach(function (k) {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = k;
+      input.value = payload[k];
+      form.appendChild(input);
+    });
+    document.body.appendChild(form);
+
+    let settled = false;
+    const finish = function () {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timeoutId);
+      confirmEl.classList.remove('error');
+      confirmEl.textContent = t('Sugerencia enviada con éxito. ¡Gracias!');
+      confirmEl.classList.add('show');
+      areaSel.selectedIndex = 0; tipoSel.selectedIndex = 0; descEl.value = '';
+      btn.disabled = false;
+      btn.textContent = originalBtnText;
+      form.remove();
+    };
+    // Como el iframe queda en otro origen (script.google.com), no podemos leer
+    // si en verdad funciono -- solo que la navegacion termino. Por eso el
+    // mensaje es optimista una vez que el iframe carga (o, como respaldo, tras
+    // unos segundos si el evento "load" no llegara a disparar).
+    const timeoutId = setTimeout(finish, 8000);
+    iframe.onload = finish;
+
+    form.submit();
   }
 
   /* ==================== ES / EN ==================== */
