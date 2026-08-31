@@ -983,7 +983,7 @@
                 <button class="routine-tab" id="bvAreaServicecenter" onclick="boletinArea('servicecenter')">Service Center</button>
                 <button class="routine-tab" id="bvAreaQuality" onclick="boletinArea('quality')">Quality</button>
               </div>
-              <div class="list-item-date" style="margin:0;">Julio 2026</div>
+              <div class="list-item-date" id="bvMonthLabel" style="margin:0;">Julio 2026</div>
             </div>
             <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:520px;">
               <iframe id="boletinPreviewFrame" src="boletines/2026-07/Boletin_FirstMile.html" style="width:100%; height:100%; border:none; display:block;" title="Vista previa del boletín más reciente"></iframe>
@@ -992,10 +992,7 @@
           </div>
 
           <div id="bvPanelHistorico" style="display:none">
-            <div style="background:var(--yellow-bg); border:1px dashed var(--yellow-dark); border-radius:12px; padding:20px;">
-              <div class="list-item-text">Aún no hay boletines de meses anteriores archivados — julio 2026 es el primero y está en "Más reciente". A partir del próximo mes, aquí se irán acumulando los boletines de meses pasados.</div>
-            </div>
-            <div style="margin-top:10px; font-size:11.5px; color:#999;">¿Prefieres verlo en Drive? <a class="i18n-link" href="https://drive.google.com/drive/folders/1YLbqPntXp914qiSoc9LcFi2XsxfcAsBh" target="_blank" rel="noopener" style="color:#999;">Abrir carpeta de histórico ↗</a></div>
+            <div id="bvHistoricoList"></div>
           </div>
         </div>
 
@@ -1845,16 +1842,50 @@
 
   const BOLETINES_DRIVE_HISTORICO = 'https://drive.google.com/drive/folders/1YLbqPntXp914qiSoc9LcFi2XsxfcAsBh';
 
-  const BOLETIN_FILES = {
-    firstmile:     'boletines/2026-07/Boletin_FirstMile.html',
-    servicecenter: 'boletines/2026-07/Boletin_ServiceCenter.html',
-    quality:       'boletines/2026-07/Boletin_Quality.html',
-  };
   const BOLETIN_AREA_IDS = ['firstmile', 'servicecenter', 'quality'];
+  const BOLETIN_AREA_LABELS = { firstmile: 'First Mile', servicecenter: 'Service Center', quality: 'Quality' };
+
+  // Cada elemento = un mes de boletines ya generados y copiados al repo.
+  // El ULTIMO elemento del arreglo es el que se muestra en "Mas reciente";
+  // todos los anteriores se listan solos en "Historico" (del mas nuevo al mas viejo).
+  //
+  // COMO AGREGAR UN MES NUEVO (ej. agosto 2026), sin tocar nada mas de este archivo:
+  //   1) Genera los 3 boletines del mes como siempre (Streamlit / motor.py).
+  //   2) Copialos a oe-hub/boletines/2026-08/ con estos nombres exactos:
+  //        Boletin_FirstMile.html, Boletin_ServiceCenter.html, Boletin_Quality.html
+  //   3) Agrega UN objeto nuevo al FINAL de BOLETIN_MONTHS:
+  //        { key: '2026-08', label: { es:'Agosto 2026', en:'August 2026', pt:'Agosto de 2026' },
+  //          files: { firstmile:'boletines/2026-08/Boletin_FirstMile.html',
+  //                   servicecenter:'boletines/2026-08/Boletin_ServiceCenter.html',
+  //                   quality:'boletines/2026-08/Boletin_Quality.html' } }
+  //   4) git add, commit, push. Listo: agosto pasa a "Mas reciente" y julio cae solo a "Historico".
+  const BOLETIN_MONTHS = [
+    {
+      key: '2026-07',
+      label: { es: 'Julio 2026', en: 'July 2026', pt: 'Julho de 2026' },
+      files: {
+        firstmile:     'boletines/2026-07/Boletin_FirstMile.html',
+        servicecenter: 'boletines/2026-07/Boletin_ServiceCenter.html',
+        quality:       'boletines/2026-07/Boletin_Quality.html',
+      },
+    },
+  ];
+
+  let currentBoletinArea = 'firstmile';
+
+  function latestBoletinMonth() { return BOLETIN_MONTHS[BOLETIN_MONTHS.length - 1]; }
+
+  function monthLabelFor(month) {
+    const cl = currentLang();
+    return (month.label && month.label[cl]) || month.label.es;
+  }
 
   function boletinArea(area) {
-    const src = BOLETIN_FILES[area];
+    const month = latestBoletinMonth();
+    if (!month) return;
+    const src = month.files[area];
     if (!src) return;
+    currentBoletinArea = area;
     const frame = document.getElementById('boletinPreviewFrame');
     const openFull = document.getElementById('bvOpenFull');
     if (frame) frame.src = src;
@@ -1863,6 +1894,44 @@
       const btn = document.getElementById('bvArea' + a.charAt(0).toUpperCase() + a.slice(1));
       if (btn) btn.classList.toggle('active', a === area);
     });
+  }
+
+  function renderBoletinReciente() {
+    const month = latestBoletinMonth();
+    const lbl = document.getElementById('bvMonthLabel');
+    if (lbl && month) lbl.textContent = monthLabelFor(month);
+    boletinArea(currentBoletinArea);
+  }
+
+  function renderBoletinHistorico() {
+    const cl = currentLang();
+    const dict = cl === 'en' ? TEXT_EN : (cl === 'pt' ? TEXT_PT : null);
+    const t = function (es) { return (dict && dict[es]) ? dict[es] : es; };
+    const list = document.getElementById('bvHistoricoList');
+    if (!list) return;
+    const pastMonths = BOLETIN_MONTHS.slice(0, -1).slice().reverse();
+    if (!pastMonths.length) {
+      list.innerHTML =
+        '<div style="background:var(--yellow-bg); border:1px dashed var(--yellow-dark); border-radius:12px; padding:20px;">' +
+        '<div>' + t('Aún no hay boletines de meses anteriores archivados — julio 2026 es el primero y está en "Más reciente". A partir del próximo mes, aquí se irán acumulando los boletines de meses pasados.') + '</div>' +
+        '</div>' +
+        '<div style="margin-top:10px; font-size:11.5px; color:#999;">¿Prefieres verlo en Drive? <a class="i18n-link" href="' + BOLETINES_DRIVE_HISTORICO + '" target="_blank" rel="noopener" style="color:#999;">' + t('Abrir carpeta de histórico ↗') + '</a></div>';
+      return;
+    }
+    list.innerHTML = pastMonths.map(function (m) {
+      const links = BOLETIN_AREA_IDS.map(function (a) {
+        return '<a class="i18n-link" href="' + m.files[a] + '" target="_blank" rel="noopener" style="color:var(--yellow-dark); font-weight:700; text-decoration:none; margin-right:14px;">' + BOLETIN_AREA_LABELS[a] + ' ↗</a>';
+      }).join('');
+      return '<div class="list-item" style="padding:10px 0; border-bottom:1px solid var(--border);">' +
+        '<div class="list-item-date">' + monthLabelFor(m) + '</div>' +
+        '<div style="margin-top:4px;">' + links + '</div>' +
+        '</div>';
+    }).join('');
+  }
+
+  function refreshBoletines() {
+    renderBoletinReciente();
+    renderBoletinHistorico();
   }
 
   function boletinesView(which) {
@@ -1882,6 +1951,7 @@
     tabHistorico.classList.toggle('active', which === 'historico');
     panelReciente.style.display = which === 'historico' ? 'none' : '';
     panelHistorico.style.display = which === 'historico' ? '' : 'none';
+    if (which === 'historico') renderBoletinHistorico(); else renderBoletinReciente();
   }
 
   function learnTab(which) {
@@ -2589,6 +2659,7 @@
       regSearch.setAttribute('placeholder', lang === 'en' ? rsEn : (lang === 'pt' ? rsPt : regSearch.dataset.i18nPh));
       filterSites();
     }
+    if (typeof refreshBoletines === 'function') refreshBoletines();
     document.querySelectorAll('[aria-label]').forEach(function (el) {
       if (el.dataset.i18nAria === undefined) { el.dataset.i18nAria = el.getAttribute('aria-label'); }
       var origAria = el.dataset.i18nAria;
