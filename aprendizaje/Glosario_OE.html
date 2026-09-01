@@ -37,10 +37,6 @@
   .content { padding: 30px 40px 40px; }
   .note { background:var(--yellow-bg); border-left:3px solid var(--yellow-dark); border-radius:8px; padding:12px 16px; font-size:12.5px; color:#555; margin-bottom:22px; }
 
-  .term-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:14px; }
-  .term-card { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:18px 20px; }
-  .term-name { font-size:14.5px; font-weight:800; color:var(--dark); margin-bottom:6px; }
-  .term-def { font-size:12.5px; color:#666; line-height:1.5; }
 
   .section-title { font-size:11px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:#999; margin:34px 0 12px; }
   .section-title:first-of-type { margin-top:0; }
@@ -88,55 +84,30 @@
   <div class="content">
     <div class="note">Este glosario es un documento vivo: se va a ir llenando con más términos conforme el equipo los use. Si falta alguno, avísale a Larry o a Mónica.</div>
 
-    <div class="term-grid">
-      <div class="term-card">
-        <div class="term-name">OE</div>
-        <div class="term-def">Excelencia Operacional. El área que impulsa la mejora continua en Transportes MLM.</div>
-      </div>
-      <div class="term-card">
-        <div class="term-name">MELI Axis</div>
-        <div class="term-def">Plataforma donde se gestionan y actualizan los proyectos, sus actividades y su estatus.</div>
-      </div>
-      <div class="term-card">
-        <div class="term-name">Focal (Focal CIE)</div>
-        <div class="term-def">Persona responsable de mantener actualizado el estatus de un proyecto en MELI Axis y de comunicar avances a su Supervisor/Manager.</div>
-      </div>
-      <div class="term-card">
-        <div class="term-name">Mesa local</div>
-        <div class="term-def">Supervisores y Manager que evalúan la viabilidad de una iniciativa antes de que suba a otras instancias.</div>
-      </div>
-      <div class="term-card">
-        <div class="term-name">Mesa regional</div>
-        <div class="term-def">Instancia que evalúa una iniciativa de Backlog Continuo después de que la mesa local la aprueba, vía MELI Axis.</div>
-      </div>
-      <div class="term-card">
-        <div class="term-name">Tribu</div>
-        <div class="term-def">Última instancia de evaluación para iniciativas de Backlog Continuo: discute y prioriza por Q.</div>
-      </div>
-      <div class="term-card">
-        <div class="term-name">Backlog Continuo</div>
-        <div class="term-def">Proceso para convertir una idea en una iniciativa formal con alcance regional (Focal → Mesa local → Mesa regional → Tribu).</div>
-      </div>
-      <div class="term-card">
-        <div class="term-name">Iniciativas Locales</div>
-        <div class="term-def">Mismo proceso que Backlog Continuo, pero con alcance local: si la mesa local aprueba, se crea directo como proyecto en MELI Axis.</div>
-      </div>
-      <div class="term-card">
-        <div class="term-name">NL (Newsletter)</div>
-        <div class="term-def">Boletín mensual de OE con lo más relevante de First Mile, Service Center y Quality.</div>
-      </div>
-      <div class="term-card">
-        <div class="term-name">BBR</div>
-        <div class="term-def">Entrega bisemanal de resultados del equipo.</div>
-      </div>
-      <div class="term-card">
-        <div class="term-name">MBR</div>
-        <div class="term-def">Entrega mensual de resultados del equipo (antes llamada WBR).</div>
-      </div>
-      <div class="term-card">
-        <div class="term-name">KPI</div>
-        <div class="term-def">Indicador clave de desempeño.</div>
-      </div>
+    <div class="section-title">Conceptos y Procesos Generales</div>
+    <div class="kpi-table-wrap">
+      <table class="kpi-table">
+        <thead>
+          <tr>
+            <th>Término</th>
+            <th>Definición</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="dict-td-term">OE</td><td class="dict-td-def">Excelencia Operacional. El área que impulsa la mejora continua en Transportes MLM.</td></tr>
+          <tr><td class="dict-td-term">MELI Axis</td><td class="dict-td-def">Plataforma donde se gestionan y actualizan los proyectos, sus actividades y su estatus.</td></tr>
+          <tr><td class="dict-td-term">Focal (Focal CIE)</td><td class="dict-td-def">Persona responsable de mantener actualizado el estatus de un proyecto en MELI Axis y de comunicar avances a su Supervisor/Manager.</td></tr>
+          <tr><td class="dict-td-term">Mesa local</td><td class="dict-td-def">Supervisores y Manager que evalúan la viabilidad de una iniciativa antes de que suba a otras instancias.</td></tr>
+          <tr><td class="dict-td-term">Mesa regional</td><td class="dict-td-def">Instancia que evalúa una iniciativa de Backlog Continuo después de que la mesa local la aprueba, vía MELI Axis.</td></tr>
+          <tr><td class="dict-td-term">Tribu</td><td class="dict-td-def">Última instancia de evaluación para iniciativas de Backlog Continuo: discute y prioriza por Q.</td></tr>
+          <tr><td class="dict-td-term">Backlog Continuo</td><td class="dict-td-def">Proceso para convertir una idea en una iniciativa formal con alcance regional (Focal → Mesa local → Mesa regional → Tribu).</td></tr>
+          <tr><td class="dict-td-term">Iniciativas Locales</td><td class="dict-td-def">Mismo proceso que Backlog Continuo, pero con alcance local: si la mesa local aprueba, se crea directo como proyecto en MELI Axis.</td></tr>
+          <tr><td class="dict-td-term">NL (Newsletter)</td><td class="dict-td-def">Boletín mensual de OE con lo más relevante de First Mile, Service Center y Quality.</td></tr>
+          <tr><td class="dict-td-term">BBR</td><td class="dict-td-def">Entrega bisemanal de resultados del equipo.</td></tr>
+          <tr><td class="dict-td-term">MBR</td><td class="dict-td-def">Entrega mensual de resultados del equipo (antes llamada WBR).</td></tr>
+          <tr><td class="dict-td-term">KPI</td><td class="dict-td-def">Indicador clave de desempeño.</td></tr>
+        </tbody>
+      </table>
     </div>
 
     <div class="section-title">Glosario de KPIs</div>

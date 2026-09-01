@@ -1812,11 +1812,9 @@
     const map = cl === 'en' ? LABELS_EN : (cl === 'pt' ? LABELS_PT : LABELS);
     document.getElementById('bcCurrent').textContent = map[pageId] || pageId;
 
-    if (pageId === 'directorio' || pageId === 'organigrama' || pageId === 'slides' || pageId === 'boletinesgen' || pageId === 'indicadores' || pageId === 'proyectos') {
-      document.body.classList.add('sidebar-collapsed');
-    } else {
-      document.body.classList.remove('sidebar-collapsed');
-    }
+    // La barra lateral ya no se contrae/expande sola al navegar (feedback de Rich:
+    // se sentía poco organica y ocultaba contenido a media navegacion). Se deja fija
+    // expandida por defecto; solo el usuario decide contraerla, con el boton toggleSidebar().
 
     // En mobile, cualquier navegacion cierra el drawer del menu (no afecta desktop,
     // donde 'mobile-nav-open' nunca se activa porque el boton que lo agrega esta oculto).
