@@ -151,6 +151,54 @@
   a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, [tabindex]:focus-visible {
     outline: 2px solid var(--yellow); outline-offset: 2px; border-radius: 4px;
   }
+
+  /* ===== Seccion 6: Guia visual Form -> Boletin ===== */
+  .gv-tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+  .gv-tab{background:var(--light-bg);border:1px solid var(--border);border-radius:20px;padding:8px 16px;font-size:12.5px;font-weight:800;color:#666;cursor:pointer;font-family:inherit}
+  .gv-tab.active{background:var(--dark);color:var(--yellow);border-color:var(--dark)}
+  .gv-panel{display:none}
+  .gv-panel.active{display:block}
+  .gv-block{border:1px solid var(--border);border-radius:12px;margin-bottom:18px;overflow:hidden}
+  .gv-block-title{background:var(--dark);color:var(--yellow);font:800 11px/1 inherit;letter-spacing:1.2px;text-transform:uppercase;padding:10px 16px}
+  .gv-body{display:flex;flex-wrap:wrap}
+  .gv-mock{flex:1 1 340px;padding:16px;border-right:1px solid var(--border);min-width:280px}
+  .gv-legend{flex:1 1 300px;padding:16px;background:var(--light-bg)}
+  .gv-legend ol{list-style:none;margin:0;padding:0;counter-reset:gv}
+  .gv-legend li{counter-increment:gv;margin-bottom:9px;padding-left:26px;position:relative;font-size:12px;line-height:1.5}
+  .gv-legend li::before{content:counter(gv);position:absolute;left:0;top:0;width:18px;height:18px;border-radius:50%;background:var(--yellow);color:var(--dark);font:800 10px/18px inherit;text-align:center}
+  .gv-legend b{display:block;color:var(--dark)}
+  .gv-legend i{color:#777;font-style:italic;font-size:11.5px}
+  .gv-badge{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:var(--yellow);color:var(--dark);font:800 9px/1 inherit;margin-right:3px}
+  .gv-nl{background:#e9ebee;padding:10px;border-radius:8px}
+  .gv-nl-inner{background:#fff;border-radius:4px;overflow:hidden}
+  .gv-black{background:#111;padding:12px 16px}
+  .gv-sec{background:#111;padding:9px 16px}
+  .gv-sec span{font:800 13px/1 inherit;color:var(--yellow);margin-right:6px}
+  .gv-sec b{font:800 9.5px/1 inherit;color:var(--yellow);letter-spacing:1.5px;text-transform:uppercase}
+  .gv-card{background:#fff;border:1px solid #ececec;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.05);padding:14px 16px;margin:14px}
+  .gv-tag{display:inline-block;font:800 8.5px/1 inherit;letter-spacing:1.2px;text-transform:uppercase;color:var(--yellow);background:#111;padding:3px 7px;border-radius:2px;margin-bottom:6px}
+  .gv-h3{font:800 14px/1.3 inherit;color:#111;margin-bottom:5px}
+  .gv-p{font:400 11.5px/1.5 inherit;color:#555;margin-bottom:8px}
+  .gv-hito{background:#fafafa;border-left:3px solid var(--yellow);padding:7px 9px;margin-bottom:5px}
+  .gv-hito b{display:block;font:800 9px/1 inherit;color:#111;text-transform:uppercase}
+  .gv-hito span{font:400 11px/1.4 inherit;color:#555}
+  .gv-met{background:#111;border-radius:6px;padding:7px 6px;text-align:center;margin:7px 0}
+  .gv-met b{display:block;font:700 16px/1 'Courier New',monospace;color:var(--yellow)}
+  .gv-met span{font:600 7.5px/1.3 inherit;color:#bbb;text-transform:uppercase}
+  .gv-bul,.gv-paso{font:400 11px inherit;color:#555;padding:2px 0}
+  .gv-btn{display:inline-block;background:var(--yellow);color:#111;font:800 9px/1 inherit;padding:7px 12px;border-radius:6px;text-transform:uppercase;margin-top:6px}
+  .gv-nota{font:italic 400 10px/1.5 inherit;color:#888;margin-top:6px;border-top:1px solid #eee;padding-top:5px}
+  .gv-proj{padding:10px 14px;border-bottom:1px solid #f0f0f0}
+  .gv-proj-name{font:700 12px/1.3 inherit;color:#111;margin-bottom:3px}
+  .gv-bar-wrap{display:flex;align-items:center;gap:5px;margin-bottom:5px;flex-wrap:wrap}
+  .gv-bar{width:50px;height:5px;background:#e5e7eb;border-radius:3px}
+  .gv-bar i{display:block;height:100%;background:#d97706;width:35%;border-radius:3px}
+  .gv-pct{font:700 10px 'Courier New',monospace;color:#555}
+  .gv-pill{font:800 7.5px inherit;letter-spacing:.8px;text-transform:uppercase;background:#fffbeb;color:#d97706;padding:2px 6px;border-radius:2px}
+  .gv-line{font:400 10.5px/1.5 inherit;color:#444;margin-top:3px}
+  .gv-person{display:flex;gap:8px;align-items:center;background:#fafafa;border:1px solid #eee;border-radius:8px;padding:8px 10px;margin:12px 14px}
+  .gv-avatar{width:34px;height:34px;border-radius:50%;background:#ddd;border:2px solid var(--yellow);flex:none}
+  .gv-event{background:#fafafa;border:1px solid #eee;border-radius:8px;padding:8px 10px;margin:12px 14px}
 </style>
 </head>
 <body>
@@ -331,6 +379,435 @@
       </div>
     </div>
 
+    <div class="section">
+      <div class="section-num"><div class="dot">6</div><div class="txt">Guía visual: qué pregunta llena qué parte del boletín</div></div>
+      <div class="section-body">
+        <p>Cada número amarillo de las maquetas de abajo es exactamente esa misma pregunta en tu Form. Elige tu área y ve bloque por bloque: primero mira cómo se ve en el boletín, luego relaciona el número con la pregunta.</p>
+
+        <div class="gv-tabs">
+          <button class="gv-tab active" id="gvTabFm" onclick="gvTab('fm')">FM + XD + SC + TOM</button>
+          <button class="gv-tab" id="gvTabSvc" onclick="gvTab('svc')">SVC + Last Mile</button>
+          <button class="gv-tab" id="gvTabQuality" onclick="gvTab('quality')">Quality</button>
+        </div>
+
+        <!-- ================= FM + XD + SC + TOM ================= -->
+        <div class="gv-panel active" id="gvFm">
+
+          <div class="gv-block">
+            <div class="gv-block-title">Portada y bienvenida</div>
+            <div class="gv-body">
+              <div class="gv-mock">
+                <div class="gv-nl"><div class="gv-nl-inner">
+                  <div class="gv-black">
+                    <div style="font:700 9px/1 inherit;letter-spacing:2px;text-transform:uppercase;color:#FFD001;margin-bottom:8px">Mercado Libre · OE MLM</div>
+                    <div style="font:900 24px/1.05 inherit;color:#fff;margin-bottom:6px">FM | XD | SC | TOM</div>
+                    <div><span class="gv-badge">1</span><span style="font:700 24px/1 'Courier New',monospace;color:#FFD001">Ago</span> <span style="font:400 12px/1 'Courier New',monospace;color:#999">2026</span></div>
+                  </div>
+                  <div style="background:#FFD001;padding:8px 16px"><span class="gv-badge">2</span><span style="font:600 10.5px/1.5 inherit;color:#111">Este mes seguimos avanzando en la automatización del picking...</span></div>
+                </div></div>
+              </div>
+              <div class="gv-legend">
+                <ol>
+                  <li><b>Mes y año</b><i>"¿A qué mes corresponde este boletín?"</i></li>
+                  <li><b>Franja de bienvenida</b><i>"Escribe el mensaje de bienvenida del mes"</i></li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div class="gv-block">
+            <div class="gv-block-title">Proyectos del mes (hasta 6)</div>
+            <div class="gv-body">
+              <div class="gv-mock">
+                <div class="gv-nl"><div class="gv-nl-inner">
+                  <div class="gv-sec"><span>01</span><b>Oficina de Proyectos</b></div>
+                  <div class="gv-proj">
+                    <div class="gv-proj-name"><span class="gv-badge">1</span>Automatización de picking Sort Center</div>
+                    <div class="gv-bar-wrap">
+                      <span class="gv-badge">2</span><span style="font:700 9px inherit;color:#888">Sort Center</span>
+                      <span class="gv-badge">3</span><div class="gv-bar"><i></i></div><span class="gv-pct">35%</span>
+                      <span class="gv-badge">4</span><span class="gv-pill">En curso</span>
+                    </div>
+                    <div class="gv-line"><span class="gv-badge">5</span>Piloto en 2 sitios, con resultados positivos</div>
+                    <div class="gv-line"><span class="gv-badge">6</span>Arrancó en julio, involucra a 3 turnos</div>
+                    <div class="gv-line"><span class="gv-badge">7</span>Falta aprobación de presupuesto</div>
+                    <div class="gv-line"><span class="gv-badge">8</span>Escalar a 3 sitios más en septiembre</div>
+                    <div style="margin-top:5px"><span class="gv-badge">9</span><span class="gv-btn">Ver más ↗</span></div>
+                  </div>
+                </div></div>
+              </div>
+              <div class="gv-legend">
+                <ol>
+                  <li><b>Título del proyecto</b><i>"Nombre del proyecto"</i></li>
+                  <li><b>Zona / área</b><i>"Zona o área" (First Mile, Cross Dock, Sort Center, TOM, SVC, MRN, MRS u Otro)</i></li>
+                  <li><b>Barra de avance</b><i>"Porcentaje de avance" (0–100%)</i></li>
+                  <li><b>Estado (color automático)</b><i>"Estado actual"</i></li>
+                  <li><b>Resumen corto</b><i>"Resumen corto (una línea)"</i></li>
+                  <li><b>Segunda línea, en gris</b><i>"Algo más de contexto" (opcional)</i></li>
+                  <li><b>Bloqueo / impedimento</b><i>"¿Hay algún bloqueo o impedimento?" (opcional)</i></li>
+                  <li><b>Siguiente paso</b><i>"¿Cuál es el siguiente paso?"</i></li>
+                  <li><b>Botón "Ver más"</b><i>"Enlace a más información" (opcional)</i></li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div class="gv-block">
+            <div class="gv-block-title">Success Stories del Mes / Proceso de Refuerzo del Mes (misma estructura en las 2)</div>
+            <div class="gv-body">
+              <div class="gv-mock">
+                <div class="gv-nl"><div class="gv-nl-inner">
+                  <div class="gv-sec"><span>02</span><b>Success Stories del Mes</b></div>
+                  <div class="gv-card">
+                    <div><span class="gv-badge">1</span><span class="gv-tag">Hito del mes</span></div>
+                    <div class="gv-h3"><span class="gv-badge">2</span>Sort Center alcanza 98% de exactitud</div>
+                    <div class="gv-p"><span class="gv-badge">3</span>El equipo de picking automatizado logró reducir errores de conteo a la mitad respecto a junio.</div>
+                    <div class="gv-hito"><b><span class="gv-badge">4</span>Se rompe un hito en MLM</b><span><span class="gv-badge">5</span>Primer sitio con picking 100% automatizado</span></div>
+                    <div class="gv-met"><b><span class="gv-badge" style="background:#fff">6</span>98%</b><span><span class="gv-badge" style="background:#fff">7</span>Exactitud de picking</span></div>
+                    <div class="gv-bul"><span class="gv-badge">8</span>22 de 24 turnos con cero incidencias</div>
+                    <div class="gv-paso"><span style="color:#FFD001;font-weight:900">→</span><span class="gv-badge">9</span>Replicar el proceso en Cross Dock</div>
+                    <div style="text-align:center;margin-top:8px"><div style="height:50px;background:#eee;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#999"><span class="gv-badge">10</span>&nbsp;imagen</div><div style="font:italic 400 9.5px/1.4 inherit;color:#888;margin-top:3px"><span class="gv-badge">11</span>Pie de foto</div></div>
+                    <div style="margin-top:6px"><span class="gv-badge">12</span><span class="gv-btn">Ver detalle</span></div>
+                    <div class="gv-nota"><span class="gv-badge">13</span>Nota al pie</div>
+                  </div>
+                </div></div>
+              </div>
+              <div class="gv-legend">
+                <ol>
+                  <li><b>Etiqueta arriba del título</b><i>"Palabra o frase corta que la resuma" (opcional)</i></li>
+                  <li><b>Título</b><i>"Título"</i></li>
+                  <li><b>Texto principal</b><i>"Cuéntanos qué pasó" (párrafo)</i></li>
+                  <li><b>Nombre corto del logro</b><i>"Logro 1/2 — nombre corto" (opcional, hasta 2)</i></li>
+                  <li><b>Detalle del logro</b><i>"Logro 1/2 — detalle" (opcional)</i></li>
+                  <li><b>Valor del dato</b><i>"Dato 1/2 — valor" (opcional, hasta 2)</i></li>
+                  <li><b>Qué mide ese dato</b><i>"Dato 1/2 — qué mide" (opcional)</i></li>
+                  <li><b>Puntos clave</b><i>"Punto clave 1, 2, 3" (opcional)</i></li>
+                  <li><b>Próximos pasos</b><i>"Próximo paso 1, 2" (opcional)</i></li>
+                  <li><b>Imagen</b><i>"Enlace a una imagen" (opcional)</i></li>
+                  <li><b>Pie de foto</b><i>"Descripción de la imagen" (opcional)</i></li>
+                  <li><b>Botón de acción</b><i>"Botón 1/2 — texto/enlace" (opcional)</i></li>
+                  <li><b>Nota al pie</b><i>"Nota al pie" (opcional)</i></li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div class="gv-block">
+            <div class="gv-block-title">Eventos del mes y Nuevos ingresos al equipo</div>
+            <div class="gv-body">
+              <div class="gv-mock">
+                <div class="gv-nl"><div class="gv-nl-inner">
+                  <div class="gv-sec"><span>03</span><b>Eventos del mes</b></div>
+                  <div class="gv-event">
+                    <div style="font:800 9px inherit;color:#111"><span class="gv-badge">1</span>15 Ago</div>
+                    <div style="font:700 11px inherit;color:#111;margin-top:2px"><span class="gv-badge">2</span>Capacitación de nuevos picadores</div>
+                    <div style="font:400 10px inherit;color:#666;margin-top:2px"><span class="gv-badge">3</span>Sesión práctica en Sort Center para el turno nocturno.</div>
+                  </div>
+                  <div class="gv-sec"><span>04</span><b>Nuevos Ingresos al Equipo</b></div>
+                  <div class="gv-person">
+                    <div class="gv-avatar"></div>
+                    <div>
+                      <div style="font:800 11px inherit;color:#111"><span class="gv-badge">4</span>Nombre Apellido</div>
+                      <div style="font:400 9.5px inherit;color:#888;margin-top:2px"><span class="gv-badge">5</span>Analista Cross Dock</div>
+                      <div style="font:400 8.5px 'Courier New',monospace;color:#555;margin-top:2px"><span class="gv-badge">6</span>correo@mercadolibre.com.mx</div>
+                    </div>
+                  </div>
+                </div></div>
+              </div>
+              <div class="gv-legend">
+                <ol>
+                  <li><b>Fecha del evento</b><i>"Evento N: ¿Qué día es?"</i></li>
+                  <li><b>Nombre del evento</b><i>"Evento N: Nombre del evento"</i></li>
+                  <li><b>Descripción</b><i>"Evento N: Cuéntanos un poco más" (opcional)</i></li>
+                  <li><b>Nombre completo</b><i>"Persona N: Nombre completo"</i></li>
+                  <li><b>Puesto</b><i>"Persona N: Puesto"</i></li>
+                  <li><b>Correo</b><i>"Persona N: Correo" (@mercadolibre.com)</i></li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ================= SVC + Last Mile ================= -->
+        <div class="gv-panel" id="gvSvc">
+
+          <div class="gv-block">
+            <div class="gv-block-title">Portada y bienvenida</div>
+            <div class="gv-body">
+              <div class="gv-mock">
+                <div class="gv-nl"><div class="gv-nl-inner">
+                  <div class="gv-black">
+                    <div style="font:700 9px/1 inherit;letter-spacing:2px;text-transform:uppercase;color:#FFD001;margin-bottom:8px">Mercado Libre · OE MLM</div>
+                    <div style="font:900 24px/1.05 inherit;color:#fff;margin-bottom:6px">SVC + Last Mile</div>
+                    <div><span class="gv-badge">1</span><span style="font:700 24px/1 'Courier New',monospace;color:#FFD001">Ago</span> <span style="font:400 12px/1 'Courier New',monospace;color:#999">2026</span></div>
+                  </div>
+                  <div style="background:#FFD001;padding:8px 16px"><span class="gv-badge">2</span><span style="font:600 10.5px/1.5 inherit;color:#111">Este mes mejoramos los tiempos de entrega en Last Mile...</span></div>
+                </div></div>
+              </div>
+              <div class="gv-legend">
+                <ol>
+                  <li><b>Mes y año</b><i>"¿A qué mes corresponde este boletín?"</i></li>
+                  <li><b>Franja de bienvenida</b><i>"Escribe el mensaje de bienvenida del mes"</i></li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div class="gv-block">
+            <div class="gv-block-title">Proyectos del mes (hasta 6)</div>
+            <div class="gv-body">
+              <div class="gv-mock">
+                <div class="gv-nl"><div class="gv-nl-inner">
+                  <div class="gv-sec"><span>01</span><b>Oficina de Proyectos</b></div>
+                  <div class="gv-proj">
+                    <div class="gv-proj-name"><span class="gv-badge">1</span>Optimización de rutas Last Mile</div>
+                    <div class="gv-bar-wrap">
+                      <span class="gv-badge">2</span><span style="font:700 9px inherit;color:#888">Last Mile</span>
+                      <span class="gv-badge">3</span><div class="gv-bar"><i></i></div><span class="gv-pct">60%</span>
+                      <span class="gv-badge">4</span><span class="gv-pill">On Track</span>
+                    </div>
+                    <div class="gv-line"><span class="gv-badge">5</span>Piloto en 3 zonas, con menor tiempo de entrega</div>
+                    <div class="gv-line"><span class="gv-badge">6</span>Arrancó en julio con el equipo de ruteo</div>
+                    <div class="gv-line"><span class="gv-badge">7</span>Sin bloqueos por ahora</div>
+                    <div class="gv-line"><span class="gv-badge">8</span>Escalar a toda la región en septiembre</div>
+                    <div style="margin-top:5px"><span class="gv-badge">9</span><span class="gv-btn">Ver más ↗</span></div>
+                  </div>
+                </div></div>
+              </div>
+              <div class="gv-legend">
+                <ol>
+                  <li><b>Título del proyecto</b><i>"Nombre del proyecto"</i></li>
+                  <li><b>Zona / área</b><i>"Zona o área" (Service Center, Last Mile, SVC, LM u Otro)</i></li>
+                  <li><b>Barra de avance</b><i>"Porcentaje de avance" (0–100%)</i></li>
+                  <li><b>Estado (color automático)</b><i>"Estado actual"</i></li>
+                  <li><b>Resumen corto</b><i>"Resumen corto (una línea)"</i></li>
+                  <li><b>Segunda línea, en gris</b><i>"Algo más de contexto" (opcional)</i></li>
+                  <li><b>Bloqueo / impedimento</b><i>"¿Hay algún bloqueo o impedimento?" (opcional)</i></li>
+                  <li><b>Siguiente paso</b><i>"¿Cuál es el siguiente paso?"</i></li>
+                  <li><b>Botón "Ver más"</b><i>"Enlace a más información" (opcional)</i></li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div class="gv-block">
+            <div class="gv-block-title">Success Stories del Mes / Back to Basics (misma estructura en las 2)</div>
+            <div class="gv-body">
+              <div class="gv-mock">
+                <div class="gv-nl"><div class="gv-nl-inner">
+                  <div class="gv-sec"><span>02</span><b>Back to Basics</b></div>
+                  <div class="gv-card">
+                    <div><span class="gv-badge">1</span><span class="gv-tag">Fundamentos del proceso</span></div>
+                    <div class="gv-h3"><span class="gv-badge">2</span>Reforzamos el checklist de salida de unidades</div>
+                    <div class="gv-p"><span class="gv-badge">3</span>Se retomó la validación física de cada unidad antes de salir a ruta, reduciendo incidencias de entrega.</div>
+                    <div class="gv-hito"><b><span class="gv-badge">4</span>Se refuerza el estándar</b><span><span class="gv-badge">5</span>100% de unidades validadas antes de salida</span></div>
+                    <div class="gv-met"><b><span class="gv-badge" style="background:#fff">6</span>12%</b><span><span class="gv-badge" style="background:#fff">7</span>Reducción de incidencias</span></div>
+                    <div class="gv-bul"><span class="gv-badge">8</span>Checklist reforzado en los 2 turnos</div>
+                    <div class="gv-paso"><span style="color:#FFD001;font-weight:900">→</span><span class="gv-badge">9</span>Replicar en el resto de las rutas</div>
+                    <div style="text-align:center;margin-top:8px"><div style="height:50px;background:#eee;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#999"><span class="gv-badge">10</span>&nbsp;imagen</div><div style="font:italic 400 9.5px/1.4 inherit;color:#888;margin-top:3px"><span class="gv-badge">11</span>Pie de foto</div></div>
+                    <div style="margin-top:6px"><span class="gv-badge">12</span><span class="gv-btn">Ver checklist</span></div>
+                    <div class="gv-nota"><span class="gv-badge">13</span>Nota al pie</div>
+                  </div>
+                </div></div>
+              </div>
+              <div class="gv-legend">
+                <ol>
+                  <li><b>Etiqueta arriba del título</b><i>"Palabra o frase corta que la resuma" (opcional)</i></li>
+                  <li><b>Título</b><i>"Título"</i></li>
+                  <li><b>Texto principal</b><i>"Cuéntanos qué pasó" (párrafo)</i></li>
+                  <li><b>Nombre corto del logro</b><i>"Logro 1/2 — nombre corto" (opcional, hasta 2)</i></li>
+                  <li><b>Detalle del logro</b><i>"Logro 1/2 — detalle" (opcional)</i></li>
+                  <li><b>Valor del dato</b><i>"Dato 1/2 — valor" (opcional, hasta 2)</i></li>
+                  <li><b>Qué mide ese dato</b><i>"Dato 1/2 — qué mide" (opcional)</i></li>
+                  <li><b>Puntos clave</b><i>"Punto clave 1, 2, 3" (opcional)</i></li>
+                  <li><b>Próximos pasos</b><i>"Próximo paso 1, 2" (opcional)</i></li>
+                  <li><b>Imagen</b><i>"Enlace a una imagen" (opcional)</i></li>
+                  <li><b>Pie de foto</b><i>"Descripción de la imagen" (opcional)</i></li>
+                  <li><b>Botón de acción</b><i>"Botón 1/2 — texto/enlace" (opcional)</i></li>
+                  <li><b>Nota al pie</b><i>"Nota al pie" (opcional)</i></li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div class="gv-block">
+            <div class="gv-block-title">Eventos del mes y Nuevos ingresos al equipo</div>
+            <div class="gv-body">
+              <div class="gv-mock">
+                <div class="gv-nl"><div class="gv-nl-inner">
+                  <div class="gv-sec"><span>03</span><b>Eventos del mes</b></div>
+                  <div class="gv-event">
+                    <div style="font:800 9px inherit;color:#111"><span class="gv-badge">1</span>20 Ago</div>
+                    <div style="font:700 11px inherit;color:#111;margin-top:2px"><span class="gv-badge">2</span>Simulacro de entrega en zona nueva</div>
+                    <div style="font:400 10px inherit;color:#666;margin-top:2px"><span class="gv-badge">3</span>Prueba de ruteo antes de abrir la zona oficialmente.</div>
+                  </div>
+                  <div class="gv-sec"><span>04</span><b>Nuevos Ingresos al Equipo</b></div>
+                  <div class="gv-person">
+                    <div class="gv-avatar"></div>
+                    <div>
+                      <div style="font:800 11px inherit;color:#111"><span class="gv-badge">4</span>Nombre Apellido</div>
+                      <div style="font:400 9.5px inherit;color:#888;margin-top:2px"><span class="gv-badge">5</span>Repartidor Last Mile</div>
+                      <div style="font:400 8.5px 'Courier New',monospace;color:#555;margin-top:2px"><span class="gv-badge">6</span>correo@mercadolibre.com.mx</div>
+                    </div>
+                  </div>
+                </div></div>
+              </div>
+              <div class="gv-legend">
+                <ol>
+                  <li><b>Fecha del evento</b><i>"Evento N: ¿Qué día es?"</i></li>
+                  <li><b>Nombre del evento</b><i>"Evento N: Nombre del evento"</i></li>
+                  <li><b>Descripción</b><i>"Evento N: Cuéntanos un poco más" (opcional)</i></li>
+                  <li><b>Nombre completo</b><i>"Persona N: Nombre completo"</i></li>
+                  <li><b>Puesto</b><i>"Persona N: Puesto"</i></li>
+                  <li><b>Correo</b><i>"Persona N: Correo" (@mercadolibre.com)</i></li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ================= Quality ================= -->
+        <div class="gv-panel" id="gvQuality">
+
+          <div class="gv-block">
+            <div class="gv-block-title">Portada y bienvenida</div>
+            <div class="gv-body">
+              <div class="gv-mock">
+                <div class="gv-nl"><div class="gv-nl-inner">
+                  <div class="gv-black">
+                    <div style="font:700 9px/1 inherit;letter-spacing:2px;text-transform:uppercase;color:#FFD001;margin-bottom:8px">Mercado Libre · OE MLM</div>
+                    <div style="font:900 24px/1.05 inherit;color:#fff;margin-bottom:6px">Quality</div>
+                    <div><span class="gv-badge">1</span><span style="font:700 24px/1 'Courier New',monospace;color:#FFD001">Ago</span> <span style="font:400 12px/1 'Courier New',monospace;color:#999">2026</span></div>
+                  </div>
+                  <div style="background:#FFD001;padding:8px 16px"><span class="gv-badge">2</span><span style="font:600 10.5px/1.5 inherit;color:#111">Este mes cerramos agosto con buenos resultados en auditorías de SHE...</span></div>
+                </div></div>
+              </div>
+              <div class="gv-legend">
+                <ol>
+                  <li><b>Mes y año</b><i>"¿A qué mes corresponde este boletín?"</i></li>
+                  <li><b>Franja de bienvenida</b><i>"Escribe el mensaje de bienvenida del mes"</i></li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div class="gv-block">
+            <div class="gv-block-title">Proyectos del mes (hasta 6 — sin campo de Zona, a diferencia de FM/SVC)</div>
+            <div class="gv-body">
+              <div class="gv-mock">
+                <div class="gv-nl"><div class="gv-nl-inner">
+                  <div class="gv-sec"><span>01</span><b>Oficina de Proyectos</b></div>
+                  <div class="gv-proj">
+                    <div class="gv-proj-name"><span class="gv-badge">1</span>Kick Off Auditorías Q3</div>
+                    <div class="gv-bar-wrap">
+                      <span class="gv-badge">2</span><div class="gv-bar"><i></i></div><span class="gv-pct">35%</span>
+                      <span class="gv-badge">3</span><span class="gv-pill">En curso</span>
+                    </div>
+                    <div class="gv-line"><span class="gv-badge">4</span>Todas las auditorías ahora se agendan con 8 días de anticipación</div>
+                    <div class="gv-line"><span class="gv-badge">5</span>Arrancó en julio, involucra a 3 turnos</div>
+                    <div class="gv-line"><span class="gv-badge">6</span>Falta aprobación de presupuesto</div>
+                    <div class="gv-line"><span class="gv-badge">7</span>Cerrar el piloto en STR1 en septiembre</div>
+                    <div style="margin-top:5px"><span class="gv-badge">8</span><span class="gv-btn">Ver reporte ↗</span></div>
+                  </div>
+                </div></div>
+              </div>
+              <div class="gv-legend">
+                <ol>
+                  <li><b>Título del proyecto</b><i>"Nombre del proyecto"</i></li>
+                  <li><b>Barra de avance</b><i>"Porcentaje de avance" (0–100%)</i></li>
+                  <li><b>Estado (color automático)</b><i>"Estado actual" (incluye "Implementado")</i></li>
+                  <li><b>Resumen corto</b><i>"Resumen corto (una línea)"</i></li>
+                  <li><b>Segunda línea, en gris</b><i>"Algo más de contexto" (opcional)</i></li>
+                  <li><b>Bloqueo / impedimento</b><i>"¿Hay algún bloqueo o impedimento?" (opcional)</i></li>
+                  <li><b>Siguiente paso</b><i>"¿Cuál es el siguiente paso?"</i></li>
+                  <li><b>Botón "Ver reporte"</b><i>"Enlace a más información" (opcional)</i></li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div class="gv-block">
+            <div class="gv-block-title">Resultados del Cierre / Posicionamiento en Auditorías (misma estructura en las 2)</div>
+            <div class="gv-body">
+              <div class="gv-mock">
+                <div class="gv-nl"><div class="gv-nl-inner">
+                  <div class="gv-sec"><span>02</span><b>Resultados del Cierre</b></div>
+                  <div class="gv-card">
+                    <div><span class="gv-badge">1</span><span class="gv-tag">Cierre Q3 Programas de Excelencia</span></div>
+                    <div class="gv-h3"><span class="gv-badge">2</span>México cerró Q3 con 91% de nota OE</div>
+                    <div class="gv-p"><span class="gv-badge">3</span>Se realizaron los cierres trimestrales con muy buenos resultados en las operaciones auditadas.</div>
+                    <div class="gv-hito"><b><span class="gv-badge">4</span>Se rompe un hito en MLM</b><span><span class="gv-badge">5</span>SCC1, primera operación Modelo con 93%</span></div>
+                    <div class="gv-met"><b><span class="gv-badge" style="background:#fff">6</span>53%</b><span><span class="gv-badge" style="background:#fff">7</span>% de operaciones clasificadas</span></div>
+                    <div class="gv-bul"><span class="gv-badge">8</span>22 de 24 operaciones Prioridad 2 cubiertas</div>
+                    <div class="gv-paso"><span style="color:#FFD001;font-weight:900">→</span><span class="gv-badge">9</span>Dar seguimiento al plan de acción</div>
+                    <div style="text-align:center;margin-top:8px"><div style="height:50px;background:#eee;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#999"><span class="gv-badge">10</span>&nbsp;imagen</div><div style="font:italic 400 9.5px/1.4 inherit;color:#888;margin-top:3px"><span class="gv-badge">11</span>Pie de foto</div></div>
+                    <div style="margin-top:6px"><span class="gv-badge">12</span><span class="gv-btn">Cierre Q3 2026</span></div>
+                    <div class="gv-nota"><span class="gv-badge">13</span>Nota al pie</div>
+                  </div>
+                </div></div>
+              </div>
+              <div class="gv-legend">
+                <ol>
+                  <li><b>Etiqueta arriba del título</b><i>"Palabra o frase corta que la resuma" (opcional)</i></li>
+                  <li><b>Título</b><i>"Título"</i></li>
+                  <li><b>Texto principal</b><i>"Cuéntanos el resultado del cierre / de la auditoría"</i></li>
+                  <li><b>Nombre corto del logro</b><i>"Logro 1/2 — nombre corto" (opcional, hasta 2)</i></li>
+                  <li><b>Detalle del logro</b><i>"Logro 1/2 — detalle" (opcional)</i></li>
+                  <li><b>Valor del dato</b><i>"Dato 1/2 — valor" (opcional, hasta 2)</i></li>
+                  <li><b>Qué mide ese dato</b><i>"Dato 1/2 — qué mide" (opcional)</i></li>
+                  <li><b>Puntos clave</b><i>"Punto clave 1, 2, 3" (opcional)</i></li>
+                  <li><b>Próximos pasos</b><i>"Próximo paso 1, 2" (opcional)</i></li>
+                  <li><b>Imagen</b><i>"Enlace a una imagen" (opcional)</i></li>
+                  <li><b>Pie de foto</b><i>"Descripción de la imagen" (opcional)</i></li>
+                  <li><b>Botón de acción</b><i>"Botón 1/2 — texto/enlace" (opcional)</i></li>
+                  <li><b>Nota al pie</b><i>"Nota al pie" (opcional)</i></li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div class="gv-block">
+            <div class="gv-block-title">Eventos del mes y Nuevos ingresos al equipo</div>
+            <div class="gv-body">
+              <div class="gv-mock">
+                <div class="gv-nl"><div class="gv-nl-inner">
+                  <div class="gv-sec"><span>03</span><b>Eventos del mes</b></div>
+                  <div class="gv-event">
+                    <div style="font:800 9px inherit;color:#111"><span class="gv-badge">1</span>15 Ago</div>
+                    <div style="font:700 11px inherit;color:#111;margin-top:2px"><span class="gv-badge">2</span>Kick off Auditoría OE Q3</div>
+                    <div style="font:400 10px inherit;color:#666;margin-top:2px"><span class="gv-badge">3</span>Arranque formal del ciclo de auditorías del trimestre.</div>
+                  </div>
+                  <div class="gv-sec"><span>04</span><b>Nuevos Ingresos al Equipo</b></div>
+                  <div class="gv-person">
+                    <div class="gv-avatar"></div>
+                    <div>
+                      <div style="font:800 11px inherit;color:#111"><span class="gv-badge">4</span>Nombre Apellido</div>
+                      <div style="font:400 9.5px inherit;color:#888;margin-top:2px"><span class="gv-badge">5</span>Supervisor Quality MRN</div>
+                      <div style="font:400 8.5px 'Courier New',monospace;color:#555;margin-top:2px"><span class="gv-badge">6</span>correo@mercadolibre.com.mx</div>
+                    </div>
+                  </div>
+                </div></div>
+              </div>
+              <div class="gv-legend">
+                <ol>
+                  <li><b>Fecha del evento</b><i>"Evento N: ¿Qué día es?"</i></li>
+                  <li><b>Nombre del evento</b><i>"Evento N: Nombre del evento"</i></li>
+                  <li><b>Descripción</b><i>"Evento N: Cuéntanos un poco más" (opcional)</i></li>
+                  <li><b>Nombre completo</b><i>"Persona N: Nombre completo"</i></li>
+                  <li><b>Puesto</b><i>"Persona N: Puesto"</i></li>
+                  <li><b>Correo</b><i>"Persona N: Correo" (@mercadolibre.com)</i></li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
   </div>
 
   <div class="footer">
@@ -340,5 +817,18 @@
   <div class="oe-contact">¿Dudas sobre el funcionamiento de la página, desarrollo UX o la comunidad de OE? Escríbele a <a href="mailto:larry.beresforddiaz@mercadolibre.com.mx">Larry Beresford Díaz</a>.</div>
 
 </div>
+<script>
+  function gvTab(name){
+    var map = { fm:'gvFm', svc:'gvSvc', quality:'gvQuality' };
+    var tabMap = { fm:'gvTabFm', svc:'gvTabSvc', quality:'gvTabQuality' };
+    Object.keys(map).forEach(function(k){
+      var panel = document.getElementById(map[k]);
+      var tab = document.getElementById(tabMap[k]);
+      if (!panel || !tab) return;
+      if (k === name) { panel.classList.add('active'); tab.classList.add('active'); }
+      else { panel.classList.remove('active'); tab.classList.remove('active'); }
+    });
+  }
+</script>
 </body>
 </html>
