@@ -979,9 +979,9 @@
           <div id="bvPanelReciente">
             <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
               <div class="routine-tabs" style="margin-bottom:0;">
-                <button class="routine-tab active" id="bvAreaFirstmile" onclick="boletinArea('firstmile')">🇲🇽 FM + XD + SC + TOM</button>
-                <button class="routine-tab" id="bvAreaServicecenter" onclick="boletinArea('servicecenter')">🇲🇽 SVC + Last Mile</button>
-                <button class="routine-tab" id="bvAreaQuality" onclick="boletinArea('quality')">🇲🇽 Quality</button>
+                <button class="routine-tab active" id="bvAreaFirstmile" onclick="boletinArea('firstmile')"><svg width="15" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;margin-right:4px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg> FM + XD + SC + TOM</button>
+                <button class="routine-tab" id="bvAreaServicecenter" onclick="boletinArea('servicecenter')"><svg width="15" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;margin-right:4px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg> SVC + Last Mile</button>
+                <button class="routine-tab" id="bvAreaQuality" onclick="boletinArea('quality')"><svg width="15" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;margin-right:4px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg> Quality</button>
               </div>
               <div class="list-item-date" id="bvMonthLabel" style="margin:0;">Julio 2026</div>
             </div>
@@ -1843,7 +1843,8 @@
   const BOLETINES_DRIVE_HISTORICO = 'https://drive.google.com/drive/folders/1YLbqPntXp914qiSoc9LcFi2XsxfcAsBh';
 
   const BOLETIN_AREA_IDS = ['firstmile', 'servicecenter', 'quality'];
-  const BOLETIN_AREA_LABELS = { firstmile: '🇲🇽 FM + XD + SC + TOM', servicecenter: '🇲🇽 SVC + Last Mile', quality: '🇲🇽 Quality' };
+  const MX_FLAG_SVG = '<svg width="15" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;margin-right:4px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg>';
+  const BOLETIN_AREA_LABELS = { firstmile: MX_FLAG_SVG + 'FM + XD + SC + TOM', servicecenter: MX_FLAG_SVG + 'SVC + Last Mile', quality: MX_FLAG_SVG + 'Quality' };
 
   // Cada elemento = un mes de boletines ya generados y copiados al repo.
   // El ULTIMO elemento del arreglo es el que se muestra en "Mas reciente";
