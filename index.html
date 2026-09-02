@@ -940,7 +940,7 @@
         </button>
       </div>
       <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 230px); min-height:600px;">
-        <iframe id="insightsFrameProyectos" src="management/Insights_Portafolio_MX.html" style="width:100%; height:100%; border:none; display:block;" title="Insights de Portafolio — Proyectos" onload="syncFrameLang('insightsFrameProyectos')"></iframe>
+        <iframe id="insightsFrameProyectos" data-src="management/Insights_Portafolio_MX.html" style="width:100%; height:100%; border:none; display:block;" title="Insights de Portafolio — Proyectos" onload="if (window.syncFrameLang) syncFrameLang('insightsFrameProyectos')"></iframe>
       </div>
     </div>
 
@@ -957,7 +957,7 @@
         </button>
       </div>
       <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 230px); min-height:600px;">
-        <iframe id="insightsFrameIndicadores" src="management/Insights_Portafolio_MX.html" style="width:100%; height:100%; border:none; display:block;" title="Insights de Portafolio — Indicadores" onload="syncFrameLang('insightsFrameIndicadores')"></iframe>
+        <iframe id="insightsFrameIndicadores" data-src="management/Insights_Portafolio_MX.html" style="width:100%; height:100%; border:none; display:block;" title="Insights de Portafolio — Indicadores" onload="if (window.syncFrameLang) syncFrameLang('insightsFrameIndicadores')"></iframe>
       </div>
     </div>
 
@@ -978,7 +978,7 @@
         <div class="learn-card">
           <div class="learn-card-title">Último BBR: BBR OE_W34</div>
           <div class="learn-card-sub">Entrega bisemanal de resultados del equipo.</div>
-          <div class="video-embed"><iframe src="https://docs.google.com/presentation/d/1PGCo3T6VIQ7K4v4dMJFWtSEq4ge_V8DR7qqNTpqDHWQ/preview" allowfullscreen title="BBR OE_W34"></iframe></div>
+          <div class="video-embed"><iframe data-src="https://docs.google.com/presentation/d/1PGCo3T6VIQ7K4v4dMJFWtSEq4ge_V8DR7qqNTpqDHWQ/preview" allowfullscreen title="BBR OE_W34"></iframe></div>
           <a href="https://docs.google.com/presentation/d/1PGCo3T6VIQ7K4v4dMJFWtSEq4ge_V8DR7qqNTpqDHWQ/edit" target="_blank" rel="noopener" class="i18n-link" style="font-size:11px;font-weight:700;color:var(--dark);text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:8px;">Ver presentación <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12" stroke="currentColor"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
         </div>
         <div class="tool-grid" style="grid-template-columns:1fr; margin-top:14px;">
@@ -994,7 +994,7 @@
         <div class="learn-card">
           <div class="learn-card-title">Último MBR: MBR - OE MLM - Julio 2026</div>
           <div class="learn-card-sub">Entrega mensual de resultados del equipo.</div>
-          <div class="video-embed"><iframe src="https://docs.google.com/presentation/d/1UnnD8n3CpZTQRXOzJRBbf3x9PeLRRhjF-56U0mv1fXE/preview" allowfullscreen title="MBR OE MLM Julio 2026"></iframe></div>
+          <div class="video-embed"><iframe data-src="https://docs.google.com/presentation/d/1UnnD8n3CpZTQRXOzJRBbf3x9PeLRRhjF-56U0mv1fXE/preview" allowfullscreen title="MBR OE MLM Julio 2026"></iframe></div>
           <a href="https://docs.google.com/presentation/d/1UnnD8n3CpZTQRXOzJRBbf3x9PeLRRhjF-56U0mv1fXE/edit" target="_blank" rel="noopener" class="i18n-link" style="font-size:11px;font-weight:700;color:var(--yellow-dark);text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:8px;">Ver en Drive <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12" stroke="currentColor"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
         </div>
         <div class="tool-grid" style="grid-template-columns:1fr; margin-top:14px;">
@@ -1027,7 +1027,7 @@
               <div class="list-item-date" id="bvMonthLabel" style="margin:0;">Julio 2026</div>
             </div>
             <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:520px;">
-              <iframe id="boletinPreviewFrame" src="boletines/2026-07/Boletin_FirstMile.html" style="width:100%; height:100%; border:none; display:block;" title="Vista previa del boletín más reciente"></iframe>
+              <iframe id="boletinPreviewFrame" style="width:100%; height:100%; border:none; display:block;" title="Vista previa del boletín más reciente"></iframe>
             </div>
             <div style="margin-top:10px; font-size:11.5px; color:#999;">¿No carga aquí? <a class="i18n-link" id="bvOpenFull" href="boletines/2026-07/Boletin_FirstMile.html" target="_blank" rel="noopener" style="color:#999;">Abrir el boletín completo ↗</a></div>
           </div>
@@ -1241,7 +1241,7 @@
         </button>
       </div>
       <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 230px); min-height:600px;">
-        <iframe id="slidesFrame" src="herramientas/generador_slide_ejecutivo.html" style="width:100%; height:100%; border:none; display:block;" title="Generador de Slide Ejecutivo" onload="syncFrameLang('slidesFrame')"></iframe>
+        <iframe id="slidesFrame" data-src="herramientas/generador_slide_ejecutivo.html" style="width:100%; height:100%; border:none; display:block;" title="Generador de Slide Ejecutivo" onload="if (window.syncFrameLang) syncFrameLang('slidesFrame')"></iframe>
       </div>
     </div>
 
@@ -1258,7 +1258,7 @@
         </button>
       </div>
       <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 160px); min-height:820px;">
-        <iframe id="boletinesGenFrame" src="https://oe-mlm-boletines.streamlit.app/?embed=true" style="width:100%; height:100%; border:none; display:block;" title="Generador de Boletines" allow="fullscreen" allowfullscreen></iframe>
+        <iframe id="boletinesGenFrame" data-src="https://oe-mlm-boletines.streamlit.app/?embed=true" style="width:100%; height:100%; border:none; display:block;" title="Generador de Boletines" allow="fullscreen" allowfullscreen></iframe>
       </div>
       <div style="margin-top:10px; font-size:11.5px; color:#999;">¿No carga aquí? <a class="i18n-link" href="https://oe-mlm-boletines.streamlit.app/" target="_blank" rel="noopener" style="color:#999;">Ábrelo en una pestaña nueva ↗</a></div>
     </div>
@@ -1325,7 +1325,7 @@
           </div>
         </div>
         <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:600px; margin-top:14px;">
-          <iframe src="playbooks/Playbook_Supervisores_NL.html" style="width:100%; height:100%; border:none; display:block;" title="Vista previa — Playbook del proceso NL"></iframe>
+          <iframe data-src="playbooks/Playbook_Supervisores_NL.html" style="width:100%; height:100%; border:none; display:block;" title="Vista previa — Playbook del proceso NL"></iframe>
         </div>
       </div>
 
@@ -1342,7 +1342,7 @@
       <div class="routine-panel learn-panel" id="learnpanel-glosario">
         <div class="learn-panel-link"><a class="i18n-link" href="aprendizaje/Glosario_OE.html" target="_blank" rel="noopener">Abrir página completa ↗</a></div>
         <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:520px;">
-          <iframe src="aprendizaje/Glosario_OE.html" style="width:100%; height:100%; border:none; display:block;" title="Vista previa — Glosario OE"></iframe>
+          <iframe data-src="aprendizaje/Glosario_OE.html" style="width:100%; height:100%; border:none; display:block;" title="Vista previa — Glosario OE"></iframe>
         </div>
       </div>
 
@@ -1661,31 +1661,31 @@
           <div class="learn-card">
             <div class="learn-card-title">Crear proyecto local</div>
             <div class="learn-card-sub">Tutorial grabado por Mónica Gallardo.</div>
-            <div class="video-embed"><iframe src="https://drive.google.com/file/d/11T94kKnn95YRffXqMpxRA24OfC1ZnrcJ/preview" allow="autoplay" allowfullscreen title="Crear proyecto local"></iframe></div>
+            <div class="video-embed"><iframe data-src="https://drive.google.com/file/d/11T94kKnn95YRffXqMpxRA24OfC1ZnrcJ/preview" allow="autoplay" allowfullscreen title="Crear proyecto local"></iframe></div>
             <a href="https://drive.google.com/file/d/11T94kKnn95YRffXqMpxRA24OfC1ZnrcJ/view" target="_blank" rel="noopener" class="i18n-link" style="font-size:11px;font-weight:700;color:var(--yellow-dark);text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:8px;">Ver en Drive <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12" stroke="currentColor"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
           </div>
           <div class="learn-card">
             <div class="learn-card-title">Actualización de actividades quincenal</div>
             <div class="learn-card-sub">Tutorial grabado por Mónica Gallardo.</div>
-            <div class="video-embed"><iframe src="https://drive.google.com/file/d/1obafXqUbSViOSj2SfjtgVXxGQiwA_E2M/preview" allow="autoplay" allowfullscreen title="Actualización de actividades quincenal"></iframe></div>
+            <div class="video-embed"><iframe data-src="https://drive.google.com/file/d/1obafXqUbSViOSj2SfjtgVXxGQiwA_E2M/preview" allow="autoplay" allowfullscreen title="Actualización de actividades quincenal"></iframe></div>
             <a href="https://drive.google.com/file/d/1obafXqUbSViOSj2SfjtgVXxGQiwA_E2M/view" target="_blank" rel="noopener" class="i18n-link" style="font-size:11px;font-weight:700;color:var(--yellow-dark);text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:8px;">Ver en Drive <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12" stroke="currentColor"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
           </div>
           <div class="learn-card">
             <div class="learn-card-title">Actualización de proyectos regionales</div>
             <div class="learn-card-sub">Tutorial grabado por Mónica Gallardo.</div>
-            <div class="video-embed"><iframe src="https://drive.google.com/file/d/1L27IinH30rMjqGDLU3QfLmzlgtjXF678/preview" allow="autoplay" allowfullscreen title="Actualización de proyectos regionales"></iframe></div>
+            <div class="video-embed"><iframe data-src="https://drive.google.com/file/d/1L27IinH30rMjqGDLU3QfLmzlgtjXF678/preview" allow="autoplay" allowfullscreen title="Actualización de proyectos regionales"></iframe></div>
             <a href="https://drive.google.com/file/d/1L27IinH30rMjqGDLU3QfLmzlgtjXF678/view" target="_blank" rel="noopener" class="i18n-link" style="font-size:11px;font-weight:700;color:var(--yellow-dark);text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:8px;">Ver en Drive <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12" stroke="currentColor"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
           </div>
           <div class="learn-card">
             <div class="learn-card-title">Proyectos Locales</div>
             <div class="learn-card-sub">Tutorial grabado por Mónica Gallardo.</div>
-            <div class="video-embed"><iframe src="https://drive.google.com/file/d/1UreCt_rN8vH4XLpq3J4leP0yR9X19yDe/preview" allow="autoplay" allowfullscreen title="Proyectos Locales"></iframe></div>
+            <div class="video-embed"><iframe data-src="https://drive.google.com/file/d/1UreCt_rN8vH4XLpq3J4leP0yR9X19yDe/preview" allow="autoplay" allowfullscreen title="Proyectos Locales"></iframe></div>
             <a href="https://drive.google.com/file/d/1UreCt_rN8vH4XLpq3J4leP0yR9X19yDe/view" target="_blank" rel="noopener" class="i18n-link" style="font-size:11px;font-weight:700;color:var(--yellow-dark);text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:8px;">Ver en Drive <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12" stroke="currentColor"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
           </div>
           <div class="learn-card">
             <div class="learn-card-title">Generar Proyecto Local</div>
             <div class="learn-card-sub">Tutorial grabado por Mónica Gallardo.</div>
-            <div class="video-embed"><iframe src="https://drive.google.com/file/d/1hu7brObMM93f8SoDqmtr7ogv4Fx4hFjA/preview" allow="autoplay" allowfullscreen title="Generar Proyecto Local"></iframe></div>
+            <div class="video-embed"><iframe data-src="https://drive.google.com/file/d/1hu7brObMM93f8SoDqmtr7ogv4Fx4hFjA/preview" allow="autoplay" allowfullscreen title="Generar Proyecto Local"></iframe></div>
             <a href="https://drive.google.com/file/d/1hu7brObMM93f8SoDqmtr7ogv4Fx4hFjA/view" target="_blank" rel="noopener" class="i18n-link" style="font-size:11px;font-weight:700;color:var(--yellow-dark);text-decoration:none;display:flex;align-items:center;gap:5px;margin-top:8px;">Ver en Drive <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12" stroke="currentColor"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
           </div>
         </div>
@@ -1840,10 +1840,42 @@
     return (l === 'en' || l === 'pt') ? l : 'es';
   }
 
+  // 02-sep-2026: el equipo probo el Hub en 3 computadoras distintas, dando clic
+  // rapido a muchos botones/opciones seguidos, y la pagina se trababa. Causa: 14
+  // iframes (incluyendo la app de Streamlit en vivo, 2 Slides, 5 videos de Drive,
+  // etc.) cargaban TODOS de una vez al abrir el Hub, sin importar si esa pagina/
+  // pestana estaba visible, y nunca se destruian. lazyLoadIframe() los carga
+  // solo la primera vez que su contenedor se hace visible (via data-src -> src).
+  function lazyLoadIframe(container) {
+    if (!container) return;
+    container.querySelectorAll('iframe[data-src]').forEach(function (f) {
+      f.src = f.getAttribute('data-src');
+      f.removeAttribute('data-src');
+    });
+  }
+
   function go(pageId, btn) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const el = document.getElementById('page-' + pageId);
     if (el) el.classList.add('active');
+
+    // Paginas sin sub-pestanas: su unico iframe vive directo dentro de .page,
+    // asi que se puede cargar apenas la pagina se activa.
+    if (el && (pageId === 'proyectos' || pageId === 'indicadores' || pageId === 'slides' || pageId === 'boletinesgen')) {
+      lazyLoadIframe(el);
+    }
+    // Rutinas/Aprendizaje tienen sub-pestanas (routine-panel/learn-panel) que se
+    // activan con routineTab()/learnTab() -- pero el panel activo por DEFECTO
+    // (routine-bbr, learnpanel-playbooks) nunca pasa por esas funciones la
+    // primera vez que se visita la pagina, asi que se carga aqui explicitamente.
+    if (pageId === 'rutinas') {
+      const activePanel = document.querySelector('#page-rutinas .routine-panel.active');
+      lazyLoadIframe(activePanel);
+      if (activePanel && activePanel.id === 'routine-nl' && typeof renderBoletinReciente === 'function') renderBoletinReciente();
+    }
+    if (pageId === 'aprendizaje') {
+      lazyLoadIframe(document.querySelector('#page-aprendizaje .learn-panel.active'));
+    }
 
     document.querySelectorAll('.nav-direct, .nav-sub-item').forEach(b => b.classList.remove('active'));
     if (btn) { btn.classList.add('active'); }
@@ -1869,7 +1901,10 @@
     document.querySelectorAll('.routine-tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.routine-panel').forEach(p => p.classList.remove('active'));
     document.getElementById('tab-' + which).classList.add('active');
-    document.getElementById('routine-' + which).classList.add('active');
+    const panel = document.getElementById('routine-' + which);
+    panel.classList.add('active');
+    lazyLoadIframe(panel);
+    if (which === 'nl' && typeof renderBoletinReciente === 'function') renderBoletinReciente();
   }
 
   const BOLETINES_DRIVE_HISTORICO = 'https://drive.google.com/drive/folders/1YLbqPntXp914qiSoc9LcFi2XsxfcAsBh';
@@ -1972,8 +2007,21 @@
   }
 
   function refreshBoletines() {
-    renderBoletinReciente();
     renderBoletinHistorico();
+    // El iframe de "Mas reciente" carga un boletin HTML entero -- pesado para
+    // hacerlo de arranque en cada carga de pagina/cambio de idioma si el
+    // usuario ni siquiera esta viendo esa pestana. Solo se refresca de verdad
+    // si el panel Newsletter ya esta activo; si no, se actualiza nomas el
+    // texto del mes (barato) y el iframe se carga solo cuando el usuario
+    // entra a esa pestana (ver routineTab()/go()).
+    const nlPanel = document.getElementById('routine-nl');
+    if (nlPanel && nlPanel.classList.contains('active')) {
+      renderBoletinReciente();
+    } else {
+      const month = latestBoletinMonth();
+      const lbl = document.getElementById('bvMonthLabel');
+      if (lbl && month) lbl.textContent = monthLabelFor(month);
+    }
   }
 
   function boletinesView(which) {
@@ -2000,7 +2048,9 @@
     document.querySelectorAll('.learn-tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.learn-panel').forEach(p => p.classList.remove('active'));
     document.getElementById('learntab-' + which).classList.add('active');
-    document.getElementById('learnpanel-' + which).classList.add('active');
+    const panel = document.getElementById('learnpanel-' + which);
+    panel.classList.add('active');
+    lazyLoadIframe(panel);
   }
 
   // 01-sep-2026: antes usaba iframe.requestFullscreen() (API nativa). Se
