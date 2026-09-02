@@ -858,7 +858,7 @@
       <div class="tool-grid wide">
         <a class="tool-card wide" href="#" onclick="go('boletinesgen', document.getElementById('navBoletinesGen')); openGroupFor('navManagement'); return false;">
           <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a1 1 0 0 1 1-1h9l6 6v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/><path d="M14 4v5a1 1 0 0 0 1 1h5"/></svg></div>
-          <div class="tool-card-text"><div class="tool-card-title">Generador de Boletines</div><div class="tool-card-sub">App de Streamlit que arma los 3 newsletters a partir de los Excel/Sheets.</div></div>
+          <div class="tool-card-text"><div class="tool-card-title">Generador de Boletines</div><div class="tool-card-sub">App de Streamlit que arma los 4 newsletters a partir de los Excel/Sheets.</div></div>
           <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
         </a>
         <a class="tool-card wide" href="playbooks/Playbook_Supervisores_NL.html" target="_blank" rel="noopener">
@@ -1040,7 +1040,7 @@
         <div class="tool-grid wide" style="margin-top:16px">
           <a class="tool-card wide" href="#" onclick="go('boletinesgen', document.getElementById('navBoletinesGen')); openGroupFor('navManagement'); return false;">
             <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a1 1 0 0 1 1-1h9l6 6v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/><path d="M14 4v5a1 1 0 0 0 1 1h5"/></svg></div>
-            <div class="tool-card-text"><div class="tool-card-title">Generador de Boletines</div><div class="tool-card-sub">App de Streamlit que arma los 3 newsletters a partir de los Excel/Sheets.</div></div>
+            <div class="tool-card-text"><div class="tool-card-title">Generador de Boletines</div><div class="tool-card-sub">App de Streamlit que arma los 4 newsletters a partir de los Excel/Sheets.</div></div>
             <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
           </a>
         </div>
@@ -1249,7 +1249,7 @@
       <div class="page-header">
         <div class="page-eyebrow">Gestión <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
         <div class="page-title">Generador de Boletines <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
-        <div class="page-desc">App de Streamlit que arma los 3 newsletters (FM+XD+TOM, SVC, Quality) a partir de los Excel/Sheets del equipo.</div>
+        <div class="page-desc">App de Streamlit que arma los 4 newsletters (FM+XD+TOM, SVC, Quality, Management) a partir de los Excel/Sheets del equipo.</div>
       </div>
       <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
         <button onclick="fullscreenIframe('boletinesGenFrame')" aria-label="Ver en pantalla completa" style="display:flex; align-items:center; gap:6px; background:var(--dark); color:var(--white); border:none; border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:inherit;">
@@ -1735,7 +1735,7 @@
     { label: 'Gestión · Indicadores', hint: '% de avance, riesgo, resultados PET', go: function () { go('indicadores', null); openGroupFor('navManagement'); } },
     { label: 'Gestión · Iniciativas', hint: 'Iniciativas del equipo', go: function () { go('management', null); openGroupFor('navManagement'); } },
     { label: 'Gestión · Generador de Slides', hint: 'Slide de status ejecutivo para juntas', go: function () { go('slides', document.getElementById('navSlides')); openGroupFor('navManagement'); } },
-    { label: 'Gestión · Generador de Boletines', hint: 'App de Streamlit para armar los 3 newsletters', go: function () { go('boletinesgen', document.getElementById('navBoletinesGen')); openGroupFor('navManagement'); } },
+    { label: 'Gestión · Generador de Boletines', hint: 'App de Streamlit para armar los 4 newsletters', go: function () { go('boletinesgen', document.getElementById('navBoletinesGen')); openGroupFor('navManagement'); } },
     { label: 'Rutinas · BBR', hint: 'Entrega bisemanal de resultados', go: function () { go('rutinas', null); openGroupFor('navRutinas'); routineTab('bbr'); } },
     { label: 'Rutinas · MBR', hint: 'Entrega mensual de resultados', go: function () { go('rutinas', null); openGroupFor('navRutinas'); routineTab('mbr'); } },
     { label: 'Rutinas · Newsletter', hint: 'Boletin mensual de OE', go: function () { go('rutinas', null); openGroupFor('navRutinas'); routineTab('nl'); } },
@@ -2235,7 +2235,7 @@
     // Herramientas de equipo
     'Herramientas de equipo':'Team tools',
     'Generador de Boletines':'Newsletter Generator',
-    'App de Streamlit que arma los 3 newsletters a partir de los Excel/Sheets.':'Streamlit app that builds the 3 newsletters from the Excel/Sheets.',
+    'App de Streamlit que arma los 4 newsletters a partir de los Excel/Sheets.':'Streamlit app that builds the 4 newsletters from the Excel/Sheets.',
     'Playbooks (Admin / Supervisores)':'Playbooks (Admin / Supervisors)',
     'Guías paso a paso para llenar el Form y para correr el proceso mensual.':'Step-by-step guides for filling out the Form and running the monthly process.',
     'Grids clasificados':'Classified Grids',
@@ -2318,7 +2318,7 @@
 
     // Slides
     'Arma el slide de status de un proyecto Lean (KPIs con tendencia, fases, obstáculos, decisión requerida) y expórtalo listo para la junta.':'Builds the status slide for a Lean project (KPIs with trend, phases, obstacles, decision required) and exports it ready for the meeting.',
-    'App de Streamlit que arma los 3 newsletters (FM+XD+TOM, SVC, Quality) a partir de los Excel/Sheets del equipo.':'Streamlit app that builds the 3 newsletters (FM+XD+TOM, SVC, Quality) from the team\'s Excel/Sheets.',
+    'App de Streamlit que arma los 4 newsletters (FM+XD+TOM, SVC, Quality, Management) a partir de los Excel/Sheets del equipo.':'Streamlit app that builds the 4 newsletters (FM+XD+TOM, SVC, Quality, Management) from the team\'s Excel/Sheets.',
     'Ábrelo en una pestaña nueva ↗':'Open it in a new tab ↗',
 
     // Aprendizaje Continuo
@@ -2422,7 +2422,7 @@
     '% de avance, riesgo, resultados PET':'% progress, risk, PET results',
     'Iniciativas del equipo':'Team initiatives',
     'Slide de status ejecutivo para juntas':'Executive status slide for meetings',
-    'App de Streamlit para armar los 3 newsletters':'Streamlit app to build the 3 newsletters',
+    'App de Streamlit para armar los 4 newsletters':'Streamlit app to build the 4 newsletters',
     'Entrega bisemanal de resultados':'Biweekly results review',
     'Entrega mensual de resultados':'Monthly results review',
     'Boletin mensual de OE':'Monthly OE newsletter',
@@ -2522,7 +2522,7 @@
     // Herramientas de equipo
     'Herramientas de equipo':'Ferramentas da equipe',
     'Generador de Boletines':'Gerador de Boletins',
-    'App de Streamlit que arma los 3 newsletters a partir de los Excel/Sheets.':'App de Streamlit que monta os 3 newsletters a partir dos Excel/Sheets.',
+    'App de Streamlit que arma los 4 newsletters a partir de los Excel/Sheets.':'App de Streamlit que monta os 4 newsletters a partir dos Excel/Sheets.',
     'Playbooks (Admin / Supervisores)':'Playbooks (Admin / Supervisores)',
     'Guías paso a paso para llenar el Form y para correr el proceso mensual.':'Guias passo a passo para preencher o Form e para rodar o processo mensal.',
     'Grids clasificados':'Grids classificados',
@@ -2605,7 +2605,7 @@
 
     // Slides
     'Arma el slide de status de un proyecto Lean (KPIs con tendencia, fases, obstáculos, decisión requerida) y expórtalo listo para la junta.':'Monta o slide de status de um projeto Lean (KPIs com tendência, fases, obstáculos, decisão necessária) e exporta pronto para a reunião.',
-    'App de Streamlit que arma los 3 newsletters (FM+XD+TOM, SVC, Quality) a partir de los Excel/Sheets del equipo.':'App de Streamlit que monta os 3 newsletters (FM+XD+TOM, SVC, Quality) a partir dos Excel/Sheets da equipe.',
+    'App de Streamlit que arma los 4 newsletters (FM+XD+TOM, SVC, Quality, Management) a partir de los Excel/Sheets del equipo.':'App de Streamlit que monta os 4 newsletters (FM+XD+TOM, SVC, Quality, Management) a partir dos Excel/Sheets da equipe.',
     'Ábrelo en una pestaña nueva ↗':'Abra em uma nova aba ↗',
 
     // Aprendizaje Continuo
@@ -2709,7 +2709,7 @@
     '% de avance, riesgo, resultados PET':'% de avanço, risco, resultados PET',
     'Iniciativas del equipo':'Iniciativas da equipe',
     'Slide de status ejecutivo para juntas':'Slide de status executivo para reuniões',
-    'App de Streamlit para armar los 3 newsletters':'App de Streamlit para montar os 3 newsletters',
+    'App de Streamlit para armar los 4 newsletters':'App de Streamlit para montar os 4 newsletters',
     'Entrega bisemanal de resultados':'Entrega quinzenal de resultados',
     'Entrega mensual de resultados':'Entrega mensal de resultados',
     'Boletin mensual de OE':'Boletim mensal de OE',
