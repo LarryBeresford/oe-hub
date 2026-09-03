@@ -2,7 +2,7 @@
 
 Sitio de portafolio e indicadores de Excelencia Operacional (OE) MercadoLibre MX,
 pensado para desplegarse como sitio estático en **Vercel**. Alcance exclusivo de
-OE (First Mile, Service Center, Quality) — no incluye Transporte, TOM ni Control Tower.
+OE (FM + XD + SC + TOM, SVC + Last Mile, Quality) — no incluye Transporte ni Control Tower.
 
 Este es un repositorio **separado** de `motor-oe` (la app de Streamlit que genera
 los boletines mensuales). El hub y el generador de boletines son proyectos
@@ -14,7 +14,7 @@ independientes que conviven en el mismo equipo.
 - [x] Arquitectura de secciones: Inicio, Proyectos, Boletines, Directorio, Indicadores.
 - [x] Directorio poblado con el equipo real de OE.
 - [x] Repositorio en GitHub + despliegue en Vercel (https://oe-hub-mu.vercel.app/).
-- [x] Boletines: los 3 newsletters de julio 2026 (First Mile, Service Center, Quality) enlazados desde `boletines/2026-07/`. Para agregar un mes nuevo: copiar los 3 HTML del motor a una carpeta `boletines/AAAA-MM/` y agregar sus tarjetas en la página Boletines de `index.html`.
+- [x] Boletines: los 3 newsletters de julio 2026 (FM + XD + SC + TOM, SVC + Last Mile, Quality) enlazados desde `boletines/2026-07/`. Para agregar un mes nuevo: copiar los 3 HTML del motor a una carpeta `boletines/AAAA-MM/` y agregar sus tarjetas en la página Boletines de `index.html`.
 - [ ] Proyectos: pendiente de la tabla de portafolio (ver `Propuesta_Datos_Indicadores_OE_Hub.docx`).
 - [ ] Indicadores: placeholder "en construcción" — se conecta en el Sprint 3.
 
