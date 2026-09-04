@@ -420,6 +420,12 @@
     padding:14px 12px; text-align:center; margin-bottom:10px;
   }
   .org-avatar { width:48px; height:48px; border-radius:50%; object-fit:cover; border:2px solid var(--yellow); margin:0 auto 8px; display:block; }
+  .org-avatar-placeholder {
+    width:48px; height:48px; border-radius:50%; background:var(--white); border:2px dashed var(--yellow-dark);
+    margin:0 auto 8px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; color:var(--yellow-dark);
+  }
+  .org-member.vacante { border-style:dashed; border-color:var(--yellow-dark); }
+  .org-member.vacante .org-name { color:var(--yellow-dark); }
   .org-name { font-size:12.5px; font-weight:700; color:var(--dark); }
   .org-role { font-size:10.5px; color:#999; margin-top:2px; }
   .org-mail { margin-top:6px; }
@@ -1107,11 +1113,13 @@
         </div>
         <div class="org-col">
           <div class="org-col-label">Quality</div>
+          <div class="org-member vacante"><div class="org-avatar-placeholder">?</div><div class="org-name">TBH</div><div class="org-role">To be hire · Manager</div></div>
           <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/dCfmGI5.jpeg" alt="Foto de Laura Chávez, Supervisor"/><div class="org-name">Laura Chávez</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:laura.chavezdiaz@mercadolibre.com.mx">laura.chavezdiaz@mercadolibre.com.mx</a></div></div>
           <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/NHcV4RN.jpg" alt="Foto de Juan Carlos García, Supervisor"/><div class="org-name">Juan Carlos García</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:garcia.gjuan@mercadolibre.com.mx">garcia.gjuan@mercadolibre.com.mx</a></div></div>
         </div>
         <div class="org-col">
           <div class="org-col-label">Management</div>
+          <div class="org-member vacante"><div class="org-avatar-placeholder">?</div><div class="org-name">TBH</div><div class="org-role">To be hire · Manager</div></div>
           <div class="org-member"><img class="org-avatar" src="https://i.imgur.com/nE4Yfj6.jpg" alt="Foto de Ricardo Almanza, Supervisor"/><div class="org-name">Ricardo Almanza</div><div class="org-role">Supervisor</div><div class="org-mail"><a href="mailto:carlosricardo.almanzaloo@mercadolibre.com.mx">carlosricardo.almanzaloo@mercadolibre.com.mx</a></div></div>
         </div>
       </div>
