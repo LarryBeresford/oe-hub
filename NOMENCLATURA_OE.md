@@ -8,7 +8,7 @@ de correos, presentaciones, etc. No usar los nombres completos por separado
 - **FM + XD + SC + TOM**
 - **SVC + Last Mile**
 - **Quality**
-- **Management**
+- **Gestión**
 
 Nota: lo ya enviado/publicado antes de esta fecha (boletines históricos de
 julio, Forms en vivo de Apps Script) se deja como está — Larry decidió no
