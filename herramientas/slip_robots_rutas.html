@@ -5,38 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Slip Robots — LH Ground</title>
 <link rel="icon" type="image/svg+xml" href="../media/favicon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="lib/chart.umd.js"></script>
 <script src="lib/xlsx.full.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;background:#ffffff;color:#1e293b}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#ffffff;color:#1e293b}
 
 /* HEADER */
 .hdr{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;
-  border-bottom:2px solid rgba(0,0,0,.15);background:#FFE600;flex-shrink:0}
+  border-bottom:2px solid rgba(0,0,0,.15);background:#FFD001;flex-shrink:0}
 .hdr-l{display:flex;align-items:center;gap:13px}
-.logo{background:#000;color:#FFE600;font-weight:900;font-size:10.5px;padding:5px 9px;border-radius:5px;letter-spacing:1.5px}
-.hdr-title{font-size:14px;font-weight:700;letter-spacing:-.2px;color:#000}
+.logo{background:#1A1A1A;color:#FFD001;font-weight:900;font-size:10.5px;padding:5px 9px;border-radius:5px;letter-spacing:1.5px}
+.hdr-title{font-size:14px;font-weight:700;letter-spacing:-.2px;color:#1A1A1A}
 .hdr-sub{font-size:9.5px;color:#333;margin-top:1px;letter-spacing:.3px;text-transform:uppercase}
 .hdr-updated{font-size:9px;color:#888;margin-top:3px;letter-spacing:.2px}
 .hdr-r{display:flex;align-items:center;gap:18px}
 .hdr-stat{text-align:right}
-.hdr-stat-v{font-size:17px;font-weight:800;line-height:1;color:#000}
+.hdr-stat-v{font-size:17px;font-weight:800;line-height:1;color:#1A1A1A}
 .hdr-stat-l{font-size:8.5px;color:#333;text-transform:uppercase;letter-spacing:.5px;margin-top:1px;font-weight:600}
 .hdiv{width:1px;height:26px;background:rgba(0,0,0,.3)}
 
 /* TABS */
 .tabbar{height:36px;display:flex;align-items:center;padding:0 22px;gap:4px;
-  border-bottom:2px solid #e2e8f0;background:#f8fafc;flex-shrink:0}
+  border-bottom:2px solid #E2E2E2;background:#FAFAFA;flex-shrink:0}
 .tab{padding:5px 15px;border-radius:20px;font-size:10px;font-weight:700;cursor:pointer;
-  color:#000;background:transparent;border:1.5px solid rgba(0,0,0,.25);transition:all .15s;letter-spacing:.2px;font-family:'Inter',sans-serif}
-.tab.on{background:#000;color:#FFE600;border-color:#000;font-weight:800}
-.tab:hover:not(.on){color:#000;background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.1)}
+  color:#1A1A1A;background:transparent;border:1.5px solid rgba(0,0,0,.25);transition:all .15s;letter-spacing:.2px;font-family:'Segoe UI',sans-serif}
+.tab.on{background:#1A1A1A;color:#FFD001;border-color:#1A1A1A;font-weight:800}
+.tab:hover:not(.on){color:#1A1A1A;background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.1)}
 
 /* PANELS */
-.panel-wrap{height:calc(100vh - 88px);overflow-y:auto;background:#eef2f7;padding:12px 14px;display:none}
+.panel-wrap{height:calc(100vh - 88px);overflow-y:auto;background:#F5F5F5;padding:12px 14px;display:none}
 .panel-wrap.on{display:block}
 .panel-wrap::-webkit-scrollbar{width:4px}
 .panel-wrap::-webkit-scrollbar-thumb{background:rgba(0,0,0,.12);border-radius:2px}
@@ -51,10 +49,10 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
 
 /* CARD */
 .card{background:#ffffff;border-radius:12px;box-shadow:0 1px 6px rgba(0,0,0,.07);border:1px solid #e8edf3;overflow:hidden}
-.card-hdr{padding:10px 14px 8px;border-bottom:1px solid #eef2f7;background:#f8fafc;
+.card-hdr{padding:10px 14px 8px;border-bottom:1px solid #F5F5F5;background:#FAFAFA;
   display:flex;align-items:center;justify-content:space-between;border-radius:12px 12px 0 0}
 .card-title{font-size:10px;font-weight:700;color:#1e293b;text-transform:uppercase;letter-spacing:.8px}
-.card-badge{font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;background:#1e293b;color:#FFE600;white-space:nowrap}
+.card-badge{font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;background:#1e293b;color:#FFD001;white-space:nowrap}
 .card-body{padding:14px}
 
 /* KPI STRIP */
@@ -85,7 +83,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
 /* TABLE */
 .tbl{width:100%;border-collapse:collapse;font-size:10.5px}
 .tbl th{padding:8px 11px;text-align:left;font-size:8.5px;font-weight:700;color:#475569;
-  text-transform:uppercase;letter-spacing:.6px;background:#f8fafc;border-bottom:1px solid #eef2f7;white-space:nowrap}
+  text-transform:uppercase;letter-spacing:.6px;background:#FAFAFA;border-bottom:1px solid #F5F5F5;white-space:nowrap}
 .tbl td{padding:8px 11px;border-bottom:1px solid #f1f5f9;color:#1e293b;font-weight:500}
 .tbl tr:last-child td{border-bottom:none}
 .tbl tr:hover td{background:#fafbff}
@@ -98,7 +96,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
 .sv-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:10px}
 .sv-name{font-size:12px;font-weight:800;color:#1e293b}
 .sv-desc{font-size:8.5px;color:#475569;margin-top:2px;line-height:1.4}
-.sv-w{font-size:18px;font-weight:900;color:#FFE600;background:#000;border-radius:8px;
+.sv-w{font-size:18px;font-weight:900;color:#FFD001;background:#1A1A1A;border-radius:8px;
   padding:3px 12px;white-space:nowrap;flex-shrink:0}
 .sv-thrs{display:flex;gap:6px}
 .sv-thr{flex:1;text-align:center;padding:9px 6px;border-radius:8px;border:1.5px solid}
@@ -111,7 +109,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
 .bar-f{height:100%;border-radius:3px;transition:width .3s}
 
 /* IMPACT BLOCK */
-.impact{background:#f8fafc;border-radius:10px;padding:13px 15px;border:1px solid #e8edf3}
+.impact{background:#FAFAFA;border-radius:10px;padding:13px 15px;border:1px solid #e8edf3}
 .impact-v{font-size:26px;font-weight:900;line-height:1;margin-bottom:3px}
 .impact-l{font-size:8.5px;color:#475569;text-transform:uppercase;letter-spacing:.6px;font-weight:700;margin-bottom:4px}
 .impact-sub{font-size:9px;color:#94a3b8}
@@ -123,14 +121,14 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
 .stat-val{font-size:14px;font-weight:800;color:#1e293b}
 
 /* PILOT BANNER */
-.pilot-banner{background:linear-gradient(135deg,#000 0%,#1e293b 100%);border-radius:12px;
+.pilot-banner{background:linear-gradient(135deg,#1A1A1A 0%,#1e293b 100%);border-radius:12px;
   padding:16px 20px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
-.pilot-tag{font-size:8px;font-weight:700;background:#FFE600;color:#000;padding:2px 8px;border-radius:6px;
+.pilot-tag{font-size:8px;font-weight:700;background:#FFD001;color:#1A1A1A;padding:2px 8px;border-radius:6px;
   text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;display:inline-block}
 .pilot-title{font-size:15px;font-weight:900;color:#ffffff;letter-spacing:-.3px}
 .pilot-sub{font-size:9px;color:#94a3b8;margin-top:3px}
 .pilot-stat{text-align:right}
-.pilot-stat-v{font-size:22px;font-weight:900;color:#FFE600;line-height:1}
+.pilot-stat-v{font-size:22px;font-weight:900;color:#FFD001;line-height:1}
 .pilot-stat-l{font-size:8px;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
 
 /* LOAD / ERROR STATE */
@@ -388,7 +386,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
           <div class="card-title">Fórmula de Scoring</div>
         </div>
         <div class="card-body">
-          <div style="background:#f8fafc;border-radius:10px;padding:16px;border:1px solid #e8edf3;
+          <div style="background:#FAFAFA;border-radius:10px;padding:16px;border:1px solid #e8edf3;
             font-size:13px;font-weight:800;color:#1e293b;text-align:center;letter-spacing:-.2px;line-height:1.6">
             Score = (V1 × 0.35) + (V2 × 0.45) + (V3 × 0.20)
           </div>
@@ -414,7 +412,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
               <div style="display:flex;justify-content:space-between;font-size:9px;font-weight:700;color:#475569;margin-bottom:4px">
                 <span>V2 · Frecuencia</span><span style="color:#1e293b">45%</span>
               </div>
-              <div class="bar-t"><div class="bar-f" style="width:45%;background:#FFE600;border:1px solid #d4b800"></div></div>
+              <div class="bar-t"><div class="bar-f" style="width:45%;background:#FFD001;border:1px solid #d4b800"></div></div>
             </div>
             <div>
               <div style="display:flex;justify-content:space-between;font-size:9px;font-weight:700;color:#475569;margin-bottom:4px">
@@ -448,7 +446,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
 // reemplázalo en esta carpeta y haz push. No hace falta tocar este HTML.
 var DATA_FILE = 'data/sliprobots/slip_robots_datos.xlsx';
 
-var DEF_FONT = {family:'Inter', size:10, weight:'600'};
+var DEF_FONT = {family:'Segoe UI', size:10, weight:'600'};
 var D = {}; // datos parseados
 
 function sheetToRows(wb, name){
@@ -566,7 +564,7 @@ function render(){
       '<div class="impact-v" style="color:#3b82f6">'+(r.viajes_incremento_pct||'')+'</div>'+
       '<div class="impact-sub">'+(r.viajes_detalle||'')+'</div></div>'+
     '<div class="impact"><div class="impact-l">Cobertura Roadmap MWH</div>'+
-      '<div class="impact-v" style="color:#000">'+toNum(r.cobertura_roadmap_pct).toFixed(2)+'%</div>'+
+      '<div class="impact-v" style="color:#1A1A1A">'+toNum(r.cobertura_roadmap_pct).toFixed(2)+'%</div>'+
       '<div class="impact-sub">'+(r.cobertura_roadmap_detalle||'')+'</div></div>';
 
   // Benchmarks
@@ -643,7 +641,7 @@ function renderCharts(){
       scales:{
         y:{beginAtZero:true,grid:{color:'rgba(0,0,0,.05)'},
           ticks:{callback:function(v){return v+'%';},font:DEF_FONT}},
-        x:{grid:{display:false},ticks:{font:{family:'Inter',size:9.5,weight:'700'}}}
+        x:{grid:{display:false},ticks:{font:{family:'Segoe UI',size:9.5,weight:'700'}}}
       }
     }
   });
@@ -677,7 +675,7 @@ function renderCharts(){
       scales:{
         x:{beginAtZero:true,grid:{color:'rgba(0,0,0,.05)'},
           ticks:{callback:function(v){return v+'M';},font:DEF_FONT}},
-        y:{grid:{display:false},ticks:{font:{family:'Inter',size:9.5,weight:'700'}}}
+        y:{grid:{display:false},ticks:{font:{family:'Segoe UI',size:9.5,weight:'700'}}}
       }
     }
   });
@@ -704,7 +702,7 @@ function renderCharts(){
       scales:{
         y:{beginAtZero:true,grid:{color:'rgba(0,0,0,.05)'},
           ticks:{callback:function(v){return v>=1000000?(v/1000000).toFixed(1)+'M':(v/1000).toFixed(0)+'K';},font:DEF_FONT}},
-        x:{grid:{display:false},ticks:{font:{family:'Inter',size:11,weight:'800'}}}
+        x:{grid:{display:false},ticks:{font:{family:'Segoe UI',size:11,weight:'800'}}}
       }
     }
   });
@@ -727,7 +725,7 @@ function renderTables(){
       '<td><span class="num" style="color:'+dc+'">'+ded.toFixed(1)+'%</span></td>'+
       '<td class="num">'+toNum(r.vol_mensual_m).toFixed(2)+' M</td>'+
       '<td class="num">'+toNum(r.vol_anual_m).toFixed(2)+' M</td>'+
-      '<td><span class="badge" style="background:#1e293b;color:#FFE600">'+toNum(r.pct_total).toFixed(2)+'%</span></td>';
+      '<td><span class="badge" style="background:#1e293b;color:#FFD001">'+toNum(r.pct_total).toFixed(2)+'%</span></td>';
     tb.appendChild(tr);
   });
   mwhT.appendChild(tb);
