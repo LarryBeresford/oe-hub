@@ -11,19 +11,19 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#ffffff;color:#1e293b}
 
-/* HEADER */
+/* HEADER (mismo patrón "app-bar" que señalética/slides: negro dominante, amarillo solo de acento) */
 .hdr{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;
-  border-bottom:2px solid rgba(0,0,0,.15);background:#FFD001;flex-shrink:0}
+  background:#000;box-shadow:0 2px 12px rgba(0,0,0,.5);flex-shrink:0;position:relative;z-index:200}
 .hdr-l{display:flex;align-items:center;gap:13px}
-.logo{background:#1A1A1A;color:#FFD001;font-weight:900;font-size:10.5px;padding:5px 9px;border-radius:5px;letter-spacing:1.5px}
-.hdr-title{font-size:14px;font-weight:700;letter-spacing:-.2px;color:#1A1A1A}
-.hdr-sub{font-size:9.5px;color:#333;margin-top:1px;letter-spacing:.3px;text-transform:uppercase}
-.hdr-updated{font-size:9px;color:#888;margin-top:3px;letter-spacing:.2px}
+.logo{background:#FFD001;color:#000;font-weight:900;font-size:10.5px;padding:5px 9px;border-radius:5px;letter-spacing:1.5px}
+.hdr-title{font-size:14px;font-weight:700;letter-spacing:-.2px;color:#fff}
+.hdr-sub{font-size:9.5px;color:#999;margin-top:1px;letter-spacing:.3px;text-transform:uppercase}
+.hdr-updated{font-size:9px;color:#777;margin-top:3px;letter-spacing:.2px}
 .hdr-r{display:flex;align-items:center;gap:18px}
 .hdr-stat{text-align:right}
-.hdr-stat-v{font-size:17px;font-weight:800;line-height:1;color:#1A1A1A}
-.hdr-stat-l{font-size:8.5px;color:#333;text-transform:uppercase;letter-spacing:.5px;margin-top:1px;font-weight:600}
-.hdiv{width:1px;height:26px;background:rgba(0,0,0,.3)}
+.hdr-stat-v{font-size:17px;font-weight:800;line-height:1;color:#FFD001}
+.hdr-stat-l{font-size:8.5px;color:#999;text-transform:uppercase;letter-spacing:.5px;margin-top:1px;font-weight:600}
+.hdiv{width:1px;height:26px;background:rgba(255,255,255,.15)}
 
 /* TABS */
 .tabbar{height:36px;display:flex;align-items:center;padding:0 22px;gap:4px;
