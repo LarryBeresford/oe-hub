@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Slip Robots — Rutas Candidatas LH Ground</title>
+<title>Slip Robots — LH Ground</title>
 <link rel="icon" type="image/svg+xml" href="../media/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.7/chart.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="lib/chart.umd.js"></script>
+<script src="lib/xlsx.full.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;background:#ffffff;color:#1e293b}
@@ -145,7 +145,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
   <div class="hdr-l">
     <div class="logo">MELI</div>
     <div>
-      <div class="hdr-title">Slip Robots — Rutas Candidatas</div>
+      <div class="hdr-title">Slip Robots</div>
       <div class="hdr-sub">Line Haul Ground · México · Scorecard de Priorización</div>
     </div>
   </div>
@@ -471,7 +471,7 @@ fetch(DATA_FILE).then(function(r){
   if(!r.ok) throw new Error('No se pudo cargar el archivo (HTTP ' + r.status + ')');
   return r.arrayBuffer();
 }).then(function(buf){
-  var wb = XLSX.read(buf, {type:'array'});
+  var wb = XLSX.read(new Uint8Array(buf), {type:'array'});
 
   D.resumen = kv(sheetToRows(wb, 'Resumen'));
   D.cats = sheetToRows(wb, 'Categorias');
@@ -587,6 +587,13 @@ function render(){
 var CHART_INSTANCES = {};
 
 function renderCharts(){
+  if(typeof Chart === 'undefined'){
+    console.error('Chart.js no está disponible (lib/chart.umd.js no cargó).');
+    var e = document.getElementById('errMsg');
+    e.style.display = 'block';
+    e.textContent = 'Las gráficas no se pudieron dibujar porque no cargó lib/chart.umd.js. Revisa que esa carpeta se haya subido junto con el HTML.';
+    return;
+  }
   var cats = D.cats, mwh = D.mwh, dest = D.dest;
 
   Object.keys(CHART_INSTANCES).forEach(function(k){
