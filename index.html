@@ -658,32 +658,57 @@
      directo a una herramienta se lo salta). Decisión de Larry: los datos no
      son sensibles, así que no vale la pena un login "de verdad". ── */
   .oe-gate {
-    position: fixed; inset: 0; z-index: 99999; background: #1A1A1A;
+    position: fixed; inset: 0; z-index: 99999;
+    background: radial-gradient(circle at 22% 18%, #262626 0%, #171717 48%, #0d0d0d 100%);
     display: flex; align-items: center; justify-content: center; padding: 20px;
   }
   .oe-gate-card {
-    width: 100%; max-width: 320px; text-align: center;
+    width: 100%; max-width: 340px; text-align: center;
+    background: #1f1f1f; border: 1px solid #333; border-top: 4px solid var(--yellow);
+    border-radius: 16px; padding: 40px 32px 32px; box-shadow: 0 24px 70px rgba(0,0,0,.55);
+    animation: fadeInUp .35s ease;
+  }
+  .oe-gate-card.oe-shake { animation: oeShake .4s; }
+  @keyframes oeShake {
+    10%, 90% { transform: translateX(-1px); }
+    20%, 80% { transform: translateX(2px); }
+    30%, 50%, 70% { transform: translateX(-5px); }
+    40%, 60% { transform: translateX(5px); }
   }
   .oe-gate-logo {
-    width: 52px; height: 52px; margin: 0 auto 18px; border-radius: 12px;
+    width: 54px; height: 54px; margin: 0 auto 18px; border-radius: 13px;
     background: var(--yellow); color: #1A1A1A; font-weight: 900; font-size: 17px;
     display: flex; align-items: center; justify-content: center; letter-spacing: .5px;
+    box-shadow: 0 6px 18px rgba(255,208,1,.25);
   }
   .oe-gate-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 4px; }
-  .oe-gate-sub { font-size: 12.5px; color: #999; margin-bottom: 24px; }
-  .oe-gate-card input {
-    width: 100%; background: #262626; border: 1px solid #3a3a3a; color: #fff;
-    border-radius: 8px; padding: 11px 14px; font-size: 14px; font-family: inherit;
-    text-align: center; margin-bottom: 12px;
+  .oe-gate-sub { font-size: 12.5px; color: #999; margin-bottom: 26px; }
+  .oe-gate-field { position: relative; margin-bottom: 14px; }
+  .oe-gate-field svg {
+    position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+    width: 15px; height: 15px; stroke: #777; pointer-events: none; transition: stroke .15s;
   }
-  .oe-gate-card input:focus { outline: none; border-color: var(--yellow); }
+  .oe-gate-field input {
+    width: 100%; background: #262626; border: 1.5px solid #3a3a3a; color: #fff;
+    border-radius: 9px; padding: 12px 14px 12px 38px; font-size: 14px; font-family: inherit;
+    text-align: left; transition: border-color .15s, background .15s;
+  }
+  .oe-gate-field input::placeholder { color: #777; }
+  .oe-gate-field input:focus { outline: none; border-color: var(--yellow); background: #2a2a2a; }
+  .oe-gate-field input:focus + svg { stroke: var(--yellow); }
   .oe-gate-card button {
-    width: 100%; background: var(--yellow); color: #1A1A1A; border: none; border-radius: 8px;
-    padding: 11px 14px; font-size: 13.5px; font-weight: 800; cursor: pointer; font-family: inherit;
-    text-transform: uppercase; letter-spacing: .05em;
+    width: 100%; background: var(--yellow); color: #1A1A1A; border: none; border-radius: 9px;
+    padding: 12px 14px; font-size: 13.5px; font-weight: 800; cursor: pointer; font-family: inherit;
+    text-transform: uppercase; letter-spacing: .05em; box-shadow: 0 2px 0 #C9A700;
+    transition: transform .12s, box-shadow .12s;
   }
-  .oe-gate-card button:hover { opacity: .9; }
-  .oe-gate-err { font-size: 12px; color: #ff6b6b; margin-top: 12px; }
+  .oe-gate-card button:hover { transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0,0,0,.3); }
+  .oe-gate-card button:active { transform: translateY(1px); box-shadow: 0 1px 0 #C9A700; }
+  .oe-gate-err {
+    font-size: 12px; color: #ff8a8a; margin-top: 14px; display: flex; align-items: center;
+    justify-content: center; gap: 5px;
+  }
+  .oe-gate-hint { font-size: 10.5px; color: #666; margin-top: 18px; }
   body.oe-gate-open { overflow: hidden; }
 </style>
 </head>
@@ -691,15 +716,22 @@
 
 <!-- ══ CANDADO SIMPLE (ver comentario de estilos arriba: no es seguridad real) ══ -->
 <div id="oeGate" class="oe-gate">
-  <div class="oe-gate-card">
+  <div class="oe-gate-card" id="oeGateCard">
     <div class="oe-gate-logo">OE</div>
     <div class="oe-gate-title">OE MLM Hub</div>
     <div class="oe-gate-sub">Excelencia Operativa · Transportes MLM</div>
     <form id="oeGateForm" autocomplete="off">
-      <input type="password" id="oeGatePass" placeholder="Contraseña" autocomplete="off" autofocus />
+      <div class="oe-gate-field">
+        <input type="password" id="oeGatePass" placeholder="Contraseña" autocomplete="off" autofocus />
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      </div>
       <button type="submit">Entrar</button>
     </form>
-    <div class="oe-gate-err" id="oeGateErr" style="display:none">Contraseña incorrecta, intenta de nuevo.</div>
+    <div class="oe-gate-err" id="oeGateErr" style="display:none">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#ff8a8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>
+      Contraseña incorrecta, intenta de nuevo.
+    </div>
+    <div class="oe-gate-hint">No se te volverá a pedir en este navegador.</div>
   </div>
 </div>
 <script>
@@ -723,9 +755,13 @@
       gate.style.display = 'none';
       document.body.classList.remove('oe-gate-open');
     } else {
-      document.getElementById('oeGateErr').style.display = 'block';
+      var card = document.getElementById('oeGateCard');
+      document.getElementById('oeGateErr').style.display = 'flex';
       input.value = '';
       input.focus();
+      card.classList.remove('oe-shake');
+      void card.offsetWidth; // reinicia la animación si el usuario falla varias veces seguidas
+      card.classList.add('oe-shake');
     }
   });
 })();
