@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Aprendizaje Continuo — Glosario OE</title>
+<title>Aprendizaje Continuo — Glosario MeLi</title>
 <link rel="icon" type="image/svg+xml" href="../media/favicon.svg">
 <script>
   // Cuando esta pagina vive dentro de un iframe del Hub, ocultamos su propio
@@ -76,7 +76,7 @@
 
   <div class="hdr">
     <div class="hdr-eyebrow">Mercado Libre · OE Transportes MLM</div>
-    <div class="hdr-title">Glosario OE</div>
+    <div class="hdr-title">Glosario MeLi</div>
     <div class="hdr-sub">Siglas y términos propios de Excelencia Operacional.</div>
     <a class="back-link" href="../index.html">&#8592; Volver a Aprendizaje Continuo</a>
   </div>
@@ -84,7 +84,8 @@
   <div class="content">
     <div class="note">Este glosario es un documento vivo: se va a ir llenando con más términos conforme el equipo los use. Si falta alguno, avísale a Larry o a Mónica.</div>
 
-    <div class="section-title">Conceptos y Procesos Generales</div>
+    <div class="section-title">Glosario MeLi</div>
+    <input type="text" id="dictSearch" class="dict-search" placeholder="Buscar término, sigla o definición..." oninput="filterDict()">
     <div class="kpi-table-wrap">
       <table class="kpi-table">
         <thead>
@@ -93,7 +94,7 @@
             <th>Definición</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="dictTbody">
           <tr><td class="dict-td-term">OE</td><td class="dict-td-def">Excelencia Operacional. El área que impulsa la mejora continua en Transportes MLM.</td></tr>
           <tr><td class="dict-td-term">MELI Axis</td><td class="dict-td-def">Plataforma donde se gestionan y actualizan los proyectos, sus actividades y su estatus.</td></tr>
           <tr><td class="dict-td-term">Focal (Focal CIE)</td><td class="dict-td-def">Persona responsable de mantener actualizado el estatus de un proyecto en MELI Axis y de comunicar avances a su Supervisor/Manager.</td></tr>
@@ -106,102 +107,65 @@
           <tr><td class="dict-td-term">BBR</td><td class="dict-td-def">Entrega bisemanal de resultados del equipo.</td></tr>
           <tr><td class="dict-td-term">MBR</td><td class="dict-td-def">Entrega mensual de resultados del equipo (antes llamada WBR).</td></tr>
           <tr><td class="dict-td-term">KPI</td><td class="dict-td-def">Indicador clave de desempeño.</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="section-title">Glosario de KPIs</div>
-    <div class="kpi-filters" id="kpiFilters">
-      <button class="kpi-filter-btn active" data-cat="todos" onclick="filterKpis('todos', this)">Todos</button>
-      <button class="kpi-filter-btn" data-cat="LAST MILE" onclick="filterKpis('LAST MILE', this)">Last Mile</button>
-      <button class="kpi-filter-btn" data-cat="DELAY" onclick="filterKpis('DELAY', this)">Delay</button>
-      <button class="kpi-filter-btn" data-cat="FLOW" onclick="filterKpis('FLOW', this)">Flow</button>
-      <button class="kpi-filter-btn" data-cat="PEOPLE" onclick="filterKpis('PEOPLE', this)">People</button>
-    </div>
-    <div class="kpi-table-wrap">
-      <table class="kpi-table">
-        <thead>
-          <tr>
-            <th>Categoría</th>
-            <th>Subcategoría</th>
-            <th>KPI</th>
-            <th>Alias</th>
-            <th>Descripción</th>
-          </tr>
-        </thead>
-        <tbody id="kpiTbody">
-          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">DELIVERY SUCCESS</td><td class="kpi-td-alias">DS</td><td class="kpi-td-desc">Porcentaje de paquetes que llegaron a su destino comparado con el total de paquetes despachados.</td></tr>
-          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">DELIVERY SUCCESS COMERCIAL</td><td class="kpi-td-alias">DS COMERCIAL</td><td class="kpi-td-desc">Porcentaje de paquetes que llegaron a su destino comercial comparado con el total de paquetes despachados a un destino comercial.</td></tr>
-          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">SHARE NOT DELIVERED</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Porcentaje de paquetes que no llegaron a su destino en comparación con el total de paquetes despachados.</td></tr>
-          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">ON ROUTE HOURS</td><td class="kpi-td-alias">ORH</td><td class="kpi-td-desc">Promedio de horas que pasan los envíos en ruta desde X hasta X.</td></tr>
-          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">SHIPMENTS PER ROUTE</td><td class="kpi-td-alias">SPR</td><td class="kpi-td-desc">Promedio de paquetes que se envían por cada ruta.</td></tr>
-          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">EXECUTED ROUTES</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Número total de rutas que se ejecutaron.</td></tr>
-          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">SPORH</td><td class="kpi-td-alias">SPORH</td><td class="kpi-td-desc">Promedio de paquetes que se mueven por cada hora en ruta.</td></tr>
-          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">ADDRESS QUALITY</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Porcentaje de paquetes entregados cuyo geopunto de entrega se encontraba a 100 metros o menos del geopunto planeado comparado con el total de paquetes despachados.</td></tr>
-          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">SHARE BY SHIPMENTS</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Porcentaje de paquetes despachados que se hicieron usando un tipo de entrega específico (Delivery Model).</td></tr>
-          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">STEM IN</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Promedio de tiempo que tarda en regresar la ruta al centro de servicio (SVC).</td></tr>
-          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">SHARE AMBULANCIAS</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Porcentaje de rutas no planeadas que recibieron todos sus paquetes de otras unidades en relación al total de rutas ejecutadas.</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY SELLER</td><td class="kpi-td-name">PICKUP SUCCESS + 1</td><td class="kpi-td-alias">PU+1</td><td class="kpi-td-desc">Paquetes listos para colectar pero fueron recolectados un día después porque el vendedor no los tenía listos.</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY SELLER</td><td class="kpi-td-name">SELLER DELAY</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes que el seller (vendedor) marcó como listos para recolectar después de la fecha planeada de colecta.</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY SELLER</td><td class="kpi-td-name">INYECCION CRUZADA</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes que debían recogerse con el seller, pero se dejaron en un place después de la fecha planeada de colecta.</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY FM/XD</td><td class="kpi-td-name">PICKUP SUCCESS &gt;= 2</td><td class="kpi-td-alias">PU&gt;=2</td><td class="kpi-td-desc">Paquetes listos para ser recolectados, pero fueron colecados 2 o más días después de la fecha planificada.</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY FM/XD</td><td class="kpi-td-name">LATE ARRIVAL XD</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes que llegan tarde al crossdock (XD) desde First Mile (FM).</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY XD</td><td class="kpi-td-name">AIR TO GND</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes con demora debido el &#x27;cambio de transportista&#x27; de Meli Air a Ground.</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY XD</td><td class="kpi-td-name">WRONG LOGISTIC CENTER</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes enviados al crossdock (XD) o Fullfillment (FBM) equivocado.</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY XD</td><td class="kpi-td-name">LATE CHEK OUT</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes con demora porque fueron despachados después del tiempo planeado (CPT).</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY XD</td><td class="kpi-td-name">BACKLOG</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes despachados tarde porque no salieron el mismo día planeado, sino después.</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY XD</td><td class="kpi-td-name">MISSORT</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes enviados al centro de servicio (SVC) equivocado.</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY XD</td><td class="kpi-td-name">MELI A CCS</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes despachados con retraso por el &#x27;cambio de transportista&#x27; de Mercado Envíos a un &#x27;Commercial Carrier&#x27;.</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY FBM</td><td class="kpi-td-name">BACKLOG</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes con demora por no ser despachados el mismo día y fueron despachados al día siguiente o dias despues</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY FBM</td><td class="kpi-td-name">LATE CHEK OUT</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes con demora por ser despachado después del CPT plan.</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY FBM</td><td class="kpi-td-name">MISSORT</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes enviados a un SVC erróneo.</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY FBM</td><td class="kpi-td-name">WRONG LOGISTIC CENTER</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes enviados a un XD/FBM erróneo.</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY FBM</td><td class="kpi-td-name">AIR TO GROUND</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes con demora a causa del Cambio de Transportista de Meli Air a Terrestre.</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY LH</td><td class="kpi-td-name">LINEHAUL GROUND</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes con demora porque las unidades de media milla excedieron el tiempo en tránsito de un site a otro.</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY LH</td><td class="kpi-td-name">LATE BLD DISPATCH</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes despachados a tiempo (On Time), pero la unidad de LH estuvo más de 1 hora sin salir del XD o FBM.</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY LH</td><td class="kpi-td-name">LH AIR DELAY</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes con demora porque el traslado aéreo tomó más tiempo entre un sitio y otro.</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY LH</td><td class="kpi-td-name">CAMBIO DE TRANSPORTISTA</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes con demora a causa del &#x27;Cambio de Transportista&#x27; no identificado.</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY SVC</td><td class="kpi-td-name">LATE DISPATCH</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes con demora por problemas en el centro de servicio (SVC).</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY SVC</td><td class="kpi-td-name">SIDELINE</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes que llegaron a tiempo en la etapa Linehaul (LH), pero salieron tarde del SVC.</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">OTHERS</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes con demora cuya causa no se puede identificar porque les falta información de seguimiento.</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY FLEX</td><td class="kpi-td-name">FLEX</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes con demora causada por &#x27;Flex&#x27;.</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY CC</td><td class="kpi-td-name">COMMERCIAL CARRIERS</td><td class="kpi-td-alias">CC</td><td class="kpi-td-desc">Paquetes con demora causada por &#x27;Commercial Carrier&#x27;.</td></tr>
-          <tr><td class="kpi-td-cat">DELAY</td><td class="kpi-td-sub">DELAY FM/XD</td><td class="kpi-td-name">PU TO XD DELAY</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes que tardaron 1 día o más en llegar desde el First Mile (FM) al Crossdock (XD).</td></tr>
-          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">ME EXTRA</td><td class="kpi-td-name">ACCEPTANCE RATE</td><td class="kpi-td-alias">AR</td><td class="kpi-td-desc">Porcentaje de rutas aceptadas por conductores en el modelo MELI EXTRA respecto a todas las rutas que se ofrecieron en este modelo.</td></tr>
-          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">ME EXTRA</td><td class="kpi-td-name">OFFERED ROTES</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Número total de rutas ofrecidas a los conductores bajo el modelo MELI EXTRA.</td></tr>
-          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">ME EXTRA</td><td class="kpi-td-name">ACCEPTED ROUTES</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Número total de rutas aceptadas por los conductores del modelo MELI EXTRA.</td></tr>
-          <tr><td class="kpi-td-cat">PEOPLE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">HEADCOUNT ACTIVO</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Promedio de empleados activos en un periodo de tiempo determinado.</td></tr>
-          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">INVENTARIO TOTAL</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Total de unidades asignadas por contrato a cada proveedor (MLP) para el proyecto Last Mile (LM), sin incluir unidades de First Mile (FM) ni reemplazos.</td></tr>
-          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">RENTAL REPLACEMENT</td><td class="kpi-td-alias">Reemplazos</td><td class="kpi-td-desc">Unidades que el proveedor (MLP) puso para reemplazar las unidades RENTALS que no están disponibles o están dañadas.</td></tr>
-          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">INVENTARIO DISPONIBLE</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Total de unidades listas para ejecutar rutas, descontando las que están en mantenimiento preventivo, robos y sumando los reemplazos.</td></tr>
-          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">SCHEDULE</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Unidades que en el &#x27;Schedule&#x27; están marcadas bajo el modelo de entrega de &quot;RENTALS&quot;.</td></tr>
-          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">ROUTED</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Unidades que el equipo de &#x27;ROUTING&#x27; planeó usando vehículos tipo &#x27;RENTAL&#x27;.</td></tr>
-          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">EXECUTED</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Unidades ejecutadas sin contar dobles vueltas, backups de Casanova ni rutas mixtas FM en LM que salieron con Delivery Model &quot;RENTALS&quot;. Se consideran los reemplazos.</td></tr>
-          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">UTILIZACION PURA</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Porcentaje de unidades que fueron ejecutadas en rutas respecto al total de unidades del inventario.</td></tr>
-          <tr><td class="kpi-td-cat">LAST MILE</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">UTILIZACION DISPONIBLE</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Porcentaje de unidades que fueron ejecutadas en rutas respecto al inventario disponible.</td></tr>
-          <tr><td class="kpi-td-cat">FLOW</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">INDUCIDO DEL DIA</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes procesados (inducidos) en el primer, segundo o tercer ciclo del mismo día programado.</td></tr>
-          <tr><td class="kpi-td-cat">FLOW</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">LINEHAUL DELAY</td><td class="kpi-td-alias">LH_DELAY</td><td class="kpi-td-desc">Paquetes con demora por Llegada tardía de LH vs su CPT.</td></tr>
-          <tr><td class="kpi-td-cat">FLOW</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">MANIFESTED NOY RECEIVED</td><td class="kpi-td-alias">MNR</td><td class="kpi-td-desc">Paquetes que se manifiestan pero no se reciben (se despachan de origen pero no llegan en el LH al SVC)</td></tr>
-          <tr><td class="kpi-td-cat">FLOW</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">BLANK</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes que no pueden ser asignados a ruta porque no tuvieron despacho virtual desde origen y su etiqueta está sale blanca.</td></tr>
-          <tr><td class="kpi-td-cat">FLOW</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">BACKLOG</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes que llegan al SVC antes de la hora estimada (ETA), pero salen después del tiempo planeado de despacho.</td></tr>
-          <tr><td class="kpi-td-cat">FLOW</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">RETURN TO STATION</td><td class="kpi-td-alias">RTS</td><td class="kpi-td-desc">Paquetes que regresan a la estación (SVC).</td></tr>
-          <tr><td class="kpi-td-cat">FLOW</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">BUYERS CHOICE</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes cuya fecha de entrega fue elegida por el cliente.</td></tr>
-          <tr><td class="kpi-td-cat">FLOW</td><td class="kpi-td-sub">&mdash;</td><td class="kpi-td-name">RTS INDUCCION ADELANTANDA</td><td class="kpi-td-alias">&mdash;</td><td class="kpi-td-desc">Paquetes que fueron procesados en la inducción 2 o más veces al día para adelantar el proceso.</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="section-title">Diccionario Operativo A&ndash;Z</div>
-    <input type="text" id="dictSearch" class="dict-search" placeholder="Buscar término, sigla o definición..." oninput="filterDict()">
-    <div class="kpi-table-wrap">
-      <table class="kpi-table">
-        <thead>
-          <tr>
-            <th>Término</th>
-            <th>Definición</th>
-          </tr>
-        </thead>
-        <tbody id="dictTbody">
+        
+          <tr><td class="dict-td-term">DELIVERY SUCCESS <span class="dict-td-alias-inline">(DS)</span></td><td class="dict-td-def"><span class="dict-ctx">LAST MILE</span> Porcentaje de paquetes que llegaron a su destino comparado con el total de paquetes despachados.</td></tr>
+          <tr><td class="dict-td-term">DELIVERY SUCCESS COMERCIAL <span class="dict-td-alias-inline">(DS COMERCIAL)</span></td><td class="dict-td-def"><span class="dict-ctx">LAST MILE</span> Porcentaje de paquetes que llegaron a su destino comercial comparado con el total de paquetes despachados a un destino comercial.</td></tr>
+          <tr><td class="dict-td-term">SHARE NOT DELIVERED</td><td class="dict-td-def"><span class="dict-ctx">LAST MILE</span> Porcentaje de paquetes que no llegaron a su destino en comparación con el total de paquetes despachados.</td></tr>
+          <tr><td class="dict-td-term">ON ROUTE HOURS <span class="dict-td-alias-inline">(ORH)</span></td><td class="dict-td-def"><span class="dict-ctx">LAST MILE</span> Promedio de horas que pasan los envíos en ruta desde X hasta X.</td></tr>
+          <tr><td class="dict-td-term">SHIPMENTS PER ROUTE <span class="dict-td-alias-inline">(SPR)</span></td><td class="dict-td-def"><span class="dict-ctx">LAST MILE</span> Promedio de paquetes que se envían por cada ruta.</td></tr>
+          <tr><td class="dict-td-term">EXECUTED ROUTES</td><td class="dict-td-def"><span class="dict-ctx">LAST MILE</span> Número total de rutas que se ejecutaron.</td></tr>
+          <tr><td class="dict-td-term">SPORH <span class="dict-td-alias-inline">(SPORH)</span></td><td class="dict-td-def"><span class="dict-ctx">LAST MILE</span> Promedio de paquetes que se mueven por cada hora en ruta.</td></tr>
+          <tr><td class="dict-td-term">ADDRESS QUALITY</td><td class="dict-td-def"><span class="dict-ctx">LAST MILE</span> Porcentaje de paquetes entregados cuyo geopunto de entrega se encontraba a 100 metros o menos del geopunto planeado comparado con el total de paquetes despachados.</td></tr>
+          <tr><td class="dict-td-term">SHARE BY SHIPMENTS</td><td class="dict-td-def"><span class="dict-ctx">LAST MILE</span> Porcentaje de paquetes despachados que se hicieron usando un tipo de entrega específico (Delivery Model).</td></tr>
+          <tr><td class="dict-td-term">STEM IN</td><td class="dict-td-def"><span class="dict-ctx">LAST MILE</span> Promedio de tiempo que tarda en regresar la ruta al centro de servicio (SVC).</td></tr>
+          <tr><td class="dict-td-term">SHARE AMBULANCIAS</td><td class="dict-td-def"><span class="dict-ctx">LAST MILE</span> Porcentaje de rutas no planeadas que recibieron todos sus paquetes de otras unidades en relación al total de rutas ejecutadas.</td></tr>
+          <tr><td class="dict-td-term">PICKUP SUCCESS + 1 <span class="dict-td-alias-inline">(PU+1)</span></td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY SELLER</span> Paquetes listos para colectar pero fueron recolectados un día después porque el vendedor no los tenía listos.</td></tr>
+          <tr><td class="dict-td-term">SELLER DELAY</td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY SELLER</span> Paquetes que el seller (vendedor) marcó como listos para recolectar después de la fecha planeada de colecta.</td></tr>
+          <tr><td class="dict-td-term">INYECCION CRUZADA</td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY SELLER</span> Paquetes que debían recogerse con el seller, pero se dejaron en un place después de la fecha planeada de colecta.</td></tr>
+          <tr><td class="dict-td-term">PICKUP SUCCESS &gt;= 2 <span class="dict-td-alias-inline">(PU&gt;=2)</span></td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY FM/XD</span> Paquetes listos para ser recolectados, pero fueron colecados 2 o más días después de la fecha planificada.</td></tr>
+          <tr><td class="dict-td-term">LATE ARRIVAL XD</td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY FM/XD</span> Paquetes que llegan tarde al crossdock (XD) desde First Mile (FM).</td></tr>
+          <tr><td class="dict-td-term">AIR TO GND</td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY XD</span> Paquetes con demora debido el &#x27;cambio de transportista&#x27; de Meli Air a Ground.</td></tr>
+          <tr><td class="dict-td-term">WRONG LOGISTIC CENTER</td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY XD</span> Paquetes enviados al crossdock (XD) o Fullfillment (FBM) equivocado.</td></tr>
+          <tr><td class="dict-td-term">LATE CHEK OUT</td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY XD</span> Paquetes con demora porque fueron despachados después del tiempo planeado (CPT).</td></tr>
+          <tr><td class="dict-td-term">BACKLOG</td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY XD</span> Paquetes despachados tarde porque no salieron el mismo día planeado, sino después.</td></tr>
+          <tr><td class="dict-td-term">MISSORT</td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY XD</span> Paquetes enviados al centro de servicio (SVC) equivocado.</td></tr>
+          <tr><td class="dict-td-term">MELI A CCS</td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY XD</span> Paquetes despachados con retraso por el &#x27;cambio de transportista&#x27; de Mercado Envíos a un &#x27;Commercial Carrier&#x27;.</td></tr>
+          <tr><td class="dict-td-term">BACKLOG</td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY FBM</span> Paquetes con demora por no ser despachados el mismo día y fueron despachados al día siguiente o dias despues</td></tr>
+          <tr><td class="dict-td-term">LATE CHEK OUT</td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY FBM</span> Paquetes con demora por ser despachado después del CPT plan.</td></tr>
+          <tr><td class="dict-td-term">MISSORT</td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY FBM</span> Paquetes enviados a un SVC erróneo.</td></tr>
+          <tr><td class="dict-td-term">WRONG LOGISTIC CENTER</td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY FBM</span> Paquetes enviados a un XD/FBM erróneo.</td></tr>
+          <tr><td class="dict-td-term">AIR TO GROUND</td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY FBM</span> Paquetes con demora a causa del Cambio de Transportista de Meli Air a Terrestre.</td></tr>
+          <tr><td class="dict-td-term">LINEHAUL GROUND</td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY LH</span> Paquetes con demora porque las unidades de media milla excedieron el tiempo en tránsito de un site a otro.</td></tr>
+          <tr><td class="dict-td-term">LATE BLD DISPATCH</td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY LH</span> Paquetes despachados a tiempo (On Time), pero la unidad de LH estuvo más de 1 hora sin salir del XD o FBM.</td></tr>
+          <tr><td class="dict-td-term">LH AIR DELAY</td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY LH</span> Paquetes con demora porque el traslado aéreo tomó más tiempo entre un sitio y otro.</td></tr>
+          <tr><td class="dict-td-term">CAMBIO DE TRANSPORTISTA</td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY LH</span> Paquetes con demora a causa del &#x27;Cambio de Transportista&#x27; no identificado.</td></tr>
+          <tr><td class="dict-td-term">LATE DISPATCH</td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY SVC</span> Paquetes con demora por problemas en el centro de servicio (SVC).</td></tr>
+          <tr><td class="dict-td-term">SIDELINE</td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY SVC</span> Paquetes que llegaron a tiempo en la etapa Linehaul (LH), pero salieron tarde del SVC.</td></tr>
+          <tr><td class="dict-td-term">OTHERS</td><td class="dict-td-def"><span class="dict-ctx">DELAY</span> Paquetes con demora cuya causa no se puede identificar porque les falta información de seguimiento.</td></tr>
+          <tr><td class="dict-td-term">FLEX</td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY FLEX</span> Paquetes con demora causada por &#x27;Flex&#x27;.</td></tr>
+          <tr><td class="dict-td-term">COMMERCIAL CARRIERS <span class="dict-td-alias-inline">(CC)</span></td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY CC</span> Paquetes con demora causada por &#x27;Commercial Carrier&#x27;.</td></tr>
+          <tr><td class="dict-td-term">PU TO XD DELAY</td><td class="dict-td-def"><span class="dict-ctx">DELAY · DELAY FM/XD</span> Paquetes que tardaron 1 día o más en llegar desde el First Mile (FM) al Crossdock (XD).</td></tr>
+          <tr><td class="dict-td-term">ACCEPTANCE RATE <span class="dict-td-alias-inline">(AR)</span></td><td class="dict-td-def"><span class="dict-ctx">LAST MILE · ME EXTRA</span> Porcentaje de rutas aceptadas por conductores en el modelo MELI EXTRA respecto a todas las rutas que se ofrecieron en este modelo.</td></tr>
+          <tr><td class="dict-td-term">OFFERED ROTES</td><td class="dict-td-def"><span class="dict-ctx">LAST MILE · ME EXTRA</span> Número total de rutas ofrecidas a los conductores bajo el modelo MELI EXTRA.</td></tr>
+          <tr><td class="dict-td-term">ACCEPTED ROUTES</td><td class="dict-td-def"><span class="dict-ctx">LAST MILE · ME EXTRA</span> Número total de rutas aceptadas por los conductores del modelo MELI EXTRA.</td></tr>
+          <tr><td class="dict-td-term">HEADCOUNT ACTIVO</td><td class="dict-td-def"><span class="dict-ctx">PEOPLE</span> Promedio de empleados activos en un periodo de tiempo determinado.</td></tr>
+          <tr><td class="dict-td-term">INVENTARIO TOTAL</td><td class="dict-td-def"><span class="dict-ctx">LAST MILE</span> Total de unidades asignadas por contrato a cada proveedor (MLP) para el proyecto Last Mile (LM), sin incluir unidades de First Mile (FM) ni reemplazos.</td></tr>
+          <tr><td class="dict-td-term">RENTAL REPLACEMENT <span class="dict-td-alias-inline">(Reemplazos)</span></td><td class="dict-td-def"><span class="dict-ctx">LAST MILE</span> Unidades que el proveedor (MLP) puso para reemplazar las unidades RENTALS que no están disponibles o están dañadas.</td></tr>
+          <tr><td class="dict-td-term">INVENTARIO DISPONIBLE</td><td class="dict-td-def"><span class="dict-ctx">LAST MILE</span> Total de unidades listas para ejecutar rutas, descontando las que están en mantenimiento preventivo, robos y sumando los reemplazos.</td></tr>
+          <tr><td class="dict-td-term">SCHEDULE</td><td class="dict-td-def"><span class="dict-ctx">LAST MILE</span> Unidades que en el &#x27;Schedule&#x27; están marcadas bajo el modelo de entrega de &quot;RENTALS&quot;.</td></tr>
+          <tr><td class="dict-td-term">ROUTED</td><td class="dict-td-def"><span class="dict-ctx">LAST MILE</span> Unidades que el equipo de &#x27;ROUTING&#x27; planeó usando vehículos tipo &#x27;RENTAL&#x27;.</td></tr>
+          <tr><td class="dict-td-term">EXECUTED</td><td class="dict-td-def"><span class="dict-ctx">LAST MILE</span> Unidades ejecutadas sin contar dobles vueltas, backups de Casanova ni rutas mixtas FM en LM que salieron con Delivery Model &quot;RENTALS&quot;. Se consideran los reemplazos.</td></tr>
+          <tr><td class="dict-td-term">UTILIZACION PURA</td><td class="dict-td-def"><span class="dict-ctx">LAST MILE</span> Porcentaje de unidades que fueron ejecutadas en rutas respecto al total de unidades del inventario.</td></tr>
+          <tr><td class="dict-td-term">UTILIZACION DISPONIBLE</td><td class="dict-td-def"><span class="dict-ctx">LAST MILE</span> Porcentaje de unidades que fueron ejecutadas en rutas respecto al inventario disponible.</td></tr>
+          <tr><td class="dict-td-term">INDUCIDO DEL DIA</td><td class="dict-td-def"><span class="dict-ctx">FLOW</span> Paquetes procesados (inducidos) en el primer, segundo o tercer ciclo del mismo día programado.</td></tr>
+          <tr><td class="dict-td-term">LINEHAUL DELAY <span class="dict-td-alias-inline">(LH_DELAY)</span></td><td class="dict-td-def"><span class="dict-ctx">FLOW</span> Paquetes con demora por Llegada tardía de LH vs su CPT.</td></tr>
+          <tr><td class="dict-td-term">MANIFESTED NOY RECEIVED <span class="dict-td-alias-inline">(MNR)</span></td><td class="dict-td-def"><span class="dict-ctx">FLOW</span> Paquetes que se manifiestan pero no se reciben (se despachan de origen pero no llegan en el LH al SVC)</td></tr>
+          <tr><td class="dict-td-term">BLANK</td><td class="dict-td-def"><span class="dict-ctx">FLOW</span> Paquetes que no pueden ser asignados a ruta porque no tuvieron despacho virtual desde origen y su etiqueta está sale blanca.</td></tr>
+          <tr><td class="dict-td-term">BACKLOG</td><td class="dict-td-def"><span class="dict-ctx">FLOW</span> Paquetes que llegan al SVC antes de la hora estimada (ETA), pero salen después del tiempo planeado de despacho.</td></tr>
+          <tr><td class="dict-td-term">RETURN TO STATION <span class="dict-td-alias-inline">(RTS)</span></td><td class="dict-td-def"><span class="dict-ctx">FLOW</span> Paquetes que regresan a la estación (SVC).</td></tr>
+          <tr><td class="dict-td-term">BUYERS CHOICE</td><td class="dict-td-def"><span class="dict-ctx">FLOW</span> Paquetes cuya fecha de entrega fue elegida por el cliente.</td></tr>
+          <tr><td class="dict-td-term">RTS INDUCCION ADELANTANDA</td><td class="dict-td-def"><span class="dict-ctx">FLOW</span> Paquetes que fueron procesados en la inducción 2 o más veces al día para adelantar el proceso.</td></tr>
+        
           <tr><td class="dict-td-term">1CR</td><td class="dict-td-def">One Click Routing — Herramienta que busca rutear mediante la menor cantidad de inputs manuales by user, simplificando el proceso de ruteo, acotando su tiempo y consiguiendo eficiencia mediante optimizaciones.</td></tr>
           <tr><td class="dict-td-term">Adherencia</td><td class="dict-td-def">cumple con los procesos correctos y los indicadores establecidos</td></tr>
           <tr><td class="dict-td-term">AM</td><td class="dict-td-def">Sorter Dinamico — Paquetes no voluminosos del ciclo del período de la mañana</td></tr>
@@ -488,19 +452,11 @@
         </tbody>
       </table>
     </div>
-    <div class="dict-count" id="dictCount">283 términos</div>
+    <div class="dict-count" id="dictCount">352 términos</div>
 
   </div>
 
   <script>
-    function filterKpis(cat, btn) {
-      document.querySelectorAll('#kpiFilters .kpi-filter-btn').forEach(function (b) { b.classList.remove('active'); });
-      btn.classList.add('active');
-      document.querySelectorAll('#kpiTbody tr').forEach(function (tr) {
-        var rowCat = tr.querySelector('.kpi-td-cat').textContent.trim();
-        tr.style.display = (cat === 'todos' || rowCat === cat) ? '' : 'none';
-      });
-    }
 
     function filterDict() {
       var q = document.getElementById('dictSearch').value.trim().toLowerCase();
@@ -517,7 +473,7 @@
   </script>
 
   <div class="footer">
-    <div class="f-title">Aprendizaje Continuo · Glosario OE</div>
+    <div class="f-title">Aprendizaje Continuo · Glosario MeLi</div>
     <div class="f-sub">OE Transportes MLM</div>
   </div>
   <div class="oe-contact">¿Dudas sobre el funcionamiento de la página, desarrollo UX o la comunidad de OE? Escríbele a <a href="mailto:larry.beresforddiaz@mercadolibre.com.mx">Larry Beresford Díaz</a>.</div>
