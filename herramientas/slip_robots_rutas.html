@@ -11,14 +11,15 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#ffffff;color:#1e293b}
 
-/* HEADER (mismo patrón "app-bar" que señalética/slides: negro dominante, amarillo solo de acento) */
-.hdr{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;
+/* HEADER (idéntico patrón "app-bar" de señalética/slides: negro dominante, amarillo
+   solo de acento, logo+título+subtítulo en una sola línea con la misma tipografía) */
+.hdr{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;
   background:#000;box-shadow:0 2px 12px rgba(0,0,0,.5);flex-shrink:0;position:relative;z-index:200}
-.hdr-l{display:flex;align-items:center;gap:13px}
-.logo{background:#FFD001;color:#000;font-weight:900;font-size:10.5px;padding:5px 9px;border-radius:5px;letter-spacing:1.5px}
-.hdr-title{font-size:14px;font-weight:700;letter-spacing:-.2px;color:#fff}
-.hdr-sub{font-size:9.5px;color:#999;margin-top:1px;letter-spacing:.3px;text-transform:uppercase}
-.hdr-updated{font-size:9px;color:#777;margin-top:3px;letter-spacing:.2px}
+.hdr-l{display:flex;align-items:baseline;gap:14px}
+.logo{background:#FFD001;color:#000;font-weight:900;font-size:12px;padding:4px 10px;border-radius:4px;letter-spacing:.5px}
+.hdr-title{font-size:14px;font-weight:600;letter-spacing:normal;color:#fff}
+.hdr-sub{font-size:11px;color:#999;letter-spacing:normal;text-transform:none}
+.hdr-updated{font-size:10px;color:#777;letter-spacing:normal}
 .hdr-r{display:flex;align-items:center;gap:18px}
 .hdr-stat{text-align:right}
 .hdr-stat-v{font-size:17px;font-weight:800;line-height:1;color:#FFD001}
@@ -143,11 +144,9 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-sy
 <div class="hdr">
   <div class="hdr-l">
     <div class="logo">MELI</div>
-    <div>
-      <div class="hdr-title">Slip Robots</div>
-      <div class="hdr-sub" data-i18n="hdrSub">Line Haul Ground · México · Scorecard de Priorización</div>
-      <div class="hdr-updated" id="hdrUpdated"></div>
-    </div>
+    <div class="hdr-title">Slip Robots</div>
+    <div class="hdr-sub" data-i18n="hdrSub">Line Haul Ground · México · Scorecard de Priorización</div>
+    <div class="hdr-updated" id="hdrUpdated"></div>
   </div>
   <div class="hdr-r">
     <div class="hdr-stat">

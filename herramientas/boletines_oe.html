@@ -10,13 +10,14 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#F5F5F5;color:#1A1A1A}
 
-/* HEADER (mismo patrón "app-bar" que señalética/slides: negro dominante, amarillo solo de acento) */
-.hdr{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;
+/* HEADER (idéntico patrón "app-bar" de señalética/slides: negro dominante, amarillo
+   solo de acento, logo+título+subtítulo en una sola línea con la misma tipografía) */
+.hdr{height:52px;display:flex;align-items:center;gap:14px;padding:0 24px;
   background:#000;box-shadow:0 2px 12px rgba(0,0,0,.5);flex-shrink:0;position:relative;z-index:200}
-.hdr-l{display:flex;align-items:center;gap:13px}
-.logo{background:#FFD001;color:#000;font-weight:900;font-size:10.5px;padding:5px 9px;border-radius:5px;letter-spacing:1.5px}
-.hdr-title{font-size:14.5px;font-weight:700;letter-spacing:-.2px;color:#fff}
-.hdr-sub{font-size:9.5px;color:#999;margin-top:1px;letter-spacing:.3px;text-transform:uppercase}
+.hdr-l{display:flex;align-items:baseline;gap:14px}
+.logo{background:#FFD001;color:#000;font-weight:900;font-size:12px;padding:4px 10px;border-radius:4px;letter-spacing:.5px}
+.hdr-title{font-size:14px;font-weight:600;letter-spacing:normal;color:#fff}
+.hdr-sub{font-size:11px;color:#999;letter-spacing:normal;text-transform:none;margin-left:4px}
 
 /* TABS */
 .tabbar{height:38px;display:flex;align-items:center;padding:0 22px;gap:4px;
@@ -34,35 +35,41 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
 .section-title{font-size:10.5px;font-weight:800;color:#999;text-transform:uppercase;letter-spacing:1.2px;margin:22px 0 12px}
 .section-title:first-child{margin-top:0}
 
-/* ── TARJETAS DE ÁREA (mismo lenguaje visual que los quick-card del Inicio del Hub:
-     borde superior de color + icono en insignia tintada, un color distinto por área) ── */
-.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:16px;margin-bottom:22px}
-.area-card{background:#fff;border:1px solid #ECECEC;border-top:3px solid var(--ac,#FFD001);border-radius:14px;
-  padding:18px 18px 16px;box-shadow:0 1px 4px rgba(0,0,0,.045);transition:box-shadow .18s,transform .18s}
-.area-card:hover{box-shadow:0 10px 26px rgba(0,0,0,.09);transform:translateY(-2px)}
-.area-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
-.area-icon{width:38px;height:38px;border-radius:10px;background:var(--ac-bg,#FFFBEA);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.area-icon svg{width:20px;height:20px;stroke:var(--ac,#FFD001)}
-.area-name{font-size:13.5px;font-weight:800;color:#111;line-height:1.25}
-.area-file{font-size:9px;color:#aaa;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+/* ── TARJETAS DE ÁREA: rectángulos anchos apilados (uno por área, en orden
+     FirstMile → SVC+Last Mile → Quality → Gestión), no cuadritos en grid.
+     Mismo lenguaje visual que .result/.hist-row: borde izquierdo de color +
+     icono en insignia tintada, un color distinto por área. ── */
+.grid4{display:flex;flex-direction:column;gap:14px;margin-bottom:22px}
+.area-card{background:#fff;border:1px solid #ECECEC;border-left:4px solid var(--ac,#FFD001);border-radius:14px;
+  padding:20px 24px;box-shadow:0 1px 4px rgba(0,0,0,.045);transition:box-shadow .18s,transform .18s;
+  display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.area-card:hover{box-shadow:0 10px 26px rgba(0,0,0,.08);transform:translateY(-1px)}
+.area-left{display:flex;align-items:center;gap:14px;min-width:230px}
+.area-icon{width:46px;height:46px;border-radius:12px;background:var(--ac-bg,#FFFBEA);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.area-icon svg{width:23px;height:23px;stroke:var(--ac,#FFD001)}
+.area-name{font-size:15px;font-weight:800;color:#111;line-height:1.25}
+.area-file{font-size:9.5px;color:#aaa;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
 
-.dropzone{display:flex;align-items:center;gap:10px;border:1.5px dashed #D8DCE1;border-radius:10px;
-  padding:11px 12px;cursor:pointer;transition:all .15s;background:#FAFAFA;position:relative}
+.area-mid{flex:1;min-width:260px}
+.area-right{flex-shrink:0}
+
+.dropzone{display:flex;align-items:center;gap:11px;border:1.5px dashed #D8DCE1;border-radius:10px;
+  padding:13px 16px;cursor:pointer;transition:all .15s;background:#FAFAFA;position:relative}
 .dropzone:hover{border-color:var(--ac,#FFD001);background:var(--ac-bg,#FFFBEA)}
 .dropzone.has-file{border-style:solid;border-color:var(--ac,#FFD001);background:var(--ac-bg,#FFFBEA)}
 .dropzone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.dz-icon{width:26px;height:26px;border-radius:7px;background:#fff;border:1px solid #E2E2E2;display:flex;align-items:center;
-  justify-content:center;flex-shrink:0;font-size:13px}
+.dz-icon{width:30px;height:30px;border-radius:8px;background:#fff;border:1px solid #E2E2E2;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;font-size:14px}
 .dropzone.has-file .dz-icon{background:var(--ac,#FFD001);border-color:var(--ac,#FFD001)}
-.dz-text{font-size:10.5px;color:#888;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dz-text{font-size:11px;color:#888;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dropzone.has-file .dz-text{color:#1A1A1A;font-weight:700}
 
-.kpi-toggle{margin-top:12px;font-size:9.5px;font-weight:700;color:#999;cursor:pointer;text-transform:uppercase;
-  letter-spacing:.5px;user-select:none;display:flex;align-items:center;gap:5px;transition:color .15s}
+.kpi-toggle{font-size:9.5px;font-weight:700;color:#999;cursor:pointer;text-transform:uppercase;
+  letter-spacing:.5px;user-select:none;display:flex;align-items:center;gap:5px;transition:color .15s;white-space:nowrap}
 .kpi-toggle:hover{color:#1A1A1A}
 .kpi-toggle .chev{display:inline-block;transition:transform .2s;font-size:8px}
 .kpi-toggle.open .chev{transform:rotate(180deg)}
-.kpi-box{display:none;margin-top:9px;padding:12px;background:#FAFAFA;border:1px solid #EEE;border-radius:10px}
+.kpi-box{display:none;flex-basis:100%;margin-top:2px;padding:14px;background:#FAFAFA;border:1px solid #EEE;border-radius:10px}
 .kpi-box.on{display:block;animation:fadeIn .18s ease}
 .kpi-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
 .kpi-field{flex:1;min-width:68px}
@@ -149,10 +156,8 @@ details .body div::before{content:'—';position:absolute;left:0;color:#CCC}
 <div class="hdr">
   <div class="hdr-l">
     <div class="logo">MELI</div>
-    <div>
-      <div class="hdr-title" data-i18n="hdrTitle">Boletines OE</div>
-      <div class="hdr-sub" data-i18n="hdrSub">Newsletter mensual · Excelencia Operativa · México</div>
-    </div>
+    <div class="hdr-title" data-i18n="hdrTitle">Boletines OE</div>
+    <div class="hdr-sub" data-i18n="hdrSub">Newsletter mensual · Excelencia Operativa · México</div>
   </div>
 </div>
 
@@ -329,11 +334,11 @@ function buildAreaCards() {
     card.style.setProperty('--ac', col.ac);
     card.style.setProperty('--ac-bg', col.bg);
     var kpiCampos = KPI_CAMPOS[area];
-    var kpiHtml = "";
+    var kpiToggleHtml = "", kpiBoxHtml = "";
     if (kpiCampos) {
-      kpiHtml = '<div class="kpi-toggle" id="kpiToggle_' + area + '" onclick="toggleKpi(\'' + area + '\')">'
-        + '<span id="kpiToggleText_' + area + '">' + t('kpiToggle', { area: nombreArea(area) }) + '</span><span class="chev">&#9662;</span></div>'
-        + '<div class="kpi-box" id="kpiBox_' + area + '">'
+      kpiToggleHtml = '<div class="kpi-toggle" id="kpiToggle_' + area + '" onclick="toggleKpi(\'' + area + '\')">'
+        + '<span id="kpiToggleText_' + area + '">' + t('kpiToggle', { area: nombreArea(area) }) + '</span><span class="chev">&#9662;</span></div>';
+      kpiBoxHtml = '<div class="kpi-box" id="kpiBox_' + area + '">'
         + '<div class="kpi-row">'
         + kpiCampos.map(function (c) {
           return '<div class="kpi-field"><label>' + c + '</label><input type="text" data-area="' + area + '" data-campo="' + c + '" oninput="actualizarTotalKpi(\'' + area + '\')"/></div>';
@@ -343,17 +348,18 @@ function buildAreaCards() {
         + '</div>';
     }
     card.innerHTML =
-      '<div class="area-top">'
+      '<div class="area-left">'
       + '<div class="area-icon">' + areaIconSvg(area) + '</div>'
       + '<div><div class="area-name" id="areaName_' + area + '">' + nombreArea(area) + '</div>'
       + '<div class="area-file" id="areaFile_' + area + '">' + t('excelDe', { area: nombreArea(area) }) + '</div></div>'
       + '</div>'
-      + '<label class="dropzone" id="dz_' + area + '">'
+      + '<label class="dropzone area-mid" id="dz_' + area + '">'
       + '<input type="file" accept=".xlsx" onchange="onFileChange(\'' + area + '\', this)"/>'
       + '<div class="dz-icon">&#128193;</div>'
       + '<div class="dz-text" id="dzText_' + area + '">' + t('dzText') + '</div>'
       + '</label>'
-      + kpiHtml;
+      + '<div class="area-right">' + kpiToggleHtml + '</div>'
+      + kpiBoxHtml;
     cont.appendChild(card);
   });
 }
