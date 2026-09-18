@@ -28,7 +28,7 @@
   main{padding:26px 32px;max-width:1300px;margin:0 auto;}
   .findings{background:var(--panel);border-left:4px solid var(--yellow);border-radius:10px;padding:16px 20px;margin-bottom:24px;
     box-shadow:0 4px 16px rgba(0,0,0,.35);}
-  .findings h2{margin:0 0 10px;font-size:15px;color:var(--yellow);}
+  .findings h2{margin:0 0 10px;font-size:16.5px;color:var(--yellow);}
   .findings ul{margin:0;padding-left:18px;font-size:14px;line-height:1.7;}
   .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:28px;}
   .kpi{background:linear-gradient(180deg, var(--panel2) 0%, var(--panel) 100%);border-radius:12px;padding:18px 16px;text-align:center;
@@ -37,12 +37,12 @@
   .kpi:hover{transform:translateY(-4px);border-color:rgba(255,230,0,.5);
     box-shadow:0 10px 28px rgba(0,0,0,.5), 0 0 0 1px rgba(255,230,0,.08);}
   .kpi .val{font-size:27px;font-weight:700;color:var(--yellow);transition:color .18s ease;}
-  .kpi .lbl{font-size:11px;color:var(--muted);margin-top:4px;letter-spacing:.02em;}
+  .kpi .lbl{font-size:12.5px;color:var(--muted);margin-top:4px;letter-spacing:.02em;}
   .kpi.alert .val{color:var(--red);}
   .filters{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;background:var(--panel);
     padding:14px 16px;border-radius:10px;margin-bottom:14px;border:1px solid var(--border);
     box-shadow:0 4px 14px rgba(0,0,0,.3);}
-  .filters label{font-size:11px;color:var(--muted);display:block;margin-bottom:4px;}
+  .filters label{font-size:12px;color:var(--muted);display:block;margin-bottom:4px;}
   select, input[type=text]{background:var(--panel2);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:7px 9px;font-size:13px;
     transition:border-color .15s ease, box-shadow .15s ease;}
   select:hover, input[type=text]:hover{border-color:#555;}
@@ -682,7 +682,7 @@ function buildSnapshotHtml(filtered, stats, conclusions, filtersUsed, t){
   body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;}
   header{background:#000;border-bottom:4px solid var(--yellow);padding:22px 32px;}
   header h1{margin:0;font-size:20px;}
-  header .sub{color:var(--muted);font-size:12px;margin-top:6px;}
+  header .sub{color:var(--muted);font-size:13.5px;margin-top:6px;}
   main{padding:26px 32px;max-width:1200px;margin:0 auto;}
   section{background:var(--panel);border-radius:10px;padding:18px 20px;margin-bottom:22px;border:1px solid var(--border);}
   section h2{margin:0 0 10px;font-size:15px;color:var(--yellow);border-bottom:2px solid var(--yellow);padding-bottom:6px;}
@@ -692,7 +692,7 @@ function buildSnapshotHtml(filtered, stats, conclusions, filtersUsed, t){
   .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
   .kpi{background:linear-gradient(180deg, var(--panel2) 0%, var(--panel) 100%);border-radius:12px;padding:18px 16px;text-align:center;border:1px solid var(--border);}
   .kpi .val{font-size:24px;font-weight:700;color:var(--yellow);}
-  .kpi .lbl{font-size:11px;color:var(--muted);margin-top:4px;}
+  .kpi .lbl{font-size:12.5px;color:var(--muted);margin-top:4px;}
   .kpi.alert .val{color:var(--red);}
   .tablewrap{max-height:520px;overflow-y:auto;border-radius:10px;border:1px solid var(--border);}
   table{width:100%;border-collapse:collapse;background:var(--panel);font-size:12.5px;}
@@ -727,10 +727,10 @@ function buildSnapshotHtml(filtered, stats, conclusions, filtersUsed, t){
   <section>
     <h2>${esc(t.snapStatsTitle)}</h2>
     <div class="grid2">
-      <div><h3 style="font-size:13px;color:var(--text);">${esc(t.snapByEtapa)}</h3>${distList(stats.byEtapa)}</div>
-      <div><h3 style="font-size:13px;color:var(--text);">${esc(t.snapByPrioridad)}</h3>${distList(stats.byPrioridad)}</div>
-      <div><h3 style="font-size:13px;color:var(--text);">${esc(t.snapTopCadCount)}</h3>${distList(stats.topCadCount)}</div>
-      <div><h3 style="font-size:13px;color:var(--text);">${esc(t.snapTopCadSaving)}</h3>${cadSavingList(stats.topCadSaving)}</div>
+      <div><h3 style="font-size:14.5px;color:var(--text);">${esc(t.snapByEtapa)}</h3>${distList(stats.byEtapa)}</div>
+      <div><h3 style="font-size:14.5px;color:var(--text);">${esc(t.snapByPrioridad)}</h3>${distList(stats.byPrioridad)}</div>
+      <div><h3 style="font-size:14.5px;color:var(--text);">${esc(t.snapTopCadCount)}</h3>${distList(stats.topCadCount)}</div>
+      <div><h3 style="font-size:14.5px;color:var(--text);">${esc(t.snapTopCadSaving)}</h3>${cadSavingList(stats.topCadSaving)}</div>
     </div>
   </section>
   <section>
@@ -953,11 +953,11 @@ function buildDiagnosticHtml(filtered, data, filtersUsed, t){
     font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
   header{background:#000;border-bottom:4px solid var(--yellow);padding:26px 36px;}
   header h1{margin:0;font-size:22px;letter-spacing:.01em;}
-  header .sub{color:var(--muted);font-size:12px;margin-top:8px;}
+  header .sub{color:var(--muted);font-size:13.5px;margin-top:8px;}
   main{padding:28px 36px 40px;max-width:1000px;margin:0 auto;}
   .filters-card{background:var(--panel);border-left:4px solid var(--yellow);border-radius:10px;
     padding:16px 20px;margin-bottom:26px;box-shadow:0 4px 16px rgba(0,0,0,.35);}
-  .filters-card h2{margin:0 0 8px;font-size:13px;color:var(--yellow);text-transform:uppercase;letter-spacing:.06em;}
+  .filters-card h2{margin:0 0 8px;font-size:14.5px;color:var(--yellow);text-transform:uppercase;letter-spacing:.05em;}
   .filters-card ul{margin:0;padding-left:18px;font-size:13px;line-height:1.7;}
   .diag-block{background:linear-gradient(180deg, var(--panel2) 0%, var(--panel) 100%);border:1px solid var(--border);
     border-radius:14px;padding:26px 28px;margin-bottom:22px;box-shadow:0 8px 24px rgba(0,0,0,.35);}
