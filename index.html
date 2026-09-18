@@ -5,15 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <link rel="icon" type="image/svg+xml" href="media/favicon.svg">
 <title>OE MLM Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --yellow: #FFD001;
-    --yellow-dark: #E6BB00;
-    --yellow-bg: #FFFBEA;
-    --dark: #1A1A1A;
-    --light-bg: #F5F5F5;
+    --yellow: #FFE600;
+    --yellow-dark: #E6CF00;
+    --yellow-bg: #FFFDE8;
+    --dark: #000000;
+    --light-bg: #eef2f7;
     --white: #FFFFFF;
-    --border: #E2E2E2;
+    --border: #e2e8f0;
     --sidebar-w: 260px;
     /* Acentos de color por área — para que Historias/Novedades no se vean todo amarillo */
     --tag-quality: #6C4FE0; --tag-quality-bg: #F1EDFB;
@@ -25,7 +27,7 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
     background: var(--light-bg);
     color: var(--dark);
     display: flex;
@@ -879,7 +881,7 @@
       <div class="tool-grid wide">
         <a class="tool-card wide" href="#" onclick="go('boletinesgen', document.getElementById('navBoletinesGen')); openGroupFor('navManagement'); return false;">
           <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a1 1 0 0 1 1-1h9l6 6v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/><path d="M14 4v5a1 1 0 0 0 1 1h5"/></svg></div>
-          <div class="tool-card-text"><div class="tool-card-title">Generador de Boletines</div><div class="tool-card-sub">App de Streamlit que arma los 4 newsletters a partir de los Excel/Sheets.</div></div>
+          <div class="tool-card-text"><div class="tool-card-title">Generador de Boletines</div><div class="tool-card-sub">Arma los 4 newsletters a partir de los Excel del equipo, con corrector ortográfico e historial.</div></div>
           <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
         </a>
         <a class="tool-card wide" href="playbooks/Playbook_Supervisores_NL.html" target="_blank" rel="noopener">
@@ -1071,7 +1073,7 @@
         <div class="tool-grid wide" style="margin-top:16px">
           <a class="tool-card wide" href="#" onclick="go('boletinesgen', document.getElementById('navBoletinesGen')); openGroupFor('navManagement'); return false;">
             <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a1 1 0 0 1 1-1h9l6 6v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/><path d="M14 4v5a1 1 0 0 0 1 1h5"/></svg></div>
-            <div class="tool-card-text"><div class="tool-card-title">Generador de Boletines</div><div class="tool-card-sub">App de Streamlit que arma los 4 newsletters a partir de los Excel/Sheets.</div></div>
+            <div class="tool-card-text"><div class="tool-card-title">Generador de Boletines</div><div class="tool-card-sub">Arma los 4 newsletters a partir de los Excel del equipo, con corrector ortográfico e historial.</div></div>
             <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
           </a>
         </div>
@@ -1316,7 +1318,7 @@
       <div class="page-header">
         <div class="page-eyebrow">Gestión <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
         <div class="page-title">Generador de Boletines <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
-        <div class="page-desc">App de Streamlit que arma los 4 newsletters (FM + XD + SC + TOM, SVC + Last Mile, Quality, Gestión) a partir de los Excel/Sheets del equipo.</div>
+        <div class="page-desc">Arma los 4 newsletters (FM + XD + SC + TOM, SVC + Last Mile, Quality, Gestión) a partir de los Excel del equipo — corrector ortográfico, avisos de revisión e historial incluidos.</div>
       </div>
       <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
         <button onclick="fullscreenIframe('boletinesGenFrame')" aria-label="Ver en pantalla completa" style="display:flex; align-items:center; gap:6px; background:var(--dark); color:var(--white); border:none; border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:inherit;">
@@ -1325,9 +1327,8 @@
         </button>
       </div>
       <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 160px); min-height:820px;">
-        <iframe id="boletinesGenFrame" data-src="https://oe-mlm-boletines.streamlit.app/?embed=true" style="width:100%; height:100%; border:none; display:block;" title="Generador de Boletines" allow="fullscreen" allowfullscreen></iframe>
+        <iframe id="boletinesGenFrame" data-src="herramientas/boletines_oe.html" style="width:100%; height:100%; border:none; display:block;" title="Generador de Boletines"></iframe>
       </div>
-      <div style="margin-top:10px; font-size:11.5px; color:#999;">¿No carga aquí? <a class="i18n-link" href="https://oe-mlm-boletines.streamlit.app/" target="_blank" rel="noopener" style="color:#999;">Ábrelo en una pestaña nueva ↗</a></div>
     </div>
 
     <div class="page" id="page-management">
@@ -1804,7 +1805,7 @@
     { label: 'Gestión · Generador de Slides', hint: 'Slide de status ejecutivo para juntas', go: function () { go('slides', document.getElementById('navSlides')); openGroupFor('navManagement'); } },
     { label: 'Gestión · Señalética de Aperturas', hint: 'Carrito de señalética + orden de compra en Excel', go: function () { go('senaletica', document.getElementById('navSenaletica')); openGroupFor('navManagement'); } },
     { label: 'Gestión · Slip Robots', hint: 'Scorecard de priorización de rutas LH Ground', go: function () { go('sliprobots', document.getElementById('navSlipRobots')); openGroupFor('navManagement'); } },
-    { label: 'Gestión · Generador de Boletines', hint: 'App de Streamlit para armar los 4 newsletters', go: function () { go('boletinesgen', document.getElementById('navBoletinesGen')); openGroupFor('navManagement'); } },
+    { label: 'Gestión · Generador de Boletines', hint: 'Arma los 4 newsletters desde Excel, con corrector e historial', go: function () { go('boletinesgen', document.getElementById('navBoletinesGen')); openGroupFor('navManagement'); } },
     { label: 'Rutinas · BBR', hint: 'Entrega bisemanal de resultados', go: function () { go('rutinas', null); openGroupFor('navRutinas'); routineTab('bbr'); } },
     { label: 'Rutinas · MBR', hint: 'Entrega mensual de resultados', go: function () { go('rutinas', null); openGroupFor('navRutinas'); routineTab('mbr'); } },
     { label: 'Rutinas · Newsletter', hint: 'Boletin mensual de OE', go: function () { go('rutinas', null); openGroupFor('navRutinas'); routineTab('nl'); } },
@@ -1986,7 +1987,7 @@
   // todos los anteriores se listan solos en "Historico" (del mas nuevo al mas viejo).
   //
   // COMO AGREGAR UN MES NUEVO (ej. agosto 2026), sin tocar nada mas de este archivo:
-  //   1) Genera los 3 boletines del mes como siempre (Streamlit / motor.py).
+  //   1) Genera los 3 boletines del mes como siempre (herramientas/boletines_oe.html).
   //   2) Copialos a oe-hub/boletines/2026-08/ con estos nombres exactos:
   //        Boletin_FirstMile.html, Boletin_ServiceCenter.html, Boletin_Quality.html
   //   3) Agrega UN objeto nuevo al FINAL de BOLETIN_MONTHS:
@@ -2364,7 +2365,7 @@
     // Herramientas de equipo
     'Herramientas de equipo':'Team tools',
     'Generador de Boletines':'Newsletter Generator',
-    'App de Streamlit que arma los 4 newsletters a partir de los Excel/Sheets.':'Streamlit app that builds the 4 newsletters from the Excel/Sheets.',
+    'Arma los 4 newsletters a partir de los Excel del equipo, con corrector ortográfico e historial.':'Builds the 4 newsletters from the team\'s Excel files, with spell-check and history.',
     'Playbooks (Admin / Supervisores)':'Playbooks (Admin / Supervisors)',
     'Guías paso a paso para llenar el Form y para correr el proceso mensual.':'Step-by-step guides for filling out the Form and running the monthly process.',
     'Grids clasificados':'Classified Grids',
@@ -2447,7 +2448,7 @@
 
     // Slides
     'Arma el slide de status de un proyecto Lean (KPIs con tendencia, fases, obstáculos, decisión requerida) y expórtalo listo para la junta.':'Builds the status slide for a Lean project (KPIs with trend, phases, obstacles, decision required) and exports it ready for the meeting.',
-    'App de Streamlit que arma los 4 newsletters (FM + XD + SC + TOM, SVC + Last Mile, Quality, Gestión) a partir de los Excel/Sheets del equipo.':'Streamlit app that builds the 4 newsletters (FM + XD + SC + TOM, SVC + Last Mile, Quality, Management) from the team\'s Excel/Sheets.',
+    'Arma los 4 newsletters (FM + XD + SC + TOM, SVC + Last Mile, Quality, Gestión) a partir de los Excel del equipo — corrector ortográfico, avisos de revisión e historial incluidos.':'Builds the 4 newsletters (FM + XD + SC + TOM, SVC + Last Mile, Quality, Management) from the team\'s Excel files — spell-check, review warnings and history included.',
     'Ábrelo en una pestaña nueva ↗':'Open it in a new tab ↗',
 
     // Aprendizaje Continuo
@@ -2551,7 +2552,7 @@
     '% de avance, riesgo, resultados PET':'% progress, risk, PET results',
     'Iniciativas del equipo':'Team initiatives',
     'Slide de status ejecutivo para juntas':'Executive status slide for meetings',
-    'App de Streamlit para armar los 4 newsletters':'Streamlit app to build the 4 newsletters',
+    'Arma los 4 newsletters desde Excel, con corrector e historial':'Builds the 4 newsletters from Excel, with spell-check and history',
     'Entrega bisemanal de resultados':'Biweekly results review',
     'Entrega mensual de resultados':'Monthly results review',
     'Boletin mensual de OE':'Monthly OE newsletter',
@@ -2651,7 +2652,7 @@
     // Herramientas de equipo
     'Herramientas de equipo':'Ferramentas da equipe',
     'Generador de Boletines':'Gerador de Boletins',
-    'App de Streamlit que arma los 4 newsletters a partir de los Excel/Sheets.':'App de Streamlit que monta os 4 newsletters a partir dos Excel/Sheets.',
+    'Arma los 4 newsletters a partir de los Excel del equipo, con corrector ortográfico e historial.':'Monta os 4 newsletters a partir dos Excel da equipe, com corretor ortográfico e histórico.',
     'Playbooks (Admin / Supervisores)':'Playbooks (Admin / Supervisores)',
     'Guías paso a paso para llenar el Form y para correr el proceso mensual.':'Guias passo a passo para preencher o Form e para rodar o processo mensal.',
     'Grids clasificados':'Grids classificados',
@@ -2734,7 +2735,7 @@
 
     // Slides
     'Arma el slide de status de un proyecto Lean (KPIs con tendencia, fases, obstáculos, decisión requerida) y expórtalo listo para la junta.':'Monta o slide de status de um projeto Lean (KPIs com tendência, fases, obstáculos, decisão necessária) e exporta pronto para a reunião.',
-    'App de Streamlit que arma los 4 newsletters (FM + XD + SC + TOM, SVC + Last Mile, Quality, Gestión) a partir de los Excel/Sheets del equipo.':'App de Streamlit que monta os 4 newsletters (FM + XD + SC + TOM, SVC + Last Mile, Quality, Management) a partir dos Excel/Sheets da equipe.',
+    'Arma los 4 newsletters (FM + XD + SC + TOM, SVC + Last Mile, Quality, Gestión) a partir de los Excel del equipo — corrector ortográfico, avisos de revisión e historial incluidos.':'Monta os 4 newsletters (FM + XD + SC + TOM, SVC + Last Mile, Quality, Management) a partir dos Excel da equipe — corretor ortográfico, avisos de revisão e histórico incluídos.',
     'Ábrelo en una pestaña nueva ↗':'Abra em uma nova aba ↗',
 
     // Aprendizaje Continuo
@@ -2838,7 +2839,7 @@
     '% de avance, riesgo, resultados PET':'% de avanço, risco, resultados PET',
     'Iniciativas del equipo':'Iniciativas da equipe',
     'Slide de status ejecutivo para juntas':'Slide de status executivo para reuniões',
-    'App de Streamlit para armar los 4 newsletters':'App de Streamlit para montar os 4 newsletters',
+    'Arma los 4 newsletters desde Excel, con corrector e historial':'Monta os 4 newsletters a partir de Excel, com corretor e histórico',
     'Entrega bisemanal de resultados':'Entrega quinzenal de resultados',
     'Entrega mensual de resultados':'Entrega mensal de resultados',
     'Boletin mensual de OE':'Boletim mensal de OE',
@@ -2964,7 +2965,7 @@
     // NO se incluyen aqui a proposito: son contenido 100% en espanol, sin diccionario
     // TEXT_EN/TEXT_PT ni listener de postMessage('oeHubLang') propio, asi que sincronizar
     // el idioma no cambiaria nada visible. Traducirlos es un trabajo aparte (ya en el backlog).
-    ['insightsFrameProyectos', 'insightsFrameIndicadores', 'slidesFrame', 'senaleticaFrame', 'sliprobotsFrame'].forEach(function (id) {
+    ['insightsFrameProyectos', 'insightsFrameIndicadores', 'slidesFrame', 'senaleticaFrame', 'sliprobotsFrame', 'boletinesGenFrame'].forEach(function (id) {
       var frame = document.getElementById(id);
       if (frame && frame.contentWindow) {
         try { frame.contentWindow.postMessage({ type: 'oeHubLang', lang: lang }, '*'); } catch (e) {}

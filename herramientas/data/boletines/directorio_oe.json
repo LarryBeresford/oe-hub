@@ -1,0 +1,74 @@
+[
+  {
+    "n": "Miguel Hernández",
+    "niv": "Sr Manager",
+    "area": "OE",
+    "rama": "",
+    "mail": "miguel.hernandezmartinez@mercadolibre.com.mx",
+    "foto": "https://i.imgur.com/fA8JHId.jpg"
+  },
+  {
+    "n": "Steven Seedorf",
+    "niv": "Manager",
+    "area": "SVC + LM",
+    "rama": "SVC+LM",
+    "mail": "steven.seedorf@mercadolibre.com.mx",
+    "foto": "https://i.imgur.com/UcM3gqc.jpg"
+  },
+  {
+    "n": "Ana Vargas",
+    "niv": "Supervisor",
+    "area": "SVC+LM MRS",
+    "rama": "SVC+LM",
+    "mail": "ana.vargasfuentes@mercadolibre.com.mx",
+    "foto": "https://i.imgur.com/MH4N1CU.jpg"
+  },
+  {
+    "n": "Mariana Novoa",
+    "niv": "Manager",
+    "area": "XD, SC + FM",
+    "rama": "XD, SC+FM",
+    "mail": "mariana.novoa@mercadolibre.com.mx",
+    "foto": "https://i.imgur.com/i3epbGL.jpg"
+  },
+  {
+    "n": "Germán Gonzalo Ramírez",
+    "niv": "Supervisor",
+    "area": "XD, SC+FM MRS",
+    "rama": "XD, SC+FM",
+    "mail": "german.ramirezlara@mercadolibre.com.mx",
+    "foto": "https://i.imgur.com/uDq0p1w.jpeg"
+  },
+  {
+    "n": "Eduardo García",
+    "niv": "Supervisor",
+    "area": "XD, SC+FM MRN",
+    "rama": "XD, SC+FM",
+    "mail": "eduardo.egarciamejia@mercadolibre.com.mx",
+    "foto": "https://i.imgur.com/f6C6n8t.jpg"
+  },
+  {
+    "n": "Laura Chávez",
+    "niv": "Supervisor",
+    "area": "Quality MRS",
+    "rama": "Quality",
+    "mail": "laura.chavezdiaz@mercadolibre.com.mx",
+    "foto": "https://i.imgur.com/dCfmGI5.jpeg"
+  },
+  {
+    "n": "Juan Carlos García",
+    "niv": "Supervisor",
+    "area": "Quality MRN",
+    "rama": "Quality",
+    "mail": "garcia.gjuan@mercadolibre.com.mx",
+    "foto": "https://i.imgur.com/NHcV4RN.jpg"
+  },
+  {
+    "n": "Ricardo Almanza",
+    "niv": "Supervisor",
+    "area": "Gestión",
+    "rama": "Gestión",
+    "mail": "carlosricardo.almanzaloo@mercadolibre.com.mx",
+    "foto": "https://i.imgur.com/nE4Yfj6.jpg"
+  }
+]
