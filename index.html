@@ -1917,9 +1917,46 @@
   function lazyLoadIframe(container) {
     if (!container) return;
     container.querySelectorAll('iframe[data-src]').forEach(function (f) {
-      f.src = f.getAttribute('data-src');
+      var src = f.getAttribute('data-src');
+      f.src = src;
       f.removeAttribute('data-src');
+      // 17-sep-2026: aviso de "esta herramienta no cargó, contacta a Larry" --
+      // solo para las herramientas propias del Hub (rutas relativas), no para
+      // embeds externos (Slides/Drive de video) que tienen sus propios
+      // problemas de acceso/permiso ajenos al Hub.
+      if (!/^https?:\/\//i.test(src)) {
+        attachFrameFailSafe(f);
+      }
     });
+  }
+
+  function attachFrameFailSafe(f) {
+    var settled = false;
+    var timer = setTimeout(function () { showFrameFailMsg(f); }, 12000);
+    f.addEventListener('load', function () { settled = true; clearTimeout(timer); }, { once: true });
+    f.addEventListener('error', function () {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      showFrameFailMsg(f);
+    }, { once: true });
+  }
+
+  function showFrameFailMsg(f) {
+    if (f.dataset.oeFailShown) return;
+    f.dataset.oeFailShown = '1';
+    f.style.display = 'none';
+    var box = document.createElement('div');
+    box.className = 'oe-frame-fail';
+    box.style.cssText = 'width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:10px; padding:30px; background:#FAFAFA; font-family:inherit;';
+    var OE_FRAME_FAIL_MSGS = {
+      es: 'Esta herramienta no pudo cargar. Intenta recargar la página; si el problema sigue, escríbele a <a href="mailto:larry.beresforddiaz@mercadolibre.com.mx" style="color:#1A1A1A; font-weight:700;">Larry Beresford Díaz</a>.',
+      en: 'This tool could not load. Try reloading the page; if the problem continues, email <a href="mailto:larry.beresforddiaz@mercadolibre.com.mx" style="color:#1A1A1A; font-weight:700;">Larry Beresford Díaz</a>.',
+      pt: 'Esta ferramenta não conseguiu carregar. Tente recarregar a página; se o problema continuar, escreva para <a href="mailto:larry.beresforddiaz@mercadolibre.com.mx" style="color:#1A1A1A; font-weight:700;">Larry Beresford Díaz</a>.'
+    };
+    box.innerHTML = '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C4C4C4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>'
+      + '<div style="font-size:13.5px; color:#666; max-width:360px; line-height:1.55;">' + (OE_FRAME_FAIL_MSGS[currentLang()] || OE_FRAME_FAIL_MSGS.es) + '</div>';
+    if (f.parentNode) f.parentNode.appendChild(box);
   }
 
   function go(pageId, btn) {
