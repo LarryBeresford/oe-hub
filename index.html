@@ -652,9 +652,84 @@
     .home-hero { background: #fff !important; border: 1px solid #ccc; }
     a { color: #000 !important; text-decoration: underline; }
   }
+
+  /* ── CANDADO SIMPLE (solo sensación de seguridad / UX, NO es protección
+     real: la contraseña vive en este mismo archivo y cualquiera con el link
+     directo a una herramienta se lo salta). Decisión de Larry: los datos no
+     son sensibles, así que no vale la pena un login "de verdad". ── */
+  .oe-gate {
+    position: fixed; inset: 0; z-index: 99999; background: #1A1A1A;
+    display: flex; align-items: center; justify-content: center; padding: 20px;
+  }
+  .oe-gate-card {
+    width: 100%; max-width: 320px; text-align: center;
+  }
+  .oe-gate-logo {
+    width: 52px; height: 52px; margin: 0 auto 18px; border-radius: 12px;
+    background: var(--yellow); color: #1A1A1A; font-weight: 900; font-size: 17px;
+    display: flex; align-items: center; justify-content: center; letter-spacing: .5px;
+  }
+  .oe-gate-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+  .oe-gate-sub { font-size: 12.5px; color: #999; margin-bottom: 24px; }
+  .oe-gate-card input {
+    width: 100%; background: #262626; border: 1px solid #3a3a3a; color: #fff;
+    border-radius: 8px; padding: 11px 14px; font-size: 14px; font-family: inherit;
+    text-align: center; margin-bottom: 12px;
+  }
+  .oe-gate-card input:focus { outline: none; border-color: var(--yellow); }
+  .oe-gate-card button {
+    width: 100%; background: var(--yellow); color: #1A1A1A; border: none; border-radius: 8px;
+    padding: 11px 14px; font-size: 13.5px; font-weight: 800; cursor: pointer; font-family: inherit;
+    text-transform: uppercase; letter-spacing: .05em;
+  }
+  .oe-gate-card button:hover { opacity: .9; }
+  .oe-gate-err { font-size: 12px; color: #ff6b6b; margin-top: 12px; }
+  body.oe-gate-open { overflow: hidden; }
 </style>
 </head>
 <body>
+
+<!-- ══ CANDADO SIMPLE (ver comentario de estilos arriba: no es seguridad real) ══ -->
+<div id="oeGate" class="oe-gate">
+  <div class="oe-gate-card">
+    <div class="oe-gate-logo">OE</div>
+    <div class="oe-gate-title">OE MLM Hub</div>
+    <div class="oe-gate-sub">Excelencia Operativa · Transportes MLM</div>
+    <form id="oeGateForm" autocomplete="off">
+      <input type="password" id="oeGatePass" placeholder="Contraseña" autocomplete="off" autofocus />
+      <button type="submit">Entrar</button>
+    </form>
+    <div class="oe-gate-err" id="oeGateErr" style="display:none">Contraseña incorrecta, intenta de nuevo.</div>
+  </div>
+</div>
+<script>
+(function () {
+  // Cambia esta contraseña aquí cuando quieras rotarla para el equipo.
+  var OE_GATE_PASS = 'OEMLM2026';
+  var OE_GATE_KEY = 'oeHubUnlocked';
+  var gate = document.getElementById('oeGate');
+  try {
+    if (localStorage.getItem(OE_GATE_KEY) === '1') {
+      gate.style.display = 'none';
+      return;
+    }
+  } catch (e) { /* localStorage no disponible: dejamos el candado visible */ }
+  document.body.classList.add('oe-gate-open');
+  document.getElementById('oeGateForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var input = document.getElementById('oeGatePass');
+    if (input.value === OE_GATE_PASS) {
+      try { localStorage.setItem(OE_GATE_KEY, '1'); } catch (e) {}
+      gate.style.display = 'none';
+      document.body.classList.remove('oe-gate-open');
+    } else {
+      document.getElementById('oeGateErr').style.display = 'block';
+      input.value = '';
+      input.focus();
+    }
+  });
+})();
+</script>
 
 <aside class="sidebar">
   <button class="sidebar-logo" onclick="go('inicio', this)">
