@@ -478,6 +478,17 @@ var DATA_FILE = 'data/sliprobots/slip_robots_datos.xlsx';
 var DEF_FONT = {family:'Segoe UI', size:10, weight:'600'};
 var D = {}; // datos parseados
 
+// Paleta compartida para colorear por origen tanto la tabla de MWH como su
+// gráfica de barras horizontales, así el mismo origen siempre se ve del mismo
+// color en ambos lados (se recalcula en cada render() para no arrastrar
+// asignaciones viejas si cambia el Excel).
+var MWH_ORIGEN_PALETTE = ['#3b82f6', '#8b5cf6', '#10b981', '#f97316', '#ec4899'];
+var mwhOrigenIdx = {};
+function mwhOrigenColor(origen){
+  if(!(origen in mwhOrigenIdx)) mwhOrigenIdx[origen] = Object.keys(mwhOrigenIdx).length;
+  return MWH_ORIGEN_PALETTE[mwhOrigenIdx[origen] % MWH_ORIGEN_PALETTE.length];
+}
+
 // ── IDIOMAS (ES/EN/PT) ──────────────────────────────────────────
 // Se sincroniza con el selector del Hub via postMessage {type:'oeHubLang'}.
 // Cubre el chrome fijo de la herramienta (header, tabs, títulos de tarjeta,
@@ -617,6 +628,7 @@ function switchTab(id,btn){
 // ── RENDER ───────────────────────────────────────────────────────
 function render(){
   var cats = D.cats, mwh = D.mwh, dest = D.dest, od = D.od, bench = D.bench, r = D.resumen;
+  mwhOrigenIdx = {};
 
   var totalLanes = cats.reduce(function(s,c){return s + toNum(c.lanes);}, 0);
   var volMultOpt = cats.filter(function(c){
@@ -749,25 +761,17 @@ function renderCharts(){
       responsive:true,maintainAspectRatio:true,
       plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){return ' '+ctx.raw+'% del universo LH';},}}},
       scales:{
-        y:{beginAtZero:true,grid:{color:'rgba(0,0,0,.05)'},
+        y:{beginAtZero:true,max:60,grid:{color:'rgba(0,0,0,.05)'},
           ticks:{callback:function(v){return v+'%';},font:DEF_FONT}},
         x:{grid:{display:false},ticks:{font:{family:'Segoe UI',size:9.5,weight:'700'}}}
       }
     }
   });
 
-  // 3. Horizontal bar — MWH
+  // 3. Horizontal bar — MWH (mismo color por origen que en la tabla de detalle)
   var mwhS = mwh.slice().sort(function(a,b){return toNum(b.vol_anual_m)-toNum(a.vol_anual_m);});
-  var palette = ['#3b82f6bb','#8b5cf6bb','#10b981bb','#f97316bb','#ec4899bb'];
-  var paletteBorder = ['#3b82f6','#8b5cf6','#10b981','#f97316','#ec4899'];
-  var origenIdx = {};
-  var mwhColors = mwhS.map(function(r){
-    if(!(r.origen in origenIdx)) origenIdx[r.origen] = Object.keys(origenIdx).length;
-    return palette[origenIdx[r.origen] % palette.length];
-  });
-  var mwhBorder = mwhS.map(function(r){
-    return paletteBorder[origenIdx[r.origen] % paletteBorder.length];
-  });
+  var mwhColors = mwhS.map(function(r){ return mwhOrigenColor(r.origen)+'bb'; });
+  var mwhBorder = mwhS.map(function(r){ return mwhOrigenColor(r.origen); });
   CHART_INSTANCES.mwh = new Chart(document.getElementById('mwhChart'),{
     type:'bar',
     data:{
@@ -829,8 +833,9 @@ function renderTables(){
     var ded = toNum(r.ded_pct);
     var tr=document.createElement('tr');
     var dc=ded>=80?'#22c55e':ded>=40?'#f97316':'#ef4444';
+    var oc=mwhOrigenColor(r.origen);
     tr.innerHTML=
-      '<td><span class="badge" style="background:#eff6ff;color:#3b82f6;border:1px solid #bfdbfe">'+r.origen+'</span></td>'+
+      '<td><span class="badge" style="background:'+oc+'1a;color:'+oc+';border:1px solid '+oc+'40">'+r.origen+'</span></td>'+
       '<td><span class="badge" style="background:#f0fdf4;color:#10b981;border:1px solid #a7f3d0">'+r.destino+'</span></td>'+
       '<td><span class="num" style="color:'+dc+'">'+ded.toFixed(1)+'%</span></td>'+
       '<td class="num">'+toNum(r.vol_mensual_m).toFixed(2)+' M</td>'+
