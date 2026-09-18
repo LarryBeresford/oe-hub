@@ -688,7 +688,7 @@
       <button class="nav-sub-item" id="navSlides" onclick="go('slides', this)"><span>Generador de Slides</span></button>
       <button class="nav-sub-item" id="navBoletinesGen" onclick="go('boletinesgen', this)"><span>Generador de Boletines</span></button>
       <button class="nav-sub-item" id="navSenaletica" onclick="go('senaletica', this)"><span>Señalética de Aperturas</span></button>
-      <button class="nav-sub-item" id="navSlipRobots" onclick="go('sliprobots', this)"><span>Slip Robots — Rutas Candidatas</span></button>
+      <button class="nav-sub-item" id="navSlipRobots" onclick="go('sliprobots', this)"><span>Slip Robots</span></button>
     </div>
 
     <button class="nav-direct nav-group" id="navRutinas" onclick="toggleGroup('navRutinas'); go('rutinas', this); setTimeout(()=>routineTab('bbr'),0)">
@@ -904,7 +904,7 @@
         </a>
         <a class="tool-card wide" href="#" onclick="go('sliprobots', document.getElementById('navSlipRobots')); openGroupFor('navManagement'); return false;">
           <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="16" height="12" rx="2"/><path d="M9 7V5a3 3 0 0 1 6 0v2M9 13h.01M15 13h.01"/></svg></div>
-          <div class="tool-card-text"><div class="tool-card-title">Slip Robots — Rutas Candidatas</div><div class="tool-card-sub">Scorecard de priorización de rutas LH Ground para despliegue de robots (Multiplicadores/Optimizadores/Tácticos/Estáticos).</div></div>
+          <div class="tool-card-text"><div class="tool-card-title">Slip Robots</div><div class="tool-card-sub">Scorecard de priorización de rutas LH Ground para despliegue de robots (Multiplicadores/Optimizadores/Tácticos/Estáticos).</div></div>
           <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
         </a>
       </div>
@@ -1298,7 +1298,7 @@
     <div class="page" id="page-sliprobots">
       <div class="page-header">
         <div class="page-eyebrow">Excelencia Operacional <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
-        <div class="page-title">Slip Robots — Rutas Candidatas <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
+        <div class="page-title">Slip Robots <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
         <div class="page-desc">Scorecard de priorización de rutas Line Haul Ground para despliegue de Slip Robots — de Martín Winkler.</div>
       </div>
       <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
@@ -1308,7 +1308,7 @@
         </button>
       </div>
       <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 230px); min-height:600px;">
-        <iframe id="sliprobotsFrame" data-src="herramientas/slip_robots_rutas.html" style="width:100%; height:100%; border:none; display:block;" title="Slip Robots — Rutas Candidatas"></iframe>
+        <iframe id="sliprobotsFrame" data-src="herramientas/slip_robots_rutas.html" style="width:100%; height:100%; border:none; display:block;" title="Slip Robots"></iframe>
       </div>
     </div>
 
@@ -1803,7 +1803,7 @@
     { label: 'Gestión · Iniciativas', hint: 'Iniciativas del equipo', go: function () { go('management', null); openGroupFor('navManagement'); } },
     { label: 'Gestión · Generador de Slides', hint: 'Slide de status ejecutivo para juntas', go: function () { go('slides', document.getElementById('navSlides')); openGroupFor('navManagement'); } },
     { label: 'Gestión · Señalética de Aperturas', hint: 'Carrito de señalética + orden de compra en Excel', go: function () { go('senaletica', document.getElementById('navSenaletica')); openGroupFor('navManagement'); } },
-    { label: 'Gestión · Slip Robots — Rutas Candidatas', hint: 'Scorecard de priorización de rutas LH Ground', go: function () { go('sliprobots', document.getElementById('navSlipRobots')); openGroupFor('navManagement'); } },
+    { label: 'Gestión · Slip Robots', hint: 'Scorecard de priorización de rutas LH Ground', go: function () { go('sliprobots', document.getElementById('navSlipRobots')); openGroupFor('navManagement'); } },
     { label: 'Gestión · Generador de Boletines', hint: 'App de Streamlit para armar los 4 newsletters', go: function () { go('boletinesgen', document.getElementById('navBoletinesGen')); openGroupFor('navManagement'); } },
     { label: 'Rutinas · BBR', hint: 'Entrega bisemanal de resultados', go: function () { go('rutinas', null); openGroupFor('navRutinas'); routineTab('bbr'); } },
     { label: 'Rutinas · MBR', hint: 'Entrega mensual de resultados', go: function () { go('rutinas', null); openGroupFor('navRutinas'); routineTab('mbr'); } },

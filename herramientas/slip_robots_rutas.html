@@ -497,6 +497,11 @@ function switchTab(id,btn){
   document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');});
   document.getElementById('t-'+id).classList.add('on');
   btn.classList.add('on');
+  // Al volverse visible, el panel pasa de display:none a block: forzamos a
+  // Chart.js a recalcular tamaño de sus canvases (si no, algunos quedan en 0x0).
+  requestAnimationFrame(function(){
+    Object.keys(CHART_INSTANCES).forEach(function(k){ CHART_INSTANCES[k].resize(); });
+  });
 }
 
 // ── RENDER ───────────────────────────────────────────────────────
@@ -570,15 +575,27 @@ function render(){
   });
   document.getElementById('benchmarksBody').innerHTML = benchHtml;
 
-  renderCharts();
   renderTables();
+  // Las gráficas se crean en el siguiente frame: el panel acaba de pasar de
+  // display:none a block y el navegador todavía no calculó su tamaño real —
+  // si Chart.js dibuja antes de eso, el canvas mide 0x0 y queda vacío.
+  requestAnimationFrame(function(){
+    requestAnimationFrame(renderCharts);
+  });
 }
+
+var CHART_INSTANCES = {};
 
 function renderCharts(){
   var cats = D.cats, mwh = D.mwh, dest = D.dest;
 
+  Object.keys(CHART_INSTANCES).forEach(function(k){
+    CHART_INSTANCES[k].destroy();
+  });
+  CHART_INSTANCES = {};
+
   // 1. Donut — lanes
-  new Chart(document.getElementById('donutChart'),{
+  CHART_INSTANCES.donut = new Chart(document.getElementById('donutChart'),{
     type:'doughnut',
     data:{
       labels:cats.map(function(c){return c.emoji+' '+c.nombre;}),
@@ -598,7 +615,7 @@ function renderCharts(){
   });
 
   // 2. Bar — volume %
-  new Chart(document.getElementById('volChart'),{
+  CHART_INSTANCES.vol = new Chart(document.getElementById('volChart'),{
     type:'bar',
     data:{
       labels:cats.map(function(c){return c.emoji+' '+c.nombre;}),
@@ -633,7 +650,7 @@ function renderCharts(){
   var mwhBorder = mwhS.map(function(r){
     return paletteBorder[origenIdx[r.origen] % paletteBorder.length];
   });
-  new Chart(document.getElementById('mwhChart'),{
+  CHART_INSTANCES.mwh = new Chart(document.getElementById('mwhChart'),{
     type:'bar',
     data:{
       labels:mwhS.map(function(r){return r.origen+' → '+r.destino;}),
@@ -658,7 +675,7 @@ function renderCharts(){
   // 4. Bar — top destinations
   var destColors=['#3b82f6bb','#22c55ebb','#f97316bb','#8b5cf6bb','#ec4899bb'];
   var destBorders=['#3b82f6','#22c55e','#f97316','#8b5cf6','#ec4899'];
-  new Chart(document.getElementById('destChart'),{
+  CHART_INSTANCES.dest = new Chart(document.getElementById('destChart'),{
     type:'bar',
     data:{
       labels:dest.map(function(d){return d.destino;}),
