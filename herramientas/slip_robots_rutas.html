@@ -20,6 +20,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
 .logo{background:#000;color:#FFE600;font-weight:900;font-size:10.5px;padding:5px 9px;border-radius:5px;letter-spacing:1.5px}
 .hdr-title{font-size:14px;font-weight:700;letter-spacing:-.2px;color:#000}
 .hdr-sub{font-size:9.5px;color:#333;margin-top:1px;letter-spacing:.3px;text-transform:uppercase}
+.hdr-updated{font-size:9px;color:#888;margin-top:3px;letter-spacing:.2px}
 .hdr-r{display:flex;align-items:center;gap:18px}
 .hdr-stat{text-align:right}
 .hdr-stat-v{font-size:17px;font-weight:800;line-height:1;color:#000}
@@ -147,6 +148,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
     <div>
       <div class="hdr-title">Slip Robots</div>
       <div class="hdr-sub">Line Haul Ground · México · Scorecard de Priorización</div>
+      <div class="hdr-updated" id="hdrUpdated"></div>
     </div>
   </div>
   <div class="hdr-r">
@@ -519,6 +521,7 @@ function render(){
   document.getElementById('statVolMultOpt').textContent = volMultOpt.toFixed(1) + '%';
   document.getElementById('statCobertura').textContent = toNum(r.cobertura_target_lh).toFixed(1) + '%';
   document.getElementById('donutBadge').textContent = totalLanes + ' Total';
+  document.getElementById('hdrUpdated').textContent = r.ultima_actualizacion ? ('Datos actualizados: ' + r.ultima_actualizacion) : '';
 
   // Pilot banner
   document.getElementById('pilotTitle').textContent = (r.pilot_origen||'') + ' → ' + (r.pilot_destino||'');
