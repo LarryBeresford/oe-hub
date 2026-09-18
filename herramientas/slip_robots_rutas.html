@@ -145,37 +145,37 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-sy
     <div class="logo">MELI</div>
     <div>
       <div class="hdr-title">Slip Robots</div>
-      <div class="hdr-sub">Line Haul Ground · México · Scorecard de Priorización</div>
+      <div class="hdr-sub" data-i18n="hdrSub">Line Haul Ground · México · Scorecard de Priorización</div>
       <div class="hdr-updated" id="hdrUpdated"></div>
     </div>
   </div>
   <div class="hdr-r">
     <div class="hdr-stat">
       <div class="hdr-stat-v" id="statRutas">—</div>
-      <div class="hdr-stat-l">Rutas Analizadas</div>
+      <div class="hdr-stat-l" data-i18n="statRutasL">Rutas Analizadas</div>
     </div>
     <div class="hdiv"></div>
     <div class="hdr-stat">
       <div class="hdr-stat-v" id="statVolMultOpt">—</div>
-      <div class="hdr-stat-l">Vol. Mult + Opt</div>
+      <div class="hdr-stat-l" data-i18n="statVolL">Vol. Mult + Opt</div>
     </div>
     <div class="hdiv"></div>
     <div class="hdr-stat">
       <div class="hdr-stat-v" id="statCobertura">—</div>
-      <div class="hdr-stat-l">Cobertura Target LH</div>
+      <div class="hdr-stat-l" data-i18n="statCobL">Cobertura Target LH</div>
     </div>
   </div>
 </div>
 
 <!-- ══ TAB BAR ══ -->
 <div class="tabbar">
-  <button class="tab on" onclick="switchTab('resumen',this)">Resumen</button>
-  <button class="tab" onclick="switchTab('mwh',this)">MWH Volumen</button>
-  <button class="tab" onclick="switchTab('lhground',this)">LH Ground</button>
-  <button class="tab" onclick="switchTab('scorecard',this)">Scorecard</button>
+  <button class="tab on" onclick="switchTab('resumen',this)" data-i18n="tabResumen">Resumen</button>
+  <button class="tab" onclick="switchTab('mwh',this)" data-i18n="tabMwh">MWH Volumen</button>
+  <button class="tab" onclick="switchTab('lhground',this)" data-i18n="tabLh">LH Ground</button>
+  <button class="tab" onclick="switchTab('scorecard',this)" data-i18n="tabScorecard">Scorecard</button>
 </div>
 
-<div id="loadMsg" class="load-msg">Cargando datos…</div>
+<div id="loadMsg" class="load-msg" data-i18n="cargando">Cargando datos…</div>
 <div id="errMsg" class="err-msg" style="display:none"></div>
 
 <div id="appBody" style="display:none">
@@ -188,19 +188,19 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-sy
   <!-- Pilot banner -->
   <div class="pilot-banner">
     <div>
-      <div class="pilot-tag">🤖 Pilot Activo</div>
+      <div class="pilot-tag" data-i18n="pilotTag">🤖 Pilot Activo</div>
       <div class="pilot-title" id="pilotTitle">—</div>
-      <div class="pilot-sub">Circuito de Prueba de Concepto — MWH Multiwarehouse</div>
+      <div class="pilot-sub" data-i18n="pilotSub">Circuito de Prueba de Concepto — MWH Multiwarehouse</div>
     </div>
     <div style="display:flex;gap:28px">
       <div class="pilot-stat">
         <div class="pilot-stat-v" id="pilotDwell">—</div>
-        <div class="pilot-stat-l">Reducción Dwell Time</div>
+        <div class="pilot-stat-l" data-i18n="pilotDwellL">Reducción Dwell Time</div>
       </div>
       <div class="hdiv" style="background:rgba(255,255,255,.15)"></div>
       <div class="pilot-stat">
         <div class="pilot-stat-v" id="pilotViajes">—</div>
-        <div class="pilot-stat-l">Viajes/Día por DFP</div>
+        <div class="pilot-stat-l" data-i18n="pilotViajesL">Viajes/Día por DFP</div>
       </div>
     </div>
   </div>
@@ -212,7 +212,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-sy
   <div class="g2 g-2" style="margin-bottom:10px">
     <div class="card">
       <div class="card-hdr">
-        <div class="card-title">Distribución de Lanes</div>
+        <div class="card-title" data-i18n="cardDonut">Distribución de Lanes</div>
         <div class="card-badge" id="donutBadge">Total</div>
       </div>
       <div class="chart-wrap" style="padding:10px 14px 14px">
@@ -221,8 +221,8 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-sy
     </div>
     <div class="card">
       <div class="card-hdr">
-        <div class="card-title">Participación de Volumen por Categoría</div>
-        <div class="card-badge">% Universo LH Ground</div>
+        <div class="card-title" data-i18n="cardVol">Participación de Volumen por Categoría</div>
+        <div class="card-badge" data-i18n="cardVolBadge">% Universo LH Ground</div>
       </div>
       <div class="chart-wrap" style="padding:10px 14px 14px">
         <canvas id="volChart" style="max-height:240px"></canvas>
@@ -241,8 +241,8 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-sy
 
   <div class="card" style="margin-bottom:10px">
     <div class="card-hdr">
-      <div class="card-title">Top Canalizaciones MWH — Forecast 2026</div>
-      <div class="card-badge">≈80% del Volumen Total MWH</div>
+      <div class="card-title" data-i18n="cardMwhTop">Top Canalizaciones MWH — Forecast 2026</div>
+      <div class="card-badge" data-i18n="cardMwhBadge">≈80% del Volumen Total MWH</div>
     </div>
     <div class="chart-wrap" style="padding:14px">
       <canvas id="mwhChart" style="max-height:330px"></canvas>
@@ -251,7 +251,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-sy
 
   <div class="card">
     <div class="card-hdr">
-      <div class="card-title">Detalle de Canalizaciones</div>
+      <div class="card-title" data-i18n="cardMwhDetalle">Detalle de Canalizaciones</div>
       <div class="card-badge" id="mwhOrigenesBadge">Orígenes</div>
     </div>
     <div style="overflow-x:auto">
@@ -268,8 +268,8 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-sy
   <div class="g2 g-2" style="margin-bottom:10px">
     <div class="card">
       <div class="card-hdr">
-        <div class="card-title">Top 5 Destinos — Mult + Opt</div>
-        <div class="card-badge">Top Destinos</div>
+        <div class="card-title" data-i18n="cardDest">Top 5 Destinos — Mult + Opt</div>
+        <div class="card-badge" data-i18n="cardDestBadge">Top Destinos</div>
       </div>
       <div class="chart-wrap" style="padding:12px 14px">
         <canvas id="destChart" style="max-height:250px"></canvas>
@@ -277,8 +277,8 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-sy
     </div>
     <div class="card">
       <div class="card-hdr">
-        <div class="card-title">Top Pares Origen-Destino</div>
-        <div class="card-badge">Mult + Opt Únicamente</div>
+        <div class="card-title" data-i18n="cardOd">Top Pares Origen-Destino</div>
+        <div class="card-badge" data-i18n="cardOdBadge">Mult + Opt Únicamente</div>
       </div>
       <div style="overflow:auto;max-height:290px">
         <table class="tbl" id="odTable"></table>
@@ -383,7 +383,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-sy
     <div>
       <div class="card" style="margin-bottom:10px">
         <div class="card-hdr">
-          <div class="card-title">Fórmula de Scoring</div>
+          <div class="card-title" data-i18n="cardFormula">Fórmula de Scoring</div>
         </div>
         <div class="card-body">
           <div style="background:#FAFAFA;border-radius:10px;padding:16px;border:1px solid #e8edf3;
@@ -426,7 +426,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-sy
 
       <div class="card">
         <div class="card-hdr">
-          <div class="card-title">Benchmarks de la Red LH Ground</div>
+          <div class="card-title" data-i18n="cardBenchmarks">Benchmarks de la Red LH Ground</div>
         </div>
         <div class="card-body" id="benchmarksBody"></div>
       </div>
@@ -434,7 +434,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-sy
   </div>
 </div>
 
-<div class="data-note">Fuente: <code>data/sliprobots/slip_robots_datos.xlsx</code> — actualizado por Martín Winkler</div>
+<div class="data-note" data-i18n="dataNote">Fuente: <code>data/sliprobots/slip_robots_datos.xlsx</code> — actualizado por Martín Winkler</div>
 
 </div><!-- /appBody -->
 
@@ -448,6 +448,84 @@ var DATA_FILE = 'data/sliprobots/slip_robots_datos.xlsx';
 
 var DEF_FONT = {family:'Segoe UI', size:10, weight:'600'};
 var D = {}; // datos parseados
+
+// ── IDIOMAS (ES/EN/PT) ──────────────────────────────────────────
+// Se sincroniza con el selector del Hub via postMessage {type:'oeHubLang'}.
+// Cubre el chrome fijo de la herramienta (header, tabs, títulos de tarjeta,
+// etiquetas de KPI/impacto). El detalle largo del tab Scorecard (V1/V2/V3,
+// umbrales Bajo/Medio/Alto) y el texto que viene del propio Excel (nombres
+// y descripciones de categoría, benchmarks) se queda en español por ahora,
+// ya que es contenido/datos, no chrome de la interfaz.
+var CURRENT_LANG = 'es';
+var I18N = {
+  es: {
+    hdrSub: 'Line Haul Ground · México · Scorecard de Priorización',
+    statRutasL: 'Rutas Analizadas', statVolL: 'Vol. Mult + Opt', statCobL: 'Cobertura Target LH',
+    tabResumen: 'Resumen', tabMwh: 'MWH Volumen', tabLh: 'LH Ground', tabScorecard: 'Scorecard',
+    cargando: 'Cargando datos…',
+    pilotTag: '🤖 Pilot Activo', pilotSub: 'Circuito de Prueba de Concepto — MWH Multiwarehouse',
+    pilotDwellL: 'Reducción Dwell Time', pilotViajesL: 'Viajes/Día por DFP',
+    cardDonut: 'Distribución de Lanes', cardVol: 'Participación de Volumen por Categoría', cardVolBadge: '% Universo LH Ground',
+    cardMwhTop: 'Top Canalizaciones MWH — Forecast 2026', cardMwhBadge: '≈80% del Volumen Total MWH', cardMwhDetalle: 'Detalle de Canalizaciones',
+    cardDest: 'Top 5 Destinos — Mult + Opt', cardDestBadge: 'Top Destinos', cardOd: 'Top Pares Origen-Destino', cardOdBadge: 'Mult + Opt Únicamente',
+    cardFormula: 'Fórmula de Scoring', cardBenchmarks: 'Benchmarks de la Red LH Ground',
+    dataNote: 'Fuente: <code>data/sliprobots/slip_robots_datos.xlsx</code> — actualizado por Martín Winkler',
+    total: 'Total', scoreLbl: 'Score', lanesLbl: 'Lanes', volLbl: 'Vol.', origenesLbl: 'Orígenes',
+    impactDwell: 'Reducción Dwell Time', impactViajes: 'Aumento Viajes / Día DFP', impactCobertura: 'Cobertura Roadmap MWH',
+    datosActualizados: 'Datos actualizados', errCarga: 'No se pudieron cargar los datos', errRevisa: 'Revisa que',
+    errPestanas: 'exista junto a este HTML y tenga las 6 pestañas esperadas.'
+  },
+  en: {
+    hdrSub: 'Line Haul Ground · Mexico · Priority Scorecard',
+    statRutasL: 'Lanes Analyzed', statVolL: 'Vol. Mult + Opt', statCobL: 'LH Target Coverage',
+    tabResumen: 'Summary', tabMwh: 'MWH Volume', tabLh: 'LH Ground', tabScorecard: 'Scorecard',
+    cargando: 'Loading data…',
+    pilotTag: '🤖 Active Pilot', pilotSub: 'Proof of Concept Circuit — MWH Multiwarehouse',
+    pilotDwellL: 'Dwell Time Reduction', pilotViajesL: 'Trips/Day per DFP',
+    cardDonut: 'Lane Distribution', cardVol: 'Volume Share by Category', cardVolBadge: '% LH Ground Universe',
+    cardMwhTop: 'Top MWH Channels — 2026 Forecast', cardMwhBadge: '≈80% of Total MWH Volume', cardMwhDetalle: 'Channel Detail',
+    cardDest: 'Top 5 Destinations — Mult + Opt', cardDestBadge: 'Top Destinations', cardOd: 'Top Origin-Destination Pairs', cardOdBadge: 'Mult + Opt Only',
+    cardFormula: 'Scoring Formula', cardBenchmarks: 'LH Ground Network Benchmarks',
+    dataNote: 'Source: <code>data/sliprobots/slip_robots_datos.xlsx</code> — updated by Martín Winkler',
+    total: 'Total', scoreLbl: 'Score', lanesLbl: 'Lanes', volLbl: 'Vol.', origenesLbl: 'Origins',
+    impactDwell: 'Dwell Time Reduction', impactViajes: 'Increase in Trips / Day DFP', impactCobertura: 'MWH Roadmap Coverage',
+    datosActualizados: 'Data updated', errCarga: 'Could not load the data', errRevisa: 'Check that',
+    errPestanas: 'exists next to this HTML and has the 6 expected tabs.'
+  },
+  pt: {
+    hdrSub: 'Line Haul Ground · México · Scorecard de Priorização',
+    statRutasL: 'Rotas Analisadas', statVolL: 'Vol. Mult + Opt', statCobL: 'Cobertura Target LH',
+    tabResumen: 'Resumo', tabMwh: 'MWH Volume', tabLh: 'LH Ground', tabScorecard: 'Scorecard',
+    cargando: 'Carregando dados…',
+    pilotTag: '🤖 Piloto Ativo', pilotSub: 'Circuito de Prova de Conceito — MWH Multiwarehouse',
+    pilotDwellL: 'Redução Dwell Time', pilotViajesL: 'Viagens/Dia por DFP',
+    cardDonut: 'Distribuição de Lanes', cardVol: 'Participação de Volume por Categoria', cardVolBadge: '% Universo LH Ground',
+    cardMwhTop: 'Top Canalizações MWH — Previsão 2026', cardMwhBadge: '≈80% do Volume Total MWH', cardMwhDetalle: 'Detalhe das Canalizações',
+    cardDest: 'Top 5 Destinos — Mult + Opt', cardDestBadge: 'Top Destinos', cardOd: 'Top Pares Origem-Destino', cardOdBadge: 'Somente Mult + Opt',
+    cardFormula: 'Fórmula de Pontuação', cardBenchmarks: 'Benchmarks da Rede LH Ground',
+    dataNote: 'Fonte: <code>data/sliprobots/slip_robots_datos.xlsx</code> — atualizado por Martín Winkler',
+    total: 'Total', scoreLbl: 'Score', lanesLbl: 'Lanes', volLbl: 'Vol.', origenesLbl: 'Origens',
+    impactDwell: 'Redução Dwell Time', impactViajes: 'Aumento Viagens / Dia DFP', impactCobertura: 'Cobertura Roadmap MWH',
+    datosActualizados: 'Dados atualizados', errCarga: 'Não foi possível carregar os dados', errRevisa: 'Verifique que',
+    errPestanas: 'existe junto a este HTML e tenha as 6 abas esperadas.'
+  }
+};
+function t(key){ return (I18N[CURRENT_LANG] && I18N[CURRENT_LANG][key]) || I18N.es[key] || key; }
+function applyLang(lang){
+  if(!I18N[lang]) return;
+  CURRENT_LANG = lang;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var key = el.getAttribute('data-i18n');
+    if(I18N[lang][key]) el.innerHTML = I18N[lang][key];
+  });
+  // Si los datos ya cargaron, volver a pintar las partes generadas por JS
+  // (KPI strip, tarjetas de categoría, badges, impactos) en el nuevo idioma.
+  if(D.resumen) render();
+}
+window.addEventListener('message', function(e){
+  if(e && e.data && e.data.type === 'oeHubLang') applyLang(e.data.lang);
+});
 
 function sheetToRows(wb, name){
   var ws = wb.Sheets[name];
@@ -488,7 +566,7 @@ fetch(DATA_FILE).then(function(r){
   document.getElementById('loadMsg').style.display = 'none';
   var e = document.getElementById('errMsg');
   e.style.display = 'block';
-  e.textContent = 'No se pudieron cargar los datos: ' + err.message + '. Revisa que ' + DATA_FILE + ' exista junto a este HTML y tenga las 6 pestañas esperadas.';
+  e.textContent = t('errCarga') + ': ' + err.message + '. ' + t('errRevisa') + ' ' + DATA_FILE + ' ' + t('errPestanas');
 });
 
 // ── TAB SWITCH ───────────────────────────────────────────────────
@@ -518,8 +596,8 @@ function render(){
   document.getElementById('statRutas').textContent = totalLanes || (r.rutas_analizadas || '—');
   document.getElementById('statVolMultOpt').textContent = volMultOpt.toFixed(1) + '%';
   document.getElementById('statCobertura').textContent = toNum(r.cobertura_target_lh).toFixed(1) + '%';
-  document.getElementById('donutBadge').textContent = totalLanes + ' Total';
-  document.getElementById('hdrUpdated').textContent = r.ultima_actualizacion ? ('Datos actualizados: ' + r.ultima_actualizacion) : '';
+  document.getElementById('donutBadge').textContent = totalLanes + ' ' + t('total');
+  document.getElementById('hdrUpdated').textContent = r.ultima_actualizacion ? (t('datosActualizados') + ': ' + r.ultima_actualizacion) : '';
 
   // Pilot banner
   document.getElementById('pilotTitle').textContent = (r.pilot_origen||'') + ' → ' + (r.pilot_destino||'');
@@ -537,12 +615,12 @@ function render(){
 
     catHtml += '<div class="cat-card" style="border-left:4px solid '+c.color+'">'+
       '<div class="cat-name" style="color:'+c.color+'">'+c.emoji+' '+c.nombre+'</div>'+
-      '<div class="cat-score">Score '+c.score_rango+'</div>'+
+      '<div class="cat-score">'+t('scoreLbl')+' '+c.score_rango+'</div>'+
       '<div class="cat-lanes" style="color:'+c.color+'">'+lanes+'</div>'+
-      '<div class="cat-lanes-lbl">Lanes</div>'+
+      '<div class="cat-lanes-lbl">'+t('lanesLbl')+'</div>'+
       '<div class="cat-bar"><div class="cat-bar-fill" style="width:'+vol+'%;background:'+c.color+'"></div></div>'+
       '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px">'+
-        '<span style="font-size:9px;color:#475569;font-weight:600">'+vol+'% Vol.</span>'+
+        '<span style="font-size:9px;color:#475569;font-weight:600">'+vol+'% '+t('volLbl')+'</span>'+
         '<span class="cat-chip" style="background:'+c.color+'1a;color:'+c.color+';border:1px solid '+c.color+'40">'+c.chip+'</span>'+
       '</div>'+
       '<div class="cat-desc">'+c.descripcion+'</div></div>';
@@ -553,17 +631,17 @@ function render(){
   // MWH origins badge
   var origenes = [].concat.apply([], [mwh.map(function(r){return r.origen;})]);
   var uniqOrigenes = origenes.filter(function(v,i,a){return a.indexOf(v)===i;});
-  document.getElementById('mwhOrigenesBadge').textContent = 'Orígenes: ' + uniqOrigenes.join(' · ');
+  document.getElementById('mwhOrigenesBadge').textContent = t('origenesLbl') + ': ' + uniqOrigenes.join(' · ');
 
   // Impact blocks (tab LH Ground)
   document.getElementById('impactBlocks').innerHTML =
-    '<div class="impact"><div class="impact-l">Reducción Dwell Time</div>'+
+    '<div class="impact"><div class="impact-l">'+t('impactDwell')+'</div>'+
       '<div class="impact-v" style="color:#22c55e">'+(r.dwell_reduccion_pct||'')+'</div>'+
       '<div class="impact-sub">'+(r.dwell_detalle||'')+'</div></div>'+
-    '<div class="impact"><div class="impact-l">Aumento Viajes / Día DFP</div>'+
+    '<div class="impact"><div class="impact-l">'+t('impactViajes')+'</div>'+
       '<div class="impact-v" style="color:#3b82f6">'+(r.viajes_incremento_pct||'')+'</div>'+
       '<div class="impact-sub">'+(r.viajes_detalle||'')+'</div></div>'+
-    '<div class="impact"><div class="impact-l">Cobertura Roadmap MWH</div>'+
+    '<div class="impact"><div class="impact-l">'+t('impactCobertura')+'</div>'+
       '<div class="impact-v" style="color:#1A1A1A">'+toNum(r.cobertura_roadmap_pct).toFixed(2)+'%</div>'+
       '<div class="impact-sub">'+(r.cobertura_roadmap_detalle||'')+'</div></div>';
 

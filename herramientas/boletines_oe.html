@@ -8,80 +8,139 @@
 <script src="lib/xlsx.full.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#F5F5F5;color:#1e293b}
+html,body{height:100%;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#F5F5F5;color:#1A1A1A}
 
 /* HEADER (mismo patrón "app-bar" que señalética/slides: negro dominante, amarillo solo de acento) */
 .hdr{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;
   background:#000;box-shadow:0 2px 12px rgba(0,0,0,.5);flex-shrink:0;position:relative;z-index:200}
 .hdr-l{display:flex;align-items:center;gap:13px}
 .logo{background:#FFD001;color:#000;font-weight:900;font-size:10.5px;padding:5px 9px;border-radius:5px;letter-spacing:1.5px}
-.hdr-title{font-size:14px;font-weight:700;letter-spacing:-.2px;color:#fff}
+.hdr-title{font-size:14.5px;font-weight:700;letter-spacing:-.2px;color:#fff}
 .hdr-sub{font-size:9.5px;color:#999;margin-top:1px;letter-spacing:.3px;text-transform:uppercase}
 
 /* TABS */
-.tabbar{height:36px;display:flex;align-items:center;padding:0 22px;gap:4px;
-  border-bottom:2px solid #E2E2E2;background:#FAFAFA;flex-shrink:0}
-.tab{padding:5px 15px;border-radius:20px;font-size:10px;font-weight:700;cursor:pointer;
-  color:#1A1A1A;background:transparent;border:1.5px solid rgba(0,0,0,.25);transition:all .15s;letter-spacing:.2px;font-family:'Segoe UI',sans-serif}
-.tab.on{background:#1A1A1A;color:#FFD001;border-color:#1A1A1A;font-weight:800}
-.tab:hover:not(.on){color:#1A1A1A;background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.1)}
+.tabbar{height:38px;display:flex;align-items:center;padding:0 22px;gap:4px;
+  border-bottom:1px solid #E2E2E2;background:#fff;flex-shrink:0}
+.tab{padding:6px 16px;border-radius:20px;font-size:10.5px;font-weight:700;cursor:pointer;
+  color:#555;background:transparent;border:1.5px solid transparent;transition:all .15s;letter-spacing:.3px;font-family:'Segoe UI',sans-serif}
+.tab.on{background:#1A1A1A;color:#FFD001;font-weight:800}
+.tab:hover:not(.on){color:#1A1A1A;background:#F0F0F0}
 
-.wrap{max-width:1180px;margin:0 auto;padding:18px 20px 60px}
+.wrap{max-width:1180px;margin:0 auto;padding:24px 24px 60px}
 .panel{display:none}
-.panel.on{display:block}
+.panel.on{display:block;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 
-.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:18px}
-.area-card{background:#fff;border:1px solid #E2E2E2;border-radius:12px;padding:16px 16px 14px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
-.area-name{font-size:13px;font-weight:800;color:#111;margin-bottom:2px}
-.area-file{font-size:9.5px;color:#888;text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px}
-input[type=file]{font-size:11px;width:100%;padding:8px;border:1.5px dashed #cbd5e1;border-radius:8px;background:#fafbfc;cursor:pointer}
-.kpi-toggle{margin-top:10px;font-size:10px;font-weight:700;color:#555;cursor:pointer;text-transform:uppercase;letter-spacing:.4px;user-select:none}
-.kpi-box{display:none;margin-top:8px;padding:10px;background:#fafbfc;border:1px solid #eee;border-radius:8px}
-.kpi-box.on{display:block}
-.kpi-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
-.kpi-field{flex:1;min-width:70px}
-.kpi-field label{font-size:8.5px;color:#888;text-transform:uppercase;letter-spacing:.3px;display:block;margin-bottom:3px}
-.kpi-field input{width:100%;font-size:12px;padding:5px 6px;border:1px solid #ddd;border-radius:5px;font-family:'Segoe UI',sans-serif}
-.kpi-total{font-size:10.5px;color:#555;margin-top:2px}
-.kpi-total b{color:#111;font-size:13px}
+.section-title{font-size:10.5px;font-weight:800;color:#999;text-transform:uppercase;letter-spacing:1.2px;margin:22px 0 12px}
+.section-title:first-child{margin-top:0}
 
-.btn{display:inline-block;background:#FFD001;color:#111;font:800 11px/1 'Segoe UI',sans-serif;padding:11px 22px;border-radius:8px;
-  border:1.5px solid #1A1A1A;cursor:pointer;text-transform:uppercase;letter-spacing:.5px;transition:transform .1s}
-.btn:hover{transform:translateY(-1px)}
-.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
-.btn.secondary{background:#1A1A1A;color:#FFD001;border-color:#1A1A1A}
-.btn.small{padding:7px 14px;font-size:9.5px}
-.btn.ghost{background:#fff;color:#111;border:1.5px solid #cbd5e1}
+/* ── TARJETAS DE ÁREA (mismo lenguaje visual que los quick-card del Inicio del Hub:
+     borde superior de color + icono en insignia tintada, un color distinto por área) ── */
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:16px;margin-bottom:22px}
+.area-card{background:#fff;border:1px solid #ECECEC;border-top:3px solid var(--ac,#FFD001);border-radius:14px;
+  padding:18px 18px 16px;box-shadow:0 1px 4px rgba(0,0,0,.045);transition:box-shadow .18s,transform .18s}
+.area-card:hover{box-shadow:0 10px 26px rgba(0,0,0,.09);transform:translateY(-2px)}
+.area-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+.area-icon{width:38px;height:38px;border-radius:10px;background:var(--ac-bg,#FFFBEA);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.area-icon svg{width:20px;height:20px;stroke:var(--ac,#FFD001)}
+.area-name{font-size:13.5px;font-weight:800;color:#111;line-height:1.25}
+.area-file{font-size:9px;color:#aaa;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
 
+.dropzone{display:flex;align-items:center;gap:10px;border:1.5px dashed #D8DCE1;border-radius:10px;
+  padding:11px 12px;cursor:pointer;transition:all .15s;background:#FAFAFA;position:relative}
+.dropzone:hover{border-color:var(--ac,#FFD001);background:var(--ac-bg,#FFFBEA)}
+.dropzone.has-file{border-style:solid;border-color:var(--ac,#FFD001);background:var(--ac-bg,#FFFBEA)}
+.dropzone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.dz-icon{width:26px;height:26px;border-radius:7px;background:#fff;border:1px solid #E2E2E2;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;font-size:13px}
+.dropzone.has-file .dz-icon{background:var(--ac,#FFD001);border-color:var(--ac,#FFD001)}
+.dz-text{font-size:10.5px;color:#888;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dropzone.has-file .dz-text{color:#1A1A1A;font-weight:700}
+
+.kpi-toggle{margin-top:12px;font-size:9.5px;font-weight:700;color:#999;cursor:pointer;text-transform:uppercase;
+  letter-spacing:.5px;user-select:none;display:flex;align-items:center;gap:5px;transition:color .15s}
+.kpi-toggle:hover{color:#1A1A1A}
+.kpi-toggle .chev{display:inline-block;transition:transform .2s;font-size:8px}
+.kpi-toggle.open .chev{transform:rotate(180deg)}
+.kpi-box{display:none;margin-top:9px;padding:12px;background:#FAFAFA;border:1px solid #EEE;border-radius:10px}
+.kpi-box.on{display:block;animation:fadeIn .18s ease}
+.kpi-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.kpi-field{flex:1;min-width:68px}
+.kpi-field label{font-size:8px;color:#999;text-transform:uppercase;letter-spacing:.3px;display:block;margin-bottom:3px;font-weight:700}
+.kpi-field input{width:100%;font-size:12px;padding:6px 7px;border:1px solid #E2E2E2;border-radius:6px;font-family:'Segoe UI',sans-serif;transition:border-color .15s}
+.kpi-field input:focus{outline:none;border-color:var(--ac,#FFD001)}
+.kpi-total{font-size:10px;color:#999;margin-top:2px;border-top:1px solid #EEE;padding-top:8px}
+.kpi-total b{color:#111;font-size:14px;font-weight:800}
+
+/* BOTONES */
+.btn{display:inline-flex;align-items:center;gap:7px;background:#FFD001;color:#111;font:800 11.5px/1 'Segoe UI',sans-serif;
+  padding:12px 24px;border-radius:9px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.5px;
+  transition:transform .12s,box-shadow .12s;box-shadow:0 2px 0 #C9A700}
+.btn:hover{transform:translateY(-1px);box-shadow:0 3px 8px rgba(0,0,0,.18)}
+.btn:active{transform:translateY(1px);box-shadow:0 1px 0 #C9A700}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.btn.secondary{background:#1A1A1A;color:#FFD001;box-shadow:0 2px 0 #000}
+.btn.small{padding:8px 15px;font-size:9.5px;border-radius:7px;box-shadow:none}
+.btn.ghost{background:#fff;color:#1A1A1A;border:1.5px solid #E2E2E2;box-shadow:none}
+.btn.ghost:hover{border-color:#1A1A1A;box-shadow:none}
+
+/* ESTADOS VACÍOS */
 .empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
-  color:#9a9a9a;gap:10px;padding:48px 24px}
-.empty-state .ico{font-size:36px}
-.empty-state .txt{font-size:13px;max-width:440px;line-height:1.6}
+  color:#B0B0B0;gap:14px;padding:56px 24px;background:#fff;border:1px dashed #E2E2E2;border-radius:14px}
+.empty-state .ico{width:52px;height:52px;border-radius:50%;background:#FAFAFA;display:flex;align-items:center;justify-content:center}
+.empty-state .ico svg{width:26px;height:26px;stroke:#C4C4C4}
+.empty-state .txt{font-size:13px;max-width:420px;line-height:1.65;color:#999}
 
-.result{background:#fff;border:1px solid #E2E2E2;border-radius:12px;padding:16px 18px;margin-bottom:16px}
-.result-h{font-size:13px;font-weight:800;color:#111;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
-.kbbar-row{display:flex;justify-content:space-between;font-size:10.5px;color:#666;margin-bottom:4px}
-.kbbar{background:#eee;border-radius:6px;height:8px;overflow:hidden;margin-bottom:10px}
-.kbbar-fill{height:100%}
+/* RESULTADOS */
+.result{background:#fff;border:1px solid #ECECEC;border-radius:14px;padding:20px 22px;margin-bottom:16px;
+  box-shadow:0 1px 4px rgba(0,0,0,.04);border-left:4px solid var(--ac,#FFD001)}
+.result-h{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.result-badge{width:30px;height:30px;border-radius:8px;background:var(--ac-bg,#FFFBEA);display:flex;align-items:center;
+  justify-content:center;flex-shrink:0}
+.result-badge svg{width:16px;height:16px;stroke:var(--ac,#FFD001)}
+.result-title{font-size:14px;font-weight:800;color:#111}
+.result-file{font-size:9.5px;color:#aaa;margin-top:1px}
 
-details{margin-bottom:8px;border:1px solid #eee;border-radius:8px;overflow:hidden}
-details summary{padding:9px 12px;font-size:11px;font-weight:700;cursor:pointer;background:#fafbfc;list-style:none}
+.kbbar-row{display:flex;justify-content:space-between;font-size:10px;color:#999;margin-bottom:5px;font-weight:600}
+.kbbar{background:#EEE;border-radius:6px;height:7px;overflow:hidden;margin-bottom:14px}
+.kbbar-fill{height:100%;transition:width .3s;border-radius:6px}
+
+details{margin-bottom:8px;border:1px solid #EEE;border-radius:10px;overflow:hidden}
+details summary{padding:10px 14px;font-size:11px;font-weight:700;cursor:pointer;background:#FAFAFA;list-style:none;
+  display:flex;align-items:center;gap:7px}
 details summary::-webkit-details-marker{display:none}
-details[open] summary{border-bottom:1px solid #eee}
-details .body{padding:10px 14px;font-size:11.5px;color:#555;line-height:1.6}
-details .body div{margin-bottom:4px}
+details summary::before{content:'';width:6px;height:6px;border-radius:50%;flex-shrink:0}
+details[open] summary{border-bottom:1px solid #EEE}
+details .body{padding:12px 16px;font-size:11.5px;color:#666;line-height:1.7;background:#fff}
+details .body div{margin-bottom:5px;padding-left:14px;position:relative}
+details .body div::before{content:'—';position:absolute;left:0;color:#CCC}
 .aviso-orto summary{color:#0369a1}
+.aviso-orto summary::before{background:#0ea5e9}
 .aviso-lint summary{color:#b45309}
+.aviso-lint summary::before{background:#f59e0b}
 
-.preview-frame{width:100%;height:640px;border:1px solid #E2E2E2;border-radius:8px;margin-top:10px;background:#e9ebee}
+.preview-mock{border:1px solid #E2E2E2;border-radius:10px;margin-top:14px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.preview-bar{display:flex;align-items:center;gap:6px;padding:9px 12px;background:#F0F0F0;border-bottom:1px solid #E2E2E2}
+.preview-bar .dot{width:9px;height:9px;border-radius:50%}
+.preview-bar .dot:nth-child(1){background:#ff5f57}
+.preview-bar .dot:nth-child(2){background:#febc2e}
+.preview-bar .dot:nth-child(3){background:#28c840}
+.preview-bar .url{margin-left:8px;font-size:9.5px;color:#999;background:#fff;border:1px solid #E2E2E2;border-radius:5px;
+  padding:2px 10px;flex:1;max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.preview-frame{width:100%;height:600px;border:none;display:block;background:#e9ebee}
 
-.hist-row{display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid #E2E2E2;
-  border-radius:10px;padding:12px 16px;margin-bottom:8px;flex-wrap:wrap;gap:8px}
-.hist-info{font-size:11.5px;color:#333}
-.hist-info b{color:#111}
-.hist-actions{display:flex;gap:8px}
-.section-title{font-size:10px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;margin:18px 0 10px}
-.err-box{background:#fef2f2;border:1px solid #fecaca;color:#991b1b;border-radius:8px;padding:10px 14px;font-size:11.5px;margin-bottom:10px}
+/* HISTORIAL */
+.hist-row{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #ECECEC;
+  border-radius:12px;padding:14px 18px;margin-bottom:9px;flex-wrap:wrap;border-left:4px solid var(--ac,#FFD001);
+  transition:box-shadow .15s}
+.hist-row:hover{box-shadow:0 4px 14px rgba(0,0,0,.06)}
+.hist-badge{width:30px;height:30px;border-radius:8px;background:var(--ac-bg,#FFFBEA);display:flex;align-items:center;
+  justify-content:center;flex-shrink:0}
+.hist-badge svg{width:15px;height:15px;stroke:var(--ac,#FFD001)}
+.hist-info{font-size:11.5px;color:#888;flex:1;min-width:180px}
+.hist-info b{color:#111;font-size:12.5px}
+.hist-actions{display:flex;gap:8px;margin-left:auto}
+.err-box{background:#FEF2F2;border:1px solid #FECACA;color:#991B1B;border-radius:10px;padding:12px 16px;font-size:11.5px;margin-bottom:10px}
 </style>
 </head>
 <body>
@@ -91,31 +150,31 @@ details .body div{margin-bottom:4px}
   <div class="hdr-l">
     <div class="logo">MELI</div>
     <div>
-      <div class="hdr-title">Boletines OE</div>
-      <div class="hdr-sub">Newsletter mensual · Operational Excellence · México</div>
+      <div class="hdr-title" data-i18n="hdrTitle">Boletines OE</div>
+      <div class="hdr-sub" data-i18n="hdrSub">Newsletter mensual · Excelencia Operativa · México</div>
     </div>
   </div>
 </div>
 
 <!-- ══ TAB BAR ══ -->
 <div class="tabbar">
-  <button class="tab on" onclick="switchTab('generar',this)">Generar</button>
-  <button class="tab" onclick="switchTab('historial',this)">Historial</button>
+  <button class="tab on" onclick="switchTab('generar',this)" data-i18n="tabGenerar">Generar</button>
+  <button class="tab" onclick="switchTab('historial',this)" data-i18n="tabHistorial">Historial</button>
 </div>
 
 <div class="wrap">
 
   <!-- ══ PANEL: GENERAR ══ -->
   <div class="panel on" id="p-generar">
-    <div class="section-title">Sube el Excel de cada área (mismo modelo de siempre: Config / Proyectos / Secciones / Eventos / NuevosIngresos / KPIs)</div>
+    <div class="section-title" id="sectionUpload" data-i18n="sectionUpload">Sube el Excel de cada área</div>
     <div class="grid4" id="areaCards"></div>
     <button class="btn" id="btnGenerar" onclick="generarTodos()">Generar desde los Excel subidos</button>
-    <div id="resultados" style="margin-top:20px"></div>
+    <div id="resultados" style="margin-top:22px"></div>
   </div>
 
   <!-- ══ PANEL: HISTORIAL ══ -->
   <div class="panel" id="p-historial">
-    <div class="section-title">Boletines generados (persisten en este navegador)</div>
+    <div class="section-title" data-i18n="sectionHistorial">Boletines generados (persisten en este navegador)</div>
     <div id="historialList"></div>
   </div>
 
@@ -123,10 +182,122 @@ details .body div{margin-bottom:4px}
 
 <script>
 // ---------------------------------------------------------------
-// Config de áreas (idéntico a app.py de motor-oe-v2)
+// Idiomas (ES/EN/PT) -- se sincroniza con el selector del Hub via
+// postMessage {type:'oeHubLang', lang}, igual patrón que usa el Hub
+// para Insights de Portafolio. CURRENT_LANG por defecto 'es'.
+// ---------------------------------------------------------------
+var CURRENT_LANG = 'es';
+var I18N = {
+  es: {
+    hdrTitle: 'Boletines OE',
+    hdrSub: 'Newsletter mensual · Excelencia Operativa · México',
+    tabGenerar: 'Generar', tabHistorial: 'Historial',
+    sectionUpload: 'Sube el Excel de cada área (mismo modelo de siempre: Config / Proyectos / Secciones / Eventos / NuevosIngresos / KPIs)',
+    sectionHistorial: 'Boletines generados (persisten en este navegador)',
+    excelDe: 'Excel de {area}',
+    dzText: 'Arrastra tu Excel aquí o haz clic para elegir',
+    kpiToggle: 'Resumen de proyectos de {area} (opcional)',
+    kpiTotal: 'Proyectos (total, calculado)',
+    btnDefault: 'Generar desde los Excel subidos',
+    btnAll: 'Generar los {n} boletines a la vez',
+    btnSome: 'Generar {n} de {total} boletines subidos',
+    emptyGenerar: 'Sube al menos un Excel para generar su boletín.',
+    emptyHistorial: 'Todavía no has generado ningún boletín. Los que generes van a aparecer aquí para volver a descargarlos sin regenerarlos.',
+    borrarHistorial: 'Borrar historial',
+    descargar: 'Descargar',
+    vistaPrevia: 'Vista previa',
+    ocultarPrevia: 'Ocultar',
+    avisoOrto: '{n} correcciones de ortografía aplicadas',
+    avisoLint: '{n} cosas para revisar en el Excel',
+    noGenerado: 'no se pudo generar',
+    fuenteExcel: 'Excel manual',
+    kbOk: 'OK', kbPesado: 'pesado para email'
+  },
+  en: {
+    hdrTitle: 'Newsletter Generator',
+    hdrSub: 'Monthly Newsletter · Operational Excellence · Mexico',
+    tabGenerar: 'Generate', tabHistorial: 'History',
+    sectionUpload: 'Upload each area\'s Excel (same model as always: Config / Proyectos / Secciones / Eventos / NuevosIngresos / KPIs)',
+    sectionHistorial: 'Generated newsletters (persist in this browser)',
+    excelDe: '{area} Excel',
+    dzText: 'Drag your Excel here or click to choose',
+    kpiToggle: '{area} Project Summary (optional)',
+    kpiTotal: 'Projects (calculated total)',
+    btnDefault: 'Generate from uploaded Excel files',
+    btnAll: 'Generate all {n} newsletters at once',
+    btnSome: 'Generate {n} of {total} uploaded newsletters',
+    emptyGenerar: 'Upload at least one Excel file to generate its newsletter.',
+    emptyHistorial: 'You haven\'t generated any newsletters yet. The ones you generate will show up here so you can re-download them without regenerating.',
+    borrarHistorial: 'Clear history',
+    descargar: 'Download',
+    vistaPrevia: 'Preview',
+    ocultarPrevia: 'Hide',
+    avisoOrto: '{n} spelling corrections applied',
+    avisoLint: '{n} things to review in the Excel',
+    noGenerado: 'could not be generated',
+    fuenteExcel: 'Manual Excel',
+    kbOk: 'OK', kbPesado: 'too heavy for email'
+  },
+  pt: {
+    hdrTitle: 'Gerador de Boletins',
+    hdrSub: 'Newsletter mensal · Excelência Operacional · México',
+    tabGenerar: 'Gerar', tabHistorial: 'Histórico',
+    sectionUpload: 'Envie o Excel de cada área (mesmo modelo de sempre: Config / Proyectos / Secciones / Eventos / NuevosIngresos / KPIs)',
+    sectionHistorial: 'Boletins gerados (persistem neste navegador)',
+    excelDe: 'Excel de {area}',
+    dzText: 'Arraste seu Excel aqui ou clique para escolher',
+    kpiToggle: 'Resumo de projetos de {area} (opcional)',
+    kpiTotal: 'Projetos (total calculado)',
+    btnDefault: 'Gerar a partir dos Excel enviados',
+    btnAll: 'Gerar os {n} boletins de uma vez',
+    btnSome: 'Gerar {n} de {total} boletins enviados',
+    emptyGenerar: 'Envie pelo menos um Excel para gerar seu boletim.',
+    emptyHistorial: 'Você ainda não gerou nenhum boletim. Os que você gerar vão aparecer aqui para baixar de novo sem regenerar.',
+    borrarHistorial: 'Limpar histórico',
+    descargar: 'Baixar',
+    vistaPrevia: 'Pré-visualizar',
+    ocultarPrevia: 'Ocultar',
+    avisoOrto: '{n} correções ortográficas aplicadas',
+    avisoLint: '{n} coisas para revisar no Excel',
+    noGenerado: 'não foi possível gerar',
+    fuenteExcel: 'Excel manual',
+    kbOk: 'OK', kbPesado: 'pesado para e-mail'
+  }
+};
+function t(key, vars) {
+  var s = (I18N[CURRENT_LANG] && I18N[CURRENT_LANG][key]) || I18N.es[key] || key;
+  if (vars) Object.keys(vars).forEach(function (k) { s = s.replace('{' + k + '}', vars[k]); });
+  return s;
+}
+
+// ---------------------------------------------------------------
+// Config de áreas (idéntico a app.py de motor-oe-v2) + paleta por área
+// (reutiliza los MISMOS acentos --tag-fm/--tag-svc/--tag-quality/--tag-mgmt
+// que ya usa el Inicio del Hub, para que se sienta parte del mismo sitio)
 // ---------------------------------------------------------------
 var AREAS = ["FirstMile", "ServiceCenter", "Quality", "Management"];
 var NOMBRE_LARGO = { FirstMile: "FM + XD + SC + TOM", ServiceCenter: "SVC + Last Mile", Quality: "Quality", Management: "Gestión" };
+var NOMBRE_LARGO_EN = { FirstMile: "FM + XD + SC + TOM", ServiceCenter: "SVC + Last Mile", Quality: "Quality", Management: "Management" };
+var NOMBRE_LARGO_PT = { FirstMile: "FM + XD + SC + TOM", ServiceCenter: "SVC + Last Mile", Quality: "Quality", Management: "Gestão" };
+function nombreArea(area) {
+  var d = CURRENT_LANG === 'en' ? NOMBRE_LARGO_EN : (CURRENT_LANG === 'pt' ? NOMBRE_LARGO_PT : NOMBRE_LARGO);
+  return d[area];
+}
+var AREA_COLOR = {
+  FirstMile: { ac: '#1E9E6B', bg: '#E9F8F0' },
+  ServiceCenter: { ac: '#1E7FD1', bg: '#EAF3FC' },
+  Quality: { ac: '#6C4FE0', bg: '#F1EDFB' },
+  Management: { ac: '#E0602F', bg: '#FCEEE8' }
+};
+var AREA_ICON = {
+  FirstMile: '<path d="M3 17V7a1 1 0 0 1 1-1h9v11"/><path d="M13 10h4l4 4v3h-2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M9 17h6"/>',
+  ServiceCenter: '<path d="M21 8v8a1 1 0 0 1-.5.87l-8 4.5a1 1 0 0 1-1 0l-8-4.5A1 1 0 0 1 3 16V8a1 1 0 0 1 .5-.87l8-4.5a1 1 0 0 1 1 0l8 4.5A1 1 0 0 1 21 8Z"/><path d="M3.3 7.5 12 12.5l8.7-5"/><path d="M12 12.5V21.5"/>',
+  Quality: '<path d="M12 2 4 5v6c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V5Z"/><path d="M9 12l2 2 4-4"/>',
+  Management: '<path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/>'
+};
+function areaIconSvg(area) {
+  return '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + AREA_ICON[area] + '</svg>';
+}
 var KPI_CAMPOS = {
   FirstMile: ["On going", "Despriorizado", "Cancelado", "Done"],
   ServiceCenter: ["On going", "Despriorizado", "Delayed", "Cancelado", "Done"]
@@ -150,32 +321,45 @@ function switchTab(id, btn) {
 // ---------------------------------------------------------------
 function buildAreaCards() {
   var cont = document.getElementById("areaCards");
+  cont.innerHTML = "";
   AREAS.forEach(function (area) {
+    var col = AREA_COLOR[area];
     var card = document.createElement("div");
     card.className = "area-card";
+    card.style.setProperty('--ac', col.ac);
+    card.style.setProperty('--ac-bg', col.bg);
     var kpiCampos = KPI_CAMPOS[area];
     var kpiHtml = "";
     if (kpiCampos) {
-      kpiHtml = '<div class="kpi-toggle" onclick="toggleKpi(\'' + area + '\')">Resumen de Proyectos de ' + NOMBRE_LARGO[area] + ' (opcional) &#9662;</div>'
+      kpiHtml = '<div class="kpi-toggle" id="kpiToggle_' + area + '" onclick="toggleKpi(\'' + area + '\')">'
+        + '<span id="kpiToggleText_' + area + '">' + t('kpiToggle', { area: nombreArea(area) }) + '</span><span class="chev">&#9662;</span></div>'
         + '<div class="kpi-box" id="kpiBox_' + area + '">'
         + '<div class="kpi-row">'
         + kpiCampos.map(function (c) {
           return '<div class="kpi-field"><label>' + c + '</label><input type="text" data-area="' + area + '" data-campo="' + c + '" oninput="actualizarTotalKpi(\'' + area + '\')"/></div>';
         }).join("")
         + '</div>'
-        + '<div class="kpi-total">Proyectos (total, calculado): <b id="kpiTotal_' + area + '">0</b></div>'
+        + '<div class="kpi-total" id="kpiTotalLabel_' + area + '">' + t('kpiTotal') + ': <b id="kpiTotal_' + area + '">0</b></div>'
         + '</div>';
     }
     card.innerHTML =
-      '<div class="area-name">' + NOMBRE_LARGO[area] + '</div>'
-      + '<div class="area-file">Excel de ' + NOMBRE_LARGO[area] + '</div>'
+      '<div class="area-top">'
+      + '<div class="area-icon">' + areaIconSvg(area) + '</div>'
+      + '<div><div class="area-name" id="areaName_' + area + '">' + nombreArea(area) + '</div>'
+      + '<div class="area-file" id="areaFile_' + area + '">' + t('excelDe', { area: nombreArea(area) }) + '</div></div>'
+      + '</div>'
+      + '<label class="dropzone" id="dz_' + area + '">'
       + '<input type="file" accept=".xlsx" onchange="onFileChange(\'' + area + '\', this)"/>'
+      + '<div class="dz-icon">&#128193;</div>'
+      + '<div class="dz-text" id="dzText_' + area + '">' + t('dzText') + '</div>'
+      + '</label>'
       + kpiHtml;
     cont.appendChild(card);
   });
 }
 function toggleKpi(area) {
   document.getElementById("kpiBox_" + area).classList.toggle("on");
+  document.getElementById("kpiToggle_" + area).classList.toggle("open");
 }
 function actualizarTotalKpi(area) {
   var inputs = document.querySelectorAll('input[data-area="' + area + '"]');
@@ -188,14 +372,23 @@ function actualizarTotalKpi(area) {
 }
 function onFileChange(area, input) {
   uploadedFiles[area] = input.files && input.files[0] ? input.files[0] : null;
+  var dz = document.getElementById("dz_" + area);
+  var dzText = document.getElementById("dzText_" + area);
+  if (uploadedFiles[area]) {
+    dz.classList.add("has-file");
+    dzText.textContent = uploadedFiles[area].name;
+  } else {
+    dz.classList.remove("has-file");
+    dzText.textContent = t('dzText');
+  }
   actualizarBotonGenerar();
 }
 function actualizarBotonGenerar() {
   var n = AREAS.filter(function (a) { return !!uploadedFiles[a]; }).length;
   var btn = document.getElementById("btnGenerar");
-  if (n === AREAS.length) { btn.textContent = "Generar los " + AREAS.length + " boletines a la vez"; btn.className = "btn"; }
-  else if (n > 0) { btn.textContent = "Generar " + n + " de " + AREAS.length + " boletines subidos"; btn.className = "btn secondary"; }
-  else { btn.textContent = "Generar desde los Excel subidos"; btn.className = "btn secondary"; }
+  if (n === AREAS.length) { btn.textContent = t('btnAll', { n: AREAS.length }); btn.className = "btn"; }
+  else if (n > 0) { btn.textContent = t('btnSome', { n: n, total: AREAS.length }); btn.className = "btn secondary"; }
+  else { btn.textContent = t('btnDefault'); btn.className = "btn secondary"; }
 }
 
 function kpisDesdeValores(area) {
@@ -246,15 +439,15 @@ function kbBarHtml(kb) {
   var limite = LIMITE_KB_EMAIL;
   var frac = Math.max(0, Math.min(1, kb / limite));
   var color = kb < limite * 0.8 ? "#16a34a" : (kb <= limite ? "#f59e0b" : "#dc2626");
-  var estado = kb <= limite ? "OK" : "pesado para email";
+  var estado = kb <= limite ? t('kbOk') : t('kbPesado');
   return '<div class="kbbar-row"><span>' + kb.toFixed(1) + ' KB</span><span>' + estado + ' / ' + limite.toFixed(0) + ' KB</span></div>'
     + '<div class="kbbar"><div class="kbbar-fill" style="background:' + color + ';width:' + Math.round(frac * 100) + '%"></div></div>';
 }
 
-function avisosDetails(avisos, cls, label, abiertoPorDefecto) {
+function avisosDetails(avisos, cls, label) {
   if (!avisos || !avisos.length) return "";
-  var body = avisos.map(function (a) { return '<div>&#8226; ' + escapeHtml(a) + '</div>'; }).join("");
-  return '<details class="' + cls + '"' + (abiertoPorDefecto ? " open" : "") + '><summary>' + label.replace("{n}", avisos.length) + '</summary><div class="body">' + body + '</div></details>';
+  var body = avisos.map(function (a) { return '<div>' + escapeHtml(a) + '</div>'; }).join("");
+  return '<details class="' + cls + '"><summary>' + label + '</summary><div class="body">' + body + '</div></details>';
 }
 function escapeHtml(s) {
   return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -270,38 +463,39 @@ function registrarHistorial(item) {
 
 function mostrarResultado(area, html, avisosLint, avisosOrto, nombreArchivo) {
   var kb = new Blob([html]).size / 1024;
-  registrarHistorial({ area: area, fuente: "Excel manual", kb: kb, hora: new Date().toLocaleTimeString("es-MX"), fecha: new Date().toLocaleDateString("es-MX"), nombreArchivo: nombreArchivo, html: html });
+  registrarHistorial({ area: area, fuente: t('fuenteExcel'), kb: kb, hora: new Date().toLocaleTimeString(), fecha: new Date().toLocaleDateString(), nombreArchivo: nombreArchivo, html: html });
 
+  var col = AREA_COLOR[area];
   var cont = document.getElementById("resultados");
   var box = document.createElement("div");
   box.className = "result";
+  box.style.setProperty('--ac', col.ac);
+  box.style.setProperty('--ac-bg', col.bg);
   var previewId = "prev_" + area + "_" + Date.now();
   box.innerHTML =
-    '<div class="result-h"><span>' + NOMBRE_LARGO[area] + '</span></div>'
+    '<div class="result-h"><div class="result-badge">' + areaIconSvg(area) + '</div>'
+    + '<div><div class="result-title">' + nombreArea(area) + '</div><div class="result-file">' + nombreArchivo + '</div></div></div>'
     + kbBarHtml(kb)
-    + avisosDetails(avisosOrto, "aviso-orto", "&#9998; {n} correcciones de ortografía aplicadas", false)
-    + avisosDetails(avisosLint, "aviso-lint", "&#9888; {n} cosas para revisar en el Excel", true)
-    + '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">'
-    + '<button class="btn small" onclick="descargarHtml(' + JSON.stringify(nombreArchivo) + ', this)" data-html-ref="' + previewId + '">Descargar ' + nombreArchivo + '</button>'
-    + '<button class="btn small ghost" onclick="togglePreview(\'' + previewId + '\')">Vista previa</button>'
+    + avisosDetails(avisosOrto, "aviso-orto", '&#9998; ' + t('avisoOrto', { n: avisosOrto.length }))
+    + avisosDetails(avisosLint, "aviso-lint", '&#9888; ' + t('avisoLint', { n: avisosLint.length }))
+    + '<div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">'
+    + '<button class="btn small" data-role="dl">' + t('descargar') + '</button>'
+    + '<button class="btn small ghost" data-role="preview">' + t('vistaPrevia') + '</button>'
     + '</div>'
-    + '<iframe class="preview-frame" id="' + previewId + '" style="display:none"></iframe>';
+    + '<div class="preview-mock" id="mock_' + previewId + '" style="display:none">'
+    + '<div class="preview-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">' + nombreArchivo + '</span></div>'
+    + '<iframe class="preview-frame" id="' + previewId + '"></iframe>'
+    + '</div>';
   cont.prepend(box);
 
   var iframe = box.querySelector("#" + previewId);
-  iframe._html = html;
-  var btnDl = box.querySelector('[data-html-ref="' + previewId + '"]');
-  btnDl.onclick = function () { descargarBlob(html, nombreArchivo); };
-}
-
-function togglePreview(id) {
-  var iframe = document.getElementById(id);
-  if (iframe.style.display === "none") {
-    iframe.style.display = "block";
-    iframe.srcdoc = iframe._html;
-  } else {
-    iframe.style.display = "none";
-  }
+  var mock = box.querySelector("#mock_" + previewId);
+  box.querySelector('[data-role="dl"]').onclick = function () { descargarBlob(html, nombreArchivo); };
+  box.querySelector('[data-role="preview"]').onclick = function (ev) {
+    var showing = mock.style.display !== "none";
+    if (showing) { mock.style.display = "none"; ev.target.textContent = t('vistaPrevia'); }
+    else { mock.style.display = "block"; iframe.srcdoc = html; ev.target.textContent = t('ocultarPrevia'); }
+  };
 }
 
 function descargarBlob(html, nombreArchivo) {
@@ -335,13 +529,13 @@ function generarTodos() {
       console.error(err);
       var box = document.createElement("div");
       box.className = "err-box";
-      box.textContent = NOMBRE_LARGO[area] + ": no se pudo generar (" + err.message + ")";
+      box.textContent = nombreArea(area) + ": " + t('noGenerado') + " (" + err.message + ")";
       cont.prepend(box);
     });
   });
   Promise.all(tareas).then(function () {
     if (!alguno) {
-      cont.innerHTML = '<div class="empty-state"><div class="ico">&#128196;</div><div class="txt">Sube al menos un Excel para generar su boletín.</div></div>';
+      cont.innerHTML = '<div class="empty-state"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a1 1 0 0 1 1-1h9l6 6v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/><path d="M14 4v5a1 1 0 0 0 1 1h5"/></svg></div><div class="txt">' + t('emptyGenerar') + '</div></div>';
     }
   });
 }
@@ -354,13 +548,16 @@ function renderHistorial() {
   var hist = [];
   try { hist = JSON.parse(localStorage.getItem(HIST_KEY) || "[]"); } catch (e) { hist = []; }
   if (!hist.length) {
-    cont.innerHTML = '<div class="empty-state"><div class="ico">&#128196;</div><div class="txt">Todavía no has generado ningún boletín. Los que generes van a aparecer aquí para que los puedas volver a descargar sin regenerarlos.</div></div>';
+    cont.innerHTML = '<div class="empty-state"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg></div><div class="txt">' + t('emptyHistorial') + '</div></div>';
     return;
   }
-  cont.innerHTML = '<div style="margin-bottom:10px"><button class="btn ghost small" onclick="limpiarHistorial()">Borrar historial</button></div>'
+  cont.innerHTML = '<div style="margin-bottom:12px"><button class="btn ghost small" onclick="limpiarHistorial()">' + t('borrarHistorial') + '</button></div>'
     + hist.map(function (item, i) {
-      return '<div class="hist-row"><div class="hist-info"><b>' + NOMBRE_LARGO[item.area] + '</b> — ' + item.fuente + ' — ' + item.kb.toFixed(1) + ' KB — ' + item.fecha + ' ' + item.hora + '</div>'
-        + '<div class="hist-actions"><button class="btn small" onclick="descargarHistorial(' + i + ')">Descargar</button></div></div>';
+      var col = AREA_COLOR[item.area] || { ac: '#FFD001', bg: '#FFFBEA' };
+      return '<div class="hist-row" style="--ac:' + col.ac + ';--ac-bg:' + col.bg + '">'
+        + '<div class="hist-badge">' + areaIconSvg(item.area) + '</div>'
+        + '<div class="hist-info"><b>' + nombreArea(item.area) + '</b><br>' + item.fuente + ' · ' + item.kb.toFixed(1) + ' KB · ' + item.fecha + ' ' + item.hora + '</div>'
+        + '<div class="hist-actions"><button class="btn small" onclick="descargarHistorial(' + i + ')">' + t('descargar') + '</button></div></div>';
     }).join("");
 }
 function descargarHistorial(i) {
@@ -374,6 +571,45 @@ function limpiarHistorial() {
   localStorage.removeItem(HIST_KEY);
   renderHistorial();
 }
+
+// ---------------------------------------------------------------
+// Aplicar idioma (mensaje del Hub) -- sin perder los archivos ya
+// seleccionados ni los valores de KPI ya tecleados: solo reconstruye
+// las tarjetas de área si el usuario todavia no subió nada.
+// ---------------------------------------------------------------
+function applyLang(lang) {
+  if (!I18N[lang]) return;
+  CURRENT_LANG = lang;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(function (el) {
+    var key = el.getAttribute('data-i18n');
+    if (I18N[lang][key]) el.textContent = I18N[lang][key];
+  });
+  var hayArchivos = AREAS.some(function (a) { return !!uploadedFiles[a]; });
+  if (!hayArchivos) {
+    buildAreaCards();
+  } else {
+    AREAS.forEach(function (area) {
+      var elName = document.getElementById('areaName_' + area);
+      var elFile = document.getElementById('areaFile_' + area);
+      var elToggle = document.getElementById('kpiToggleText_' + area);
+      var elTotalLbl = document.getElementById('kpiTotalLabel_' + area);
+      if (elName) elName.textContent = nombreArea(area);
+      if (elFile) elFile.textContent = t('excelDe', { area: nombreArea(area) });
+      if (elToggle) elToggle.textContent = t('kpiToggle', { area: nombreArea(area) });
+      if (elTotalLbl) { var b = elTotalLbl.querySelector('b'); elTotalLbl.innerHTML = t('kpiTotal') + ': '; if (b) elTotalLbl.appendChild(b); }
+      if (!uploadedFiles[area]) {
+        var dzText = document.getElementById('dzText_' + area);
+        if (dzText) dzText.textContent = t('dzText');
+      }
+    });
+  }
+  actualizarBotonGenerar();
+  if (document.getElementById('p-historial').classList.contains('on')) renderHistorial();
+}
+window.addEventListener('message', function (e) {
+  if (e && e.data && e.data.type === 'oeHubLang') applyLang(e.data.lang);
+});
 
 buildAreaCards();
 </script>
