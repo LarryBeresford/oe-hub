@@ -1,0 +1,2556 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Señalética de Aperturas — SVC</title>
+<link rel="icon" type="image/svg+xml" href="../media/favicon.svg">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --yellow: #FFD001; --black: #111; --white: #FFF;
+  --gray: #555; --gray-light: #F4F4F4; --gray-border: #E0E0E0;
+  --gray2: #333; --gray3: #222; --darkbg: #1A1A1A;
+  --green: #00A650; --orange: #FF8C00; --red: #D62828;
+  --font: 'Segoe UI', Arial, sans-serif;
+}
+body { font-family: var(--font); background: #1C1C1C; color: var(--black); min-height: 100vh; display: flex; flex-direction: column; }
+
+/* ── APP HEADER ── */
+.app-bar {
+  background: #000; color: var(--white);
+  display: flex; align-items: center; gap: 14px;
+  padding: 10px 20px; position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+.app-bar .logo { background: var(--yellow); color: #000; font-weight: 900; font-size: 12px; padding: 4px 10px; border-radius: 4px; letter-spacing: 0.5px; }
+.app-bar h1 { font-size: 14px; font-weight: 600; }
+.app-bar .sub { font-size: 11px; color: #999; margin-left: 4px; }
+.app-bar .actions { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.btn-primary { background: var(--yellow); color: #000; border: none; padding: 9px 20px; border-radius: 6px; font-weight: 800; font-size: 12px; cursor: pointer; letter-spacing: 0.3px; transition: opacity 0.15s; font-family: var(--font); }
+.btn-primary:hover { opacity: 0.85; }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-secondary { background: transparent; color: #AAA; border: 1px solid #444; padding: 8px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.15s; font-family: var(--font); }
+.btn-secondary:hover { border-color: var(--yellow); color: var(--yellow); }
+
+/* ── WORKSPACE ── */
+.workspace { display: grid; grid-template-columns: 460px 1fr; align-items: start; }
+@media (max-width: 980px) {
+  .workspace { grid-template-columns: 1fr; }
+  .form-panel { height: auto; max-height: 60vh; border-right: none; border-bottom: 3px solid var(--yellow); }
+  .preview-panel { height: auto; position: static; }
+}
+
+/* ── FORM PANEL ── */
+.form-panel { background: #F7F7F7; overflow-y: auto; border-right: 1px solid #DDD; scroll-behavior: smooth; height: calc(100vh - 53px); }
+.form-section { border-bottom: 1px solid #E8E8E8; padding: 14px 18px; background: var(--white); margin-bottom: 6px; }
+.form-section-title {
+  font-size: 10px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 1.2px; color: #666; margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px; justify-content: space-between;
+}
+.form-section-title .ttl { display:flex; align-items:center; gap:6px; }
+.form-section-title .ttl::before { content: ''; display: inline-block; width: 3px; height: 13px; background: var(--yellow); border-radius: 2px; }
+.form-section-title .count { color: #999; font-weight: 700; text-transform: none; letter-spacing: 0; font-size: 10.5px; }
+label { display: block; font-size: 10px; font-weight: 700; color: #666; margin: 8px 0 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+label:first-of-type { margin-top: 0; }
+input[type=text], input[type=date], input[type=email], textarea, select {
+  width: 100%; border: 1px solid #DDD; border-radius: 5px;
+  padding: 7px 10px; font-size: 12.5px; font-family: var(--font);
+  background: var(--white); color: var(--black); resize: vertical;
+  transition: border-color 0.15s;
+}
+input:focus, textarea:focus, select:focus { outline: none; border-color: var(--yellow); box-shadow: 0 0 0 2px rgba(255,208,1,0.2); }
+textarea { min-height: 52px; }
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.help-text { font-size: 10.5px; color: #888; margin-top: 6px; line-height: 1.4; }
+
+/* ── ZONE ACCORDION (variables / opcionales / fijos) ── */
+.zone-group { border: 1px solid #E5E5E5; border-radius: 7px; margin-bottom: 8px; overflow: hidden; }
+.zone-head { display:flex; align-items:center; justify-content:space-between; padding: 9px 12px; background:#FAFAFA; cursor:pointer; user-select:none; }
+.zone-head:hover { background:#F2F2F2; }
+.zone-head .zname { font-size:11.5px; font-weight:700; color:#222; display:flex; align-items:center; gap:8px; }
+.zone-head .zbadge { background:#EEE; color:#666; font-size:9.5px; font-weight:800; padding: 2px 7px; border-radius: 10px; }
+.zone-head .zbadge.on { background: var(--yellow); color:#000; }
+.zone-head .chev { transition: transform 0.15s; color:#999; }
+.zone-group.open .chev { transform: rotate(90deg); }
+.zone-body { display:none; padding: 4px 10px 8px; }
+.zone-group.open .zone-body { display:block; }
+
+.item-row { display:flex; align-items:flex-start; gap:9px; padding:7px 2px; border-bottom: 1px dashed #EEE; }
+.item-row:last-child { border-bottom:none; }
+.item-row input[type=checkbox] { margin-top: 3px; width:15px; height:15px; accent-color: var(--yellow); cursor:pointer; flex-shrink:0; }
+.item-info { flex:1; min-width:0; }
+.item-name { font-size:12px; font-weight:600; color:#222; }
+.item-meta { font-size:10px; color:#999; margin-top:1px; }
+.item-qty { display:flex; align-items:center; gap:4px; flex-shrink:0; }
+.qty-btn { width:22px; height:22px; border-radius:5px; border:1px solid #DDD; background:#FFF; cursor:pointer; font-size:13px; font-weight:700; color:#555; display:flex; align-items:center; justify-content:center; }
+.qty-btn:hover { border-color: var(--yellow); color:#000; }
+.qty-input { width:40px; text-align:center; padding:3px 2px; font-size:12px; }
+
+.fixed-note { font-size: 10.5px; color: #888; background:#FFFBEA; border:1px solid #FFE9A8; border-radius:6px; padding:8px 10px; margin-bottom:10px; line-height:1.4; }
+
+/* ── PREVIEW / CART PANEL ── */
+.preview-panel { background: #F0F0F0; overflow-y: auto; padding: 20px 22px; display: flex; flex-direction: column; gap: 14px; height: calc(100vh - 53px); }
+.cart-header { display:flex; align-items:center; justify-content:space-between; }
+.cart-title { font-size: 15px; font-weight: 800; color:#111; }
+.cart-sub { font-size: 11.5px; color:#777; margin-top:2px; }
+.cart-stats { display:flex; gap:10px; }
+.stat-chip { background:#FFF; border:1px solid #E0E0E0; border-radius:8px; padding:8px 14px; text-align:center; min-width:70px; }
+.stat-chip .num { font-size:18px; font-weight:900; color:#111; }
+.stat-chip .lbl { font-size:9px; text-transform:uppercase; color:#999; letter-spacing:0.4px; font-weight:700; }
+
+.cart-table-wrap { background:#FFF; border-radius:10px; border:1px solid #E2E2E2; overflow:hidden; flex:1; display:flex; flex-direction:column; min-height:200px; }
+.cart-table-scroll { overflow-y:auto; flex:1; }
+table.cart-table { width:100%; border-collapse:collapse; font-size:11.5px; }
+table.cart-table thead th { background:#111; color:var(--yellow); padding:8px 10px; text-align:left; font-size:9.5px; text-transform:uppercase; letter-spacing:0.4px; position:sticky; top:0; }
+table.cart-table td { padding:7px 10px; border-bottom:1px solid #F0F0F0; vertical-align:top; }
+table.cart-table tr:last-child td { border-bottom:none; }
+.cart-zona-tag { display:inline-block; background:#F0F0F0; color:#666; font-size:9.5px; font-weight:700; padding:2px 6px; border-radius:5px; }
+.cart-remove { background:none; border:none; color:#CCC; cursor:pointer; font-size:15px; line-height:1; }
+.cart-remove:hover { color: var(--red); }
+.cart-empty { display:flex; align-items:center; justify-content:center; height:100%; color:#AAA; font-size:12.5px; padding:30px; text-align:center; }
+.cart-qty-cell { display:flex; align-items:center; gap:4px; }
+
+.export-bar { background:#FFF; border-radius:10px; border:1px solid #E2E2E2; padding:14px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.export-bar .msg { font-size:11px; color:#888; flex:1; min-width:200px; }
+.toast { position:fixed; bottom:22px; right:22px; background:#111; color:#FFF; padding:12px 18px; border-radius:8px; font-size:12.5px; box-shadow:0 8px 24px rgba(0,0,0,0.3); display:flex; align-items:center; gap:8px; z-index:999; opacity:0; transform:translateY(10px); transition: all 0.25s; pointer-events:none; }
+.toast.show { opacity:1; transform:translateY(0); }
+.toast .dot { width:8px; height:8px; border-radius:50%; background: var(--green); flex-shrink:0; }
+
+::-webkit-scrollbar { width:8px; height:8px; }
+::-webkit-scrollbar-thumb { background:#CCC; border-radius:4px; }
+::-webkit-scrollbar-thumb:hover { background:#AAA; }
+</style>
+</head>
+<body>
+
+<div class="app-bar">
+  <div class="logo">OE</div>
+  <h1>Señalética de Aperturas<span class="sub">SVC Transportes</span></h1>
+  <div class="actions">
+    <button class="btn-secondary" onclick="resetAll()">Nuevo requerimiento</button>
+    <button class="btn-primary" id="btnExport" onclick="exportExcel()">Generar orden de compra (Excel)</button>
+  </div>
+</div>
+
+<div class="workspace">
+  <div class="form-panel" id="formPanel">
+
+    <div class="form-section">
+      <div class="form-section-title"><span class="ttl">Datos del sitio</span></div>
+      <label>Nombre / código del sitio</label>
+      <input type="text" id="siteCode" placeholder="Ej. SMX10">
+      <div class="row-2">
+        <div>
+          <label>Tipo de operación</label>
+          <select id="siteType">
+            <option value="">Selecciona...</option>
+            <option>Service Center (SVC)</option>
+            <option>Cross Dock (XD)</option>
+            <option>First Mile (FM)</option>
+            <option>Terminal de Origen (TOM)</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div>
+          <label>Tamaño estimado</label>
+          <select id="siteSize">
+            <option value="">Selecciona...</option>
+            <option>Pequeño</option>
+            <option>Mediano</option>
+            <option>Grande</option>
+            <option>Muy Grande</option>
+          </select>
+        </div>
+      </div>
+      <div class="row-2">
+        <div>
+          <label>Ciudad</label>
+          <input type="text" id="siteCity">
+        </div>
+        <div>
+          <label>Región</label>
+          <input type="text" id="siteRegion">
+        </div>
+      </div>
+      <label>Dirección</label>
+      <textarea id="siteAddress" placeholder="Dirección completa del sitio"></textarea>
+      <div class="row-2">
+        <div>
+          <label>Fecha Go Live</label>
+          <input type="date" id="siteGoLive">
+        </div>
+        <div>
+          <label>Fecha de instalación</label>
+          <input type="date" id="siteInstall">
+        </div>
+      </div>
+      <div class="row-2">
+        <div>
+          <label>Elaborado por</label>
+          <input type="text" id="siteOwner">
+        </div>
+        <div>
+          <label>Contacto MELI (correo)</label>
+          <input type="email" id="siteEmail">
+        </div>
+      </div>
+      <div class="help-text">Este bloque llena la pestaña "Carátula" del Excel de salida.</div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-section-title">
+        <span class="ttl">Artículos fijos</span>
+        <span class="count" id="fijosCount"></span>
+      </div>
+      <div class="fixed-note">Se incluyen automáticamente en cualquier apertura, con su cantidad estándar. Puedes desmarcar o ajustar la cantidad de alguno si este sitio en particular no lo requiere.</div>
+      <div id="fijosZones"></div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-section-title">
+        <span class="ttl">Artículos variables</span>
+        <span class="count" id="variablesCount"></span>
+      </div>
+      <div class="fixed-note">Su cantidad depende de la infraestructura real del sitio (número de docas, baños, estaciones, etc.). Marca los que aplican y ajusta la cantidad.</div>
+      <div id="variablesZones"></div>
+    </div>
+
+    <div class="form-section">
+      <div class="form-section-title">
+        <span class="ttl">Artículos opcionales</span>
+        <span class="count" id="opcionalesCount"></span>
+      </div>
+      <div class="fixed-note">Solo aplican si el sitio tiene esa característica particular (zonas especiales, graphic floor, seguridad, etc.).</div>
+      <div id="opcionalesZones"></div>
+    </div>
+
+  </div>
+
+  <div class="preview-panel">
+    <div class="cart-header">
+      <div>
+        <div class="cart-title">Orden de compra — vista previa</div>
+        <div class="cart-sub" id="cartSiteLine">Sin datos del sitio todavía</div>
+      </div>
+      <div class="cart-stats">
+        <div class="stat-chip"><div class="num" id="statLines">0</div><div class="lbl">Líneas</div></div>
+        <div class="stat-chip"><div class="num" id="statPieces">0</div><div class="lbl">Piezas</div></div>
+      </div>
+    </div>
+
+    <div class="cart-table-wrap">
+      <div class="cart-table-scroll">
+        <table class="cart-table">
+          <thead>
+            <tr><th>Zona</th><th>Artículo</th><th style="width:110px">Cantidad</th><th style="width:30px"></th></tr>
+          </thead>
+          <tbody id="cartBody"></tbody>
+        </table>
+        <div class="cart-empty" id="cartEmptyMsg">Agrega artículos desde el panel izquierdo para armar la orden de compra.</div>
+      </div>
+    </div>
+
+    <div class="export-bar">
+      <div class="msg">El Excel exportado trae la pestaña "Carátula" con los datos del sitio y "Requerimiento" con la lista final de artículos, listo para mandar a cotizar con el proveedor.</div>
+      <button class="btn-primary" onclick="exportExcel()">Generar orden de compra (Excel)</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><div class="dot"></div><span id="toastMsg"></span></div>
+
+<script>
+const CATALOG = {
+ "fijos": [
+  {
+   "id": "fij-1",
+   "tipo": "fijo",
+   "zona": "Fachada / Ingreso",
+   "nombre": "Isologo Corporativo Iluminado (pared)",
+   "medidas": "235 cm Largo x 135 cm Alto",
+   "color": "Corporativo MELI",
+   "material": "Materiales diversos (iluminación led + transformador)",
+   "colocacion": "Aérea con cables",
+   "instalacion": "Requiere toma de corriente",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": null
+  },
+  {
+   "id": "fij-2",
+   "tipo": "fijo",
+   "zona": "Fachada / Ingreso",
+   "nombre": "Corpóreo Letras 'WOW' 3D",
+   "medidas": "345x120",
+   "color": "Corporativo MELI (amarillo Pantone 102 C)",
+   "material": "Polyfan pintado.",
+   "colocacion": "Móvil / a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 66.0
+  },
+  {
+   "id": "fij-3",
+   "tipo": "fijo",
+   "zona": "Fachada / Ingreso",
+   "nombre": "Corpóreo Letras 'MELI' 3D",
+   "medidas": "Frente 172x55.6cm\nCaja 20x20x20cm\n",
+   "color": "Corporativo MELI",
+   "material": "Materiales diversos (polyfan)",
+   "colocacion": "A pared",
+   "instalacion": "Requiere estructura metálica de montaje (iso-02, 300x100 cm)",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 39.0
+  },
+  {
+   "id": "fij-4",
+   "tipo": "fijo",
+   "zona": "Fachada / Ingreso",
+   "nombre": "Vinilo MELI",
+   "medidas": "A definir según el espacio",
+   "color": "Corporativo MELI",
+   "material": "Vinil autoadhesivo",
+   "colocacion": "Adherido",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 40.0
+  },
+  {
+   "id": "fij-5",
+   "tipo": "fijo",
+   "zona": "Recepción",
+   "nombre": "Bandera México",
+   "medidas": "400 x 220 cm",
+   "color": "Varios",
+   "material": "Tela satinada",
+   "colocacion": "Aérea con cables",
+   "instalacion": "Sin soporte con ojillos metálicos",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "Doble vista ",
+   "toolkit": 36.0
+  },
+  {
+   "id": "fij-6",
+   "tipo": "fijo",
+   "zona": "Recepción",
+   "nombre": "Bandera Mercado Libre",
+   "medidas": "400 x 220 cm",
+   "color": "C0 M17 Y10 K0 #_x001e_d100",
+   "material": "Tela satinada",
+   "colocacion": "Aérea con cables",
+   "instalacion": "Sin soporte con ojillos metálicos",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "Doble vista ",
+   "toolkit": 36.0
+  },
+  {
+   "id": "fij-7",
+   "tipo": "fijo",
+   "zona": "Operación",
+   "nombre": "Pizarrón Tier 1 (UTR+OTR, alineado LATAM)",
+   "medidas": "250 cm Largo x 140 cm Alto",
+   "color": "Varios",
+   "material": "Formaica laminada",
+   "colocacion": "Clavado a pared",
+   "instalacion": "Ninguna",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 61.0
+  },
+  {
+   "id": "fij-8",
+   "tipo": "fijo",
+   "zona": "Comedor",
+   "nombre": "Letrero 'Comedor'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-9",
+   "tipo": "fijo",
+   "zona": "Comedor",
+   "nombre": "Letrero Reglas de Uso de Comedor",
+   "medidas": "30 cm Ancho x 40 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado con impresión UV directa.",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 46.0
+  },
+  {
+   "id": "fij-10",
+   "tipo": "fijo",
+   "zona": "Oficinas",
+   "nombre": "Letrero 'MDF'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-11",
+   "tipo": "fijo",
+   "zona": "Seguridad",
+   "nombre": "Letrero 'Solo Personal Autorizado'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 4.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-12",
+   "tipo": "fijo",
+   "zona": "Bienestar",
+   "nombre": "Letrero 'Zona de Lactancia'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-13",
+   "tipo": "fijo",
+   "zona": "Bienestar",
+   "nombre": "Letrero 'Servicio Médico'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-14",
+   "tipo": "fijo",
+   "zona": "Almacenes",
+   "nombre": "Letrero 'Almacén de Insumos'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-15",
+   "tipo": "fijo",
+   "zona": "Almacenes",
+   "nombre": "Letrero 'Almacén de Insumos de Limpieza'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-16",
+   "tipo": "fijo",
+   "zona": "Almacenes",
+   "nombre": "Letrero 'Almacén de Paquetes'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-17",
+   "tipo": "fijo",
+   "zona": "Almacenes",
+   "nombre": "Letrero 'Almacén de Incidencias'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-18",
+   "tipo": "fijo",
+   "zona": "Almacenes",
+   "nombre": "Letrero 'Almacén de Equipos y Accesorios'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-19",
+   "tipo": "fijo",
+   "zona": "RH / Personal",
+   "nombre": "Letrero 'Staff Mercado Libre'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 4.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-20",
+   "tipo": "fijo",
+   "zona": "Residuos / Piso",
+   "nombre": "Letrero 'Estibadores'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-21",
+   "tipo": "fijo",
+   "zona": "Residuos / Piso",
+   "nombre": "Letrero 'Patines'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-22",
+   "tipo": "fijo",
+   "zona": "Residuos / Piso",
+   "nombre": "Letrero 'Pallets'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-23",
+   "tipo": "fijo",
+   "zona": "Residuos / Piso",
+   "nombre": "Letrero 'Pallets Dañados'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-24",
+   "tipo": "fijo",
+   "zona": "Residuos / Piso",
+   "nombre": "Letrero 'Cartón'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-25",
+   "tipo": "fijo",
+   "zona": "Residuos / Piso",
+   "nombre": "Letrero 'Playo'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-26",
+   "tipo": "fijo",
+   "zona": "Loss Prevention",
+   "nombre": "Letrero 'Debrief LP'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-27",
+   "tipo": "fijo",
+   "zona": "Loss Prevention",
+   "nombre": "Letrero 'Tarima Antiderrames'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 4.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-28",
+   "tipo": "fijo",
+   "zona": "Ingreso",
+   "nombre": "LETRERO INGRESO A",
+   "medidas": "100 x 70 cm",
+   "color": "100 cms. Largo x 70 cms. Alto",
+   "material": "Pantone 109 C C0 M17 Y100 K",
+   "colocacion": "PVC ESPUMADO 3 MM.",
+   "instalacion": "MARCO ESTRUCTURAL O ADHERIDO A PARED",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "Nombre del site \"SMX10\"",
+   "toolkit": 12.0
+  },
+  {
+   "id": "fij-29",
+   "tipo": "fijo",
+   "zona": "Exterior",
+   "nombre": "Letrero Ingreso a Site (para Driver)",
+   "medidas": "140 x 100 cm",
+   "color": "Pantone 102 C",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 13.0
+  },
+  {
+   "id": "fij-30",
+   "tipo": "fijo",
+   "zona": "Exterior",
+   "nombre": "Letrero Acceso Principal",
+   "medidas": "100 x 150 cm",
+   "color": "Pantone 109 C C0 M17 Y100 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Marco estructural o adherido a pared",
+   "instalacion": "Ninguna",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 11.0
+  },
+  {
+   "id": "fij-31",
+   "tipo": "fijo",
+   "zona": "Exterior",
+   "nombre": "Letrero Salida (para driver)",
+   "medidas": "140 x 100 cm",
+   "color": "Pantone 102 C",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 14.0
+  },
+  {
+   "id": "fij-32",
+   "tipo": "fijo",
+   "zona": "Exterior",
+   "nombre": "Letrero Estacionamiento Motos Exterior",
+   "medidas": "180 cm Largo x 120 cm Alto",
+   "color": "Pantone 109 C C0 M17 Y100 K",
+   "material": "Chapa galvanizada (con pintura electroestática).  Gráfica vinilo + protección UV o pintura al horno.",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Ninguna",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 21.0
+  },
+  {
+   "id": "fij-33",
+   "tipo": "fijo",
+   "zona": "Exterior",
+   "nombre": "Letrero Tarima Dañada Exterior",
+   "medidas": "180 cm Largo x 120 cm Alto",
+   "color": "Pantone 109 C C0 M17 Y100 K",
+   "material": "Chapa galvanizada (con pintura electroestática).  Gráfica vinilo + protección UV o pintura al horno.",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Ninguna",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 21.0
+  },
+  {
+   "id": "fij-34",
+   "tipo": "fijo",
+   "zona": "Exterior",
+   "nombre": "Letrero Tarima Pared Exterior",
+   "medidas": "180 cm Largo x 120 cm Alto",
+   "color": "Pantone 109 C C0 M17 Y100 K",
+   "material": "Chapa galvanizada (con pintura electroestática).  Gráfica vinilo + protección UV o pintura al horno.",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Ninguna",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 21.0
+  },
+  {
+   "id": "fij-35",
+   "tipo": "fijo",
+   "zona": "Exterior",
+   "nombre": "Letrero Cartón Pared Exterior",
+   "medidas": "180 cm Largo x 120 cm Alto",
+   "color": "Pantone 109 C C0 M17 Y100 K",
+   "material": "Chapa galvanizada (con pintura electroestática).  Gráfica vinilo + protección UV o pintura al horno.",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Ninguna",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 21.0
+  },
+  {
+   "id": "fij-36",
+   "tipo": "fijo",
+   "zona": "Exterior",
+   "nombre": "Letrero Playo Pared Exterior",
+   "medidas": "180 cm Largo x 120 cm Alto",
+   "color": "Pantone 109 C C0 M17 Y100 K",
+   "material": "Chapa galvanizada (con pintura electroestática).  Gráfica vinilo + protección UV o pintura al horno.",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Ninguna",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 21.0
+  },
+  {
+   "id": "fij-37",
+   "tipo": "fijo",
+   "zona": "Cumplimiento",
+   "nombre": "Tablero de Permisos y Licencias (MLM)",
+   "medidas": "122x122cm",
+   "color": "",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 61.0
+  },
+  {
+   "id": "fij-38",
+   "tipo": "fijo",
+   "zona": "Cumplimiento",
+   "nombre": "Letrero Reglas de Uso de Lockers",
+   "medidas": "30 cm Ancho x 40 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Ninguna",
+   "cantidadDefault": 3.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 56.0
+  },
+  {
+   "id": "fij-39",
+   "tipo": "fijo",
+   "zona": "Estación / Subproceso (Triángulo)",
+   "nombre": "Cartel Estación 'Recepción' — Triángulo Estructural aéreo",
+   "medidas": "240 cm Largo x 120 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Aérea con cables",
+   "instalacion": "Requiere estructura metálica triangular",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 28.0
+  },
+  {
+   "id": "fij-40",
+   "tipo": "fijo",
+   "zona": "Estación / Subproceso (Triángulo)",
+   "nombre": "Cartel Estación 'Sorteo' — Triángulo Estructural aéreo",
+   "medidas": "240 cm Largo x 120 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Aérea con cables",
+   "instalacion": "Requiere estructura metálica triangular",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 28.0
+  },
+  {
+   "id": "fij-41",
+   "tipo": "fijo",
+   "zona": "Estación / Subproceso (Triángulo)",
+   "nombre": "Cartel Estación 'Sorteo Large & Oversize' — Triángulo Estructural aéreo",
+   "medidas": "240 cm Largo x 120 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Aérea con cables",
+   "instalacion": "Requiere estructura metálica triangular",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 28.0
+  },
+  {
+   "id": "fij-42",
+   "tipo": "fijo",
+   "zona": "Estación / Subproceso (Triángulo)",
+   "nombre": "Cartel Estación 'Sorteo Heavy & Bulky' — Triángulo Estructural aéreo",
+   "medidas": "240 cm Largo x 120 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Aérea con cables",
+   "instalacion": "Requiere estructura metálica triangular",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 28.0
+  },
+  {
+   "id": "fij-43",
+   "tipo": "fijo",
+   "zona": "Estación / Subproceso (Triángulo)",
+   "nombre": "Cartel Estación 'Despacho' — Triángulo Estructural aéreo",
+   "medidas": "240 cm Largo x 120 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Aérea con cables",
+   "instalacion": "Requiere estructura metálica triangular",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 28.0
+  },
+  {
+   "id": "fij-44",
+   "tipo": "fijo",
+   "zona": "Estación / Subproceso (Triángulo)",
+   "nombre": "Cartel Estación 'Devoluciones' — Triángulo Estructural aéreo",
+   "medidas": "240 cm Largo x 120 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Aérea con cables",
+   "instalacion": "Requiere estructura metálica triangular",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 28.0
+  },
+  {
+   "id": "fij-45",
+   "tipo": "fijo",
+   "zona": "Estación / Subproceso (Triángulo)",
+   "nombre": "Cartel Estación 'Inventario' — Triángulo Estructural aéreo",
+   "medidas": "240 cm Largo x 120 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Aérea con cables",
+   "instalacion": "Requiere estructura metálica triangular",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 28.0
+  },
+  {
+   "id": "fij-46",
+   "tipo": "fijo",
+   "zona": "Estación / Subproceso (Triángulo)",
+   "nombre": "Cartel Estación 'RTS (Return to Station)' — Triángulo Estructural aéreo",
+   "medidas": "240 cm Largo x 120 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Aérea con cables",
+   "instalacion": "Requiere estructura metálica triangular",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 28.0
+  },
+  {
+   "id": "fij-47",
+   "tipo": "fijo",
+   "zona": "Estación / Subproceso (Triángulo)",
+   "nombre": "Cartel Estación 'Estaciones de Trabajo' — Triángulo Estructural aéreo",
+   "medidas": "240 cm Largo x 120 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Aérea con cables",
+   "instalacion": "Requiere estructura metálica triangular",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 28.0
+  },
+  {
+   "id": "fij-48",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Solución de Problemas'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 6.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 58.0
+  },
+  {
+   "id": "fij-49",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Paquetes Dañados'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-50",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Insumos PS'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-51",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Legacy'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-52",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Shipment 2.0'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-53",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Sin HU'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-54",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Missort'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-55",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Paquetes Reinducción'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 10.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-56",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Paquetes Buffer (Cherry Peak)'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 5.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-57",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Paquetes Buffer (Fecha Promesa D+1)'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 5.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-58",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Paquetes Buffer (Fecha Promesa D+2)'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 5.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-59",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Paquetes Buffer (Fecha Promesa D+3)'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 5.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-60",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Paquetes Etiqueta Blanca'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 5.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-61",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Inventario Sorting'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 3.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-62",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Inventario Buffered'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 3.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-63",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Inventario Problem Solving'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 3.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-64",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Inventario Missort'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 3.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-65",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Inventario Containerized'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 3.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-66",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Inventario Fraud'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 3.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-67",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Inventario Returns'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 3.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-68",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Inventario Dispatch'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 3.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-69",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Inventario Damaged'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 3.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-70",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Inventario Bulky returns'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-71",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Para Clasificar'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 3.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-72",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Para Devolver'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 5.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-73",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'Failover'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-74",
+   "tipo": "fijo",
+   "zona": "Isla / Pizarrón de Sorteo",
+   "nombre": "Letrero 'LMS'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 4.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-75",
+   "tipo": "fijo",
+   "zona": "LP",
+   "nombre": "EN ALTURA LP",
+   "medidas": "240x120cm",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 28.0
+  },
+  {
+   "id": "fij-76",
+   "tipo": "fijo",
+   "zona": "Seguridad (condicional)",
+   "nombre": "Letrero 'Staff MLP´s'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-77",
+   "tipo": "fijo",
+   "zona": "Operación (condicional)",
+   "nombre": "Letrero 'Carritos de Computadora'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-78",
+   "tipo": "fijo",
+   "zona": "Operación (condicional)",
+   "nombre": "Letrero 'Patinetas Eléctricas'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-79",
+   "tipo": "fijo",
+   "zona": "Estacionamiento",
+   "nombre": "Letrero Estacionamiento Exterior",
+   "medidas": "120 x 280 cm",
+   "color": "Pantone 109 C C0 M17 Y100 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Ninguna",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 21.0
+  },
+  {
+   "id": "fij-80",
+   "tipo": "fijo",
+   "zona": "Letreros insumos",
+   "nombre": "Letrero 'Baker Carts'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 4.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-81",
+   "tipo": "fijo",
+   "zona": "Letreros insumos",
+   "nombre": "Letrero 'Baker Carts en Mantenimiento'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-82",
+   "tipo": "fijo",
+   "zona": "Letreros insumos",
+   "nombre": "Letrero 'Madera'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-83",
+   "tipo": "fijo",
+   "zona": "Letreros insumos",
+   "nombre": "Letrero 'Conos de seguridad'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-84",
+   "tipo": "fijo",
+   "zona": "Letreros insumos",
+   "nombre": "Letrero 'Manga Pallets'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "fij-85",
+   "tipo": "fijo",
+   "zona": "Letreros paquetes",
+   "nombre": "Letrero 'Paquetes Rehabilitados'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-86",
+   "tipo": "fijo",
+   "zona": "Letreros paquetes",
+   "nombre": "Letrero 'Paquetes Pendientes de Aprobación'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-87",
+   "tipo": "fijo",
+   "zona": "Letreros paquetes",
+   "nombre": "Letrero 'Paquetes Sin Guía'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-88",
+   "tipo": "fijo",
+   "zona": "Letreros paquetes",
+   "nombre": "Letrero 'Paquetes para Devolución'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-89",
+   "tipo": "fijo",
+   "zona": "Letreros paquetes",
+   "nombre": "Letrero 'Paquetes para Despachar'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-90",
+   "tipo": "fijo",
+   "zona": "Letreros paquetes",
+   "nombre": "Letrero 'Paquetes Etiqueta Blanca - Local'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "fij-91",
+   "tipo": "fijo",
+   "zona": "Letreros paquetes",
+   "nombre": "Letrero 'Paquetes Etiqueta Blanca - Foráneo'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  }
+ ],
+ "variables": [
+  {
+   "id": "var-1",
+   "tipo": "variable",
+   "zona": "Oficinas",
+   "nombre": "Letrero 'Sala de Juntas'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 3.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "var-2",
+   "tipo": "variable",
+   "zona": "Capacitación",
+   "nombre": "Letrero 'Sala de Capacitación'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "var-3",
+   "tipo": "variable",
+   "zona": "Sanitarios",
+   "nombre": "Letrero Sanitarios Hombres (pared)",
+   "medidas": "56 cm Ancho x 60 cm Largo",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 45.0
+  },
+  {
+   "id": "var-4",
+   "tipo": "variable",
+   "zona": "Sanitarios",
+   "nombre": "Letrero Sanitarios Mujeres (pared)",
+   "medidas": "56 cm Ancho x 60 cm Largo",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 45.0
+  },
+  {
+   "id": "var-5",
+   "tipo": "variable",
+   "zona": "Sanitarios",
+   "nombre": "Letrero Sanitarios Mixtos (pared)",
+   "medidas": "56 cm Ancho x 60 cm Largo",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 45.0
+  },
+  {
+   "id": "var-6",
+   "tipo": "variable",
+   "zona": "Sanitarios",
+   "nombre": "Letrero Sanitarios Dirección (pared)",
+   "medidas": "112 cm Largo x 60 cm Ancho",
+   "color": "Pantone 102 C C3 M4 Y91 K y NEGRO",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "1 flecha izquierda y 1 derecha ",
+   "toolkit": 44.0
+  },
+  {
+   "id": "var-7",
+   "tipo": "variable",
+   "zona": "Sanitarios",
+   "nombre": "Letrero Uso Correcto de los Baños",
+   "medidas": "30 cm Ancho x 40 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Ninguna",
+   "cantidadDefault": 2.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 50.0
+  },
+  {
+   "id": "var-8",
+   "tipo": "variable",
+   "zona": "Docas / Andenes",
+   "nombre": "Doca Interior (LH) Pared (andén)",
+   "medidas": "60 cm Largo x 80 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 15.0,
+   "unidad": "Pieza",
+   "especificaciones": "Del 1 al 15",
+   "toolkit": 29.0
+  },
+  {
+   "id": "var-9",
+   "tipo": "variable",
+   "zona": "Docas / Andenes",
+   "nombre": "Doca Interior (LM) Colgante Doble Vista",
+   "medidas": "60 cm Largo x 80 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Aérea con cables",
+   "instalacion": "Sin soporte con ojillos metálicos",
+   "cantidadDefault": 250.0,
+   "unidad": "Pieza",
+   "especificaciones": "Del 1 al 250",
+   "toolkit": 34.0
+  },
+  {
+   "id": "var-10",
+   "tipo": "variable",
+   "zona": "Docas / Andenes",
+   "nombre": "Doca Exterior (LH) Pared (rampa o andén)",
+   "medidas": "60 cm Largo x 80 cm Alto",
+   "color": "Pantone 109 C C0 M17 Y100 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 15.0,
+   "unidad": "Pieza",
+   "especificaciones": "Del 1 al 15",
+   "toolkit": 24.0
+  },
+  {
+   "id": "var-11",
+   "tipo": "variable",
+   "zona": "Docas / Andenes",
+   "nombre": "Doca Exterior (LM)",
+   "medidas": "60 cm Largo x 80 cm Alto",
+   "color": "Pantone 109 C C0 M17 Y100 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 34.0
+  },
+  {
+   "id": "var-12",
+   "tipo": "variable",
+   "zona": "Hidratación",
+   "nombre": "Letrero Zona de Hidratación",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 20.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "var-13",
+   "tipo": "variable",
+   "zona": "Isla / Pizarrón de Sorteo (Poka Yoke)",
+   "nombre": "Letrero 'Poka Yoke — Mal Etiquetado'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 90.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "var-14",
+   "tipo": "variable",
+   "zona": "Isla / Pizarrón de Sorteo (Poka Yoke)",
+   "nombre": "Letrero 'Poka Yoke — Pertenece a Otra Isla'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 90.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "var-15",
+   "tipo": "variable",
+   "zona": "Isla / Pizarrón de Sorteo (Poka Yoke)",
+   "nombre": "Letrero 'Poka Yoke — Dañado'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 90.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  },
+  {
+   "id": "var-16",
+   "tipo": "variable",
+   "zona": "Isla / Pizarrón de Sorteo (Poka Yoke)",
+   "nombre": "Letrero 'Poka Yoke — Otro Motivo'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 90.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 31.0
+  }
+ ],
+ "opcionales": [
+  {
+   "id": "opc-1",
+   "tipo": "opcional",
+   "zona": "Orientación / Circulación",
+   "nombre": "Señalética para Áreas",
+   "medidas": "Según diseño (direccional ref. 46 x 23 cm)",
+   "color": "Pantone 102 C",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "Especial ",
+   "toolkit": 43.0
+  },
+  {
+   "id": "opc-2",
+   "tipo": "opcional",
+   "zona": "Orientación / Circulación",
+   "nombre": "Señalética de Circulación",
+   "medidas": "Según diseño / recorrido",
+   "color": "Pantone 102 C",
+   "material": "Vinil autoadhesivo",
+   "colocacion": "Adherido a pared / piso",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "Especial ",
+   "toolkit": 43.0
+  },
+  {
+   "id": "opc-3",
+   "tipo": "opcional",
+   "zona": "Orientación / Circulación",
+   "nombre": "Tótem Ingreso Direccional",
+   "medidas": "180 x 70 cm",
+   "color": "Pantone 102 C",
+   "material": "Estructura metálica + impresión",
+   "colocacion": "De piso / autoportante",
+   "instalacion": "Requiere estructura",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "Espeacial",
+   "toolkit": 9.0
+  },
+  {
+   "id": "opc-4",
+   "tipo": "opcional",
+   "zona": "Orientación / Circulación",
+   "nombre": "Aéreos Orientativos de Áreas Operativas",
+   "medidas": "Cartel inducción 215x70cm Letras magnéticas 16x25cm",
+   "color": "PANTONE BLACK C C63 M62 Y59 K94",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Aérea con cables",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "Espeacial",
+   "toolkit": 30.0
+  },
+  {
+   "id": "opc-5",
+   "tipo": "opcional",
+   "zona": "Piso — Graphic Floor",
+   "nombre": "Graphic Floor — Kit Antiderrames",
+   "medidas": "Cuadrados: 30x30 cm Círculos: 30 cm diámetro",
+   "color": "PANTONE 102C C3 M4 Y91 K0",
+   "material": "Vinilo alto tránsito o pintura en piso.",
+   "colocacion": "Adherido a piso",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "Especial ",
+   "toolkit": 35.0
+  },
+  {
+   "id": "opc-6",
+   "tipo": "opcional",
+   "zona": "Piso — Graphic Floor",
+   "nombre": "Graphic Floor — Manga Pallet",
+   "medidas": "Cuadrados: 30x30 cm Círculos: 30 cm diámetro",
+   "color": "PANTONE 102C C3 M4 Y91 K0",
+   "material": "Vinilo alto tránsito o pintura en piso.",
+   "colocacion": "Adherido a piso",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "Especial ",
+   "toolkit": 35.0
+  },
+  {
+   "id": "opc-7",
+   "tipo": "opcional",
+   "zona": "Piso — Graphic Floor",
+   "nombre": "Graphic Floor — Tarima Antiderrame",
+   "medidas": "Cuadrados: 30x30 cm Círculos: 30 cm diámetro",
+   "color": "PANTONE 102C C3 M4 Y91 K0",
+   "material": "Vinilo alto tránsito o pintura en piso.",
+   "colocacion": "Adherido a piso",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "Especial ",
+   "toolkit": 35.0
+  },
+  {
+   "id": "opc-8",
+   "tipo": "opcional",
+   "zona": "Piso — Graphic Floor",
+   "nombre": "Graphic Floor — Bote de Basura",
+   "medidas": "Cuadrados: 30x30 cm Círculos: 30 cm diámetro",
+   "color": "PANTONE 102C C3 M4 Y91 K0",
+   "material": "Vinilo alto tránsito o pintura en piso.",
+   "colocacion": "Adherido a piso",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "Especial ",
+   "toolkit": 35.0
+  },
+  {
+   "id": "opc-9",
+   "tipo": "opcional",
+   "zona": "Piso — Graphic Floor",
+   "nombre": "Graphic Floor — Arenero",
+   "medidas": "Cuadrados: 30x30 cm Círculos: 30 cm diámetro",
+   "color": "PANTONE 102C C3 M4 Y91 K0",
+   "material": "Vinilo alto tránsito o pintura en piso.",
+   "colocacion": "Adherido a piso",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "Especial ",
+   "toolkit": 35.0
+  },
+  {
+   "id": "opc-10",
+   "tipo": "opcional",
+   "zona": "Piso — Graphic Floor",
+   "nombre": "Graphic Floor — Pasillo Provisional",
+   "medidas": "Cuadrados: 30x30 cm Círculos: 30 cm diámetro",
+   "color": "PANTONE 102C C3 M4 Y91 K0",
+   "material": "Vinilo alto tránsito o pintura en piso.",
+   "colocacion": "Adherido a piso",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "Especial ",
+   "toolkit": 35.0
+  },
+  {
+   "id": "opc-11",
+   "tipo": "opcional",
+   "zona": "Piso — Graphic Floor",
+   "nombre": "Graphic Floor — Pescador",
+   "medidas": "Cuadrados: 30x30 cm Círculos: 30 cm diámetro",
+   "color": "PANTONE 102C C3 M4 Y91 K0",
+   "material": "Vinilo alto tránsito o pintura en piso.",
+   "colocacion": "Adherido a piso",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "Especial ",
+   "toolkit": 35.0
+  },
+  {
+   "id": "opc-12",
+   "tipo": "opcional",
+   "zona": "Piso — Graphic Floor",
+   "nombre": "Graphic Floor — Etiquetador",
+   "medidas": "Cuadrados: 30x30 cm Círculos: 30 cm diámetro",
+   "color": "PANTONE 102C C3 M4 Y91 K0",
+   "material": "Vinilo alto tránsito o pintura en piso.",
+   "colocacion": "Adherido a piso",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "Especial ",
+   "toolkit": 35.0
+  },
+  {
+   "id": "opc-13",
+   "tipo": "opcional",
+   "zona": "Piso — Graphic Floor",
+   "nombre": "Graphic Floor — Diverter",
+   "medidas": "Cuadrados: 30x30 cm Círculos: 30 cm diámetro",
+   "color": "PANTONE 102C C3 M4 Y91 K0",
+   "material": "Vinilo alto tránsito o pintura en piso.",
+   "colocacion": "Adherido a piso",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "Especial ",
+   "toolkit": 35.0
+  },
+  {
+   "id": "opc-14",
+   "tipo": "opcional",
+   "zona": "Piso — Graphic Floor",
+   "nombre": "Graphic Floor — Estibador",
+   "medidas": "Cuadrados: 30x30 cm Círculos: 30 cm diámetro",
+   "color": "PANTONE 102C C3 M4 Y91 K0",
+   "material": "Vinilo alto tránsito o pintura en piso.",
+   "colocacion": "Adherido a piso",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "Especial ",
+   "toolkit": 35.0
+  },
+  {
+   "id": "opc-15",
+   "tipo": "opcional",
+   "zona": "Piso — Graphic Floor",
+   "nombre": "Graphic Floor — Gaylord",
+   "medidas": "Cuadrados: 30x30 cm Círculos: 30 cm diámetro",
+   "color": "PANTONE 102C C3 M4 Y91 K0",
+   "material": "Vinilo alto tránsito o pintura en piso.",
+   "colocacion": "Adherido a piso",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "Especial ",
+   "toolkit": 35.0
+  },
+  {
+   "id": "opc-16",
+   "tipo": "opcional",
+   "zona": "Piso — Graphic Floor",
+   "nombre": "Graphic Floor — Patín",
+   "medidas": "Cuadrados: 30x30 cm Círculos: 30 cm diámetro",
+   "color": "PANTONE 102C C3 M4 Y91 K0",
+   "material": "Vinilo alto tránsito o pintura en piso.",
+   "colocacion": "Adherido a piso",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "Especial ",
+   "toolkit": 35.0
+  },
+  {
+   "id": "opc-17",
+   "tipo": "opcional",
+   "zona": "Piso — Graphic Floor",
+   "nombre": "Graphic Floor — Pallets Dañado",
+   "medidas": "Cuadrados: 30x30 cm Círculos: 30 cm diámetro",
+   "color": "PANTONE 102C C3 M4 Y91 K0",
+   "material": "Vinilo alto tránsito o pintura en piso.",
+   "colocacion": "Adherido a piso",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "Especial ",
+   "toolkit": 35.0
+  },
+  {
+   "id": "opc-18",
+   "tipo": "opcional",
+   "zona": "Piso — Graphic Floor",
+   "nombre": "Graphic Floor — Pallet",
+   "medidas": "Cuadrados: 30x30 cm Círculos: 30 cm diámetro",
+   "color": "PANTONE 102C C3 M4 Y91 K0",
+   "material": "Vinilo alto tránsito o pintura en piso.",
+   "colocacion": "Adherido a piso",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "Especial ",
+   "toolkit": 35.0
+  },
+  {
+   "id": "opc-19",
+   "tipo": "opcional",
+   "zona": "Piso — Graphic Floor",
+   "nombre": "Graphic Floor — Cartón",
+   "medidas": "Cuadrados: 30x30 cm Círculos: 30 cm diámetro",
+   "color": "PANTONE 102C C3 M4 Y91 K0",
+   "material": "Vinilo alto tránsito o pintura en piso.",
+   "colocacion": "Adherido a piso",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "Especial ",
+   "toolkit": 35.0
+  },
+  {
+   "id": "opc-20",
+   "tipo": "opcional",
+   "zona": "Piso — Graphic Floor",
+   "nombre": "Graphic Floor — Playo",
+   "medidas": "Cuadrados: 30x30 cm Círculos: 30 cm diámetro",
+   "color": "PANTONE 102C C3 M4 Y91 K0",
+   "material": "Vinilo alto tránsito o pintura en piso.",
+   "colocacion": "Adherido a piso",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "Especial ",
+   "toolkit": 35.0
+  },
+  {
+   "id": "opc-21",
+   "tipo": "opcional",
+   "zona": "Piso — Graphic Floor",
+   "nombre": "Graphic Floor — Baker Cart",
+   "medidas": "Cuadrados: 30x30 cm Círculos: 30 cm diámetro",
+   "color": "PANTONE 102C C3 M4 Y91 K0",
+   "material": "Vinilo alto tránsito o pintura en piso.",
+   "colocacion": "Adherido a piso",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "Especial ",
+   "toolkit": 35.0
+  },
+  {
+   "id": "opc-22",
+   "tipo": "opcional",
+   "zona": "Piso — Graphic Floor",
+   "nombre": "Graphic Floor — Baker Cart en Mantenimiento",
+   "medidas": "Cuadrados: 30x30 cm Círculos: 30 cm diámetro",
+   "color": "PANTONE 102C C3 M4 Y91 K0",
+   "material": "Vinilo alto tránsito o pintura en piso.",
+   "colocacion": "Adherido a piso",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "Especial ",
+   "toolkit": 35.0
+  },
+  {
+   "id": "opc-23",
+   "tipo": "opcional",
+   "zona": "Piso — Graphic Floor",
+   "nombre": "Graphic Floor — Cono de seguridad",
+   "medidas": "Cuadrados: 30x30 cm Círculos: 30 cm diámetro",
+   "color": "PANTONE 102C C3 M4 Y91 K0",
+   "material": "Vinilo alto tránsito o pintura en piso.",
+   "colocacion": "Adherido a piso",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "Especial ",
+   "toolkit": 35.0
+  },
+  {
+   "id": "opc-24",
+   "tipo": "opcional",
+   "zona": "Letreros paquetes",
+   "nombre": "Letrero 'Paquetes Etiqueta Blanca - Foráneo'",
+   "medidas": "28 cm Largo x 22 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "En baker cart",
+   "instalacion": "Sin soporte, con ojillos metálicos",
+   "cantidadDefault": 3.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "opc-25",
+   "tipo": "opcional",
+   "zona": "Seguridad (condicional)",
+   "nombre": "Letrero 'Rayos X'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 0.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  },
+  {
+   "id": "opc-26",
+   "tipo": "opcional",
+   "zona": "Seguridad (condicional)",
+   "nombre": "Letrero 'K9'",
+   "medidas": "40 cm Largo x 23 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "PVC Espumado 3mm",
+   "colocacion": "Adherido a pared",
+   "instalacion": "Sin soporte",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 30.0
+  }
+ ]
+};
+
+// cart: id -> {item, cantidad, checked}
+const cart = {};
+
+function initCatalog() {
+  CATALOG.fijos.forEach(it => { cart[it.id] = { item: it, cantidad: it.cantidadDefault || 1, checked: true }; });
+  CATALOG.variables.forEach(it => { cart[it.id] = { item: it, cantidad: it.cantidadDefault || 0, checked: (it.cantidadDefault || 0) > 0 }; });
+  CATALOG.opcionales.forEach(it => { cart[it.id] = { item: it, cantidad: it.cantidadDefault || 0, checked: (it.cantidadDefault || 0) > 0 }; });
+}
+
+function groupByZone(items) {
+  const groups = {};
+  items.forEach(it => {
+    const z = it.zona || 'Sin categoría';
+    if (!groups[z]) groups[z] = [];
+    groups[z].push(it);
+  });
+  return groups;
+}
+
+function renderZoneSection(containerId, items, tipo) {
+  const container = document.getElementById(containerId);
+  const groups = groupByZone(items);
+  container.innerHTML = '';
+  Object.keys(groups).forEach((zona, idx) => {
+    const zItems = groups[zona];
+    const wrap = document.createElement('div');
+    wrap.className = 'zone-group';
+    wrap.id = 'zg-' + tipo + '-' + idx;
+
+    const head = document.createElement('div');
+    head.className = 'zone-head';
+    head.onclick = () => wrap.classList.toggle('open');
+    head.innerHTML = `<span class="zname"><svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M9 6l6 6-6 6"/></svg>${zona}</span><span class="zbadge" id="zb-${tipo}-${idx}">0/${zItems.length}</span>`;
+
+    const body = document.createElement('div');
+    body.className = 'zone-body';
+
+    zItems.forEach(it => {
+      const row = document.createElement('div');
+      row.className = 'item-row';
+      const c = cart[it.id];
+      row.innerHTML = `
+        <input type="checkbox" id="chk-${it.id}" ${c.checked ? 'checked' : ''} onchange="toggleItem('${it.id}','${tipo}',${idx})">
+        <div class="item-info">
+          <div class="item-name">${it.nombre}</div>
+          <div class="item-meta">${it.medidas || ''}${it.medidas && it.colocacion ? ' · ' : ''}${it.colocacion || ''}</div>
+        </div>
+        <div class="item-qty">
+          <button class="qty-btn" onclick="stepQty('${it.id}',-1,'${tipo}',${idx})">−</button>
+          <input class="qty-input" type="number" min="0" id="qty-${it.id}" value="${c.cantidad}" onchange="setQty('${it.id}',this.value,'${tipo}',${idx})">
+          <button class="qty-btn" onclick="stepQty('${it.id}',1,'${tipo}',${idx})">+</button>
+        </div>`;
+      body.appendChild(row);
+    });
+
+    wrap.appendChild(head);
+    wrap.appendChild(body);
+    container.appendChild(wrap);
+    updateZoneBadge(tipo, idx, zItems);
+  });
+}
+
+function updateZoneBadge(tipo, idx, zItems) {
+  const on = zItems.filter(it => cart[it.id].checked).length;
+  const badge = document.getElementById(`zb-${tipo}-${idx}`);
+  if (badge) {
+    badge.textContent = `${on}/${zItems.length}`;
+    badge.classList.toggle('on', on > 0);
+  }
+}
+
+function toggleItem(id, tipo, idx) {
+  cart[id].checked = document.getElementById('chk-' + id).checked;
+  if (cart[id].checked && cart[id].cantidad <= 0) {
+    cart[id].cantidad = 1;
+    document.getElementById('qty-' + id).value = 1;
+  }
+  const items = tipo === 'fijo' ? CATALOG.fijos : tipo === 'variable' ? CATALOG.variables : CATALOG.opcionales;
+  const zona = cart[id].item.zona;
+  updateZoneBadge(tipo, idx, items.filter(it => it.zona === zona));
+  renderCart();
+  renderCounts();
+}
+
+function setQty(id, val, tipo, idx) {
+  let n = parseInt(val, 10);
+  if (isNaN(n) || n < 0) n = 0;
+  cart[id].cantidad = n;
+  cart[id].checked = n > 0;
+  document.getElementById('chk-' + id).checked = cart[id].checked;
+  document.getElementById('qty-' + id).value = n;
+  const items = tipo === 'fijo' ? CATALOG.fijos : tipo === 'variable' ? CATALOG.variables : CATALOG.opcionales;
+  const zona = cart[id].item.zona;
+  updateZoneBadge(tipo, idx, items.filter(it => it.zona === zona));
+  renderCart();
+  renderCounts();
+}
+
+function stepQty(id, delta, tipo, idx) {
+  const cur = parseInt(document.getElementById('qty-' + id).value, 10) || 0;
+  setQty(id, cur + delta, tipo, idx);
+}
+
+function renderCounts() {
+  const countOn = (arr) => arr.filter(it => cart[it.id].checked).length;
+  document.getElementById('fijosCount').textContent = `${countOn(CATALOG.fijos)}/${CATALOG.fijos.length} incluidos`;
+  document.getElementById('variablesCount').textContent = `${countOn(CATALOG.variables)}/${CATALOG.variables.length} incluidos`;
+  document.getElementById('opcionalesCount').textContent = `${countOn(CATALOG.opcionales)}/${CATALOG.opcionales.length} incluidos`;
+}
+
+function renderCart() {
+  const allItems = [...CATALOG.fijos, ...CATALOG.variables, ...CATALOG.opcionales];
+  const selected = allItems.filter(it => cart[it.id].checked && cart[it.id].cantidad > 0);
+  const tbody = document.getElementById('cartBody');
+  const emptyMsg = document.getElementById('cartEmptyMsg');
+  tbody.innerHTML = '';
+
+  if (selected.length === 0) {
+    emptyMsg.style.display = 'flex';
+  } else {
+    emptyMsg.style.display = 'none';
+    selected.forEach(it => {
+      const c = cart[it.id];
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><span class="cart-zona-tag">${it.zona}</span></td>
+        <td>${it.nombre}</td>
+        <td>
+          <div class="cart-qty-cell">
+            <button class="qty-btn" onclick="stepQtyGlobal('${it.id}',-1)">−</button>
+            <input class="qty-input" type="number" min="0" value="${c.cantidad}" onchange="setQtyGlobal('${it.id}', this.value)">
+            <button class="qty-btn" onclick="stepQtyGlobal('${it.id}',1)">+</button>
+          </div>
+        </td>
+        <td><button class="cart-remove" onclick="removeItem('${it.id}')" title="Quitar">×</button></td>`;
+      tbody.appendChild(tr);
+    });
+  }
+
+  document.getElementById('statLines').textContent = selected.length;
+  const totalPieces = selected.reduce((sum, it) => sum + cart[it.id].cantidad, 0);
+  document.getElementById('statPieces').textContent = totalPieces;
+
+  const code = document.getElementById('siteCode').value || '(sin código)';
+  const type = document.getElementById('siteType').value || '';
+  document.getElementById('cartSiteLine').textContent = type ? `${code} · ${type}` : code;
+}
+
+function findTipoIdx(id) {
+  const tipo = cart[id].item.tipo;
+  const arr = tipo === 'fijo' ? CATALOG.fijos : tipo === 'variable' ? CATALOG.variables : CATALOG.opcionales;
+  const zona = cart[id].item.zona;
+  const zonas = [...new Set(arr.map(it => it.zona))];
+  const idx = zonas.indexOf(zona);
+  return { tipo, idx, arr };
+}
+
+function stepQtyGlobal(id, delta) {
+  const cur = cart[id].cantidad;
+  setQtyGlobal(id, cur + delta);
+}
+
+function setQtyGlobal(id, val) {
+  const { tipo, idx } = findTipoIdx(id);
+  setQty(id, val, tipo, idx);
+  const qtyInput = document.getElementById('qty-' + id);
+  if (qtyInput) qtyInput.value = cart[id].cantidad;
+  const chk = document.getElementById('chk-' + id);
+  if (chk) chk.checked = cart[id].checked;
+}
+
+function removeItem(id) {
+  setQtyGlobal(id, 0);
+}
+
+function resetAll() {
+  if (!confirm('¿Reiniciar el requerimiento? Se perderá lo capturado.')) return;
+  document.querySelectorAll('#formPanel input[type=text], #formPanel input[type=date], #formPanel input[type=email], #formPanel textarea').forEach(el => el.value = '');
+  document.querySelectorAll('#formPanel select').forEach(el => el.selectedIndex = 0);
+  initCatalog();
+  renderAll();
+}
+
+function renderAll() {
+  renderZoneSection('fijosZones', CATALOG.fijos, 'fijo');
+  renderZoneSection('variablesZones', CATALOG.variables, 'variable');
+  renderZoneSection('opcionalesZones', CATALOG.opcionales, 'opcional');
+  renderCounts();
+  renderCart();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+['siteCode','siteType','siteSize','siteCity','siteRegion'].forEach(id => {
+  document.addEventListener('DOMContentLoaded', () => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', renderCart);
+    if (el && el.tagName === 'SELECT') el.addEventListener('change', renderCart);
+  });
+});
+
+function exportExcel() {
+  const allItems = [...CATALOG.fijos, ...CATALOG.variables, ...CATALOG.opcionales];
+  const selected = allItems.filter(it => cart[it.id].checked && cart[it.id].cantidad > 0);
+
+  if (selected.length === 0) {
+    showToast('Agrega al menos un artículo antes de generar la orden.');
+    return;
+  }
+
+  const siteCode = document.getElementById('siteCode').value || 'SITE';
+  const siteType = document.getElementById('siteType').value;
+  const siteSize = document.getElementById('siteSize').value;
+  const siteCity = document.getElementById('siteCity').value;
+  const siteRegion = document.getElementById('siteRegion').value;
+  const siteAddress = document.getElementById('siteAddress').value;
+  const siteGoLive = document.getElementById('siteGoLive').value;
+  const siteInstall = document.getElementById('siteInstall').value;
+  const siteOwner = document.getElementById('siteOwner').value;
+  const siteEmail = document.getElementById('siteEmail').value;
+
+  const today = new Date();
+  const todayStr = today.toLocaleDateString('es-MX');
+
+  const caratulaRows = [
+    ['REQUERIMIENTO DE SEÑALÉTICA — SVC TRANSPORTES', ''],
+    ['Generado con la Herramienta de Señalética de Aperturas — OE Hub', ''],
+    ['', ''],
+    ['DATOS DEL SITIO', ''],
+    ['Nombre / Código del sitio', siteCode],
+    ['Tipo de operación', siteType],
+    ['Tamaño estimado', siteSize],
+    ['Ciudad', siteCity],
+    ['Región', siteRegion],
+    ['Dirección', siteAddress],
+    ['', ''],
+    ['FECHAS Y LOGÍSTICA', ''],
+    ['Fecha Go Live', siteGoLive],
+    ['Fecha de Instalación', siteInstall],
+    ['', ''],
+    ['ELABORACIÓN', ''],
+    ['Elaborado por', siteOwner],
+    ['Fecha de elaboración', todayStr],
+    ['Contacto MELI (correo)', siteEmail],
+  ];
+
+  const reqHeader = ['Categoría / Zona', 'Código / Nombre del Artículo (Modelo Estándar)', 'Medidas', 'Color', 'Material', 'Colocación', 'Instalación', 'Cantidad Requerida', 'Unidad de Medida', 'Especificaciones/ Comments', 'Imagen de Referencia', 'Slide Toolkit'];
+  const reqRows = [reqHeader];
+  selected.forEach(it => {
+    const c = cart[it.id];
+    reqRows.push([
+      it.zona, it.nombre, it.medidas, it.color, it.material, it.colocacion, it.instalacion,
+      c.cantidad, it.unidad, it.especificaciones, '', it.toolkit || ''
+    ]);
+  });
+
+  const wb = XLSX.utils.book_new();
+  const wsCaratula = XLSX.utils.aoa_to_sheet(caratulaRows);
+  wsCaratula['!cols'] = [{ wch: 34 }, { wch: 50 }];
+  const wsReq = XLSX.utils.aoa_to_sheet(reqRows);
+  wsReq['!cols'] = [{ wch: 22 }, { wch: 42 }, { wch: 24 }, { wch: 22 }, { wch: 28 }, { wch: 18 }, { wch: 30 }, { wch: 10 }, { wch: 10 }, { wch: 22 }, { wch: 14 }, { wch: 12 }];
+
+  XLSX.utils.book_append_sheet(wb, wsCaratula, 'Carátula');
+  XLSX.utils.book_append_sheet(wb, wsReq, 'Requerimiento');
+
+  const fname = `OrdenCompra_Senaletica_${siteCode}_${today.toISOString().slice(0,10)}.xlsx`;
+  XLSX.writeFile(wb, fname);
+  showToast(`Excel generado: ${fname}`);
+}
+
+initCatalog();
+renderAll();
+['siteCode','siteType'].forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener('input', renderCart);
+  el.addEventListener('change', renderCart);
+});
+</script>
+
+</body>
+</html>

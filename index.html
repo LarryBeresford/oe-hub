@@ -687,6 +687,8 @@
       <button class="nav-sub-item" onclick="go('management', this)"><span>Iniciativas</span></button>
       <button class="nav-sub-item" id="navSlides" onclick="go('slides', this)"><span>Generador de Slides</span></button>
       <button class="nav-sub-item" id="navBoletinesGen" onclick="go('boletinesgen', this)"><span>Generador de Boletines</span></button>
+      <button class="nav-sub-item" id="navSenaletica" onclick="go('senaletica', this)"><span>Señalética de Aperturas</span></button>
+      <button class="nav-sub-item" id="navSlipRobots" onclick="go('sliprobots', this)"><span>Slip Robots — Rutas Candidatas</span></button>
     </div>
 
     <button class="nav-direct nav-group" id="navRutinas" onclick="toggleGroup('navRutinas'); go('rutinas', this); setTimeout(()=>routineTab('bbr'),0)">
@@ -893,6 +895,16 @@
         <a class="tool-card wide" href="#" onclick="go('slides', document.getElementById('navSlides')); openGroupFor('navManagement'); return false;">
           <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5Z"/><path d="M9 20h6M12 16v4"/></svg></div>
           <div class="tool-card-text"><div class="tool-card-title">Generador de Slide Ejecutivo</div><div class="tool-card-sub">Arma el slide de status de un proyecto Lean (KPIs, fases, obstáculos) y expórtalo listo para la junta.</div></div>
+          <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
+        </a>
+        <a class="tool-card wide" href="#" onclick="go('senaletica', document.getElementById('navSenaletica')); openGroupFor('navManagement'); return false;">
+          <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-6 9 6v11a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z"/></svg></div>
+          <div class="tool-card-text"><div class="tool-card-title">Señalética de Aperturas</div><div class="tool-card-sub">Arma el carrito de señalética para un sitio nuevo (SVC) y exporta la orden de compra lista para el proveedor.</div></div>
+          <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
+        </a>
+        <a class="tool-card wide" href="#" onclick="go('sliprobots', document.getElementById('navSlipRobots')); openGroupFor('navManagement'); return false;">
+          <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="16" height="12" rx="2"/><path d="M9 7V5a3 3 0 0 1 6 0v2M9 13h.01M15 13h.01"/></svg></div>
+          <div class="tool-card-text"><div class="tool-card-title">Slip Robots — Rutas Candidatas</div><div class="tool-card-sub">Scorecard de priorización de rutas LH Ground para despliegue de robots (Multiplicadores/Optimizadores/Tácticos/Estáticos).</div></div>
           <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
         </a>
       </div>
@@ -1263,6 +1275,40 @@
       </div>
       <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 230px); min-height:600px;">
         <iframe id="slidesFrame" data-src="herramientas/generador_slide_ejecutivo.html" style="width:100%; height:100%; border:none; display:block;" title="Generador de Slide Ejecutivo" onload="if (window.syncFrameLang) syncFrameLang('slidesFrame')"></iframe>
+      </div>
+    </div>
+
+    <div class="page" id="page-senaletica">
+      <div class="page-header">
+        <div class="page-eyebrow">Excelencia Operacional <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
+        <div class="page-title">Señalética de Aperturas <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
+        <div class="page-desc">Arma el carrito de señalética para la apertura de un sitio SVC (fijos + variables + opcionales) y genera la orden de compra en Excel lista para el proveedor.</div>
+      </div>
+      <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
+        <button onclick="fullscreenIframe('senaleticaFrame')" aria-label="Ver en pantalla completa" style="display:flex; align-items:center; gap:6px; background:var(--dark); color:var(--white); border:none; border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:inherit;">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke="currentColor"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+          <span class="btn-fs-label">Pantalla completa</span>
+        </button>
+      </div>
+      <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 230px); min-height:600px;">
+        <iframe id="senaleticaFrame" data-src="herramientas/senaletica_aperturas.html" style="width:100%; height:100%; border:none; display:block;" title="Señalética de Aperturas" onload="if (window.syncFrameLang) syncFrameLang('senaleticaFrame')"></iframe>
+      </div>
+    </div>
+
+    <div class="page" id="page-sliprobots">
+      <div class="page-header">
+        <div class="page-eyebrow">Excelencia Operacional <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
+        <div class="page-title">Slip Robots — Rutas Candidatas <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
+        <div class="page-desc">Scorecard de priorización de rutas Line Haul Ground para despliegue de Slip Robots — de Martín Winkler.</div>
+      </div>
+      <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
+        <button onclick="fullscreenIframe('sliprobotsFrame')" aria-label="Ver en pantalla completa" style="display:flex; align-items:center; gap:6px; background:var(--dark); color:var(--white); border:none; border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:inherit;">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke="currentColor"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+          <span class="btn-fs-label">Pantalla completa</span>
+        </button>
+      </div>
+      <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 230px); min-height:600px;">
+        <iframe id="sliprobotsFrame" data-src="herramientas/slip_robots_rutas.html" style="width:100%; height:100%; border:none; display:block;" title="Slip Robots — Rutas Candidatas"></iframe>
       </div>
     </div>
 
@@ -1717,9 +1763,9 @@
 </main>
 
 <script>
-  const LABELS    = { inicio:'Inicio', proyectos:'Gestión · Proyectos', indicadores:'Gestión · Indicadores', rutinas:'Rutinas', directorio:'Directorio', organigrama:'Directorio · Organigrama', slides:'Gestión · Generador de Slides', boletinesgen:'Gestión · Generador de Boletines', management:'Gestión · Iniciativas', aprendizaje:'Aprendizaje Continuo' };
-  const LABELS_EN = { inicio:'Home',   proyectos:'Management · Projects', indicadores:'Management · Indicators', rutinas:'Routines', directorio:'Directory', organigrama:'Directory · Full Org Chart', slides:'Management · Slide Generator', boletinesgen:'Management · Newsletter Generator', management:'Management · Initiatives', aprendizaje:'Continuous Learning' };
-  const LABELS_PT = { inicio:'Início', proyectos:'Management · Projetos', indicadores:'Management · Indicadores', rutinas:'Rotinas', directorio:'Diretório', organigrama:'Diretório · Organograma', slides:'Management · Gerador de Slides', boletinesgen:'Management · Gerador de Boletins', management:'Management · Iniciativas', aprendizaje:'Aprendizado Contínuo' };
+  const LABELS    = { inicio:'Inicio', proyectos:'Gestión · Proyectos', indicadores:'Gestión · Indicadores', rutinas:'Rutinas', directorio:'Directorio', organigrama:'Directorio · Organigrama', slides:'Gestión · Generador de Slides', senaletica:'Gestión · Señalética de Aperturas', sliprobots:'Gestión · Slip Robots', boletinesgen:'Gestión · Generador de Boletines', management:'Gestión · Iniciativas', aprendizaje:'Aprendizaje Continuo' };
+  const LABELS_EN = { inicio:'Home',   proyectos:'Management · Projects', indicadores:'Management · Indicators', rutinas:'Routines', directorio:'Directory', organigrama:'Directory · Full Org Chart', slides:'Management · Slide Generator', senaletica:'Management · Site Signage', sliprobots:'Management · Slip Robots', boletinesgen:'Management · Newsletter Generator', management:'Management · Initiatives', aprendizaje:'Continuous Learning' };
+  const LABELS_PT = { inicio:'Início', proyectos:'Management · Projetos', indicadores:'Management · Indicadores', rutinas:'Rotinas', directorio:'Diretório', organigrama:'Diretório · Organograma', slides:'Management · Gerador de Slides', senaletica:'Management · Sinalização de Aberturas', sliprobots:'Management · Slip Robots', boletinesgen:'Management · Gerador de Boletins', management:'Management · Iniciativas', aprendizaje:'Aprendizado Contínuo' };
 
   function toggleSidebar() {
     document.body.classList.toggle('sidebar-collapsed');
@@ -1756,6 +1802,8 @@
     { label: 'Gestión · Indicadores', hint: '% de avance, riesgo, resultados PET', go: function () { go('indicadores', null); openGroupFor('navManagement'); } },
     { label: 'Gestión · Iniciativas', hint: 'Iniciativas del equipo', go: function () { go('management', null); openGroupFor('navManagement'); } },
     { label: 'Gestión · Generador de Slides', hint: 'Slide de status ejecutivo para juntas', go: function () { go('slides', document.getElementById('navSlides')); openGroupFor('navManagement'); } },
+    { label: 'Gestión · Señalética de Aperturas', hint: 'Carrito de señalética + orden de compra en Excel', go: function () { go('senaletica', document.getElementById('navSenaletica')); openGroupFor('navManagement'); } },
+    { label: 'Gestión · Slip Robots — Rutas Candidatas', hint: 'Scorecard de priorización de rutas LH Ground', go: function () { go('sliprobots', document.getElementById('navSlipRobots')); openGroupFor('navManagement'); } },
     { label: 'Gestión · Generador de Boletines', hint: 'App de Streamlit para armar los 4 newsletters', go: function () { go('boletinesgen', document.getElementById('navBoletinesGen')); openGroupFor('navManagement'); } },
     { label: 'Rutinas · BBR', hint: 'Entrega bisemanal de resultados', go: function () { go('rutinas', null); openGroupFor('navRutinas'); routineTab('bbr'); } },
     { label: 'Rutinas · MBR', hint: 'Entrega mensual de resultados', go: function () { go('rutinas', null); openGroupFor('navRutinas'); routineTab('mbr'); } },
@@ -1882,7 +1930,7 @@
 
     // Paginas sin sub-pestanas: su unico iframe vive directo dentro de .page,
     // asi que se puede cargar apenas la pagina se activa.
-    if (el && (pageId === 'proyectos' || pageId === 'indicadores' || pageId === 'slides' || pageId === 'boletinesgen')) {
+    if (el && (pageId === 'proyectos' || pageId === 'indicadores' || pageId === 'slides' || pageId === 'senaletica' || pageId === 'sliprobots' || pageId === 'boletinesgen')) {
       lazyLoadIframe(el);
     }
     // Rutinas/Aprendizaje tienen sub-pestanas (routine-panel/learn-panel) que se
@@ -2916,7 +2964,7 @@
     // NO se incluyen aqui a proposito: son contenido 100% en espanol, sin diccionario
     // TEXT_EN/TEXT_PT ni listener de postMessage('oeHubLang') propio, asi que sincronizar
     // el idioma no cambiaria nada visible. Traducirlos es un trabajo aparte (ya en el backlog).
-    ['insightsFrameProyectos', 'insightsFrameIndicadores', 'slidesFrame'].forEach(function (id) {
+    ['insightsFrameProyectos', 'insightsFrameIndicadores', 'slidesFrame', 'senaleticaFrame', 'sliprobotsFrame'].forEach(function (id) {
       var frame = document.getElementById(id);
       if (frame && frame.contentWindow) {
         try { frame.contentWindow.postMessage({ type: 'oeHubLang', lang: lang }, '*'); } catch (e) {}
