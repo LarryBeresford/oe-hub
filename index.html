@@ -301,7 +301,32 @@
   .date-chip.c-svc { background: var(--tag-svc-bg); color: var(--tag-svc); }
   .date-chip.c-mgmt { background: var(--tag-mgmt-bg); color: var(--tag-mgmt); }
   .date-chip.c-quality { background: var(--tag-quality-bg); color: var(--tag-quality); }
+  .date-chip.cal-holiday-chip { background:#FCE4E4; color:#C0392B; }
   .date-item-text { font-size:12.5px; color:var(--dark); line-height:1.4; }
+
+  .cal-wrap { display:flex; gap:18px; flex-wrap:wrap; align-items:flex-start; }
+  .cal-main { flex:1 1 380px; min-width:300px; background:var(--white); border:1px solid var(--border); border-radius:12px; padding:16px; }
+  .cal-hdr { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+  .cal-month-label { font-size:14px; font-weight:800; color:var(--dark); text-transform:capitalize; }
+  .cal-nav { background:var(--light-bg); border:1px solid var(--border); border-radius:8px; width:28px; height:28px; cursor:pointer; font-size:14px; font-weight:700; color:var(--dark); font-family:inherit; }
+  .cal-nav:hover { background:var(--yellow); }
+  .cal-weekdays { display:grid; grid-template-columns:repeat(7,1fr); font-size:10px; font-weight:800; text-transform:uppercase; color:#999; text-align:center; margin-bottom:6px; letter-spacing:.03em; }
+  .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
+  .cal-cell { aspect-ratio:1; border-radius:8px; background:var(--light-bg); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; font-size:11.5px; color:#555; }
+  .cal-cell.empty { background:none; }
+  .cal-cell.cal-holiday { background:#FCE4E4; color:#C0392B; font-weight:800; }
+  .cal-cell.cal-today { outline:2px solid var(--yellow-dark); outline-offset:-1px; font-weight:800; }
+  .cal-daynum { line-height:1; }
+  .cal-dots { display:flex; gap:2px; height:5px; }
+  .cal-dot { width:5px; height:5px; border-radius:50%; background:#999; }
+  .cal-dot.c-fm { background: var(--tag-fm); }
+  .cal-dot.c-svc { background: var(--tag-svc); }
+  .cal-dot.c-mgmt { background: var(--tag-mgmt); }
+  .cal-dot.c-quality { background: var(--tag-quality); }
+  .cal-side { flex:1 1 300px; min-width:260px; display:flex; flex-direction:column; gap:0; max-height:420px; overflow:auto; background:var(--white); border:1px solid var(--border); border-radius:12px; }
+  .cal-side .date-item { padding:12px 16px; }
+  .cal-side-empty { padding:18px 16px; font-size:12.5px; color:#999; }
+  @media(max-width:640px){ .cal-cell { font-size:10px; } .cal-side { max-height:280px; } }
 
   .novedades-card {
     background: var(--white); border: 1px solid var(--border); border-left: 4px solid var(--yellow);
@@ -927,12 +952,17 @@
       </div>
 
       <div class="section-title">Fechas relevantes</div>
-      <div class="list-card">
-        <div class="date-item"><div class="date-chip c-fm">31<br/>AGO</div><div class="date-item-text">Focales actualizan su proyecto (y MELI Axis) — último lunes del mes</div></div>
-        <div class="date-item"><div class="date-chip c-svc">02<br/>SEP</div><div class="date-item-text">Supervisores cargan el Form — primer miércoles del mes</div></div>
-        <div class="date-item"><div class="date-chip c-mgmt">04<br/>SEP</div><div class="date-item-text">Managers revisan y autorizan — primer viernes del mes</div></div>
-        <div class="date-item"><div class="date-chip c-quality">08<br/>SEP</div><div class="date-item-text">Miguel da la autorización final — segundo martes del mes</div></div>
-        <div class="date-item"><div class="date-chip">09<br/>SEP</div><div class="date-item-text">Se publica a todo MLM (día siguiente a la autorización)</div></div>
+      <div class="cal-wrap">
+        <div class="cal-main">
+          <div class="cal-hdr">
+            <button class="cal-nav" onclick="calNav(-1)" aria-label="Mes anterior">&#8249;</button>
+            <div class="cal-month-label" id="calMonthLabel"></div>
+            <button class="cal-nav" onclick="calNav(1)" aria-label="Mes siguiente">&#8250;</button>
+          </div>
+          <div class="cal-weekdays"><div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div></div>
+          <div class="cal-grid" id="calGrid"></div>
+        </div>
+        <div class="cal-side" id="calSide"></div>
       </div>
 
       <div class="section-title">Ideas y sugerencias</div>
@@ -1757,6 +1787,133 @@
   function toggleBigRocksArea(key) {
     const area = document.getElementById('bigrocks-' + key);
     if (area) area.classList.toggle('open');
+  }
+
+  // ── Calendario de fechas relevantes (Fechas OE recurrentes + feriados MX) ──
+  var calState = { year: new Date().getFullYear(), month: new Date().getMonth() };
+
+  function nthWeekdayOfMonth(year, month, weekday, n) {
+    var d = new Date(year, month, 1);
+    var count = 0;
+    while (d.getMonth() === month) {
+      if (d.getDay() === weekday) { count++; if (count === n) return d.getDate(); }
+      d.setDate(d.getDate() + 1);
+    }
+    return null;
+  }
+  function lastWeekdayOfMonth(year, month, weekday) {
+    var d = new Date(year, month + 1, 0);
+    while (d.getDay() !== weekday) d.setDate(d.getDate() - 1);
+    return d.getDate();
+  }
+
+  function getHolidaysMX(year, month) {
+    // Feriados oficiales (Art. 74 LFT): fijos + "n-esimo lunes del mes" para los que aplica.
+    var list = [];
+    if (month === 0) list.push({ day: 1, label: 'Año Nuevo' });
+    if (month === 1) list.push({ day: nthWeekdayOfMonth(year, 1, 1, 1), label: 'Día de la Constitución' });
+    if (month === 2) list.push({ day: nthWeekdayOfMonth(year, 2, 1, 3), label: 'Natalicio de Benito Juárez' });
+    if (month === 4) list.push({ day: 1, label: 'Día del Trabajo' });
+    if (month === 8) list.push({ day: 16, label: 'Día de la Independencia' });
+    if (month === 10) list.push({ day: nthWeekdayOfMonth(year, 10, 1, 3), label: 'Día de la Revolución' });
+    if (month === 11) list.push({ day: 25, label: 'Navidad' });
+    return list;
+  }
+
+  function getOEDatesMonth(year, month) {
+    var focales = lastWeekdayOfMonth(year, month, 1);
+    var supervisores = nthWeekdayOfMonth(year, month, 3, 1);
+    var managers = nthWeekdayOfMonth(year, month, 5, 1);
+    var miguel = nthWeekdayOfMonth(year, month, 2, 2);
+    var pub = new Date(year, month, miguel);
+    pub.setDate(pub.getDate() + 1);
+    var out = [
+      { day: focales, color: 'c-fm', label: 'Focales actualizan su proyecto (y MELI Axis) — último lunes del mes' },
+      { day: supervisores, color: 'c-svc', label: 'Supervisores cargan el Form — primer miércoles del mes' },
+      { day: managers, color: 'c-mgmt', label: 'Managers revisan y autorizan — primer viernes del mes' },
+      { day: miguel, color: 'c-quality', label: 'Miguel da la autorización final — segundo martes del mes' }
+    ];
+    if (pub.getMonth() === month) {
+      out.push({ day: pub.getDate(), color: '', label: 'Se publica a todo MLM (día siguiente a la autorización)' });
+    }
+    return out;
+  }
+
+  var CAL_MONTH_NAMES = { es: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+    en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    pt: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'] };
+  var CAL_HOLIDAY_LABELS = {
+    'Año Nuevo': { en: 'New Year', pt: 'Ano Novo' },
+    'Día de la Constitución': { en: 'Constitution Day', pt: 'Dia da Constituição' },
+    'Natalicio de Benito Juárez': { en: "Benito Juárez's Birthday", pt: 'Natalício de Benito Juárez' },
+    'Día del Trabajo': { en: 'Labor Day', pt: 'Dia do Trabalho' },
+    'Día de la Independencia': { en: 'Independence Day', pt: 'Dia da Independência' },
+    'Día de la Revolución': { en: 'Revolution Day', pt: 'Dia da Revolução' },
+    'Navidad': { en: 'Christmas', pt: 'Natal' }
+  };
+  var CAL_OE_LABELS = {
+    'Focales actualizan su proyecto (y MELI Axis) — último lunes del mes': { en: 'Focals update their project (and MELI Axis) — last Monday of the month', pt: 'Focais atualizam seu projeto (e MELI Axis) — última segunda-feira do mês' },
+    'Supervisores cargan el Form — primer miércoles del mes': { en: 'Supervisors submit the Form — first Wednesday of the month', pt: 'Supervisores enviam o Form — primeira quarta-feira do mês' },
+    'Managers revisan y autorizan — primer viernes del mes': { en: 'Managers review and approve — first Friday of the month', pt: 'Managers revisam e aprovam — primeira sexta-feira do mês' },
+    'Miguel da la autorización final — segundo martes del mes': { en: 'Miguel gives the final approval — second Tuesday of the month', pt: 'Miguel dá a aprovação final — segunda terça-feira do mês' },
+    'Se publica a todo MLM (día siguiente a la autorización)': { en: 'Published to all of MLM (the day after approval)', pt: 'Publicado para todo o MLM (no dia seguinte à aprovação)' }
+  };
+  function calT(text) {
+    var cl = (typeof currentLang === 'function') ? currentLang() : 'es';
+    if (cl === 'es') return text;
+    var d = CAL_HOLIDAY_LABELS[text] || CAL_OE_LABELS[text];
+    return (d && d[cl]) ? d[cl] : text;
+  }
+
+  function renderCalendar() {
+    var monthLbl = document.getElementById('calMonthLabel');
+    if (!monthLbl) return; // pagina/idioma aun no renderizo este bloque
+    var y = calState.year, m = calState.month;
+    var cl = (typeof currentLang === 'function') ? currentLang() : 'es';
+    var monthNames = CAL_MONTH_NAMES[cl] || CAL_MONTH_NAMES.es;
+    monthLbl.textContent = monthNames[m] + ' ' + y;
+
+    var firstDay = new Date(y, m, 1);
+    var startOffset = (firstDay.getDay() + 6) % 7; // 0 = Lunes
+    var daysInMonth = new Date(y, m + 1, 0).getDate();
+    var holidays = getHolidaysMX(y, m);
+    var oeDates = getOEDatesMonth(y, m);
+    var today = new Date();
+
+    var cellsHtml = '';
+    for (var i = 0; i < startOffset; i++) cellsHtml += '<div class="cal-cell empty"></div>';
+    for (var d = 1; d <= daysInMonth; d++) {
+      var hol = null;
+      for (var hi = 0; hi < holidays.length; hi++) { if (holidays[hi].day === d) { hol = holidays[hi]; break; } }
+      var oeToday = oeDates.filter(function (o) { return o.day === d; });
+      var cls = 'cal-cell';
+      if (hol) cls += ' cal-holiday';
+      if (today.getFullYear() === y && today.getMonth() === m && today.getDate() === d) cls += ' cal-today';
+      var dots = oeToday.map(function (o) { return '<span class="cal-dot ' + (o.color || '') + '"></span>'; }).join('');
+      cellsHtml += '<div class="' + cls + '" title="' + (hol ? calT(hol.label).replace(/"/g, '&quot;') : '') + '">'
+        + '<span class="cal-daynum">' + d + '</span>'
+        + (dots ? '<span class="cal-dots">' + dots + '</span>' : '')
+        + '</div>';
+    }
+    document.getElementById('calGrid').innerHTML = cellsHtml;
+
+    var items = [];
+    holidays.forEach(function (h) { items.push({ day: h.day, text: calT(h.label), chipClass: 'date-chip cal-holiday-chip' }); });
+    oeDates.forEach(function (o) { items.push({ day: o.day, text: calT(o.label), chipClass: 'date-chip ' + (o.color || '') }); });
+    items.sort(function (a, b) { return a.day - b.day; });
+    var monAbbr = monthNames[m].slice(0, 3).toUpperCase();
+    var sideHtml = items.map(function (it) {
+      return '<div class="date-item"><div class="' + it.chipClass + '">' + String(it.day).padStart(2, '0') + '<br/>' + monAbbr + '</div><div class="date-item-text">' + it.text + '</div></div>';
+    }).join('');
+    var emptyMsg = cl === 'en' ? 'No dates for this month.' : (cl === 'pt' ? 'Sem datas para este mês.' : 'Sin fechas registradas este mes.');
+    document.getElementById('calSide').innerHTML = sideHtml || ('<div class="cal-side-empty">' + emptyMsg + '</div>');
+  }
+
+  function calNav(delta) {
+    calState.month += delta;
+    if (calState.month < 0) { calState.month = 11; calState.year--; }
+    if (calState.month > 11) { calState.month = 0; calState.year++; }
+    renderCalendar();
   }
 
   const BOLETINES_DRIVE_HISTORICO = 'https://drive.google.com/drive/folders/1YLbqPntXp914qiSoc9LcFi2XsxfcAsBh';
@@ -2713,6 +2870,7 @@
       filterSites();
     }
     if (typeof refreshBoletines === 'function') refreshBoletines();
+    if (typeof renderCalendar === 'function') renderCalendar();
     document.querySelectorAll('[aria-label]').forEach(function (el) {
       if (el.dataset.i18nAria === undefined) { el.dataset.i18nAria = el.getAttribute('aria-label'); }
       var origAria = el.dataset.i18nAria;

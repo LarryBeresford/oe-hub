@@ -82,6 +82,8 @@ textarea { min-height: 52px; }
 .item-row { display:flex; align-items:flex-start; gap:9px; padding:7px 2px; border-bottom: 1px dashed #EEE; }
 .item-row:last-child { border-bottom:none; }
 .item-row input[type=checkbox] { margin-top: 3px; width:15px; height:15px; accent-color: var(--yellow); cursor:pointer; flex-shrink:0; }
+.item-thumb { width:38px; height:38px; border-radius:6px; border:1px solid #EEE; background:#FAFAFA; object-fit:contain; flex-shrink:0; cursor:zoom-in; }
+.item-thumb-empty { width:38px; height:38px; border-radius:6px; border:1px dashed #DDD; background:#FAFAFA; flex-shrink:0; }
 .item-info { flex:1; min-width:0; }
 .item-name { font-size:12px; font-weight:600; color:#222; }
 .item-meta { font-size:10px; color:#999; margin-top:1px; }
@@ -276,10 +278,11 @@ const CATALOG = {
    "material": "Materiales diversos (iluminación led + transformador)",
    "colocacion": "Aérea con cables",
    "instalacion": "Requiere toma de corriente",
-   "cantidadDefault": 1.0,
+   "cantidadDefault": "1",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": null
+   "toolkit": null,
+   "imagen": "media/senaletica/fij-1-isologo-corporativo-iluminado-pared.png"
   },
   {
    "id": "fij-2",
@@ -291,10 +294,11 @@ const CATALOG = {
    "material": "Polyfan pintado.",
    "colocacion": "Móvil / a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 1.0,
+   "cantidadDefault": "1",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 66.0
+   "toolkit": 66.0,
+   "imagen": "media/senaletica/fij-2-corporeo-letras-wow-3d.png"
   },
   {
    "id": "fij-3",
@@ -306,10 +310,11 @@ const CATALOG = {
    "material": "Materiales diversos (polyfan)",
    "colocacion": "A pared",
    "instalacion": "Requiere estructura metálica de montaje (iso-02, 300x100 cm)",
-   "cantidadDefault": 1.0,
+   "cantidadDefault": "1",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 39.0
+   "toolkit": 39.0,
+   "imagen": "media/senaletica/fij-3-corporeo-letras-meli-3d.png"
   },
   {
    "id": "fij-4",
@@ -321,10 +326,11 @@ const CATALOG = {
    "material": "Vinil autoadhesivo",
    "colocacion": "Adherido",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 1.0,
+   "cantidadDefault": "1",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 40.0
+   "toolkit": 40.0,
+   "imagen": "media/senaletica/fij-4-vinilo-meli.png"
   },
   {
    "id": "fij-5",
@@ -338,8 +344,9 @@ const CATALOG = {
    "instalacion": "Sin soporte con ojillos metálicos",
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
-   "especificaciones": "Doble vista ",
-   "toolkit": 36.0
+   "especificaciones": "",
+   "toolkit": 36.0,
+   "imagen": "media/senaletica/fij-5-bandera-mexico.png"
   },
   {
    "id": "fij-6",
@@ -353,8 +360,9 @@ const CATALOG = {
    "instalacion": "Sin soporte con ojillos metálicos",
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
-   "especificaciones": "Doble vista ",
-   "toolkit": 36.0
+   "especificaciones": "",
+   "toolkit": 36.0,
+   "imagen": "media/senaletica/fij-6-bandera-mercado-libre.png"
   },
   {
    "id": "fij-7",
@@ -366,10 +374,11 @@ const CATALOG = {
    "material": "Formaica laminada",
    "colocacion": "Clavado a pared",
    "instalacion": "Ninguna",
-   "cantidadDefault": 2.0,
+   "cantidadDefault": "2",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 61.0
+   "toolkit": 61.0,
+   "imagen": "media/senaletica/fij-7-pizarron-tier-1-utr-otr-alineado-latam.png"
   },
   {
    "id": "fij-8",
@@ -381,10 +390,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 1.0,
+   "cantidadDefault": "1",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-8-letrero-comedor.png"
   },
   {
    "id": "fij-9",
@@ -393,13 +403,14 @@ const CATALOG = {
    "nombre": "Letrero Reglas de Uso de Comedor",
    "medidas": "30 cm Ancho x 40 cm Alto",
    "color": "Pantone 102 C C3 M4 Y91 K",
-   "material": "PVC Espumado con impresión UV directa.",
+   "material": " PVC Espumado con impresión UV directa.\n",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 46.0
+   "toolkit": 46.0,
+   "imagen": "media/senaletica/fij-9-letrero-reglas-de-uso-de-comedor.png"
   },
   {
    "id": "fij-10",
@@ -411,10 +422,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 1.0,
+   "cantidadDefault": "1",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-10-letrero-mdf.png"
   },
   {
    "id": "fij-11",
@@ -426,10 +438,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 4.0,
+   "cantidadDefault": 3.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-11-letrero-solo-personal-autorizado.png"
   },
   {
    "id": "fij-12",
@@ -441,10 +454,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 1.0,
+   "cantidadDefault": "1",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-12-letrero-zona-de-lactancia.png"
   },
   {
    "id": "fij-13",
@@ -456,10 +470,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 1.0,
+   "cantidadDefault": "1",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-13-letrero-servicio-medico.png"
   },
   {
    "id": "fij-14",
@@ -474,7 +489,8 @@ const CATALOG = {
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-14-letrero-almacen-de-insumos.png"
   },
   {
    "id": "fij-15",
@@ -486,10 +502,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 1.0,
+   "cantidadDefault": "1",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-15-letrero-almacen-de-insumos-de-limpieza.png"
   },
   {
    "id": "fij-16",
@@ -501,10 +518,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 1.0,
+   "cantidadDefault": "1",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-16-letrero-almacen-de-paquetes.png"
   },
   {
    "id": "fij-17",
@@ -516,10 +534,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 1.0,
+   "cantidadDefault": "1",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-17-letrero-almacen-de-incidencias.png"
   },
   {
    "id": "fij-18",
@@ -534,7 +553,8 @@ const CATALOG = {
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-18-letrero-almacen-de-equipos-y-accesorios.png"
   },
   {
    "id": "fij-19",
@@ -546,10 +566,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 4.0,
+   "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-19-letrero-staff-mercado-libre.png"
   },
   {
    "id": "fij-20",
@@ -564,7 +585,8 @@ const CATALOG = {
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-20-letrero-estibadores.png"
   },
   {
    "id": "fij-21",
@@ -579,7 +601,8 @@ const CATALOG = {
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-21-letrero-patines.png"
   },
   {
    "id": "fij-22",
@@ -594,7 +617,8 @@ const CATALOG = {
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-22-letrero-pallets.png"
   },
   {
    "id": "fij-23",
@@ -606,10 +630,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 1.0,
+   "cantidadDefault": "1",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-23-letrero-pallets-danados.png"
   },
   {
    "id": "fij-24",
@@ -624,7 +649,8 @@ const CATALOG = {
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-24-letrero-carton.png"
   },
   {
    "id": "fij-25",
@@ -639,7 +665,8 @@ const CATALOG = {
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-25-letrero-playo.png"
   },
   {
    "id": "fij-26",
@@ -654,7 +681,8 @@ const CATALOG = {
    "cantidadDefault": 1.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-26-letrero-debrief-lp.png"
   },
   {
    "id": "fij-27",
@@ -669,7 +697,8 @@ const CATALOG = {
    "cantidadDefault": 4.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-27-letrero-tarima-antiderrames.png"
   },
   {
    "id": "fij-28",
@@ -678,13 +707,14 @@ const CATALOG = {
    "nombre": "LETRERO INGRESO A",
    "medidas": "100 x 70 cm",
    "color": "100 cms. Largo x 70 cms. Alto",
-   "material": "Pantone 109 C C0 M17 Y100 K",
+   "material": "Pantone 109 C\nC0 M17 Y100 K\n",
    "colocacion": "PVC ESPUMADO 3 MM.",
    "instalacion": "MARCO ESTRUCTURAL O ADHERIDO A PARED",
    "cantidadDefault": 1.0,
    "unidad": "Pieza",
-   "especificaciones": "Nombre del site \"SMX10\"",
-   "toolkit": 12.0
+   "especificaciones": "Nombre del site \"SCD1\"",
+   "toolkit": 12.0,
+   "imagen": "media/senaletica/fij-28-letrero-ingreso-a.png"
   },
   {
    "id": "fij-29",
@@ -696,10 +726,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 2.0,
+   "cantidadDefault": "1",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 13.0
+   "toolkit": 13.0,
+   "imagen": "media/senaletica/fij-29-letrero-ingreso-a-site-para-driver.png"
   },
   {
    "id": "fij-30",
@@ -711,10 +742,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Marco estructural o adherido a pared",
    "instalacion": "Ninguna",
-   "cantidadDefault": 1.0,
+   "cantidadDefault": "1",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 11.0
+   "toolkit": 11.0,
+   "imagen": "media/senaletica/fij-30-letrero-acceso-principal.png"
   },
   {
    "id": "fij-31",
@@ -726,10 +758,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 2.0,
+   "cantidadDefault": "1",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 14.0
+   "toolkit": 14.0,
+   "imagen": "media/senaletica/fij-31-letrero-salida-para-driver.png"
   },
   {
    "id": "fij-32",
@@ -738,13 +771,14 @@ const CATALOG = {
    "nombre": "Letrero Estacionamiento Motos Exterior",
    "medidas": "180 cm Largo x 120 cm Alto",
    "color": "Pantone 109 C C0 M17 Y100 K",
-   "material": "Chapa galvanizada (con pintura electroestática).  Gráfica vinilo + protección UV o pintura al horno.",
+   "material": "Chapa galvanizada (con pintura electroestática). \nGráfica vinilo + protección UV o pintura al horno.",
    "colocacion": "Adherido a pared",
    "instalacion": "Ninguna",
-   "cantidadDefault": 1.0,
+   "cantidadDefault": "1",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 21.0
+   "toolkit": 21.0,
+   "imagen": "media/senaletica/fij-32-letrero-estacionamiento-motos-exterior.png"
   },
   {
    "id": "fij-33",
@@ -753,13 +787,14 @@ const CATALOG = {
    "nombre": "Letrero Tarima Dañada Exterior",
    "medidas": "180 cm Largo x 120 cm Alto",
    "color": "Pantone 109 C C0 M17 Y100 K",
-   "material": "Chapa galvanizada (con pintura electroestática).  Gráfica vinilo + protección UV o pintura al horno.",
+   "material": "Chapa galvanizada (con pintura electroestática). \nGráfica vinilo + protección UV o pintura al horno.",
    "colocacion": "Adherido a pared",
    "instalacion": "Ninguna",
-   "cantidadDefault": 1.0,
+   "cantidadDefault": "1",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 21.0
+   "toolkit": 21.0,
+   "imagen": "media/senaletica/fij-33-letrero-tarima-danada-exterior.png"
   },
   {
    "id": "fij-34",
@@ -768,13 +803,14 @@ const CATALOG = {
    "nombre": "Letrero Tarima Pared Exterior",
    "medidas": "180 cm Largo x 120 cm Alto",
    "color": "Pantone 109 C C0 M17 Y100 K",
-   "material": "Chapa galvanizada (con pintura electroestática).  Gráfica vinilo + protección UV o pintura al horno.",
+   "material": "Chapa galvanizada (con pintura electroestática). \nGráfica vinilo + protección UV o pintura al horno.",
    "colocacion": "Adherido a pared",
    "instalacion": "Ninguna",
-   "cantidadDefault": 1.0,
+   "cantidadDefault": "1",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 21.0
+   "toolkit": 21.0,
+   "imagen": "media/senaletica/fij-34-letrero-tarima-pared-exterior.png"
   },
   {
    "id": "fij-35",
@@ -783,13 +819,14 @@ const CATALOG = {
    "nombre": "Letrero Cartón Pared Exterior",
    "medidas": "180 cm Largo x 120 cm Alto",
    "color": "Pantone 109 C C0 M17 Y100 K",
-   "material": "Chapa galvanizada (con pintura electroestática).  Gráfica vinilo + protección UV o pintura al horno.",
+   "material": "Chapa galvanizada (con pintura electroestática). \nGráfica vinilo + protección UV o pintura al horno.",
    "colocacion": "Adherido a pared",
    "instalacion": "Ninguna",
-   "cantidadDefault": 1.0,
+   "cantidadDefault": "1",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 21.0
+   "toolkit": 21.0,
+   "imagen": "media/senaletica/fij-35-letrero-carton-pared-exterior.png"
   },
   {
    "id": "fij-36",
@@ -798,13 +835,14 @@ const CATALOG = {
    "nombre": "Letrero Playo Pared Exterior",
    "medidas": "180 cm Largo x 120 cm Alto",
    "color": "Pantone 109 C C0 M17 Y100 K",
-   "material": "Chapa galvanizada (con pintura electroestática).  Gráfica vinilo + protección UV o pintura al horno.",
+   "material": "Chapa galvanizada (con pintura electroestática). \nGráfica vinilo + protección UV o pintura al horno.",
    "colocacion": "Adherido a pared",
    "instalacion": "Ninguna",
-   "cantidadDefault": 1.0,
+   "cantidadDefault": "1",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 21.0
+   "toolkit": 21.0,
+   "imagen": "media/senaletica/fij-36-letrero-playo-pared-exterior.png"
   },
   {
    "id": "fij-37",
@@ -816,10 +854,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte, con ojillos metálicos",
-   "cantidadDefault": 1.0,
+   "cantidadDefault": "1",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 61.0
+   "toolkit": 61.0,
+   "imagen": "media/senaletica/fij-37-tablero-de-permisos-y-licencias-mlm.png"
   },
   {
    "id": "fij-38",
@@ -834,10 +873,27 @@ const CATALOG = {
    "cantidadDefault": 3.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 56.0
+   "toolkit": 56.0,
+   "imagen": "media/senaletica/fij-38-letrero-reglas-de-uso-de-lockers.png"
   },
   {
    "id": "fij-39",
+   "tipo": "fijo",
+   "zona": "Cumplimiento",
+   "nombre": "Letrero '5 Soles' Banner de Pie",
+   "medidas": "80 cms Largo x180 cm Alto",
+   "color": "Pantone 102 C C3 M4 Y91 K",
+   "material": "Vinilo impreso cmyk montado en pvc",
+   "colocacion": "Banner de pie",
+   "instalacion": "Sin soporte con ojillos metálicos",
+   "cantidadDefault": 4.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": null,
+   "imagen": "media/senaletica/fij-39-letrero-5-soles-banner-de-pie.png"
+  },
+  {
+   "id": "fij-40",
    "tipo": "fijo",
    "zona": "Estación / Subproceso (Triángulo)",
    "nombre": "Cartel Estación 'Recepción' — Triángulo Estructural aéreo",
@@ -846,13 +902,14 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Aérea con cables",
    "instalacion": "Requiere estructura metálica triangular",
-   "cantidadDefault": 2.0,
+   "cantidadDefault": 1.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 28.0
+   "toolkit": 28.0,
+   "imagen": "media/senaletica/fij-40-cartel-estacion-recepcion-triangulo-estr.png"
   },
   {
-   "id": "fij-40",
+   "id": "fij-41",
    "tipo": "fijo",
    "zona": "Estación / Subproceso (Triángulo)",
    "nombre": "Cartel Estación 'Sorteo' — Triángulo Estructural aéreo",
@@ -861,13 +918,14 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Aérea con cables",
    "instalacion": "Requiere estructura metálica triangular",
-   "cantidadDefault": 2.0,
+   "cantidadDefault": 1.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 28.0
+   "toolkit": 28.0,
+   "imagen": "media/senaletica/fij-41-cartel-estacion-sorteo-triangulo-estruct.png"
   },
   {
-   "id": "fij-41",
+   "id": "fij-42",
    "tipo": "fijo",
    "zona": "Estación / Subproceso (Triángulo)",
    "nombre": "Cartel Estación 'Sorteo Large & Oversize' — Triángulo Estructural aéreo",
@@ -879,10 +937,11 @@ const CATALOG = {
    "cantidadDefault": 1.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 28.0
+   "toolkit": 28.0,
+   "imagen": "media/senaletica/fij-42-cartel-estacion-sorteo-large-oversize-tr.png"
   },
   {
-   "id": "fij-42",
+   "id": "fij-43",
    "tipo": "fijo",
    "zona": "Estación / Subproceso (Triángulo)",
    "nombre": "Cartel Estación 'Sorteo Heavy & Bulky' — Triángulo Estructural aéreo",
@@ -891,13 +950,14 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Aérea con cables",
    "instalacion": "Requiere estructura metálica triangular",
-   "cantidadDefault": 0.0,
+   "cantidadDefault": 1.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 28.0
+   "toolkit": 28.0,
+   "imagen": "media/senaletica/fij-43-cartel-estacion-sorteo-heavy-bulky-trian.png"
   },
   {
-   "id": "fij-43",
+   "id": "fij-44",
    "tipo": "fijo",
    "zona": "Estación / Subproceso (Triángulo)",
    "nombre": "Cartel Estación 'Despacho' — Triángulo Estructural aéreo",
@@ -906,13 +966,14 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Aérea con cables",
    "instalacion": "Requiere estructura metálica triangular",
-   "cantidadDefault": 2.0,
+   "cantidadDefault": 1.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 28.0
+   "toolkit": 28.0,
+   "imagen": "media/senaletica/fij-44-cartel-estacion-despacho-triangulo-estru.png"
   },
   {
-   "id": "fij-44",
+   "id": "fij-45",
    "tipo": "fijo",
    "zona": "Estación / Subproceso (Triángulo)",
    "nombre": "Cartel Estación 'Devoluciones' — Triángulo Estructural aéreo",
@@ -924,10 +985,11 @@ const CATALOG = {
    "cantidadDefault": 1.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 28.0
+   "toolkit": 28.0,
+   "imagen": "media/senaletica/fij-45-cartel-estacion-devoluciones-triangulo-e.png"
   },
   {
-   "id": "fij-45",
+   "id": "fij-46",
    "tipo": "fijo",
    "zona": "Estación / Subproceso (Triángulo)",
    "nombre": "Cartel Estación 'Inventario' — Triángulo Estructural aéreo",
@@ -939,10 +1001,11 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 28.0
+   "toolkit": 28.0,
+   "imagen": "media/senaletica/fij-46-cartel-estacion-inventario-triangulo-est.png"
   },
   {
-   "id": "fij-46",
+   "id": "fij-47",
    "tipo": "fijo",
    "zona": "Estación / Subproceso (Triángulo)",
    "nombre": "Cartel Estación 'RTS (Return to Station)' — Triángulo Estructural aéreo",
@@ -954,10 +1017,11 @@ const CATALOG = {
    "cantidadDefault": 1.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 28.0
+   "toolkit": 28.0,
+   "imagen": "media/senaletica/fij-47-cartel-estacion-rts-return-to-station-tr.png"
   },
   {
-   "id": "fij-47",
+   "id": "fij-48",
    "tipo": "fijo",
    "zona": "Estación / Subproceso (Triángulo)",
    "nombre": "Cartel Estación 'Estaciones de Trabajo' — Triángulo Estructural aéreo",
@@ -969,10 +1033,27 @@ const CATALOG = {
    "cantidadDefault": 1.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 28.0
+   "toolkit": 28.0,
+   "imagen": "media/senaletica/fij-48-cartel-estacion-estaciones-de-trabajo-tr.png"
   },
   {
-   "id": "fij-48",
+   "id": "fij-49",
+   "tipo": "fijo",
+   "zona": "Estación / Subproceso ",
+   "nombre": "EN ALTURA\n\nSolución de Problemas",
+   "medidas": "240x120cm",
+   "color": "Pantone 102 C\nC3 M4 Y91 K",
+   "material": "PVC ESPUMADO 3 MM.",
+   "colocacion": "ADHERIDO A PARED",
+   "instalacion": "SIN SOPORTE",
+   "cantidadDefault": 1.0,
+   "unidad": "Pieza",
+   "especificaciones": "",
+   "toolkit": 27.0,
+   "imagen": "media/senaletica/fij-49-en-altura-solucion-de-problemas.png"
+  },
+  {
+   "id": "fij-50",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Solución de Problemas'",
@@ -981,13 +1062,14 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 6.0,
+   "cantidadDefault": 5.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 58.0
+   "toolkit": 58.0,
+   "imagen": "media/senaletica/fij-50-letrero-solucion-de-problemas.png"
   },
   {
-   "id": "fij-49",
+   "id": "fij-51",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Paquetes Dañados'",
@@ -999,10 +1081,11 @@ const CATALOG = {
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-51-letrero-paquetes-danados.png"
   },
   {
-   "id": "fij-50",
+   "id": "fij-52",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Insumos PS'",
@@ -1014,10 +1097,11 @@ const CATALOG = {
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-52-letrero-insumos-ps.png"
   },
   {
-   "id": "fij-51",
+   "id": "fij-53",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Legacy'",
@@ -1029,10 +1113,11 @@ const CATALOG = {
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-53-letrero-legacy.png"
   },
   {
-   "id": "fij-52",
+   "id": "fij-54",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Shipment 2.0'",
@@ -1044,10 +1129,11 @@ const CATALOG = {
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-54-letrero-shipment-2-0.png"
   },
   {
-   "id": "fij-53",
+   "id": "fij-55",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Sin HU'",
@@ -1059,10 +1145,11 @@ const CATALOG = {
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-55-letrero-sin-hu.png"
   },
   {
-   "id": "fij-54",
+   "id": "fij-56",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Missort'",
@@ -1074,10 +1161,11 @@ const CATALOG = {
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-56-letrero-missort.png"
   },
   {
-   "id": "fij-55",
+   "id": "fij-57",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Paquetes Reinducción'",
@@ -1089,10 +1177,11 @@ const CATALOG = {
    "cantidadDefault": 10.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-57-letrero-paquetes-reinduccion.png"
   },
   {
-   "id": "fij-56",
+   "id": "fij-58",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Paquetes Buffer (Cherry Peak)'",
@@ -1104,10 +1193,11 @@ const CATALOG = {
    "cantidadDefault": 5.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-58-letrero-paquetes-buffer-cherry-peak.png"
   },
   {
-   "id": "fij-57",
+   "id": "fij-59",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Paquetes Buffer (Fecha Promesa D+1)'",
@@ -1119,10 +1209,11 @@ const CATALOG = {
    "cantidadDefault": 5.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-59-letrero-paquetes-buffer-fecha-promesa-d-.png"
   },
   {
-   "id": "fij-58",
+   "id": "fij-60",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Paquetes Buffer (Fecha Promesa D+2)'",
@@ -1134,10 +1225,11 @@ const CATALOG = {
    "cantidadDefault": 5.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-60-letrero-paquetes-buffer-fecha-promesa-d-.png"
   },
   {
-   "id": "fij-59",
+   "id": "fij-61",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Paquetes Buffer (Fecha Promesa D+3)'",
@@ -1149,10 +1241,11 @@ const CATALOG = {
    "cantidadDefault": 5.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-61-letrero-paquetes-buffer-fecha-promesa-d-.png"
   },
   {
-   "id": "fij-60",
+   "id": "fij-62",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Paquetes Etiqueta Blanca'",
@@ -1164,10 +1257,11 @@ const CATALOG = {
    "cantidadDefault": 5.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-62-letrero-paquetes-etiqueta-blanca.png"
   },
   {
-   "id": "fij-61",
+   "id": "fij-63",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Inventario Sorting'",
@@ -1179,10 +1273,11 @@ const CATALOG = {
    "cantidadDefault": 3.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-63-letrero-inventario-sorting.png"
   },
   {
-   "id": "fij-62",
+   "id": "fij-64",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Inventario Buffered'",
@@ -1194,10 +1289,11 @@ const CATALOG = {
    "cantidadDefault": 3.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-64-letrero-inventario-buffered.png"
   },
   {
-   "id": "fij-63",
+   "id": "fij-65",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Inventario Problem Solving'",
@@ -1209,10 +1305,11 @@ const CATALOG = {
    "cantidadDefault": 3.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-65-letrero-inventario-problem-solving.png"
   },
   {
-   "id": "fij-64",
+   "id": "fij-66",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Inventario Missort'",
@@ -1224,10 +1321,11 @@ const CATALOG = {
    "cantidadDefault": 3.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-66-letrero-inventario-missort.png"
   },
   {
-   "id": "fij-65",
+   "id": "fij-67",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Inventario Containerized'",
@@ -1239,10 +1337,11 @@ const CATALOG = {
    "cantidadDefault": 3.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-67-letrero-inventario-containerized.png"
   },
   {
-   "id": "fij-66",
+   "id": "fij-68",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Inventario Fraud'",
@@ -1254,10 +1353,11 @@ const CATALOG = {
    "cantidadDefault": 3.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-68-letrero-inventario-fraud.png"
   },
   {
-   "id": "fij-67",
+   "id": "fij-69",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Inventario Returns'",
@@ -1269,10 +1369,11 @@ const CATALOG = {
    "cantidadDefault": 3.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-69-letrero-inventario-returns.png"
   },
   {
-   "id": "fij-68",
+   "id": "fij-70",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Inventario Dispatch'",
@@ -1284,10 +1385,11 @@ const CATALOG = {
    "cantidadDefault": 3.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-70-letrero-inventario-dispatch.png"
   },
   {
-   "id": "fij-69",
+   "id": "fij-71",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Inventario Damaged'",
@@ -1299,10 +1401,11 @@ const CATALOG = {
    "cantidadDefault": 3.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-71-letrero-inventario-damaged.png"
   },
   {
-   "id": "fij-70",
+   "id": "fij-72",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Inventario Bulky returns'",
@@ -1314,10 +1417,11 @@ const CATALOG = {
    "cantidadDefault": 1.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-72-letrero-inventario-bulky-returns.png"
   },
   {
-   "id": "fij-71",
+   "id": "fij-73",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Para Clasificar'",
@@ -1329,10 +1433,11 @@ const CATALOG = {
    "cantidadDefault": 3.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-73-letrero-para-clasificar.png"
   },
   {
-   "id": "fij-72",
+   "id": "fij-74",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Para Devolver'",
@@ -1344,10 +1449,11 @@ const CATALOG = {
    "cantidadDefault": 5.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-74-letrero-para-devolver.png"
   },
   {
-   "id": "fij-73",
+   "id": "fij-75",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'Failover'",
@@ -1359,10 +1465,11 @@ const CATALOG = {
    "cantidadDefault": 1.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-75-letrero-failover.png"
   },
   {
-   "id": "fij-74",
+   "id": "fij-76",
    "tipo": "fijo",
    "zona": "Isla / Pizarrón de Sorteo",
    "nombre": "Letrero 'LMS'",
@@ -1374,10 +1481,11 @@ const CATALOG = {
    "cantidadDefault": 4.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-76-letrero-lms.png"
   },
   {
-   "id": "fij-75",
+   "id": "fij-77",
    "tipo": "fijo",
    "zona": "LP",
    "nombre": "EN ALTURA LP",
@@ -1389,10 +1497,11 @@ const CATALOG = {
    "cantidadDefault": 1.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 28.0
+   "toolkit": 28.0,
+   "imagen": "media/senaletica/fij-77-en-altura-lp.png"
   },
   {
-   "id": "fij-76",
+   "id": "fij-78",
    "tipo": "fijo",
    "zona": "Seguridad (condicional)",
    "nombre": "Letrero 'Staff MLP´s'",
@@ -1401,13 +1510,14 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 1.0,
+   "cantidadDefault": "1",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-78-letrero-staff-mlp-s.png"
   },
   {
-   "id": "fij-77",
+   "id": "fij-79",
    "tipo": "fijo",
    "zona": "Operación (condicional)",
    "nombre": "Letrero 'Carritos de Computadora'",
@@ -1419,10 +1529,11 @@ const CATALOG = {
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-79-letrero-carritos-de-computadora.png"
   },
   {
-   "id": "fij-78",
+   "id": "fij-80",
    "tipo": "fijo",
    "zona": "Operación (condicional)",
    "nombre": "Letrero 'Patinetas Eléctricas'",
@@ -1434,10 +1545,11 @@ const CATALOG = {
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-80-letrero-patinetas-electricas.png"
   },
   {
-   "id": "fij-79",
+   "id": "fij-81",
    "tipo": "fijo",
    "zona": "Estacionamiento",
    "nombre": "Letrero Estacionamiento Exterior",
@@ -1449,10 +1561,11 @@ const CATALOG = {
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 21.0
+   "toolkit": 21.0,
+   "imagen": "media/senaletica/fij-81-letrero-estacionamiento-exterior.png"
   },
   {
-   "id": "fij-80",
+   "id": "fij-82",
    "tipo": "fijo",
    "zona": "Letreros insumos",
    "nombre": "Letrero 'Baker Carts'",
@@ -1464,10 +1577,11 @@ const CATALOG = {
    "cantidadDefault": 4.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-82-letrero-baker-carts.png"
   },
   {
-   "id": "fij-81",
+   "id": "fij-83",
    "tipo": "fijo",
    "zona": "Letreros insumos",
    "nombre": "Letrero 'Baker Carts en Mantenimiento'",
@@ -1479,10 +1593,11 @@ const CATALOG = {
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-83-letrero-baker-carts-en-mantenimiento.png"
   },
   {
-   "id": "fij-82",
+   "id": "fij-84",
    "tipo": "fijo",
    "zona": "Letreros insumos",
    "nombre": "Letrero 'Madera'",
@@ -1494,10 +1609,11 @@ const CATALOG = {
    "cantidadDefault": 1.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-84-letrero-madera.png"
   },
   {
-   "id": "fij-83",
+   "id": "fij-85",
    "tipo": "fijo",
    "zona": "Letreros insumos",
    "nombre": "Letrero 'Conos de seguridad'",
@@ -1509,10 +1625,11 @@ const CATALOG = {
    "cantidadDefault": 1.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-85-letrero-conos-de-seguridad.png"
   },
   {
-   "id": "fij-84",
+   "id": "fij-86",
    "tipo": "fijo",
    "zona": "Letreros insumos",
    "nombre": "Letrero 'Manga Pallets'",
@@ -1524,10 +1641,11 @@ const CATALOG = {
    "cantidadDefault": 1.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/fij-86-letrero-manga-pallets.png"
   },
   {
-   "id": "fij-85",
+   "id": "fij-87",
    "tipo": "fijo",
    "zona": "Letreros paquetes",
    "nombre": "Letrero 'Paquetes Rehabilitados'",
@@ -1539,10 +1657,11 @@ const CATALOG = {
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-87-letrero-paquetes-rehabilitados.png"
   },
   {
-   "id": "fij-86",
+   "id": "fij-88",
    "tipo": "fijo",
    "zona": "Letreros paquetes",
    "nombre": "Letrero 'Paquetes Pendientes de Aprobación'",
@@ -1554,10 +1673,11 @@ const CATALOG = {
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-88-letrero-paquetes-pendientes-de-aprobacio.png"
   },
   {
-   "id": "fij-87",
+   "id": "fij-89",
    "tipo": "fijo",
    "zona": "Letreros paquetes",
    "nombre": "Letrero 'Paquetes Sin Guía'",
@@ -1569,10 +1689,11 @@ const CATALOG = {
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-89-letrero-paquetes-sin-guia.png"
   },
   {
-   "id": "fij-88",
+   "id": "fij-90",
    "tipo": "fijo",
    "zona": "Letreros paquetes",
    "nombre": "Letrero 'Paquetes para Devolución'",
@@ -1584,10 +1705,11 @@ const CATALOG = {
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-90-letrero-paquetes-para-devolucion.png"
   },
   {
-   "id": "fij-89",
+   "id": "fij-91",
    "tipo": "fijo",
    "zona": "Letreros paquetes",
    "nombre": "Letrero 'Paquetes para Despachar'",
@@ -1599,10 +1721,11 @@ const CATALOG = {
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-91-letrero-paquetes-para-despachar.png"
   },
   {
-   "id": "fij-90",
+   "id": "fij-92",
    "tipo": "fijo",
    "zona": "Letreros paquetes",
    "nombre": "Letrero 'Paquetes Etiqueta Blanca - Local'",
@@ -1614,10 +1737,11 @@ const CATALOG = {
    "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-92-letrero-paquetes-etiqueta-blanca-local.png"
   },
   {
-   "id": "fij-91",
+   "id": "fij-93",
    "tipo": "fijo",
    "zona": "Letreros paquetes",
    "nombre": "Letrero 'Paquetes Etiqueta Blanca - Foráneo'",
@@ -1626,10 +1750,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "En baker cart",
    "instalacion": "Sin soporte, con ojillos metálicos",
-   "cantidadDefault": 2.0,
+   "cantidadDefault": 3.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/fij-93-letrero-paquetes-etiqueta-blanca-foraneo.png"
   }
  ],
  "variables": [
@@ -1643,10 +1768,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 3.0,
+   "cantidadDefault": 4.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/var-1-letrero-sala-de-juntas.png"
   },
   {
    "id": "var-2",
@@ -1658,10 +1784,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 1.0,
+   "cantidadDefault": "1",
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/var-2-letrero-sala-de-capacitacion.png"
   },
   {
    "id": "var-3",
@@ -1673,10 +1800,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 0.0,
+   "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 45.0
+   "toolkit": 45.0,
+   "imagen": "media/senaletica/var-3-letrero-sanitarios-hombres-pared.png"
   },
   {
    "id": "var-4",
@@ -1688,10 +1816,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 0.0,
+   "cantidadDefault": 2.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 45.0
+   "toolkit": 45.0,
+   "imagen": "media/senaletica/var-4-letrero-sanitarios-mujeres-pared.png"
   },
   {
    "id": "var-5",
@@ -1703,10 +1832,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 0.0,
+   "cantidadDefault": 1.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 45.0
+   "toolkit": 45.0,
+   "imagen": "media/senaletica/var-5-letrero-sanitarios-mixtos-pared.png"
   },
   {
    "id": "var-6",
@@ -1718,10 +1848,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 2.0,
+   "cantidadDefault": 4.0,
    "unidad": "Pieza",
-   "especificaciones": "1 flecha izquierda y 1 derecha ",
-   "toolkit": 44.0
+   "especificaciones": "",
+   "toolkit": 44.0,
+   "imagen": "media/senaletica/var-6-letrero-sanitarios-direccion-pared.png"
   },
   {
    "id": "var-7",
@@ -1733,10 +1864,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Ninguna",
-   "cantidadDefault": 2.0,
+   "cantidadDefault": 3.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 50.0
+   "toolkit": 50.0,
+   "imagen": "media/senaletica/var-7-letrero-uso-correcto-de-los-banos.png"
   },
   {
    "id": "var-8",
@@ -1748,10 +1880,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 15.0,
+   "cantidadDefault": 4.0,
    "unidad": "Pieza",
-   "especificaciones": "Del 1 al 15",
-   "toolkit": 29.0
+   "especificaciones": "",
+   "toolkit": 29.0,
+   "imagen": "media/senaletica/var-8-doca-interior-lh-pared-anden.png"
   },
   {
    "id": "var-9",
@@ -1763,10 +1896,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Aérea con cables",
    "instalacion": "Sin soporte con ojillos metálicos",
-   "cantidadDefault": 250.0,
+   "cantidadDefault": 24.0,
    "unidad": "Pieza",
-   "especificaciones": "Del 1 al 250",
-   "toolkit": 34.0
+   "especificaciones": "Del 1 al 24",
+   "toolkit": 34.0,
+   "imagen": "media/senaletica/var-9-doca-interior-lm-colgante-doble-vista.png"
   },
   {
    "id": "var-10",
@@ -1778,10 +1912,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 15.0,
+   "cantidadDefault": 4.0,
    "unidad": "Pieza",
-   "especificaciones": "Del 1 al 15",
-   "toolkit": 24.0
+   "especificaciones": "",
+   "toolkit": 24.0,
+   "imagen": "media/senaletica/var-10-doca-exterior-lh-pared-rampa-o-anden.png"
   },
   {
    "id": "var-11",
@@ -1793,10 +1928,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 0.0,
+   "cantidadDefault": 17.0,
    "unidad": "Pieza",
-   "especificaciones": "",
-   "toolkit": 34.0
+   "especificaciones": "Del 25 al 42",
+   "toolkit": 34.0,
+   "imagen": "media/senaletica/var-11-doca-exterior-lm.png"
   },
   {
    "id": "var-12",
@@ -1808,10 +1944,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "Adherido a pared",
    "instalacion": "Sin soporte",
-   "cantidadDefault": 20.0,
+   "cantidadDefault": 10.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/var-12-letrero-zona-de-hidratacion.png"
   },
   {
    "id": "var-13",
@@ -1823,10 +1960,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "En baker cart",
    "instalacion": "Sin soporte, con ojillos metálicos",
-   "cantidadDefault": 90.0,
+   "cantidadDefault": 12.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/var-13-letrero-poka-yoke-mal-etiquetado.png"
   },
   {
    "id": "var-14",
@@ -1838,10 +1976,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "En baker cart",
    "instalacion": "Sin soporte, con ojillos metálicos",
-   "cantidadDefault": 90.0,
+   "cantidadDefault": 12.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/var-14-letrero-poka-yoke-pertenece-a-otra-isla.png"
   },
   {
    "id": "var-15",
@@ -1853,10 +1992,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "En baker cart",
    "instalacion": "Sin soporte, con ojillos metálicos",
-   "cantidadDefault": 90.0,
+   "cantidadDefault": 12.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/var-15-letrero-poka-yoke-danado.png"
   },
   {
    "id": "var-16",
@@ -1868,10 +2008,11 @@ const CATALOG = {
    "material": "PVC Espumado 3mm",
    "colocacion": "En baker cart",
    "instalacion": "Sin soporte, con ojillos metálicos",
-   "cantidadDefault": 90.0,
+   "cantidadDefault": 12.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 31.0
+   "toolkit": 31.0,
+   "imagen": "media/senaletica/var-16-letrero-poka-yoke-otro-motivo.png"
   }
  ],
  "opcionales": [
@@ -1888,7 +2029,8 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "Especial ",
-   "toolkit": 43.0
+   "toolkit": 43.0,
+   "imagen": "media/senaletica/opc-1-senaletica-para-areas.png"
   },
   {
    "id": "opc-2",
@@ -1903,7 +2045,8 @@ const CATALOG = {
    "cantidadDefault": 1.0,
    "unidad": "Pieza",
    "especificaciones": "Especial ",
-   "toolkit": 43.0
+   "toolkit": 43.0,
+   "imagen": "media/senaletica/opc-2-senaletica-de-circulacion.png"
   },
   {
    "id": "opc-3",
@@ -1918,7 +2061,8 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "Espeacial",
-   "toolkit": 9.0
+   "toolkit": 9.0,
+   "imagen": "media/senaletica/opc-3-totem-ingreso-direccional.png"
   },
   {
    "id": "opc-4",
@@ -1933,7 +2077,8 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "Espeacial",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/opc-4-aereos-orientativos-de-areas-operativas.png"
   },
   {
    "id": "opc-5",
@@ -1948,7 +2093,8 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "Especial ",
-   "toolkit": 35.0
+   "toolkit": 35.0,
+   "imagen": "media/senaletica/opc-5-graphic-floor-kit-antiderrames.png"
   },
   {
    "id": "opc-6",
@@ -1963,7 +2109,8 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "Especial ",
-   "toolkit": 35.0
+   "toolkit": 35.0,
+   "imagen": "media/senaletica/opc-6-graphic-floor-manga-pallet.png"
   },
   {
    "id": "opc-7",
@@ -1978,7 +2125,8 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "Especial ",
-   "toolkit": 35.0
+   "toolkit": 35.0,
+   "imagen": "media/senaletica/opc-7-graphic-floor-tarima-antiderrame.png"
   },
   {
    "id": "opc-8",
@@ -1993,7 +2141,8 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "Especial ",
-   "toolkit": 35.0
+   "toolkit": 35.0,
+   "imagen": "media/senaletica/opc-8-graphic-floor-bote-de-basura.png"
   },
   {
    "id": "opc-9",
@@ -2008,7 +2157,8 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "Especial ",
-   "toolkit": 35.0
+   "toolkit": 35.0,
+   "imagen": "media/senaletica/opc-9-graphic-floor-arenero.png"
   },
   {
    "id": "opc-10",
@@ -2023,7 +2173,8 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "Especial ",
-   "toolkit": 35.0
+   "toolkit": 35.0,
+   "imagen": "media/senaletica/opc-10-graphic-floor-pasillo-provisional.png"
   },
   {
    "id": "opc-11",
@@ -2038,7 +2189,8 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "Especial ",
-   "toolkit": 35.0
+   "toolkit": 35.0,
+   "imagen": "media/senaletica/opc-11-graphic-floor-pescador.png"
   },
   {
    "id": "opc-12",
@@ -2053,7 +2205,8 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "Especial ",
-   "toolkit": 35.0
+   "toolkit": 35.0,
+   "imagen": "media/senaletica/opc-12-graphic-floor-etiquetador.png"
   },
   {
    "id": "opc-13",
@@ -2068,7 +2221,8 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "Especial ",
-   "toolkit": 35.0
+   "toolkit": 35.0,
+   "imagen": "media/senaletica/opc-13-graphic-floor-diverter.png"
   },
   {
    "id": "opc-14",
@@ -2083,7 +2237,8 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "Especial ",
-   "toolkit": 35.0
+   "toolkit": 35.0,
+   "imagen": "media/senaletica/opc-14-graphic-floor-estibador.png"
   },
   {
    "id": "opc-15",
@@ -2098,7 +2253,8 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "Especial ",
-   "toolkit": 35.0
+   "toolkit": 35.0,
+   "imagen": "media/senaletica/opc-15-graphic-floor-gaylord.png"
   },
   {
    "id": "opc-16",
@@ -2113,7 +2269,8 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "Especial ",
-   "toolkit": 35.0
+   "toolkit": 35.0,
+   "imagen": "media/senaletica/opc-16-graphic-floor-patin.png"
   },
   {
    "id": "opc-17",
@@ -2128,7 +2285,8 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "Especial ",
-   "toolkit": 35.0
+   "toolkit": 35.0,
+   "imagen": "media/senaletica/opc-17-graphic-floor-pallets-danado.png"
   },
   {
    "id": "opc-18",
@@ -2143,7 +2301,8 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "Especial ",
-   "toolkit": 35.0
+   "toolkit": 35.0,
+   "imagen": "media/senaletica/opc-18-graphic-floor-pallet.png"
   },
   {
    "id": "opc-19",
@@ -2158,7 +2317,8 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "Especial ",
-   "toolkit": 35.0
+   "toolkit": 35.0,
+   "imagen": "media/senaletica/opc-19-graphic-floor-carton.png"
   },
   {
    "id": "opc-20",
@@ -2173,7 +2333,8 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "Especial ",
-   "toolkit": 35.0
+   "toolkit": 35.0,
+   "imagen": "media/senaletica/opc-20-graphic-floor-playo.png"
   },
   {
    "id": "opc-21",
@@ -2188,7 +2349,8 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "Especial ",
-   "toolkit": 35.0
+   "toolkit": 35.0,
+   "imagen": "media/senaletica/opc-21-graphic-floor-baker-cart.png"
   },
   {
    "id": "opc-22",
@@ -2203,7 +2365,8 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "Especial ",
-   "toolkit": 35.0
+   "toolkit": 35.0,
+   "imagen": "media/senaletica/opc-22-graphic-floor-baker-cart-en-mantenimient.png"
   },
   {
    "id": "opc-23",
@@ -2218,7 +2381,8 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "Especial ",
-   "toolkit": 35.0
+   "toolkit": 35.0,
+   "imagen": "media/senaletica/opc-23-graphic-floor-cono-de-seguridad.png"
   },
   {
    "id": "opc-24",
@@ -2233,7 +2397,8 @@ const CATALOG = {
    "cantidadDefault": 3.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/opc-24-letrero-paquetes-etiqueta-blanca-foraneo.png"
   },
   {
    "id": "opc-25",
@@ -2248,7 +2413,8 @@ const CATALOG = {
    "cantidadDefault": 0.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/opc-25-letrero-rayos-x.png"
   },
   {
    "id": "opc-26",
@@ -2263,7 +2429,8 @@ const CATALOG = {
    "cantidadDefault": 1.0,
    "unidad": "Pieza",
    "especificaciones": "",
-   "toolkit": 30.0
+   "toolkit": 30.0,
+   "imagen": "media/senaletica/opc-26-letrero-k9.png"
   }
  ]
 };
@@ -2311,6 +2478,7 @@ function renderZoneSection(containerId, items, tipo) {
       const c = cart[it.id];
       row.innerHTML = `
         <input type="checkbox" id="chk-${it.id}" ${c.checked ? 'checked' : ''} onchange="toggleItem('${it.id}','${tipo}',${idx})">
+        ${it.imagen ? `<img class="item-thumb" src="${it.imagen}" alt="${it.nombre}" loading="lazy" onclick="window.open('${it.imagen}','_blank')">` : `<div class="item-thumb-empty" title="Sin imagen de referencia"></div>`}
         <div class="item-info">
           <div class="item-name">${it.nombre}</div>
           <div class="item-meta">${it.medidas || ''}${it.medidas && it.colocacion ? ' · ' : ''}${it.colocacion || ''}</div>
