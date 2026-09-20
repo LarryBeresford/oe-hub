@@ -2439,9 +2439,9 @@ const CATALOG = {
 const cart = {};
 
 function initCatalog() {
-  CATALOG.fijos.forEach(it => { cart[it.id] = { item: it, cantidad: it.cantidadDefault || 1, checked: true }; });
-  CATALOG.variables.forEach(it => { cart[it.id] = { item: it, cantidad: it.cantidadDefault || 0, checked: (it.cantidadDefault || 0) > 0 }; });
-  CATALOG.opcionales.forEach(it => { cart[it.id] = { item: it, cantidad: it.cantidadDefault || 0, checked: (it.cantidadDefault || 0) > 0 }; });
+  CATALOG.fijos.forEach(it => { const q = parseInt(it.cantidadDefault, 10); cart[it.id] = { item: it, cantidad: (isNaN(q) || q <= 0) ? 1 : q, checked: true }; });
+  CATALOG.variables.forEach(it => { const q = parseInt(it.cantidadDefault, 10); const n = isNaN(q) ? 0 : q; cart[it.id] = { item: it, cantidad: n, checked: n > 0 }; });
+  CATALOG.opcionales.forEach(it => { const q = parseInt(it.cantidadDefault, 10); const n = isNaN(q) ? 0 : q; cart[it.id] = { item: it, cantidad: n, checked: n > 0 }; });
 }
 
 function groupByZone(items) {
@@ -2576,7 +2576,7 @@ function renderCart() {
   }
 
   document.getElementById('statLines').textContent = selected.length;
-  const totalPieces = selected.reduce((sum, it) => sum + cart[it.id].cantidad, 0);
+  const totalPieces = selected.reduce((sum, it) => sum + (parseInt(cart[it.id].cantidad, 10) || 0), 0);
   document.getElementById('statPieces').textContent = totalPieces;
 
   const code = document.getElementById('siteCode').value || '(sin código)';
@@ -2594,7 +2594,7 @@ function findTipoIdx(id) {
 }
 
 function stepQtyGlobal(id, delta) {
-  const cur = cart[id].cantidad;
+  const cur = parseInt(cart[id].cantidad, 10) || 0;
   setQtyGlobal(id, cur + delta);
 }
 
