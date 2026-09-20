@@ -1041,7 +1041,7 @@ function _cboxSmGhost() {
   // Espaciador invisible con la misma altura que una tarjeta real, para alinear
   // por nivel jerárquico las ramas que no tienen Manager (Quality, Gestión) un
   // escalón abajo de las que sí lo tienen (SVC+Last Mile, FM+XD+SC+TOM).
-  return '<div style="visibility:hidden">' + _cboxSm({ n: " ", niv: " ", mail: "", foto: "" }) + '</div>';
+  return '<div style="visibility:hidden">' + _cboxSm({ n: " ", niv: " ", mail: " ", foto: "" }) + '</div>';
 }
 function directorioOrg() {
   var sr = DIRECTORIO_OE.filter(function (d) { return d.niv === "Sr Manager"; });
