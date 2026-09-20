@@ -1000,11 +1000,11 @@ function doc(cfg, inner) {
 // ===== DIRECTORIO OE (cadena de mando) =====
 var _DIRECTORIO_RESPALDO = [
   { n: "Miguel Hernández", niv: "Sr Manager", area: "OE", rama: "", mail: "miguel.hernandezmartinez@mercadolibre.com.mx", foto: "https://i.imgur.com/fA8JHId.jpg" },
-  { n: "Steven Seedorf", niv: "Manager", area: "SVC + LM", rama: "SVC+LM", mail: "steven.seedorf@mercadolibre.com.mx", foto: "https://i.imgur.com/UcM3gqc.jpg" },
-  { n: "Ana Vargas", niv: "Supervisor", area: "SVC+LM MRS", rama: "SVC+LM", mail: "ana.vargasfuentes@mercadolibre.com.mx", foto: "https://i.imgur.com/MH4N1CU.jpg" },
-  { n: "Mariana Novoa", niv: "Manager", area: "XD, SC + FM", rama: "XD, SC+FM", mail: "mariana.novoa@mercadolibre.com.mx", foto: "https://i.imgur.com/i3epbGL.jpg" },
-  { n: "Germán Gonzalo Ramírez", niv: "Supervisor", area: "XD, SC+FM MRS", rama: "XD, SC+FM", mail: "german.ramirezlara@mercadolibre.com.mx", foto: "https://i.imgur.com/uDq0p1w.jpeg" },
-  { n: "Eduardo García", niv: "Supervisor", area: "XD, SC+FM MRN", rama: "XD, SC+FM", mail: "eduardo.egarciamejia@mercadolibre.com.mx", foto: "https://i.imgur.com/f6C6n8t.jpg" },
+  { n: "Steven Seedorf", niv: "Manager", area: "SVC + LM", rama: "SVC + Last Mile", mail: "steven.seedorf@mercadolibre.com.mx", foto: "https://i.imgur.com/UcM3gqc.jpg" },
+  { n: "Ana Vargas", niv: "Supervisor", area: "SVC+LM MRS", rama: "SVC + Last Mile", mail: "ana.vargasfuentes@mercadolibre.com.mx", foto: "https://i.imgur.com/MH4N1CU.jpg" },
+  { n: "Mariana Novoa", niv: "Manager", area: "XD, SC + FM", rama: "FM + XD + SC + TOM", mail: "mariana.novoa@mercadolibre.com.mx", foto: "https://i.imgur.com/i3epbGL.jpg" },
+  { n: "Germán Gonzalo Ramírez", niv: "Supervisor", area: "XD, SC+FM MRS", rama: "FM + XD + SC + TOM", mail: "german.ramirezlara@mercadolibre.com.mx", foto: "https://i.imgur.com/uDq0p1w.jpeg" },
+  { n: "Eduardo García", niv: "Supervisor", area: "XD, SC+FM MRN", rama: "FM + XD + SC + TOM", mail: "eduardo.egarciamejia@mercadolibre.com.mx", foto: "https://i.imgur.com/f6C6n8t.jpg" },
   { n: "Laura Chávez", niv: "Supervisor", area: "Quality MRS", rama: "Quality", mail: "laura.chavezdiaz@mercadolibre.com.mx", foto: "https://i.imgur.com/dCfmGI5.jpeg" },
   { n: "Juan Carlos García", niv: "Supervisor", area: "Quality MRN", rama: "Quality", mail: "garcia.gjuan@mercadolibre.com.mx", foto: "https://i.imgur.com/NHcV4RN.jpg" },
   { n: "Ricardo Almanza", niv: "Supervisor", area: "Gestión", rama: "Gestión", mail: "carlosricardo.almanzaloo@mercadolibre.com.mx", foto: "https://i.imgur.com/nE4Yfj6.jpg" }
@@ -1027,16 +1027,21 @@ function _cbox(d, h) {
 }
 function _conn() { return '<div style="width:2px;height:16px;background:#FFE600;margin:6px auto"></div>'; }
 function _cboxSm(d) {
-  var area = esc(d.area), niv = esc(d.niv);
-  var suf = area.indexOf("MRS") !== -1 ? " MRS" : (area.indexOf("MRN") !== -1 ? " MRN" : "");
+  var niv = esc(d.niv);
   var mail = esc(d.mail)
     ? '<div style="font:400 7.5px/1.35 Courier New,monospace;color:#666;margin-top:3px;word-break:break-all"><a href="mailto:' + esc(d.mail) + '" style="color:#666;text-decoration:none">' + esc(d.mail) + '</a></div>'
     : "";
   return '<table cellpadding="0" cellspacing="0" width="100%" style="background:#fafafa;border:1px solid #eee;border-radius:6px;margin-bottom:7px">'
     + '<tr><td style="padding:8px;text-align:center">' + avatar(d.foto, 34)
     + '<div style="font:800 11px/1.25 Arial,sans-serif;color:#111;margin-top:5px">' + esc(d.n) + '</div>'
-    + '<div style="font:700 8.5px/1.3 Arial,sans-serif;color:#888;text-transform:uppercase;letter-spacing:.3px">' + niv + suf + '</div>'
+    + '<div style="font:700 8.5px/1.3 Arial,sans-serif;color:#888;text-transform:uppercase;letter-spacing:.3px">' + niv + '</div>'
     + mail + '</td></tr></table>';
+}
+function _cboxSmGhost() {
+  // Espaciador invisible con la misma altura que una tarjeta real, para alinear
+  // por nivel jerárquico las ramas que no tienen Manager (Quality, Gestión) un
+  // escalón abajo de las que sí lo tienen (SVC+Last Mile, FM+XD+SC+TOM).
+  return '<div style="visibility:hidden">' + _cboxSm({ n: " ", niv: " ", mail: "", foto: "" }) + '</div>';
 }
 function directorioOrg() {
   var sr = DIRECTORIO_OE.filter(function (d) { return d.niv === "Sr Manager"; });
@@ -1055,9 +1060,11 @@ function directorioOrg() {
     var n = order.length || 1;
     var cellw = 100.0 / n;
     var cols = order.map(function (k) {
+      var tieneManager = groups[k].some(function (d) { return d.niv === "Manager"; });
+      var ghost = tieneManager ? "" : _cboxSmGhost();
       return '<td width="' + cellw.toFixed(2) + '%" style="padding:0 4px;vertical-align:top">'
         + '<div style="font:800 9.5px/1 Arial,sans-serif;color:#888;text-align:center;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">' + k + '</div>'
-        + groups[k].map(_cboxSm).join("") + '</td>';
+        + ghost + groups[k].map(_cboxSm).join("") + '</td>';
     }).join("");
     out.push('<table cellpadding="0" cellspacing="0" width="100%" style="table-layout:fixed;border-collapse:collapse"><tr>' + cols + '</tr></table>');
   }
