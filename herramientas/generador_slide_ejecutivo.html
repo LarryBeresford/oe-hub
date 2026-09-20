@@ -342,9 +342,9 @@ textarea { min-height: 52px; }
   <div class="form-section">
     <div class="form-section-title" data-i18n="secIdentificacion">Identificación</div>
     <label data-i18n="lblNombreProyecto">Nombre del Proyecto</label>
-    <input type="text" id="f-nombre" placeholder="Ej. PYMES Inbound" oninput="render()">
+    <input type="text" id="f-nombre" value="PYMES Inbound" oninput="render()">
     <label data-i18n="lblSubtitulo">Subtítulo / Área</label>
-    <input type="text" id="f-sub" placeholder="Ej. Inbound · Proyecto Estratégico" oninput="render()">
+    <input type="text" id="f-sub" value="Inbound · Proyecto Estratégico" oninput="render()">
     <div class="row-2">
       <div>
         <label data-i18n="lblTipoProyecto">Tipo de Proyecto</label>
@@ -358,7 +358,7 @@ textarea { min-height: 52px; }
       </div>
       <div>
         <label data-i18n="lblUltimoUpdate">Último Update</label>
-        <input type="text" id="f-update" placeholder="Ej. Jul 26" oninput="render()">
+        <input type="text" id="f-update" value="Jul 26" oninput="render()">
       </div>
     </div>
     <label data-i18n="lblEstadoGeneral">Estado General</label>
@@ -373,13 +373,13 @@ textarea { min-height: 52px; }
   <div class="form-section">
     <div class="form-section-title" data-i18n="secEquipo">Equipo</div>
     <div class="row-2">
-      <div><label data-i18n="lblOE">OE</label><input type="text" id="f-oe" placeholder="Ej. Nombre Apellido" oninput="render()"></div>
-      <div><label data-i18n="lblCIC">CIC / PMO</label><input type="text" id="f-cic" placeholder="Ej. Nombre Apellido" oninput="render()"></div>
+      <div><label data-i18n="lblOE">OE</label><input type="text" id="f-oe" value="Mariana Novoa, Jonatan Juárez" oninput="render()"></div>
+      <div><label data-i18n="lblCIC">CIC / PMO</label><input type="text" id="f-cic" value="Maria Ayala, Tamara" oninput="render()"></div>
     </div>
     <div class="row-2">
       <div>
         <label data-i18n="lblAvance">Avance % (barra)</label>
-        <input type="text" id="f-avance" placeholder="0-100" oninput="render()">
+        <input type="text" id="f-avance" value="58" oninput="render()">
       </div>
 
     </div>
@@ -389,7 +389,7 @@ textarea { min-height: 52px; }
   <div class="form-section">
     <div class="form-section-title" data-i18n="secContexto">Contexto del Proyecto</div>
     <label data-i18n="lblSituacion">Situación / Dolor</label>
-    <textarea id="f-situacion" rows="2" placeholder="Describe brevemente el problema u oportunidad que da origen al proyecto." oninput="render()"></textarea>
+    <textarea id="f-situacion" rows="2" oninput="render()">Actualmente se tienen 3 tecnologías de medición de los diferentes path de shp. No existe tecnología que ayude a la medición de los shp catalogados como OVERSIZE con paquetes amorfos.</textarea>
   </div>
 
   <!-- KPIs -->
@@ -424,13 +424,13 @@ textarea { min-height: 52px; }
   <div class="form-section">
     <div class="form-section-title" data-i18n="secSaving">💰 Saving / Impacto (opcional)</div>
     <div class="row-2">
-      <div><label data-i18n="lblTituloBox">Título del box</label><input type="text" id="f-saving-title" placeholder="Ej. META ANUAL SAVING" oninput="render()"></div>
-      <div><label data-i18n="lblNumeroGrande">Número grande</label><input type="text" id="f-saving-num" placeholder="Ej. US$1.2M" oninput="render()"></div>
+      <div><label data-i18n="lblTituloBox">Título del box</label><input type="text" id="f-saving-title" value="META ANUAL LH SAVING" oninput="render()"></div>
+      <div><label data-i18n="lblNumeroGrande">Número grande</label><input type="text" id="f-saving-num" value="US$3.3M" oninput="render()"></div>
     </div>
     <label data-i18n="lblSubtituloSaving">Subtítulo</label>
-    <input type="text" id="f-saving-sub" placeholder="Ej. objetivo 2026 · contexto breve" oninput="render()">
+    <input type="text" id="f-saving-sub" value="objetivo 2026 · SPR +50% mín · 50 vehíc./sem." oninput="render()">
     <label data-i18n="lblReferenciaAdicional">Referencia adicional (opcional)</label>
-    <input type="text" id="f-saving-vs" placeholder="Ej. YTD real vs. target" oninput="render()">
+    <input type="text" id="f-saving-vs" value="YTD real: US$1.3M · Target YTD: US$1.5M" oninput="render()">
   </div>
 
   <!-- IMAGEN -->
@@ -458,7 +458,7 @@ textarea { min-height: 52px; }
   <!-- DECISIÓN -->
   <div class="form-section">
     <div class="form-section-title" data-i18n="secDecision">💬 Se requiere del Head</div>
-    <textarea id="f-decision" rows="3" placeholder="¿Qué decisión, apoyo o desbloqueo necesitas del Head?" oninput="render()"></textarea>
+    <textarea id="f-decision" rows="3" oninput="render()">Ampliar ventana de cumplimiento Adherencia a W32, considerando instalación CONLIDA y semanas atípicas por eventos deportivos.</textarea>
   </div>
 
 </div><!-- end form-panel -->
@@ -783,21 +783,34 @@ window.addEventListener('message', function (e) {
 // ── STATE ──────────────────────────────────────────────────────────────────────
 let currentStatus = 'green';
 let FASE_NAMES = ['Idea','Planning','Diagnóstico','Diseño','Implementación','Sustentabilidad','Final'];
-let faseStates   = ['active','pending','pending','pending','pending','pending','pending'];
+let faseStates   = ['done','done','done','done','active','pending','pending'];
 let uploadedImageSrc = null;
 
-// KPI data: [{name, refs, values:[], target, higherIsBetter}] — plantilla en blanco, sin datos de ejemplo reales
+// KPI data: [{name, refs, values:[], target, higherIsBetter}]
 let kpis = [
-  { name:'Nombre del KPI', refs:'Base __ · Target __', target:0, higherIsBetter:true,
-    values:[], weekStart:'Ene' },
+  { name:'Adherencia', refs:'Base 72% · Target 90%', target:90, higherIsBetter:true,
+    values:[81,79,87,88,90,90,88,89,88,84,84], weekStart:'Ene' },
+  { name:'Accuracy', refs:'Base 87% · Target 80%', target:80, higherIsBetter:true,
+    values:[87,88,86,87,83,81,79,81,81,82,82], weekStart:'Ene' },
 ];
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
-// La herramienta abre como plantilla en blanco: sin proyecto, KPI ni bullets de ejemplo.
-// Cada quien llena sus propios datos; los botones "+ Agregar..." están para eso.
 function init() {
   renderFasesEditor();
   renderKPIEditor();
+
+  addBullet('paso-editor', 'Acc Sick Jun: TGT 98% — Real 82.27%. Brecha activa 15.7 pp.');
+  addBullet('paso-editor', 'CONLIDA instalada en MXXEM4 — calibración en curso, datos desde Ago.');
+  addBullet('paso-editor', 'Caída adherencia Jun–Jul por eventos deportivos MX.', true);
+  addBullet('paso-editor', 'Mismatch PYMES –1.9 bps MoM · MM SNT –2.85 bps.', true);
+
+  addBullet('pasos-editor', 'Ago — Cierre calibración CONLIDA + primeros datos reales.');
+  addBullet('pasos-editor', 'Sep — Proyección recuperación adherencia ≥88%.');
+  addBullet('pasos-editor', 'Sep — Revisión target plan con impacto CONLIDA.');
+
+  addBullet('obs-editor', 'Adherencia 84.1% — 3 semanas bajo target 90%.', true);
+  addBullet('obs-editor', 'CONLIDA en calibración — sin datos reales hasta W30.', true);
+
   render();
 }
 
@@ -1587,8 +1600,8 @@ function markSaved() {
 // Reset silencioso (sin confirm dialog) usado internamente al cambiar de proyecto
 function resetFormSilent() {
   document.querySelectorAll('input[type=text], textarea').forEach(el => el.value='');
-  kpis = [{ name:'Nombre del KPI', refs:'Base __ · Target __', target:0, higherIsBetter:true, values:[], weekStart:'Ene' }];
-  faseStates = ['active','pending','pending','pending','pending','pending','pending'];
+  kpis = [{ name:'KPI 1', refs:'Base X · Target Y', target:80, higherIsBetter:true, values:[70,72,75,78,80], weekStart:'Ene' }];
+  faseStates = ['pending','pending','pending','pending','pending','pending','pending'];
   ['paso-editor','pasos-editor','obs-editor'].forEach(id => document.getElementById(id).innerHTML='');
   currentStatus = 'green';
   document.querySelectorAll('.status-btn').forEach(b => b.className='status-btn');
