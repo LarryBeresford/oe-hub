@@ -34,13 +34,30 @@ body { font-family: var(--font); background: #1C1C1C; color: var(--black); min-h
 .btn-secondary { background: transparent; color: #AAA; border: 1px solid #444; padding: 8px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.15s; font-family: var(--font); }
 .btn-secondary:hover { border-color: var(--yellow); color: var(--yellow); }
 
-/* ── WORKSPACE ── */
-.workspace { display: grid; grid-template-columns: 460px 1fr; align-items: start; }
-@media (max-width: 980px) {
-  .workspace { grid-template-columns: 1fr; }
-  .form-panel { height: auto; max-height: 60vh; border-right: none; border-bottom: 3px solid var(--yellow); }
-  .preview-panel { height: auto; position: static; }
-}
+/* ── WIZARD (3 pasos) ── */
+.wizard-bar { background:#000; display:flex; align-items:center; justify-content:center; gap:0; padding:14px 20px; border-bottom:1px solid #2A2A2A; }
+.wizard-step { display:flex; align-items:center; gap:9px; cursor:pointer; opacity:0.55; transition:opacity .15s; }
+.wizard-step.active, .wizard-step.done { opacity:1; }
+.wizard-step:hover { opacity:1; }
+.wz-num { width:26px; height:26px; border-radius:50%; background:#333; color:#AAA; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; }
+.wizard-step.active .wz-num { background:var(--yellow); color:#000; }
+.wizard-step.done .wz-num { background:#3A3A3A; color:var(--yellow); }
+.wz-lbl { font-size:12px; font-weight:700; color:#DDD; white-space:nowrap; }
+.wizard-line { width:48px; height:1px; background:#333; margin:0 12px; }
+@media (max-width: 640px) { .wz-lbl { display:none; } .wizard-line { width:20px; margin:0 6px; } }
+
+.wizard-body { background:#F0F0F0; min-height: calc(100vh - 53px - 57px); }
+.step-panel { display:none; max-width:820px; margin:0 auto; padding:26px 22px 40px; }
+.step-panel.active { display:block; }
+.step-panel-wide { max-width:1220px; }
+.wizard-nav { display:flex; justify-content:space-between; align-items:center; margin-top:20px; }
+.wizard-nav .btn-primary, .wizard-nav .btn-secondary { padding:11px 22px; font-size:12.5px; }
+
+.step2-hdr { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.step2-hdr h2 { font-size:15px; font-weight:800; color:#111; }
+.size-toggle { display:flex; background:#FFF; border:1px solid #DDD; border-radius:7px; overflow:hidden; }
+.size-toggle button { border:none; background:transparent; padding:7px 14px; font-size:11.5px; font-weight:700; color:#888; cursor:pointer; font-family:var(--font); }
+.size-toggle button.sel { background:var(--yellow); color:#000; }
 
 /* ── FORM PANEL ── */
 .form-panel { background: #F7F7F7; overflow-y: auto; border-right: 1px solid #DDD; scroll-behavior: smooth; height: calc(100vh - 53px); }
@@ -79,18 +96,25 @@ textarea { min-height: 52px; }
 .zone-body { display:none; padding: 4px 10px 8px; }
 .zone-group.open .zone-body { display:block; }
 
-.item-row { display:flex; align-items:flex-start; gap:9px; padding:7px 2px; border-bottom: 1px dashed #EEE; }
-.item-row:last-child { border-bottom:none; }
-.item-row input[type=checkbox] { margin-top: 3px; width:15px; height:15px; accent-color: var(--yellow); cursor:pointer; flex-shrink:0; }
-.item-thumb { width:38px; height:38px; border-radius:6px; border:1px solid #EEE; background:#FAFAFA; object-fit:contain; flex-shrink:0; cursor:zoom-in; }
-.item-thumb-empty { width:38px; height:38px; border-radius:6px; border:1px dashed #DDD; background:#FAFAFA; flex-shrink:0; }
-.item-info { flex:1; min-width:0; }
-.item-name { font-size:12px; font-weight:600; color:#222; }
-.item-meta { font-size:10px; color:#999; margin-top:1px; }
+.items-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(230px,1fr)); gap:14px; padding:6px 2px 12px; }
+.items-grid.compact { grid-template-columns:repeat(auto-fill, minmax(150px,1fr)); gap:10px; }
+.item-card { border:1px solid #E5E5E5; border-radius:10px; overflow:hidden; background:#FFF; display:flex; flex-direction:column; transition:border-color .15s, box-shadow .15s; }
+.item-card.on { border-color:var(--yellow); box-shadow:0 0 0 1.5px var(--yellow) inset; }
+.item-card-img { height:170px; background:#FAFAFA; display:flex; align-items:center; justify-content:center; cursor:zoom-in; }
+.items-grid.compact .item-card-img { height:96px; }
+.item-card-img img { max-width:100%; max-height:100%; object-fit:contain; }
+.item-card-img-empty { color:#CCC; font-size:10.5px; }
+.item-card-body { padding:10px 12px 11px; display:flex; flex-direction:column; gap:7px; flex:1; }
+.item-card-name { font-size:12.5px; font-weight:700; color:#222; line-height:1.32; }
+.items-grid.compact .item-card-name { font-size:11px; }
+.item-card-meta { font-size:10px; color:#999; }
+.item-card-foot { display:flex; align-items:center; justify-content:space-between; margin-top:auto; gap:8px; padding-top:4px; }
+.item-card-incl { display:flex; align-items:center; gap:5px; font-size:10.5px; color:#666; cursor:pointer; user-select:none; }
+.item-card-incl input { width:14px; height:14px; accent-color:var(--yellow); cursor:pointer; }
 .item-qty { display:flex; align-items:center; gap:4px; flex-shrink:0; }
 .qty-btn { width:22px; height:22px; border-radius:5px; border:1px solid #DDD; background:#FFF; cursor:pointer; font-size:13px; font-weight:700; color:#555; display:flex; align-items:center; justify-content:center; }
 .qty-btn:hover { border-color: var(--yellow); color:#000; }
-.qty-input { width:40px; text-align:center; padding:3px 2px; font-size:12px; }
+.qty-input { width:38px; text-align:center; padding:3px 2px; font-size:12px; }
 
 .fixed-note { font-size: 10.5px; color: #888; background:#FFFBEA; border:1px solid #FFE9A8; border-radius:6px; padding:8px 10px; margin-bottom:10px; line-height:1.4; }
 
@@ -138,8 +162,17 @@ table.cart-table tr:last-child td { border-bottom:none; }
   </div>
 </div>
 
-<div class="workspace">
-  <div class="form-panel" id="formPanel">
+<div class="wizard-bar">
+  <div class="wizard-step active" id="wzStep1" data-step="1" onclick="goStep(1)"><span class="wz-num">1</span><span class="wz-lbl">Datos del sitio</span></div>
+  <div class="wizard-line"></div>
+  <div class="wizard-step" id="wzStep2" data-step="2" onclick="goStep(2)"><span class="wz-num">2</span><span class="wz-lbl">Artículos</span></div>
+  <div class="wizard-line"></div>
+  <div class="wizard-step" id="wzStep3" data-step="3" onclick="goStep(3)"><span class="wz-num">3</span><span class="wz-lbl">Vista previa</span></div>
+</div>
+
+<div class="wizard-body" id="formPanel">
+
+  <div class="step-panel active" id="stepPanel1">
 
     <div class="form-section">
       <div class="form-section-title"><span class="ttl">Datos del sitio</span></div>
@@ -203,6 +236,22 @@ table.cart-table tr:last-child td { border-bottom:none; }
       <div class="help-text">Este bloque llena la pestaña "Carátula" del Excel de salida.</div>
     </div>
 
+    <div class="wizard-nav">
+      <span></span>
+      <button class="btn-primary" onclick="goStep(2)">Siguiente: Artículos →</button>
+    </div>
+  </div>
+
+  <div class="step-panel step-panel-wide" id="stepPanel2">
+
+    <div class="step2-hdr">
+      <h2>Artículos de señalética</h2>
+      <div class="size-toggle" id="sizeToggle">
+        <button class="sel" id="btnSizeGrande" onclick="setImgSize(false)">Imágenes grandes</button>
+        <button id="btnSizeCompacta" onclick="setImgSize(true)">Vista compacta</button>
+      </div>
+    </div>
+
     <div class="form-section">
       <div class="form-section-title">
         <span class="ttl">Artículos fijos</span>
@@ -230,8 +279,13 @@ table.cart-table tr:last-child td { border-bottom:none; }
       <div id="opcionalesZones"></div>
     </div>
 
+    <div class="wizard-nav">
+      <button class="btn-secondary" onclick="goStep(1)">← Atrás</button>
+      <button class="btn-primary" onclick="goStep(3)">Siguiente: Vista previa →</button>
+    </div>
   </div>
 
+  <div class="step-panel step-panel-wide" id="stepPanel3">
   <div class="preview-panel">
     <div class="cart-header">
       <div>
@@ -260,7 +314,14 @@ table.cart-table tr:last-child td { border-bottom:none; }
       <div class="msg">El Excel exportado trae la pestaña "Carátula" con los datos del sitio y "Requerimiento" con la lista final de artículos, listo para mandar a cotizar con el proveedor.</div>
       <button class="btn-primary" onclick="exportExcel()">Generar orden de compra (Excel)</button>
     </div>
+
+    <div class="wizard-nav">
+      <button class="btn-secondary" onclick="goStep(2)">← Atrás</button>
+      <span></span>
+    </div>
   </div>
+  </div>
+
 </div>
 
 <div class="toast" id="toast"><div class="dot"></div><span id="toastMsg"></span></div>
@@ -2454,6 +2515,8 @@ function groupByZone(items) {
   return groups;
 }
 
+let imgSizeCompact = false;
+
 function renderZoneSection(containerId, items, tipo) {
   const container = document.getElementById(containerId);
   const groups = groupByZone(items);
@@ -2472,30 +2535,63 @@ function renderZoneSection(containerId, items, tipo) {
     const body = document.createElement('div');
     body.className = 'zone-body';
 
+    const grid = document.createElement('div');
+    grid.className = 'items-grid' + (imgSizeCompact ? ' compact' : '');
+
     zItems.forEach(it => {
-      const row = document.createElement('div');
-      row.className = 'item-row';
       const c = cart[it.id];
-      row.innerHTML = `
-        <input type="checkbox" id="chk-${it.id}" ${c.checked ? 'checked' : ''} onchange="toggleItem('${it.id}','${tipo}',${idx})">
-        ${it.imagen ? `<img class="item-thumb" src="${it.imagen}" alt="${it.nombre}" loading="lazy" onclick="window.open('${it.imagen}','_blank')">` : `<div class="item-thumb-empty" title="Sin imagen de referencia"></div>`}
-        <div class="item-info">
-          <div class="item-name">${it.nombre}</div>
-          <div class="item-meta">${it.medidas || ''}${it.medidas && it.colocacion ? ' · ' : ''}${it.colocacion || ''}</div>
+      const card = document.createElement('div');
+      card.className = 'item-card' + (c.checked ? ' on' : '');
+      card.id = 'card-' + it.id;
+      card.innerHTML = `
+        <div class="item-card-img" ${it.imagen ? `onclick="window.open('${it.imagen}','_blank')"` : ''}>
+          ${it.imagen ? `<img src="${it.imagen}" alt="${it.nombre}" loading="lazy">` : `<span class="item-card-img-empty">Sin imagen</span>`}
         </div>
-        <div class="item-qty">
-          <button class="qty-btn" onclick="stepQty('${it.id}',-1,'${tipo}',${idx})">−</button>
-          <input class="qty-input" type="number" min="0" id="qty-${it.id}" value="${c.cantidad}" onchange="setQty('${it.id}',this.value,'${tipo}',${idx})">
-          <button class="qty-btn" onclick="stepQty('${it.id}',1,'${tipo}',${idx})">+</button>
+        <div class="item-card-body">
+          <div class="item-card-name">${it.nombre}</div>
+          <div class="item-card-meta">${it.medidas || ''}${it.medidas && it.colocacion ? ' · ' : ''}${it.colocacion || ''}</div>
+          <div class="item-card-foot">
+            <label class="item-card-incl">
+              <input type="checkbox" id="chk-${it.id}" ${c.checked ? 'checked' : ''} onchange="toggleItem('${it.id}','${tipo}',${idx})">
+              Incluir
+            </label>
+            <div class="item-qty">
+              <button class="qty-btn" onclick="stepQty('${it.id}',-1,'${tipo}',${idx})">−</button>
+              <input class="qty-input" type="number" min="0" id="qty-${it.id}" value="${c.cantidad}" onchange="setQty('${it.id}',this.value,'${tipo}',${idx})">
+              <button class="qty-btn" onclick="stepQty('${it.id}',1,'${tipo}',${idx})">+</button>
+            </div>
+          </div>
         </div>`;
-      body.appendChild(row);
+      grid.appendChild(card);
     });
 
+    body.appendChild(grid);
     wrap.appendChild(head);
     wrap.appendChild(body);
     container.appendChild(wrap);
     updateZoneBadge(tipo, idx, zItems);
   });
+}
+
+function setImgSize(compact) {
+  imgSizeCompact = compact;
+  document.getElementById('btnSizeGrande').classList.toggle('sel', !compact);
+  document.getElementById('btnSizeCompacta').classList.toggle('sel', compact);
+  document.querySelectorAll('.items-grid').forEach(g => g.classList.toggle('compact', compact));
+}
+
+function goStep(n) {
+  for (let i = 1; i <= 3; i++) {
+    const panel = document.getElementById('stepPanel' + i);
+    const ind = document.getElementById('wzStep' + i);
+    if (panel) panel.classList.toggle('active', i === n);
+    if (ind) {
+      ind.classList.toggle('active', i === n);
+      ind.classList.toggle('done', i < n);
+    }
+  }
+  if (n === 3) renderCart();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function updateZoneBadge(tipo, idx, zItems) {
@@ -2513,6 +2609,8 @@ function toggleItem(id, tipo, idx) {
     cart[id].cantidad = 1;
     document.getElementById('qty-' + id).value = 1;
   }
+  const card = document.getElementById('card-' + id);
+  if (card) card.classList.toggle('on', cart[id].checked);
   const items = tipo === 'fijo' ? CATALOG.fijos : tipo === 'variable' ? CATALOG.variables : CATALOG.opcionales;
   const zona = cart[id].item.zona;
   updateZoneBadge(tipo, idx, items.filter(it => it.zona === zona));
@@ -2527,6 +2625,8 @@ function setQty(id, val, tipo, idx) {
   cart[id].checked = n > 0;
   document.getElementById('chk-' + id).checked = cart[id].checked;
   document.getElementById('qty-' + id).value = n;
+  const card = document.getElementById('card-' + id);
+  if (card) card.classList.toggle('on', cart[id].checked);
   const items = tipo === 'fijo' ? CATALOG.fijos : tipo === 'variable' ? CATALOG.variables : CATALOG.opcionales;
   const zona = cart[id].item.zona;
   updateZoneBadge(tipo, idx, items.filter(it => it.zona === zona));
