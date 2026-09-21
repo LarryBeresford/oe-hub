@@ -297,10 +297,7 @@
     background: var(--yellow-bg); color:var(--yellow-dark); font-weight:800; font-size:11px;
     border-radius:8px; padding:8px 10px; text-align:center; min-width:52px; line-height:1.2;
   }
-  .date-chip.c-fm { background: var(--tag-fm-bg); color: var(--tag-fm); }
-  .date-chip.c-svc { background: var(--tag-svc-bg); color: var(--tag-svc); }
-  .date-chip.c-mgmt { background: var(--tag-mgmt-bg); color: var(--tag-mgmt); }
-  .date-chip.c-quality { background: var(--tag-quality-bg); color: var(--tag-quality); }
+  .date-chip.oe { background: var(--yellow-bg); color: var(--yellow-dark); }
   .date-chip.cal-holiday-chip { background:#FCE4E4; color:#C0392B; }
   .date-item-text { font-size:12.5px; color:var(--dark); line-height:1.4; }
 
@@ -315,25 +312,16 @@
   .cal-cell { aspect-ratio:1; border-radius:8px; background:var(--light-bg); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; font-size:11.5px; color:#555; }
   .cal-cell.empty { background:none; }
   .cal-cell.cal-holiday { background:#FCE4E4; color:#C0392B; font-weight:800; }
-  .cal-cell.cal-oe-c-fm { background: var(--tag-fm-bg); color: var(--tag-fm); font-weight:800; }
-  .cal-cell.cal-oe-c-svc { background: var(--tag-svc-bg); color: var(--tag-svc); font-weight:800; }
-  .cal-cell.cal-oe-c-mgmt { background: var(--tag-mgmt-bg); color: var(--tag-mgmt); font-weight:800; }
-  .cal-cell.cal-oe-c-quality { background: var(--tag-quality-bg); color: var(--tag-quality); font-weight:800; }
+  .cal-cell.cal-oe-oe { background: var(--yellow-bg); color: var(--yellow-dark); font-weight:800; }
   .cal-cell.cal-today { outline:2px solid var(--yellow-dark); outline-offset:-1px; font-weight:800; }
   .cal-daynum { line-height:1; }
   .cal-dots { display:flex; gap:2px; height:5px; }
   .cal-dot { width:5px; height:5px; border-radius:50%; background:#999; }
-  .cal-dot.c-fm { background: var(--tag-fm); }
-  .cal-dot.c-svc { background: var(--tag-svc); }
-  .cal-dot.c-mgmt { background: var(--tag-mgmt); }
-  .cal-dot.c-quality { background: var(--tag-quality); }
+  .cal-dot.oe { background: var(--yellow-dark); }
   .cal-side { flex:1 1 300px; min-width:260px; display:flex; flex-direction:column; gap:0; max-height:460px; overflow:auto; background:var(--white); border:1px solid var(--border); border-radius:12px; }
   .cal-side-hdr { padding:13px 16px 11px; font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; color:#999; border-bottom:1px solid var(--border); }
   .cal-side .date-item { padding:13px 16px; border-left:4px solid transparent; gap:14px; }
-  .cal-side .date-item.row-c-fm { border-left-color: var(--tag-fm); background: var(--tag-fm-bg); }
-  .cal-side .date-item.row-c-svc { border-left-color: var(--tag-svc); background: var(--tag-svc-bg); }
-  .cal-side .date-item.row-c-mgmt { border-left-color: var(--tag-mgmt); background: var(--tag-mgmt-bg); }
-  .cal-side .date-item.row-c-quality { border-left-color: var(--tag-quality); background: var(--tag-quality-bg); }
+  .cal-side .date-item.row-oe { border-left-color: var(--yellow-dark); background: var(--yellow-bg); }
   .cal-side .date-item.row-holiday { border-left-color: #C0392B; background: #FCE4E4; }
   .cal-side .date-chip { font-size:12.5px; padding:9px 10px; min-width:56px; }
   .cal-side .date-item-text { font-size:13.5px; font-weight:700; color:var(--dark); }
@@ -1834,13 +1822,13 @@
     var pub = new Date(year, month, miguel);
     pub.setDate(pub.getDate() + 1);
     var out = [
-      { day: focales, color: 'c-fm', label: 'Focales actualizan su proyecto (y MELI Axis) — último lunes del mes' },
-      { day: supervisores, color: 'c-svc', label: 'Supervisores cargan el Form — primer miércoles del mes' },
-      { day: managers, color: 'c-mgmt', label: 'Managers revisan y autorizan — primer viernes del mes' },
-      { day: miguel, color: 'c-quality', label: 'Miguel da la autorización final — segundo martes del mes' }
+      { day: focales, color: 'oe', label: 'Focales actualizan su proyecto (y MELI Axis) — último lunes del mes' },
+      { day: supervisores, color: 'oe', label: 'Supervisores cargan el Form — primer miércoles del mes' },
+      { day: managers, color: 'oe', label: 'Managers revisan y autorizan — primer viernes del mes' },
+      { day: miguel, color: 'oe', label: 'Miguel da la autorización final — segundo martes del mes' }
     ];
     if (pub.getMonth() === month) {
-      out.push({ day: pub.getDate(), color: '', label: 'Se publica a todo MLM (día siguiente a la autorización)' });
+      out.push({ day: pub.getDate(), color: 'oe', label: 'Se publica a todo MLM (día siguiente a la autorización)' });
     }
     return out;
   }
