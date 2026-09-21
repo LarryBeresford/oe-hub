@@ -315,6 +315,10 @@
   .cal-cell { aspect-ratio:1; border-radius:8px; background:var(--light-bg); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; font-size:11.5px; color:#555; }
   .cal-cell.empty { background:none; }
   .cal-cell.cal-holiday { background:#FCE4E4; color:#C0392B; font-weight:800; }
+  .cal-cell.cal-oe-c-fm { background: var(--tag-fm-bg); color: var(--tag-fm); font-weight:800; }
+  .cal-cell.cal-oe-c-svc { background: var(--tag-svc-bg); color: var(--tag-svc); font-weight:800; }
+  .cal-cell.cal-oe-c-mgmt { background: var(--tag-mgmt-bg); color: var(--tag-mgmt); font-weight:800; }
+  .cal-cell.cal-oe-c-quality { background: var(--tag-quality-bg); color: var(--tag-quality); font-weight:800; }
   .cal-cell.cal-today { outline:2px solid var(--yellow-dark); outline-offset:-1px; font-weight:800; }
   .cal-daynum { line-height:1; }
   .cal-dots { display:flex; gap:2px; height:5px; }
@@ -915,6 +919,20 @@
       </div>
 <!-- END SUCCESS STORIES -->
 
+      <div class="section-title">Fechas relevantes</div>
+      <div class="cal-wrap">
+        <div class="cal-main">
+          <div class="cal-hdr">
+            <button class="cal-nav" onclick="calNav(-1)" aria-label="Mes anterior">&#8249;</button>
+            <div class="cal-month-label" id="calMonthLabel"></div>
+            <button class="cal-nav" onclick="calNav(1)" aria-label="Mes siguiente">&#8250;</button>
+          </div>
+          <div class="cal-weekdays"><div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div></div>
+          <div class="cal-grid" id="calGrid"></div>
+        </div>
+        <div class="cal-side" id="calSide"></div>
+      </div>
+
       <div class="section-title">Repositorio de proyectos</div>
       <div class="gestion-grid" style="grid-template-columns:1fr">
         <button class="gestion-card" onclick="go('flujoiniciativas', null); openGroupFor('navManagement')">
@@ -937,11 +955,6 @@
           <div class="tool-card-text"><div class="tool-card-title">Playbooks (Admin / Supervisores)</div><div class="tool-card-sub">Guías paso a paso para llenar el Form y para correr el proceso mensual.</div></div>
           <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
         </a>
-        <a class="tool-card wide" href="#" onclick="return false;">
-          <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10M18 20V4M6 20v-6"/></svg></div>
-          <div class="tool-card-text"><div class="tool-card-title">Grids clasificados</div><div class="tool-card-sub">Tableros de KPI y clasificación de operaciones por sitio.</div></div>
-          <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
-        </a>
         <a class="tool-card wide" href="#" onclick="go('slides', document.getElementById('navSlides')); openGroupFor('navManagement'); return false;">
           <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5Z"/><path d="M9 20h6M12 16v4"/></svg></div>
           <div class="tool-card-text"><div class="tool-card-title">Generador de Slide Ejecutivo</div><div class="tool-card-sub">Arma el slide de status de un proyecto Lean (KPIs, fases, obstáculos) y expórtalo listo para la junta.</div></div>
@@ -957,20 +970,6 @@
           <div class="tool-card-text"><div class="tool-card-title">Slip Robots (Big Rocks · FirstMile)</div><div class="tool-card-sub">Scorecard de priorización de rutas LH Ground para despliegue de robots (Multiplicadores/Optimizadores/Tácticos/Estáticos).</div></div>
           <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
         </a>
-      </div>
-
-      <div class="section-title">Fechas relevantes</div>
-      <div class="cal-wrap">
-        <div class="cal-main">
-          <div class="cal-hdr">
-            <button class="cal-nav" onclick="calNav(-1)" aria-label="Mes anterior">&#8249;</button>
-            <div class="cal-month-label" id="calMonthLabel"></div>
-            <button class="cal-nav" onclick="calNav(1)" aria-label="Mes siguiente">&#8250;</button>
-          </div>
-          <div class="cal-weekdays"><div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div></div>
-          <div class="cal-grid" id="calGrid"></div>
-        </div>
-        <div class="cal-side" id="calSide"></div>
       </div>
 
       <div class="section-title">Ideas y sugerencias</div>
@@ -1895,6 +1894,7 @@
       var oeToday = oeDates.filter(function (o) { return o.day === d; });
       var cls = 'cal-cell';
       if (hol) cls += ' cal-holiday';
+      else if (oeToday.length && oeToday[0].color) cls += ' cal-oe-' + oeToday[0].color;
       if (today.getFullYear() === y && today.getMonth() === m && today.getDate() === d) cls += ' cal-today';
       var dots = oeToday.map(function (o) { return '<span class="cal-dot ' + (o.color || '') + '"></span>'; }).join('');
       cellsHtml += '<div class="' + cls + '" title="' + (hol ? calT(hol.label).replace(/"/g, '&quot;') : '') + '">'
@@ -2315,8 +2315,6 @@
     'Arma los 4 newsletters a partir de los Excel del equipo, con corrector ortográfico e historial.':'Builds the 4 newsletters from the team\'s Excel files, with spell-check and history.',
     'Playbooks (Admin / Supervisores)':'Playbooks (Admin / Supervisors)',
     'Guías paso a paso para llenar el Form y para correr el proceso mensual.':'Step-by-step guides for filling out the Form and running the monthly process.',
-    'Grids clasificados':'Classified Grids',
-    'Tableros de KPI y clasificación de operaciones por sitio.':'KPI boards and site operation rankings.',
     'Generador de Slide Ejecutivo':'Executive Slide Generator',
     'Arma el slide de status de un proyecto Lean (KPIs, fases, obstáculos) y expórtalo listo para la junta.':'Builds the status slide for a Lean project (KPIs, phases, obstacles) and exports it ready for the meeting.',
     'Abrir herramienta':'Open tool',
@@ -2602,8 +2600,6 @@
     'Arma los 4 newsletters a partir de los Excel del equipo, con corrector ortográfico e historial.':'Monta os 4 newsletters a partir dos Excel da equipe, com corretor ortográfico e histórico.',
     'Playbooks (Admin / Supervisores)':'Playbooks (Admin / Supervisores)',
     'Guías paso a paso para llenar el Form y para correr el proceso mensual.':'Guias passo a passo para preencher o Form e para rodar o processo mensal.',
-    'Grids clasificados':'Grids classificados',
-    'Tableros de KPI y clasificación de operaciones por sitio.':'Painéis de KPI e classificação das operações por site.',
     'Generador de Slide Ejecutivo':'Gerador de Slide Executivo',
     'Arma el slide de status de un proyecto Lean (KPIs, fases, obstáculos) y expórtalo listo para la junta.':'Monta o slide de status de um projeto Lean (KPIs, fases, obstáculos) e exporta pronto para a reunião.',
     'Abrir herramienta':'Abrir ferramenta',
