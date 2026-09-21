@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Señalética de Aperturas — SVC</title>
 <link rel="icon" type="image/svg+xml" href="../media/favicon.svg">
-<script src="lib/xlsx.full.min.js"></script>
+<script src="lib/exceljs.min.js"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -149,6 +149,14 @@ table.cart-table tr:last-child td { border-bottom:none; }
 ::-webkit-scrollbar { width:8px; height:8px; }
 ::-webkit-scrollbar-thumb { background:#CCC; border-radius:4px; }
 ::-webkit-scrollbar-thumb:hover { background:#AAA; }
+
+/* ── LIGHTBOX DE IMAGEN ── */
+.img-lightbox { position:fixed; inset:0; background:rgba(0,0,0,0.78); display:none; align-items:center; justify-content:center; flex-direction:column; gap:14px; z-index:999; padding:30px; }
+.img-lightbox.show { display:flex; }
+.img-lightbox img { max-width:min(760px,92vw); max-height:72vh; width:auto; height:auto; object-fit:contain; background:#fff; border-radius:10px; padding:26px; image-rendering:auto; box-shadow:0 20px 60px rgba(0,0,0,0.4); }
+.lightbox-cap { color:#FFF; font-size:13.5px; font-weight:700; text-align:center; }
+.lightbox-close { position:fixed; top:22px; right:26px; background:rgba(255,255,255,0.12); border:none; color:#FFF; font-size:20px; width:36px; height:36px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.lightbox-close:hover { background:rgba(255,255,255,0.22); }
 </style>
 </head>
 <body>
@@ -325,6 +333,12 @@ table.cart-table tr:last-child td { border-bottom:none; }
 </div>
 
 <div class="toast" id="toast"><div class="dot"></div><span id="toastMsg"></span></div>
+
+<div class="img-lightbox" id="imgLightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox(event)" aria-label="Cerrar">×</button>
+  <img id="imgLightboxImg" src="" alt="">
+  <div class="lightbox-cap" id="imgLightboxCap"></div>
+</div>
 
 <script>
 const CATALOG = {
@@ -2544,7 +2558,7 @@ function renderZoneSection(containerId, items, tipo) {
       card.className = 'item-card' + (c.checked ? ' on' : '');
       card.id = 'card-' + it.id;
       card.innerHTML = `
-        <div class="item-card-img" ${it.imagen ? `onclick="window.open('${it.imagen}','_blank')"` : ''}>
+        <div class="item-card-img" ${it.imagen ? `onclick="openLightbox('${it.imagen}','${it.nombre.replace(/'/g, "\\'")}')"` : ''}>
           ${it.imagen ? `<img src="${it.imagen}" alt="${it.nombre}" loading="lazy">` : `<span class="item-card-img-empty">Sin imagen</span>`}
         </div>
         <div class="item-card-body">
@@ -2572,6 +2586,21 @@ function renderZoneSection(containerId, items, tipo) {
     updateZoneBadge(tipo, idx, zItems);
   });
 }
+
+function openLightbox(src, name) {
+  document.getElementById('imgLightboxImg').src = src;
+  document.getElementById('imgLightboxImg').alt = name;
+  document.getElementById('imgLightboxCap').textContent = name;
+  document.getElementById('imgLightbox').classList.add('show');
+}
+function closeLightbox(e) {
+  if (e.target.id === 'imgLightbox' || e.target.classList.contains('lightbox-close')) {
+    document.getElementById('imgLightbox').classList.remove('show');
+  }
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') document.getElementById('imgLightbox').classList.remove('show');
+});
 
 function setImgSize(compact) {
   imgSizeCompact = compact;
@@ -2742,7 +2771,7 @@ function showToast(msg) {
   });
 });
 
-function exportExcel() {
+async function exportExcel() {
   const allItems = [...CATALOG.fijos, ...CATALOG.variables, ...CATALOG.opcionales];
   const selected = allItems.filter(it => cart[it.id].checked && cart[it.id].cantidad > 0);
 
@@ -2751,64 +2780,166 @@ function exportExcel() {
     return;
   }
 
-  const siteCode = document.getElementById('siteCode').value || 'SITE';
-  const siteType = document.getElementById('siteType').value;
-  const siteSize = document.getElementById('siteSize').value;
-  const siteCity = document.getElementById('siteCity').value;
-  const siteRegion = document.getElementById('siteRegion').value;
-  const siteAddress = document.getElementById('siteAddress').value;
-  const siteGoLive = document.getElementById('siteGoLive').value;
-  const siteInstall = document.getElementById('siteInstall').value;
-  const siteOwner = document.getElementById('siteOwner').value;
-  const siteEmail = document.getElementById('siteEmail').value;
+  const btn = document.getElementById('btnExport');
+  const btnLabel = btn ? btn.textContent : '';
+  if (btn) { btn.disabled = true; btn.textContent = 'Generando…'; }
 
-  const today = new Date();
-  const todayStr = today.toLocaleDateString('es-MX');
+  try {
+    const siteCode = document.getElementById('siteCode').value || 'SITE';
+    const siteType = document.getElementById('siteType').value;
+    const siteSize = document.getElementById('siteSize').value;
+    const siteCity = document.getElementById('siteCity').value;
+    const siteRegion = document.getElementById('siteRegion').value;
+    const siteAddress = document.getElementById('siteAddress').value;
+    const siteGoLive = document.getElementById('siteGoLive').value;
+    const siteInstall = document.getElementById('siteInstall').value;
+    const siteOwner = document.getElementById('siteOwner').value;
+    const siteEmail = document.getElementById('siteEmail').value;
+    const today = new Date();
+    const todayStr = today.toLocaleDateString('es-MX');
 
-  const caratulaRows = [
-    ['REQUERIMIENTO DE SEÑALÉTICA — SVC TRANSPORTES', ''],
-    ['Generado con la Herramienta de Señalética de Aperturas — OE Hub', ''],
-    ['', ''],
-    ['DATOS DEL SITIO', ''],
-    ['Nombre / Código del sitio', siteCode],
-    ['Tipo de operación', siteType],
-    ['Tamaño estimado', siteSize],
-    ['Ciudad', siteCity],
-    ['Región', siteRegion],
-    ['Dirección', siteAddress],
-    ['', ''],
-    ['FECHAS Y LOGÍSTICA', ''],
-    ['Fecha Go Live', siteGoLive],
-    ['Fecha de Instalación', siteInstall],
-    ['', ''],
-    ['ELABORACIÓN', ''],
-    ['Elaborado por', siteOwner],
-    ['Fecha de elaboración', todayStr],
-    ['Contacto MELI (correo)', siteEmail],
-  ];
+    const wb = new ExcelJS.Workbook();
+    wb.creator = 'OE Hub — Señalética de Aperturas';
+    wb.created = today;
+    const setFill = (cell, argb) => { cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb } }; };
 
-  const reqHeader = ['Categoría / Zona', 'Código / Nombre del Artículo (Modelo Estándar)', 'Medidas', 'Color', 'Material', 'Colocación', 'Instalación', 'Cantidad Requerida', 'Unidad de Medida', 'Especificaciones/ Comments', 'Imagen de Referencia', 'Slide Toolkit'];
-  const reqRows = [reqHeader];
-  selected.forEach(it => {
-    const c = cart[it.id];
-    reqRows.push([
-      it.zona, it.nombre, it.medidas, it.color, it.material, it.colocacion, it.instalacion,
-      c.cantidad, it.unidad, it.especificaciones, '', it.toolkit || ''
-    ]);
-  });
+    // ===== CARÁTULA — mismo estilo que la plantilla oficial =====
+    const cw = wb.addWorksheet('Carátula');
+    cw.getColumn(1).width = 3;
+    cw.getColumn(2).width = 34;
+    cw.getColumn(3).width = 46;
 
-  const wb = XLSX.utils.book_new();
-  const wsCaratula = XLSX.utils.aoa_to_sheet(caratulaRows);
-  wsCaratula['!cols'] = [{ wch: 34 }, { wch: 50 }];
-  const wsReq = XLSX.utils.aoa_to_sheet(reqRows);
-  wsReq['!cols'] = [{ wch: 22 }, { wch: 42 }, { wch: 24 }, { wch: 22 }, { wch: 28 }, { wch: 18 }, { wch: 30 }, { wch: 10 }, { wch: 10 }, { wch: 22 }, { wch: 14 }, { wch: 12 }];
+    cw.mergeCells('B2:C2');
+    const titleCell = cw.getCell('B2');
+    titleCell.value = 'REQUERIMIENTO DE SEÑALÉTICA — SVC TRANSPORTES';
+    titleCell.font = { bold: true, size: 14, name: 'Arial' };
+    setFill(titleCell, 'FFFFE300');
+    titleCell.alignment = { vertical: 'middle' };
+    cw.getRow(2).height = 26;
 
-  XLSX.utils.book_append_sheet(wb, wsCaratula, 'Carátula');
-  XLSX.utils.book_append_sheet(wb, wsReq, 'Requerimiento');
+    cw.mergeCells('B3:C3');
+    cw.getCell('B3').value = 'Generado con la Herramienta de Señalética de Aperturas — OE Hub';
+    cw.getCell('B3').font = { italic: true, size: 9.5, name: 'Arial', color: { argb: 'FF888888' } };
 
-  const fname = `OrdenCompra_Senaletica_${siteCode}_${today.toISOString().slice(0,10)}.xlsx`;
-  XLSX.writeFile(wb, fname);
-  showToast(`Excel generado: ${fname}`);
+    function sectionRow(r, label) {
+      cw.mergeCells(`B${r}:C${r}`);
+      const c = cw.getCell(`B${r}`);
+      c.value = label;
+      c.font = { bold: true, size: 11, name: 'Arial', color: { argb: 'FFFFFFFF' } };
+      setFill(c, 'FF333333');
+      cw.getRow(r).height = 20;
+    }
+    function labelValueRow(r, label, value) {
+      const lc = cw.getCell(`B${r}`);
+      lc.value = label;
+      lc.font = { bold: true, size: 10.5, name: 'Arial' };
+      const vc = cw.getCell(`C${r}`);
+      vc.value = value || '';
+      vc.font = { size: 10.5, name: 'Arial' };
+      setFill(vc, 'FFFFF2CC');
+    }
+
+    sectionRow(5, 'DATOS DEL SITIO');
+    labelValueRow(6, 'Nombre / Código del sitio', siteCode);
+    labelValueRow(7, 'Tipo de operación', siteType);
+    labelValueRow(8, 'Tamaño estimado', siteSize);
+    labelValueRow(9, 'Ciudad', siteCity);
+    labelValueRow(10, 'Región', siteRegion);
+    labelValueRow(11, 'Dirección', siteAddress);
+
+    sectionRow(13, 'FECHAS Y LOGÍSTICA');
+    labelValueRow(14, 'Fecha Go Live', siteGoLive);
+    labelValueRow(15, 'Fecha de Instalación', siteInstall);
+
+    sectionRow(17, 'ELABORACIÓN');
+    labelValueRow(18, 'Elaborado por', siteOwner);
+    labelValueRow(19, 'Fecha de elaboración', todayStr);
+    labelValueRow(20, 'Contacto MELI (correo)', siteEmail);
+
+    // ===== REQUERIMIENTO — mismas columnas, anchos e imagen por fila =====
+    const rw = wb.addWorksheet('Requerimiento');
+    const reqHeader = ['Categoría / Zona', 'Código / Nombre del Artículo (Modelo Estándar)', 'Medidas', 'Color', 'Material', 'Colocación', 'Instalación', 'Detalle sembrado', 'Cantidad Requerida', 'Unidad de Medida', 'Especificaciones/ Comments', 'Imagen de Referencia', 'Slide Toolkit'];
+    const colWidths = [16.63, 33.25, 19.25, 17.5, 19.25, 17.5, 19.25, 22.5, 13.0, 13.38, 25.25, 32.13, 16.25];
+    colWidths.forEach((w, i) => { rw.getColumn(i + 1).width = w; });
+
+    const headerRow = rw.getRow(1);
+    reqHeader.forEach((h, i) => {
+      const cell = headerRow.getCell(i + 1);
+      cell.value = h;
+      cell.font = { bold: true, size: 11, name: 'Arial' };
+      setFill(cell, 'FFFFE300');
+      cell.alignment = { vertical: 'middle', wrapText: true };
+    });
+    headerRow.height = 33.75;
+
+    for (let i = 0; i < selected.length; i++) {
+      const it = selected[i];
+      const c = cart[it.id];
+      const r = rw.getRow(i + 2);
+      const vals = [it.zona, it.nombre, it.medidas, it.color, it.material, it.colocacion, it.instalacion, '', c.cantidad, it.unidad, it.especificaciones, '', it.toolkit || ''];
+      vals.forEach((v, ci) => {
+        const cell = r.getCell(ci + 1);
+        cell.value = v;
+        cell.font = { size: 10, name: 'Arial' };
+        cell.alignment = { vertical: 'top', wrapText: true };
+      });
+      r.height = 72;
+
+      if (it.imagen) {
+        try {
+          const resp = await fetch(it.imagen);
+          const blob = await resp.blob();
+          const buf = await blob.arrayBuffer();
+          let w = 180, h = 80;
+          try {
+            const bitmap = await createImageBitmap(blob);
+            h = 80;
+            w = Math.min(220, Math.round(bitmap.width * (h / bitmap.height)));
+          } catch (e2) { /* si no se puede leer el tamaño, se usa el default */ }
+          const ext = /\.jpe?g$/i.test(it.imagen) ? 'jpeg' : 'png';
+          const imgId = wb.addImage({ buffer: new Uint8Array(buf), extension: ext });
+          rw.addImage(imgId, { tl: { col: 11, row: i + 1 }, ext: { width: w, height: h }, editAs: 'oneCell' });
+        } catch (e) { /* si falla una imagen puntual, la fila queda sin imagen pero no se detiene el export */ }
+      }
+    }
+
+    // ===== OBSERVACIONES =====
+    const ow = wb.addWorksheet('Observaciones');
+    ow.getColumn(1).width = 26;
+    ow.getColumn(2).width = 70;
+    ['Tema', 'Detalle'].forEach((h, i) => {
+      const cell = ow.getRow(1).getCell(i + 1);
+      cell.value = h;
+      cell.font = { bold: true, size: 11, name: 'Arial' };
+      setFill(cell, 'FFFFE300');
+    });
+    [
+      ['Alcance', 'Orden de compra generada con la Herramienta de Señalética de Aperturas del OE Hub, a partir del levantamiento oficial de señalética SVC.'],
+      ['Cantidad Requerida', 'Las cantidades de los artículos variables y opcionales fueron capturadas o ajustadas manualmente para este sitio.'],
+      ['Columna Slide Toolkit (PPT)', 'Indica la slide del Toolkit Branding Ops Transportes con el arquetipo de diseño de cada artículo, como referencia de fabricación.'],
+    ].forEach((row, i) => {
+      const r = ow.getRow(i + 2);
+      r.getCell(1).value = row[0];
+      r.getCell(1).font = { bold: true, size: 10, name: 'Arial' };
+      r.getCell(2).value = row[1];
+      r.getCell(2).font = { size: 10, name: 'Arial' };
+      r.getCell(2).alignment = { wrapText: true };
+    });
+
+    const fname = `OrdenCompra_Senaletica_${siteCode}_${today.toISOString().slice(0,10)}.xlsx`;
+    const buffer = await wb.xlsx.writeBuffer();
+    const blob = new Blob([buffer], { type: 'application/octet-stream' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = fname;
+    a.click();
+    showToast(`Excel generado: ${fname}`);
+  } catch (err) {
+    console.error(err);
+    showToast('No se pudo generar el Excel. Contacta a Larry Beresford.');
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = btnLabel; }
+  }
 }
 
 initCatalog();
