@@ -96,18 +96,27 @@ textarea { min-height: 52px; }
 .zone-body { display:none; padding: 4px 10px 8px; }
 .zone-group.open .zone-body { display:block; }
 
-.items-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(230px,1fr)); gap:14px; padding:6px 2px 12px; }
+.items-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(190px,1fr)); gap:12px; padding:6px 2px 12px; }
 .items-grid.compact { grid-template-columns:repeat(auto-fill, minmax(150px,1fr)); gap:10px; }
 .item-card { border:1px solid #E5E5E5; border-radius:10px; overflow:hidden; background:#FFF; display:flex; flex-direction:column; transition:border-color .15s, box-shadow .15s; }
 .item-card.on { border-color:var(--yellow); box-shadow:0 0 0 1.5px var(--yellow) inset; }
-.item-card-img { height:170px; background:#FAFAFA; display:flex; align-items:center; justify-content:center; cursor:zoom-in; }
+.item-card-img { height:128px; background:#FAFAFA; display:flex; align-items:center; justify-content:center; cursor:zoom-in; position:relative; }
 .items-grid.compact .item-card-img { height:96px; }
 .item-card-img img { max-width:100%; max-height:100%; object-fit:contain; }
 .item-card-img-empty { color:#CCC; font-size:10.5px; }
+.item-tag { position:absolute; top:6px; left:6px; font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:0.4px; padding:2px 7px; border-radius:10px; }
+.item-tag-fijo { background:#111; color:var(--yellow); }
+.item-tag-variable { background:#E9F3FF; color:#1A5FBF; }
+.item-tag-opcional { background:#F3EEFF; color:#5B21B6; }
 .item-card-body { padding:10px 12px 11px; display:flex; flex-direction:column; gap:7px; flex:1; }
 .item-card-name { font-size:12.5px; font-weight:700; color:#222; line-height:1.32; }
 .items-grid.compact .item-card-name { font-size:11px; }
 .item-card-meta { font-size:10px; color:#999; }
+.item-card-comment label { font-size:9px; font-weight:700; color:#999; text-transform:uppercase; letter-spacing:0.3px; display:block; margin-bottom:2px; }
+.item-card-comment.required label { color:var(--red); }
+.item-card-comment .comment-input { width:100%; border:1px solid #DDD; border-radius:5px; padding:5px 8px; font-size:11px; font-family:var(--font); }
+.item-card-comment.required .comment-input { border-color:#F3B9B9; }
+.item-card-comment.required .comment-input:placeholder-shown { background:#FFF7F7; }
 .item-card-foot { display:flex; align-items:center; justify-content:space-between; margin-top:auto; gap:8px; padding-top:4px; }
 .item-card-incl { display:flex; align-items:center; gap:5px; font-size:10.5px; color:#666; cursor:pointer; user-select:none; }
 .item-card-incl input { width:14px; height:14px; accent-color:var(--yellow); cursor:pointer; }
@@ -265,7 +274,7 @@ table.cart-table tr:last-child td { border-bottom:none; }
         <span class="ttl">Artículos fijos</span>
         <span class="count" id="fijosCount"></span>
       </div>
-      <div class="fixed-note">Se incluyen automáticamente en cualquier apertura, con su cantidad estándar. Puedes desmarcar o ajustar la cantidad de alguno si este sitio en particular no lo requiere.</div>
+      <div class="fixed-note">Se incluyen automáticamente en cualquier apertura, con su cantidad estándar. Puedes desmarcar o ajustar la cantidad de alguno si este sitio en particular no lo requiere. La etiqueta "Estándar" es solo una recomendación de kit.</div>
       <div id="fijosZones"></div>
     </div>
 
@@ -274,16 +283,16 @@ table.cart-table tr:last-child td { border-bottom:none; }
         <span class="ttl">Artículos variables</span>
         <span class="count" id="variablesCount"></span>
       </div>
-      <div class="fixed-note">Su cantidad depende de la infraestructura real del sitio (número de docas, baños, estaciones, etc.). Marca los que aplican y ajusta la cantidad.</div>
+      <div class="fixed-note">Su cantidad depende de la infraestructura real del sitio (número de docas, baños, estaciones, etc.). Marca los que aplican y ajusta la cantidad. La etiqueta "Variable" es solo una recomendación.</div>
       <div id="variablesZones"></div>
     </div>
 
     <div class="form-section">
       <div class="form-section-title">
-        <span class="ttl">Artículos opcionales</span>
+        <span class="ttl">Artículos opcionales — sección comodín</span>
         <span class="count" id="opcionalesCount"></span>
       </div>
-      <div class="fixed-note">Solo aplican si el sitio tiene esa característica particular (zonas especiales, graphic floor, seguridad, etc.).</div>
+      <div class="fixed-note">Alternativa al kit estándar: se deja vacía o casi vacía, solo para casos muy específicos (zonas especiales, graphic floor, seguridad, etc.).</div>
       <div id="opcionalesZones"></div>
     </div>
 
@@ -346,6 +355,7 @@ const CATALOG = {
   {
    "id": "fij-1",
    "tipo": "fijo",
+   "comentarioObligatorio": true,
    "zona": "Fachada / Ingreso",
    "nombre": "Isologo Corporativo Iluminado (pared)",
    "medidas": "235 cm Largo x 135 cm Alto",
@@ -362,6 +372,7 @@ const CATALOG = {
   {
    "id": "fij-2",
    "tipo": "fijo",
+   "comentarioObligatorio": true,
    "zona": "Fachada / Ingreso",
    "nombre": "Corpóreo Letras 'WOW' 3D",
    "medidas": "345x120",
@@ -378,6 +389,7 @@ const CATALOG = {
   {
    "id": "fij-3",
    "tipo": "fijo",
+   "comentarioObligatorio": true,
    "zona": "Fachada / Ingreso",
    "nombre": "Corpóreo Letras 'MELI' 3D",
    "medidas": "Frente 172x55.6cm\nCaja 20x20x20cm\n",
@@ -394,6 +406,7 @@ const CATALOG = {
   {
    "id": "fij-4",
    "tipo": "fijo",
+   "comentarioObligatorio": true,
    "zona": "Fachada / Ingreso",
    "nombre": "Vinilo MELI",
    "medidas": "A definir según el espacio",
@@ -2514,77 +2527,59 @@ const CATALOG = {
 const cart = {};
 
 function initCatalog() {
-  CATALOG.fijos.forEach(it => { const q = parseInt(it.cantidadDefault, 10); cart[it.id] = { item: it, cantidad: (isNaN(q) || q <= 0) ? 1 : q, checked: true }; });
-  CATALOG.variables.forEach(it => { const q = parseInt(it.cantidadDefault, 10); const n = isNaN(q) ? 0 : q; cart[it.id] = { item: it, cantidad: n, checked: n > 0 }; });
-  CATALOG.opcionales.forEach(it => { const q = parseInt(it.cantidadDefault, 10); const n = isNaN(q) ? 0 : q; cart[it.id] = { item: it, cantidad: n, checked: n > 0 }; });
-}
-
-function groupByZone(items) {
-  const groups = {};
-  items.forEach(it => {
-    const z = it.zona || 'Sin categoría';
-    if (!groups[z]) groups[z] = [];
-    groups[z].push(it);
-  });
-  return groups;
+  CATALOG.fijos.forEach(it => { const q = parseInt(it.cantidadDefault, 10); cart[it.id] = { item: it, cantidad: (isNaN(q) || q <= 0) ? 1 : q, checked: true, comentario: '' }; });
+  CATALOG.variables.forEach(it => { const q = parseInt(it.cantidadDefault, 10); const n = isNaN(q) ? 0 : q; cart[it.id] = { item: it, cantidad: n, checked: n > 0, comentario: '' }; });
+  CATALOG.opcionales.forEach(it => { const q = parseInt(it.cantidadDefault, 10); const n = isNaN(q) ? 0 : q; cart[it.id] = { item: it, cantidad: n, checked: n > 0, comentario: '' }; });
 }
 
 let imgSizeCompact = false;
 
-function renderZoneSection(containerId, items, tipo) {
+const TIPO_TAG_LABEL = { fijo: 'Estándar', variable: 'Variable', opcional: 'Opcional' };
+
+function renderFlatSection(containerId, items, tipo) {
   const container = document.getElementById(containerId);
-  const groups = groupByZone(items);
   container.innerHTML = '';
-  Object.keys(groups).forEach((zona, idx) => {
-    const zItems = groups[zona];
-    const wrap = document.createElement('div');
-    wrap.className = 'zone-group';
-    wrap.id = 'zg-' + tipo + '-' + idx;
+  const grid = document.createElement('div');
+  grid.className = 'items-grid' + (imgSizeCompact ? ' compact' : '');
 
-    const head = document.createElement('div');
-    head.className = 'zone-head';
-    head.onclick = () => wrap.classList.toggle('open');
-    head.innerHTML = `<span class="zname"><svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M9 6l6 6-6 6"/></svg>${zona}</span><span class="zbadge" id="zb-${tipo}-${idx}">0/${zItems.length}</span>`;
-
-    const body = document.createElement('div');
-    body.className = 'zone-body';
-
-    const grid = document.createElement('div');
-    grid.className = 'items-grid' + (imgSizeCompact ? ' compact' : '');
-
-    zItems.forEach(it => {
-      const c = cart[it.id];
-      const card = document.createElement('div');
-      card.className = 'item-card' + (c.checked ? ' on' : '');
-      card.id = 'card-' + it.id;
-      card.innerHTML = `
-        <div class="item-card-img" ${it.imagen ? `onclick="openLightbox('${it.imagen}','${it.nombre.replace(/'/g, "\\'")}')"` : ''}>
-          ${it.imagen ? `<img src="${it.imagen}" alt="${it.nombre}" loading="lazy">` : `<span class="item-card-img-empty">Sin imagen</span>`}
+  items.forEach(it => {
+    const c = cart[it.id];
+    const card = document.createElement('div');
+    card.className = 'item-card' + (c.checked ? ' on' : '');
+    card.id = 'card-' + it.id;
+    const reqComment = !!it.comentarioObligatorio;
+    card.innerHTML = `
+      <div class="item-card-img" ${it.imagen ? `onclick="openLightbox('${it.imagen}','${it.nombre.replace(/'/g, "\\'")}')"` : ''}>
+        ${it.imagen ? `<img src="${it.imagen}" alt="${it.nombre}" loading="lazy">` : `<span class="item-card-img-empty">Sin imagen</span>`}
+        <span class="item-tag item-tag-${tipo}">${TIPO_TAG_LABEL[tipo]}</span>
+      </div>
+      <div class="item-card-body">
+        <div class="item-card-name">${it.nombre}</div>
+        <div class="item-card-meta">${it.medidas || ''}${it.medidas && it.colocacion ? ' · ' : ''}${it.colocacion || ''}</div>
+        <div class="item-card-comment${reqComment ? ' required' : ''}">
+          <label>${reqComment ? 'Comentario (requerido)' : 'Comentario (opcional)'}</label>
+          <input type="text" class="comment-input" id="cmt-${it.id}" value="${(c.comentario || '').replace(/"/g, '&quot;')}" placeholder="${reqComment ? 'Ej. SMRX...' : 'Opcional'}" onchange="setComment('${it.id}', this.value)">
         </div>
-        <div class="item-card-body">
-          <div class="item-card-name">${it.nombre}</div>
-          <div class="item-card-meta">${it.medidas || ''}${it.medidas && it.colocacion ? ' · ' : ''}${it.colocacion || ''}</div>
-          <div class="item-card-foot">
-            <label class="item-card-incl">
-              <input type="checkbox" id="chk-${it.id}" ${c.checked ? 'checked' : ''} onchange="toggleItem('${it.id}','${tipo}',${idx})">
-              Incluir
-            </label>
-            <div class="item-qty">
-              <button class="qty-btn" onclick="stepQty('${it.id}',-1,'${tipo}',${idx})">−</button>
-              <input class="qty-input" type="number" min="0" id="qty-${it.id}" value="${c.cantidad}" onchange="setQty('${it.id}',this.value,'${tipo}',${idx})">
-              <button class="qty-btn" onclick="stepQty('${it.id}',1,'${tipo}',${idx})">+</button>
-            </div>
+        <div class="item-card-foot">
+          <label class="item-card-incl">
+            <input type="checkbox" id="chk-${it.id}" ${c.checked ? 'checked' : ''} onchange="toggleItem('${it.id}')">
+            Incluir
+          </label>
+          <div class="item-qty">
+            <button class="qty-btn" onclick="stepQty('${it.id}',-1)">−</button>
+            <input class="qty-input" type="number" min="0" id="qty-${it.id}" value="${c.cantidad}" onchange="setQty('${it.id}',this.value)">
+            <button class="qty-btn" onclick="stepQty('${it.id}',1)">+</button>
           </div>
-        </div>`;
-      grid.appendChild(card);
-    });
-
-    body.appendChild(grid);
-    wrap.appendChild(head);
-    wrap.appendChild(body);
-    container.appendChild(wrap);
-    updateZoneBadge(tipo, idx, zItems);
+        </div>
+      </div>`;
+    grid.appendChild(card);
   });
+
+  container.appendChild(grid);
+}
+
+function setComment(id, val) {
+  cart[id].comentario = val;
 }
 
 function openLightbox(src, name) {
@@ -2623,16 +2618,7 @@ function goStep(n) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function updateZoneBadge(tipo, idx, zItems) {
-  const on = zItems.filter(it => cart[it.id].checked).length;
-  const badge = document.getElementById(`zb-${tipo}-${idx}`);
-  if (badge) {
-    badge.textContent = `${on}/${zItems.length}`;
-    badge.classList.toggle('on', on > 0);
-  }
-}
-
-function toggleItem(id, tipo, idx) {
+function toggleItem(id) {
   cart[id].checked = document.getElementById('chk-' + id).checked;
   if (cart[id].checked && cart[id].cantidad <= 0) {
     cart[id].cantidad = 1;
@@ -2640,14 +2626,11 @@ function toggleItem(id, tipo, idx) {
   }
   const card = document.getElementById('card-' + id);
   if (card) card.classList.toggle('on', cart[id].checked);
-  const items = tipo === 'fijo' ? CATALOG.fijos : tipo === 'variable' ? CATALOG.variables : CATALOG.opcionales;
-  const zona = cart[id].item.zona;
-  updateZoneBadge(tipo, idx, items.filter(it => it.zona === zona));
   renderCart();
   renderCounts();
 }
 
-function setQty(id, val, tipo, idx) {
+function setQty(id, val) {
   let n = parseInt(val, 10);
   if (isNaN(n) || n < 0) n = 0;
   cart[id].cantidad = n;
@@ -2656,16 +2639,13 @@ function setQty(id, val, tipo, idx) {
   document.getElementById('qty-' + id).value = n;
   const card = document.getElementById('card-' + id);
   if (card) card.classList.toggle('on', cart[id].checked);
-  const items = tipo === 'fijo' ? CATALOG.fijos : tipo === 'variable' ? CATALOG.variables : CATALOG.opcionales;
-  const zona = cart[id].item.zona;
-  updateZoneBadge(tipo, idx, items.filter(it => it.zona === zona));
   renderCart();
   renderCounts();
 }
 
-function stepQty(id, delta, tipo, idx) {
+function stepQty(id, delta) {
   const cur = parseInt(document.getElementById('qty-' + id).value, 10) || 0;
-  setQty(id, cur + delta, tipo, idx);
+  setQty(id, cur + delta);
 }
 
 function renderCounts() {
@@ -2713,23 +2693,13 @@ function renderCart() {
   document.getElementById('cartSiteLine').textContent = type ? `${code} · ${type}` : code;
 }
 
-function findTipoIdx(id) {
-  const tipo = cart[id].item.tipo;
-  const arr = tipo === 'fijo' ? CATALOG.fijos : tipo === 'variable' ? CATALOG.variables : CATALOG.opcionales;
-  const zona = cart[id].item.zona;
-  const zonas = [...new Set(arr.map(it => it.zona))];
-  const idx = zonas.indexOf(zona);
-  return { tipo, idx, arr };
-}
-
 function stepQtyGlobal(id, delta) {
   const cur = parseInt(cart[id].cantidad, 10) || 0;
   setQtyGlobal(id, cur + delta);
 }
 
 function setQtyGlobal(id, val) {
-  const { tipo, idx } = findTipoIdx(id);
-  setQty(id, val, tipo, idx);
+  setQty(id, val);
   const qtyInput = document.getElementById('qty-' + id);
   if (qtyInput) qtyInput.value = cart[id].cantidad;
   const chk = document.getElementById('chk-' + id);
@@ -2749,9 +2719,9 @@ function resetAll() {
 }
 
 function renderAll() {
-  renderZoneSection('fijosZones', CATALOG.fijos, 'fijo');
-  renderZoneSection('variablesZones', CATALOG.variables, 'variable');
-  renderZoneSection('opcionalesZones', CATALOG.opcionales, 'opcional');
+  renderFlatSection('fijosZones', CATALOG.fijos, 'fijo');
+  renderFlatSection('variablesZones', CATALOG.variables, 'variable');
+  renderFlatSection('opcionalesZones', CATALOG.opcionales, 'opcional');
   renderCounts();
   renderCart();
 }
@@ -2778,6 +2748,12 @@ async function exportExcel() {
   if (selected.length === 0) {
     showToast('Agrega al menos un artículo antes de generar la orden.');
     return;
+  }
+
+  const faltantes = selected.filter(it => it.comentarioObligatorio && !(cart[it.id].comentario || '').trim());
+  if (faltantes.length > 0) {
+    const nombres = faltantes.map(it => it.nombre).join(', ');
+    if (!confirm(`Falta el comentario requerido en: ${nombres}.\n¿Generar el Excel igual?`)) return;
   }
 
   const btn = document.getElementById('btnExport');
@@ -2876,7 +2852,8 @@ async function exportExcel() {
       const it = selected[i];
       const c = cart[it.id];
       const r = rw.getRow(i + 2);
-      const vals = [it.zona, it.nombre, it.medidas, it.color, it.material, it.colocacion, it.instalacion, '', c.cantidad, it.unidad, it.especificaciones, '', it.toolkit || ''];
+      const comentarioFinal = [it.especificaciones, c.comentario].filter(v => v && String(v).trim()).join(' — ');
+      const vals = [it.zona, it.nombre, it.medidas, it.color, it.material, it.colocacion, it.instalacion, '', c.cantidad, it.unidad, comentarioFinal, '', it.toolkit || ''];
       vals.forEach((v, ci) => {
         const cell = r.getCell(ci + 1);
         cell.value = v;
