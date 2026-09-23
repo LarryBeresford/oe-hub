@@ -6,6 +6,12 @@
 <title>Señalética de Aperturas — SVC</title>
 <link rel="icon" type="image/svg+xml" href="../media/favicon.svg">
 <script src="lib/exceljs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+  if (window.pdfjsLib) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  }
+</script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -385,12 +391,12 @@ table.cart-table tr:last-child td { border-bottom:none; }
 
       <div class="sembrado-board-wrap">
         <div class="sembrado-upload-row">
-          <input type="file" id="sembradoUpload" accept="image/*" onchange="onLayoutUpload(event)">
+          <input type="file" id="sembradoUpload" accept="image/*,.pdf,application/pdf" onchange="onLayoutUpload(event)">
           <button class="btn-secondary" onclick="clearSembradoPins()">Limpiar pines</button>
           <div class="fixed-note" style="margin:0;flex:1">Arrastra un artículo de la izquierda y suéltalo sobre el plano donde debe instalarse. Puedes repetir el mismo artículo varias veces.</div>
         </div>
         <div class="sembrado-board" id="sembradoBoard">
-          <div class="sembrado-board-empty" id="sembradoBoardEmpty">Sube una imagen (JPG/PNG) del layout del sitio para empezar a sembrar la señalética.</div>
+          <div class="sembrado-board-empty" id="sembradoBoardEmpty">Sube el layout del sitio (JPG, PNG o PDF) para empezar a sembrar la señalética.</div>
         </div>
         <div class="sembrado-actions">
           <button class="btn-secondary" id="btnSembradoLock" onclick="toggleSembradoLock()">Marcar como listo</button>
@@ -3013,21 +3019,52 @@ function renderSembradoTray() {
 function onLayoutUpload(e) {
   const file = e.target.files[0];
   if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function (ev) {
-    layoutImgURL = ev.target.result;
-    const img = new Image();
-    img.onload = function () {
-      layoutImg = img;
-      const board = document.getElementById('sembradoBoard');
-      board.style.backgroundImage = `url(${layoutImgURL})`;
-      board.classList.add('has-image');
-      board.style.aspectRatio = (img.naturalWidth / img.naturalHeight);
-      document.getElementById('sembradoBoardEmpty').style.display = 'none';
-    };
-    img.src = layoutImgURL;
+  const isPdf = file.type === 'application/pdf' || /\.pdf$/i.test(file.name);
+  if (isPdf) {
+    loadPdfLayout(file);
+  } else {
+    const reader = new FileReader();
+    reader.onload = function (ev) { setLayoutImageFromURL(ev.target.result); };
+    reader.readAsDataURL(file);
+  }
+}
+
+function setLayoutImageFromURL(dataURL) {
+  layoutImgURL = dataURL;
+  const img = new Image();
+  img.onload = function () {
+    layoutImg = img;
+    const board = document.getElementById('sembradoBoard');
+    board.style.backgroundImage = `url(${layoutImgURL})`;
+    board.classList.add('has-image');
+    board.style.aspectRatio = (img.naturalWidth / img.naturalHeight);
+    document.getElementById('sembradoBoardEmpty').style.display = 'none';
   };
-  reader.readAsDataURL(file);
+  img.src = layoutImgURL;
+}
+
+async function loadPdfLayout(file) {
+  if (!window.pdfjsLib) {
+    showToast('No se pudo cargar el conversor de PDF. Intenta con JPG/PNG o recarga la página.');
+    return;
+  }
+  try {
+    showToast('Convirtiendo PDF a imagen…');
+    const buffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+    const page = await pdf.getPage(1);
+    const scale = 2.5; // resolución suficiente para leer detalle de plano
+    const viewport = page.getViewport({ scale });
+    const canvas = document.createElement('canvas');
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    const ctx = canvas.getContext('2d');
+    await page.render({ canvasContext: ctx, viewport }).promise;
+    setLayoutImageFromURL(canvas.toDataURL('image/png'));
+  } catch (err) {
+    console.error('Error convirtiendo PDF de sembrado:', err);
+    showToast('No se pudo convertir el PDF. Intenta con JPG/PNG.');
+  }
 }
 
 function addPin(itemId, xPct, yPct) {
