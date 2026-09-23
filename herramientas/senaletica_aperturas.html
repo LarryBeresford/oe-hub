@@ -166,6 +166,36 @@ table.cart-table tr:last-child td { border-bottom:none; }
 .lightbox-cap { color:#FFF; font-size:13.5px; font-weight:700; text-align:center; }
 .lightbox-close { position:fixed; top:22px; right:26px; background:rgba(255,255,255,0.12); border:none; color:#FFF; font-size:20px; width:36px; height:36px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; }
 .lightbox-close:hover { background:rgba(255,255,255,0.22); }
+
+/* ── SEMBRADO (paso 4) ── */
+.sembrado-layout { display:grid; grid-template-columns: 220px 1fr; gap:18px; align-items:start; }
+.sembrado-tray-wrap { background:#FFF; border:1px solid #E2E2E2; border-radius:10px; padding:12px; max-height:70vh; overflow-y:auto; }
+.sembrado-tray-title { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:0.6px; color:#888; margin-bottom:8px; }
+.sembrado-tray-item { display:flex; align-items:center; gap:8px; padding:6px; border-radius:7px; cursor:grab; border:1px solid #EEE; margin-bottom:6px; background:#FAFAFA; }
+.sembrado-tray-item:hover { border-color:var(--yellow); }
+.sembrado-tray-item img { width:26px; height:26px; object-fit:contain; flex-shrink:0; }
+.sembrado-tray-item span { font-size:10.5px; color:#333; line-height:1.25; }
+.sembrado-tray-empty { font-size:11px; color:#AAA; padding:8px 2px; }
+
+.sembrado-board-wrap { background:#FFF; border:1px solid #E2E2E2; border-radius:10px; padding:14px; }
+.sembrado-upload-row { display:flex; align-items:center; gap:10px; margin-bottom:12px; flex-wrap:wrap; }
+.sembrado-board {
+  position:relative; width:100%; background:#FAFAFA repeat center / contain;
+  border:2px dashed #DDD; border-radius:8px; min-height:320px;
+  background-repeat:no-repeat; background-position:center; background-size:contain;
+}
+.sembrado-board.has-image { border-style:solid; }
+.sembrado-board.locked { border-color:var(--green); }
+.sembrado-board-empty { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#AAA; font-size:12px; text-align:center; padding:20px; }
+.sembrado-pin { position:absolute; transform:translate(-50%,-100%); display:flex; flex-direction:column; align-items:center; cursor:grab; }
+.sembrado-pin-dot { width:34px; height:34px; border-radius:50%; background:#FFF; border:2px solid var(--yellow); box-shadow:0 2px 6px rgba(0,0,0,0.25); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.sembrado-pin-dot img { width:100%; height:100%; object-fit:contain; }
+.sembrado-pin-label { background:#111; color:var(--yellow); font-size:9px; font-weight:700; padding:2px 6px; border-radius:5px; margin-top:3px; max-width:100px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sembrado-pin-remove { position:absolute; top:-6px; right:-6px; width:16px; height:16px; border-radius:50%; background:var(--red); color:#FFF; font-size:10px; line-height:16px; text-align:center; cursor:pointer; }
+.sembrado-board.locked .sembrado-pin { cursor:default; }
+.sembrado-board.locked .sembrado-pin-remove { display:none; }
+.sembrado-actions { display:flex; justify-content:space-between; align-items:center; margin-top:14px; gap:10px; flex-wrap:wrap; }
+.sembrado-lock-msg { font-size:11px; color:var(--green); font-weight:700; }
 </style>
 </head>
 <body>
@@ -185,6 +215,8 @@ table.cart-table tr:last-child td { border-bottom:none; }
   <div class="wizard-step" id="wzStep2" data-step="2" onclick="goStep(2)"><span class="wz-num">2</span><span class="wz-lbl">Artículos</span></div>
   <div class="wizard-line"></div>
   <div class="wizard-step" id="wzStep3" data-step="3" onclick="goStep(3)"><span class="wz-num">3</span><span class="wz-lbl">Vista previa</span></div>
+  <div class="wizard-line"></div>
+  <div class="wizard-step" id="wzStep4" data-step="4" onclick="goStep(4)"><span class="wz-num">4</span><span class="wz-lbl">Sembrado</span></div>
 </div>
 
 <div class="wizard-body" id="formPanel">
@@ -334,9 +366,43 @@ table.cart-table tr:last-child td { border-bottom:none; }
 
     <div class="wizard-nav">
       <button class="btn-secondary" onclick="goStep(2)">← Atrás</button>
-      <span></span>
+      <button class="btn-primary" onclick="goStep(4)">Siguiente: Sembrado →</button>
     </div>
   </div>
+  </div>
+
+  <div class="step-panel step-panel-wide" id="stepPanel4">
+    <div class="step2-hdr">
+      <h2>Sembrado del layout</h2>
+      <span class="sembrado-lock-msg" id="sembradoLockMsg" style="display:none">✓ Sembrado marcado como listo</span>
+    </div>
+
+    <div class="sembrado-layout">
+      <div class="sembrado-tray-wrap">
+        <div class="sembrado-tray-title">Artículos seleccionados</div>
+        <div id="sembradoTray"></div>
+      </div>
+
+      <div class="sembrado-board-wrap">
+        <div class="sembrado-upload-row">
+          <input type="file" id="sembradoUpload" accept="image/*" onchange="onLayoutUpload(event)">
+          <button class="btn-secondary" onclick="clearSembradoPins()">Limpiar pines</button>
+          <div class="fixed-note" style="margin:0;flex:1">Arrastra un artículo de la izquierda y suéltalo sobre el plano donde debe instalarse. Puedes repetir el mismo artículo varias veces.</div>
+        </div>
+        <div class="sembrado-board" id="sembradoBoard">
+          <div class="sembrado-board-empty" id="sembradoBoardEmpty">Sube una imagen (JPG/PNG) del layout del sitio para empezar a sembrar la señalética.</div>
+        </div>
+        <div class="sembrado-actions">
+          <button class="btn-secondary" id="btnSembradoLock" onclick="toggleSembradoLock()">Marcar como listo</button>
+          <button class="btn-primary" onclick="exportSembradoPNG()">Descargar guía (PNG)</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="wizard-nav">
+      <button class="btn-secondary" onclick="goStep(3)">← Atrás</button>
+      <span></span>
+    </div>
   </div>
 
 </div>
@@ -2603,7 +2669,7 @@ function setImgSize(compact) {
 }
 
 function goStep(n) {
-  for (let i = 1; i <= 3; i++) {
+  for (let i = 1; i <= 4; i++) {
     const panel = document.getElementById('stepPanel' + i);
     const ind = document.getElementById('wzStep' + i);
     if (panel) panel.classList.toggle('active', i === n);
@@ -2613,6 +2679,7 @@ function goStep(n) {
     }
   }
   if (n === 3) renderCart();
+  if (n === 4) renderSembradoTray();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -2916,6 +2983,167 @@ async function exportExcel() {
     if (btn) { btn.disabled = false; btn.textContent = btnLabel; }
   }
 }
+
+// ═══════════════════ SEMBRADO (paso 4) ═══════════════════
+let layoutImg = null;       // Image object del layout subido
+let layoutImgURL = null;    // dataURL del layout
+let sembradoPins = [];      // { id, itemId, xPct, yPct }
+let sembradoLocked = false;
+let pinSeq = 0;
+
+function findItemById(id) {
+  return [...CATALOG.fijos, ...CATALOG.variables, ...CATALOG.opcionales].find(it => it.id === id) || null;
+}
+
+function renderSembradoTray() {
+  const allItems = [...CATALOG.fijos, ...CATALOG.variables, ...CATALOG.opcionales];
+  const selected = allItems.filter(it => cart[it.id].checked && cart[it.id].cantidad > 0);
+  const tray = document.getElementById('sembradoTray');
+  if (!selected.length) {
+    tray.innerHTML = '<div class="sembrado-tray-empty">Aún no hay artículos seleccionados en el paso 2.</div>';
+    return;
+  }
+  tray.innerHTML = selected.map(it => `
+    <div class="sembrado-tray-item" draggable="true" ondragstart="event.dataTransfer.setData('text/plain','new:${it.id}')" title="${it.nombre}">
+      ${it.imagen ? `<img src="${it.imagen}" alt="${it.nombre}">` : ''}
+      <span>${it.nombre}</span>
+    </div>`).join('');
+}
+
+function onLayoutUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function (ev) {
+    layoutImgURL = ev.target.result;
+    const img = new Image();
+    img.onload = function () {
+      layoutImg = img;
+      const board = document.getElementById('sembradoBoard');
+      board.style.backgroundImage = `url(${layoutImgURL})`;
+      board.classList.add('has-image');
+      board.style.aspectRatio = (img.naturalWidth / img.naturalHeight);
+      document.getElementById('sembradoBoardEmpty').style.display = 'none';
+    };
+    img.src = layoutImgURL;
+  };
+  reader.readAsDataURL(file);
+}
+
+function addPin(itemId, xPct, yPct) {
+  const id = 'pin' + (pinSeq++);
+  sembradoPins.push({ id, itemId, xPct: Math.max(0, Math.min(100, xPct)), yPct: Math.max(0, Math.min(100, yPct)) });
+  renderSembradoPins();
+}
+
+function movePin(pinId, xPct, yPct) {
+  const pin = sembradoPins.find(p => p.id === pinId);
+  if (!pin) return;
+  pin.xPct = Math.max(0, Math.min(100, xPct));
+  pin.yPct = Math.max(0, Math.min(100, yPct));
+  renderSembradoPins();
+}
+
+function removePin(pinId) {
+  sembradoPins = sembradoPins.filter(p => p.id !== pinId);
+  renderSembradoPins();
+}
+
+function clearSembradoPins() {
+  if (sembradoLocked) return;
+  if (sembradoPins.length && !confirm('¿Quitar todos los pines del sembrado?')) return;
+  sembradoPins = [];
+  renderSembradoPins();
+}
+
+function renderSembradoPins() {
+  const board = document.getElementById('sembradoBoard');
+  board.querySelectorAll('.sembrado-pin').forEach(el => el.remove());
+  sembradoPins.forEach(pin => {
+    const it = findItemById(pin.itemId);
+    if (!it) return;
+    const el = document.createElement('div');
+    el.className = 'sembrado-pin';
+    el.style.left = pin.xPct + '%';
+    el.style.top = pin.yPct + '%';
+    el.draggable = !sembradoLocked;
+    el.title = it.nombre;
+    el.innerHTML = `
+      ${!sembradoLocked ? `<span class="sembrado-pin-remove" onclick="removePin('${pin.id}')">×</span>` : ''}
+      <div class="sembrado-pin-dot">${it.imagen ? `<img src="${it.imagen}" alt="${it.nombre}">` : ''}</div>
+      <div class="sembrado-pin-label">${it.nombre}</div>`;
+    el.addEventListener('dragstart', (e) => { e.dataTransfer.setData('text/plain', 'move:' + pin.id); });
+    board.appendChild(el);
+  });
+}
+
+function initSembradoBoard() {
+  const board = document.getElementById('sembradoBoard');
+  board.addEventListener('dragover', (e) => { e.preventDefault(); });
+  board.addEventListener('drop', (e) => {
+    e.preventDefault();
+    if (sembradoLocked) return;
+    if (!layoutImg) { showToast('Primero sube el layout del sitio.'); return; }
+    const data = e.dataTransfer.getData('text/plain');
+    if (!data) return;
+    const [action, refId] = data.split(':');
+    const rect = board.getBoundingClientRect();
+    const xPct = ((e.clientX - rect.left) / rect.width) * 100;
+    const yPct = ((e.clientY - rect.top) / rect.height) * 100;
+    if (action === 'new') addPin(refId, xPct, yPct);
+    else if (action === 'move') movePin(refId, xPct, yPct);
+  });
+}
+
+function toggleSembradoLock() {
+  sembradoLocked = !sembradoLocked;
+  const board = document.getElementById('sembradoBoard');
+  board.classList.toggle('locked', sembradoLocked);
+  document.getElementById('btnSembradoLock').textContent = sembradoLocked ? 'Editar de nuevo' : 'Marcar como listo';
+  document.getElementById('sembradoLockMsg').style.display = sembradoLocked ? 'inline' : 'none';
+  renderSembradoPins();
+}
+
+async function exportSembradoPNG() {
+  if (!layoutImg) { showToast('Primero sube el layout del sitio.'); return; }
+  const canvas = document.createElement('canvas');
+  canvas.width = layoutImg.naturalWidth;
+  canvas.height = layoutImg.naturalHeight;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(layoutImg, 0, 0, canvas.width, canvas.height);
+
+  for (const pin of sembradoPins) {
+    const it = findItemById(pin.itemId);
+    if (!it) continue;
+    const x = (pin.xPct / 100) * canvas.width;
+    const y = (pin.yPct / 100) * canvas.height;
+    ctx.beginPath();
+    ctx.arc(x, y, 15, 0, Math.PI * 2);
+    ctx.fillStyle = '#FFD001';
+    ctx.fill();
+    ctx.lineWidth = 2.5;
+    ctx.strokeStyle = '#111111';
+    ctx.stroke();
+    ctx.font = 'bold 14px Arial';
+    const label = it.nombre;
+    const textW = ctx.measureText(label).width;
+    ctx.fillStyle = 'rgba(17,17,17,0.85)';
+    ctx.fillRect(x - textW / 2 - 6, y + 18, textW + 12, 20);
+    ctx.fillStyle = '#FFD001';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(label, x - textW / 2, y + 28);
+  }
+
+  const dataURL = canvas.toDataURL('image/png');
+  const a = document.createElement('a');
+  a.href = dataURL;
+  const siteCode = document.getElementById('siteCode') ? (document.getElementById('siteCode').value || 'SITE') : 'SITE';
+  a.download = `Sembrado_${siteCode}_${new Date().toISOString().slice(0, 10)}.png`;
+  a.click();
+  showToast('Guía de sembrado descargada.');
+}
+
+initSembradoBoard();
 
 initCatalog();
 renderAll();
