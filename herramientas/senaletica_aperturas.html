@@ -355,7 +355,6 @@ const CATALOG = {
   {
    "id": "fij-1",
    "tipo": "fijo",
-   "comentarioObligatorio": true,
    "zona": "Fachada / Ingreso",
    "nombre": "Isologo Corporativo Iluminado (pared)",
    "medidas": "235 cm Largo x 135 cm Alto",
@@ -372,7 +371,6 @@ const CATALOG = {
   {
    "id": "fij-2",
    "tipo": "fijo",
-   "comentarioObligatorio": true,
    "zona": "Fachada / Ingreso",
    "nombre": "Corpóreo Letras 'WOW' 3D",
    "medidas": "345x120",
@@ -2557,7 +2555,7 @@ function renderFlatSection(containerId, items, tipo) {
         <div class="item-card-name">${it.nombre}</div>
         <div class="item-card-meta">${it.medidas || ''}${it.medidas && it.colocacion ? ' · ' : ''}${it.colocacion || ''}</div>
         <div class="item-card-comment${reqComment ? ' required' : ''}">
-          <label>${reqComment ? 'Comentario (requerido)' : 'Comentario (opcional)'}</label>
+          <label>Comentario</label>
           <input type="text" class="comment-input" id="cmt-${it.id}" value="${(c.comentario || '').replace(/"/g, '&quot;')}" placeholder="${reqComment ? 'Ej. SMRX...' : 'Opcional'}" onchange="setComment('${it.id}', this.value)">
         </div>
         <div class="item-card-foot">
