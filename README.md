@@ -54,6 +54,7 @@ oe-hub/
 │   └── migrar-imagen.js    # descarga una foto de Drive/Imgur y la re-sube a ImgBB -- usada por
 │                           # la pestaña "Migrar fotos" de boletines_oe.html (ver detalle abajo)
 ├── media/                 # imágenes y video usados en Inicio
+├── comunicacion/          # plan y pieza de comunicación del lanzamiento del Hub (ver detalle abajo)
 └── NOMENCLATURA_OE.md     # referencia rápida de cómo se llama cada área (FM+XD+SC+TOM, SVC+Last Mile, Quality, Gestión)
 ```
 
@@ -63,11 +64,17 @@ oe-hub/
   relevantes** (calendario mensual, ver detalle abajo), Repositorio de
   proyectos, Herramientas de equipo, Ideas y sugerencias.
 - **Gestión** (grupo de nav) — **Flujo de Iniciativas Locales** (una sola
-  página con 4 tabs: Proyectos, Indicadores, Iniciativas y **Big Rocks**
-  — Big Rocks agrupa los proyectos estratégicos por las 4 áreas de OE, con
-  Slip Robots viviendo dentro de Big Rocks → FirstMile), Generador de
-  Slides, Generador de Boletines.
-- **Expansiones** (grupo de nav) — Señalética de Aperturas.
+  página con 5 tabs: Actualización de Proyectos, Indicadores,
+  **Iniciativas Regionales**, **Iniciativas Locales** y **Big Rocks** —
+  Big Rocks agrupa los proyectos estratégicos por las 4 áreas de OE, con
+  Slip Robots viviendo dentro de Big Rocks → "FM + XD + SC + TOM"), más
+  Generador de Slides, Generador de Boletines y **Expansiones · Señalética
+  de Aperturas** (antes era su propio grupo de nav; se movió aquí adentro
+  como sub-item de Gestión, a petición de Ricardo). Nota: "Iniciativas
+  Regionales" e "Iniciativas Locales" eran un solo tab combinado
+  ("Iniciativas") hasta sep-2026; se separaron en dos tabs independientes
+  para que cada alcance (regional vs. local) tenga su propio espacio,
+  igual que Indicadores o Big Rocks.
 - **Rutinas** (grupo de nav) — BBR, MBR, Newsletter (vista previa de los 4
   boletines más recientes + histórico por mes, enlazados desde `boletines/`).
 - **Directorio** (grupo de nav) — Directorio (líderes de OE por región, con
@@ -79,30 +86,53 @@ oe-hub/
   (incluye Tutoriales MELI Axis).
 - **Ideas y sugerencias** — formulario que manda cada sugerencia a un
   Google Sheet (ver `apps-script/ideas_sugerencias.gs`).
-- Toggle de idioma ES/EN/PT funcional en todo el sitio, búsqueda rápida
+- **Botón "Volver a Inicio"** (`.page-back`) arriba de cada página/herramienta
+  del Hub (Gestión, Rutinas, Directorio, Organigrama, Slides, Señalética,
+  Slip Robots, Boletines, Aprendizaje) — antes no había forma de regresar a
+  Inicio sin usar el nav lateral; ahora hay un botón directo en cada página.
+- Toggle de idioma ES/EN/PT funcional en todo el sitio (auditado
+  end-to-end en sep-2026, ver "Traducción ES/EN/PT" abajo), búsqueda rápida
   (Ctrl+K), navegación adaptada a mobile. **Sin candado de acceso**: el
   sitio es público (ver "Acceso" abajo).
 
 ### Fechas relevantes (calendario en Inicio)
 
 Calendario mensual con navegación por flechas, debajo de "Success
-stories". Marca en color (celda completa, no solo un punto) dos tipos de
-fecha:
+stories". Rediseñado en sep-2026 (feedback de Ricardo: el calendario es
+para todo el equipo, no para trackear el proceso interno de Gestión).
+Marca en color (celda completa, no solo un punto) tres tipos de fecha:
 
-- **Feriados oficiales de México** (Art. 74 LFT) — calculados
-  año-agnóstico en JS (fijos + "n-ésimo día de la semana del mes").
-- **5 fechas recurrentes del proceso de Newsletter/Axis**: Focales
-  actualizan su proyecto y MELI Axis (último lunes del mes), Supervisores
-  cargan el Form (primer miércoles), Managers revisan y autorizan (primer
-  viernes), Miguel da la autorización final (segundo martes), y se publica
-  a todo MLM (día siguiente). Cada una con su color por área (mismos
-  colores `--tag-fm` / `--tag-svc` / `--tag-mgmt` / `--tag-quality` que el
-  resto del Hub).
+- **Fechas conmemorativas** — feriados oficiales de México (Art. 74 LFT),
+  calculados año-agnóstico en JS (fijos + "n-ésimo día de la semana del
+  mes"). Se muestran con la etiqueta "Fecha conmemorativa" (antes decían
+  solo el nombre del feriado a secas) para dejar claro que son
+  informativas, no un día libre real de la operación.
+- **2 hitos de Gestión** (ya no 5): "Actualización de proyectos en
+  MeliAxis" (último lunes del mes) y "Publicación nacional de newsletter"
+  (día siguiente a la autorización del Sr. Manager). Las 4 fechas
+  intermedias de revisión interna (Focales/Supervisores/Managers/Sr.
+  Manager) se quitaron del calendario a propósito — siguen documentadas
+  como flow interno en el tab "Actualización de Proyectos", solo que ya
+  no aparecen como fechas del calendario.
+- **Eventos en Puerta** (nuevo) — se leen EN VIVO de la sección "Eventos en
+  Puerta" de cada boletín ya publicado (`fetch()` + `DOMParser`, mismo
+  origen, sin problema de CORS) y se colocan en el mes del calendario que
+  corresponda a la fecha de cada evento — no necesariamente el mes de
+  publicación del boletín (ej. un boletín de agosto puede anunciar un
+  evento de septiembre, y ese evento aparece en septiembre). Áreas sin esa
+  sección en su boletín simplemente no aportan eventos ese mes; no hay que
+  hacer nada distinto al generar boletines para que esto funcione. El
+  parser (`parseEventosPuertaHtml` / `eventosFindContainer` en
+  `index.html`) NO asume una estructura HTML fija — detecta el patrón
+  "día + abreviatura de mes en español" entre los nodos de texto final del
+  documento, porque el generador de newsletters ha usado más de una
+  plantilla HTML con el tiempo.
 
 El panel lateral junto al calendario lista todas las fechas del mes activo
 con el mismo color por fila (borde + fondo tenue) para que se distingan de
-un vistazo. Función principal: `renderCalendar()` en `index.html` (buscar
-`CAL_OE_LABELS` / `getOEDatesMonth`).
+un vistazo. Funciones clave en `index.html`: `renderCalendar()`,
+`getOEDatesMonth()`, `loadAllEventosPuerta()` (carga y cachea en memoria
+los eventos de TODOS los boletines publicados, una sola vez).
 
 ## Herramientas satélite (detalle)
 
@@ -169,8 +199,15 @@ con acento amarillo `#FFD001`/`#FFE600`, sin build ni dependencias de CDN.
   Ground: distribución de lanes, volumen por categoría, forecast MWH, top
   rutas origen-destino, y un scorecard con fórmula de scoring y benchmarks.
   Lee `herramientas/data/sliprobots/slip_robots_datos.xlsx` client-side
-  (SheetJS) y grafica con Chart.js. Vive dentro de Big Rocks → FirstMile
-  en la navegación (además de tener su propia página).
+  (SheetJS) y grafica con Chart.js. Vive dentro de Big Rocks →
+  "FM + XD + SC + TOM" en la navegación (además de tener su propia
+  página). **Ojo con la nomenclatura:** los nombres de archivo/claves
+  internas (`Boletin_FirstMile.html`, `firstmile:` como key de mapa, etc.)
+  siguen usando "FirstMile"/"ServiceCenter" a propósito — son identificadores
+  internos y renombrarlos rompería los links a los boletines ya publicados.
+  Lo que se estandarizó en sep-2026 fue solo el TEXTO VISIBLE al usuario
+  (headers de Big Rocks, tarjetas), que ahora usa la nomenclatura oficial
+  ("FM + XD + SC + TOM", "SVC + Last Mile") en vez de los nombres internos.
 
 ### Cómo agregar una herramienta satélite nueva
 
@@ -267,6 +304,42 @@ en "Herramientas satélite" arriba), que necesita:
   de `boletines_oe.html` responde con error pero el resto del Hub sigue
   funcionando normal.
 
+## Traducción ES/EN/PT
+
+El toggle de idioma (`applyLang()` en `index.html`) usa dos diccionarios,
+`TEXT_EN` y `TEXT_PT`, y un selector CSS (`I18N_SELECTOR`) que enumera
+todas las clases/elementos que se traducen. Auditado end-to-end en
+sep-2026: se verificó con un script real (jsdom simulando el selector
+completo contra el archivo) que el 100% de los textos que toca el
+selector tienen traducción — no fue una revisión visual, fue una
+comparación automática.
+
+Dos cosas importantes si se agrega contenido nuevo:
+
+1. **Cualquier texto visible nuevo necesita dos cosas:** (a) que su
+   elemento (o un ancestro suyo) esté en `I18N_SELECTOR`, y (b) una
+   entrada en `TEXT_EN`/`TEXT_PT` con el texto en español EXACTO como
+   clave. Si falta cualquiera de las dos, el texto se queda en español al
+   cambiar de idioma (sin error visible, así que es fácil que pase
+   desapercibido).
+2. **El mecanismo traduce CADA corrida de texto entre tags, no solo la
+   primera.** Antes de sep-2026 solo traducía el texto ANTES del primer
+   tag anidado, así que una frase como "**Nota:** el equipo comparte..."
+   solo traducía la palabra en negritas y dejaba el resto en español (o,
+   si el texto empezaba con un ícono/SVG antes del texto, no traducía
+   nada en absoluto). Esto ya se arregló — ahora cada fragmento de texto
+   entre etiquetas se busca por separado en el diccionario — pero si algún
+   texto nuevo se ve raro al cambiar de idioma, ese ya no debería ser el
+   motivo.
+
+**Fuera del toggle a propósito:** el Glosario MeLi
+(`aprendizaje/Glosario_OE.html`) y Documentos de Referencia
+(`aprendizaje/Documentos_Referencia.html`) — sus tablas grandes (300+ y
+270+ filas respectivamente) siguen siendo 100% español. Traducirlas
+implicaría construir un sistema de i18n nuevo para esos dos archivos
+independientes (no reutilizan el de `index.html`), es un proyecto aparte,
+no un ajuste rápido — ver "Pendientes conocidos".
+
 ## Nomenclatura de áreas (importante)
 
 Los nombres oficiales usan `+` como separador, siempre: `FM + XD + SC + TOM`,
@@ -282,14 +355,47 @@ satélite (ej. "Gestión · Slip Robots"). Es una ambigüedad heredada del
 nombre del grupo de nav, no un error — tenlo presente si algo se lee raro
 en el menú.
 
+## Comunicación de lanzamiento del Hub
+
+Carpeta `comunicacion/`, generada en sep-2026:
+
+- `Plan_Comunicacion_Lanzamiento_OE_Hub.md` — plan original (objetivo,
+  audiencia, cronograma). **Ojo:** este archivo todavía refleja el alcance
+  inicial (solo equipo OE MLM); el alcance real cambió a mitad de proceso
+  — ver siguiente punto — y este doc no se ha actualizado para reflejarlo.
+- `Correo_Lanzamiento_OE_Hub.html` — v1 del correo de lanzamiento (enfoque
+  "herramienta del equipo OE"). **Superada por la v2**, se deja solo de
+  referencia.
+- `Correo_Lanzamiento_OE_Hub_v2.html` — versión vigente: reenfocada como
+  comunicado para **todo Mercado Libre México, incluyendo gerencia** (no
+  solo OE), con un bloque de "Sesiones en vivo" para las capacitaciones que
+  van a dar Ricardo Almanza y Larry. HTML compatible con clientes de
+  correo (tablas + estilos inline, sin CSS externo, probado con
+  `<meta charset="UTF-8">` y sin tags sin cerrar).
+
+**Estado a la fecha:** el 25-sep-2026 Larry mandó esta propuesta (correo +
+vista previa del HTML embebida, no como adjunto) a Ricardo Almanza
+(`carlosricardo.almanzaloo@mercadolibre.com.mx`) y Mónica, pidiendo
+retroalimentación antes del envío masivo real a todo MLM México. Sigue en
+espera de esa respuesta — ver "Pendientes conocidos".
+
 ## Pendientes conocidos (a la fecha)
 
+- **Retroalimentación de Ricardo Almanza y Mónica** sobre la propuesta de
+  comunicación de lanzamiento (ver sección de arriba) — en cuanto
+  respondan, hay que pulir esa versión antes del envío masivo real.
+- **Sesiones de capacitación en vivo** del Hub (Ricardo Almanza + Larry):
+  falta definir fecha y liga, una vez que se apruebe el lanzamiento.
+- **Fotos de Miguel Hernández, Steven Seedorf, Oscar Manuel Piña y David
+  Lumbreras** en el Directorio/Organigrama: pendiente a propósito, las
+  maneja Larry directamente (no tocar sin que él lo pida).
+- **Traducir Glosario MeLi y Documentos de Referencia a EN/PT**: fuera de
+  alcance de la auditoría de sep-2026 (ver "Traducción ES/EN/PT" arriba) —
+  proyecto aparte si se decide hacerlo.
 - **Layout de "sembrado"** (David): arrastrar señalética sobre el plano de
   planta para armar un checklist visual, exportable a PDF. Pausado a
   propósito — solo se construye cuando David/Larry pidan la propuesta de
   diseño.
-- **Campaña de comunicación del Hub** (Ricardo): falta definir alcance
-  (audiencia, tono, canal).
 - **Imágenes de señalética en mejor resolución**: pendiente de que David
   mande archivos fuente en mayor resolución (ver detalle en la sección de
   Señalética arriba).
