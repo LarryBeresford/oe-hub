@@ -176,20 +176,30 @@ con acento amarillo `#FFD001`/`#FFE600`, sin build ni dependencias de CDN.
   por esa funcion serverless para no duplicar logica segun el origen. La API
   key de ImgBB vive SOLO ahi (variable de entorno `IMGBB_API_KEY` en Vercel),
   nunca se manda al navegador.
-- **`senaletica_aperturas.html` — Señalética de Aperturas.** Wizard de 3
+- **`senaletica_aperturas.html` — Señalética de Aperturas.** Wizard de 4
   pasos: **1) Datos del sitio** → **2) Artículos** (135 artículos: 93
   fijos + 16 variables + 26 opcionales, cada uno con su imagen de
   referencia real en tarjetas grandes, con un toggle "Imágenes
-  grandes/Vista compacta"; clic en la imagen abre un lightbox en pantalla
-  para verla en grande) → **3) Vista previa** de la orden de compra
-  (líneas, piezas) + exportar Excel. La exportación usa **ExcelJS** (no
-  SheetJS) para poder incrustar la imagen de cada artículo directamente en
-  la fila de la hoja "Requerimiento", replicando el diseño real de la
-  plantilla oficial de David (Carátula con estilos + Requerimiento +
-  Observaciones). Las imágenes del catálogo son nativamente de baja
-  resolución (~90px de alto, así vienen del levantamiento original) — si
-  se necesita más nitidez hay que pedirle a David el archivo fuente en
-  mejor resolución, no se puede mejorar solo re-extrayendo del Excel.
+  grandes/Vista compacta", flag Estándar/Variable, artículos opcionales
+  como sección comodín, y un campo de comentario por artículo — obligatorio
+  solo en Corpóreo Letras MELI 3D y Vinilo MELI — que se incluye en el
+  Excel final; clic en la imagen abre un lightbox en pantalla para verla en
+  grande) → **3) Vista previa** de la orden de compra (líneas, piezas) +
+  exportar Excel → **4) Sembrado**: sube el layout del sitio (JPG, PNG, o
+  PDF — se convierte a imagen automáticamente en el navegador con pdf.js),
+  arrastra los artículos seleccionados como pines sobre el plano para armar
+  la guía visual de instalación, mueve/quita pines, botón "Marcar como
+  listo" para bloquear edición, y exporta la guía final como PNG (canvas
+  con los pines y su etiqueta) para el contratista instalador. Etapa 1
+  (manual, sin ML) — ver "Pendientes conocidos" para el roadmap de
+  Etapa 2/3. La exportación de Excel usa **ExcelJS** (no SheetJS) para
+  poder incrustar la imagen de cada artículo directamente en la fila de la
+  hoja "Requerimiento", replicando el diseño real de la plantilla oficial
+  de David (Carátula con estilos + Requerimiento + Observaciones). Las
+  imágenes del catálogo son nativamente de baja resolución (~90px de alto,
+  así vienen del levantamiento original) — si se necesita más nitidez hay
+  que pedirle a David el archivo fuente en mejor resolución, no se puede
+  mejorar solo re-extrayendo del Excel.
 - **`generador_slide_ejecutivo.html` — Generador de Slide Ejecutivo.**
   Arma un slide ejecutivo de resultados para proyectos Lean. A propósito
   **abre con datos de ejemplo precargados** (no en blanco) — se intentó
@@ -392,10 +402,13 @@ espera de esa respuesta — ver "Pendientes conocidos".
 - **Traducir Glosario MeLi y Documentos de Referencia a EN/PT**: fuera de
   alcance de la auditoría de sep-2026 (ver "Traducción ES/EN/PT" arriba) —
   proyecto aparte si se decide hacerlo.
-- **Layout de "sembrado"** (David): arrastrar señalética sobre el plano de
-  planta para armar un checklist visual, exportable a PDF. Pausado a
-  propósito — solo se construye cuando David/Larry pidan la propuesta de
-  diseño.
+- **Sembrado — Etapa 2/3** (David): la Etapa 1 (manual: subir layout
+  JPG/PNG/PDF, arrastrar pines, exportar guía PNG) ya está construida y
+  confirmada por Larry — ver paso 4 de `senaletica_aperturas.html`. Lo que
+  sigue pendiente es a futuro y sin fecha: Etapa 2 (sugerir ubicación de
+  zonas con un modelo de visión, sin entrenar nada) y Etapa 3 (detector de
+  objetos entrenado a la medida, solo si se acumula suficiente dataset de
+  sitios reales) — ninguna de las dos está agendada.
 - **Imágenes de señalética en mejor resolución**: pendiente de que David
   mande archivos fuente en mayor resolución (ver detalle en la sección de
   Señalética arriba).
