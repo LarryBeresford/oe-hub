@@ -158,6 +158,10 @@
   .page-title { font-size:24px; font-weight:800; color: var(--dark); line-height:1.2; }
   .page-desc { font-size:13px; color:#999; margin-top:5px; }
 
+  .page-back { display:inline-flex; align-items:center; gap:6px; background:none; border:none; padding:0; margin-bottom:16px; font-size:12.5px; font-weight:700; color:#999; cursor:pointer; font-family:inherit; }
+  .page-back:hover { color: var(--dark); }
+  .page-back svg { flex-shrink:0; }
+
   .coming-soon {
     background: var(--white); border: 1px dashed var(--border);
     border-radius:12px; padding:56px 32px; text-align:center; color:#BBB;
@@ -299,6 +303,7 @@
   }
   .date-chip.oe { background: var(--yellow-bg); color: var(--yellow-dark); }
   .date-chip.cal-holiday-chip { background:#FCE4E4; color:#C0392B; }
+  .date-chip.evento { background:#E8F0FE; color:#2A5DB0; }
   .date-item-text { font-size:12.5px; color:var(--dark); line-height:1.4; }
 
   .cal-wrap { display:flex; gap:18px; flex-wrap:wrap; align-items:flex-start; }
@@ -313,16 +318,19 @@
   .cal-cell.empty { background:none; }
   .cal-cell.cal-holiday { background:#FCE4E4; color:#C0392B; font-weight:800; }
   .cal-cell.cal-oe-oe { background: var(--yellow-bg); color: var(--yellow-dark); font-weight:800; }
+  .cal-cell.cal-oe-evento { background:#E8F0FE; color:#2A5DB0; font-weight:800; }
   .cal-cell.cal-today { outline:2px solid var(--yellow-dark); outline-offset:-1px; font-weight:800; }
   .cal-daynum { line-height:1; }
   .cal-dots { display:flex; gap:2px; height:5px; }
   .cal-dot { width:5px; height:5px; border-radius:50%; background:#999; }
   .cal-dot.oe { background: var(--yellow-dark); }
+  .cal-dot.evento { background:#2A5DB0; }
   .cal-side { flex:1 1 300px; min-width:260px; display:flex; flex-direction:column; gap:0; max-height:460px; overflow:auto; background:var(--white); border:1px solid var(--border); border-radius:12px; }
   .cal-side-hdr { padding:13px 16px 11px; font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; color:#999; border-bottom:1px solid var(--border); }
   .cal-side .date-item { padding:13px 16px; border-left:4px solid transparent; gap:14px; }
   .cal-side .date-item.row-oe { border-left-color: var(--yellow-dark); background: var(--yellow-bg); }
   .cal-side .date-item.row-holiday { border-left-color: #C0392B; background: #FCE4E4; }
+  .cal-side .date-item.row-evento { border-left-color: #2A5DB0; background: #E8F0FE; }
   .cal-side .date-chip { font-size:12.5px; padding:9px 10px; min-width:56px; }
   .cal-side .date-item-text { font-size:13.5px; font-weight:700; color:var(--dark); }
   .cal-side-empty { padding:18px 16px; font-size:12.5px; color:#999; }
@@ -723,15 +731,7 @@
       <button class="nav-sub-item" onclick="go('flujoiniciativas', this)"><span>Flujo de Iniciativas Locales</span></button>
       <button class="nav-sub-item" id="navSlides" onclick="go('slides', this)"><span>Generador de Slides</span></button>
       <button class="nav-sub-item" id="navBoletinesGen" onclick="go('boletinesgen', this)"><span>Generador de Boletines</span></button>
-    </div>
-
-    <button class="nav-direct nav-group" id="navExpansiones" onclick="toggleGroup('navExpansiones'); go('senaletica', this)">
-      <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18"/><path d="M7 7l-3 3m16-3 3 3M7 17l-3-3m16 3 3-3"/></svg></span>
-      <span>Expansiones</span>
-      <span class="nav-chevron"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
-    </button>
-    <div class="nav-sub">
-      <button class="nav-sub-item" id="navSenaletica" onclick="go('senaletica', this)"><span>Señalética de Aperturas</span></button>
+      <button class="nav-sub-item" id="navSenaletica" onclick="go('senaletica', this)"><span>Expansiones · Señalética de Aperturas</span></button>
     </div>
 
     <button class="nav-direct nav-group" id="navRutinas" onclick="toggleGroup('navRutinas'); go('rutinas', this); setTimeout(()=>routineTab('bbr'),0)">
@@ -767,7 +767,7 @@
       <button class="nav-sub-item" onclick="go('aprendizaje', this); setTimeout(()=>learnTab('documentos'),0)"><span>Documentos de interés</span></button>
     </div>
   </nav>
-  <div class="sidebar-footer">¿Dudas sobre el funcionamiento de la página, desarrollo UX o la comunidad de OE? Escríbele a <a href="mailto:larry.beresforddiaz@mercadolibre.com.mx" style="color:#888;">Larry Beresford Díaz</a>.</div>
+  <div class="sidebar-footer">¿Dudas sobre el funcionamiento de la página, desarrollo UX o la comunidad de OE? Escríbele a <a href="mailto:larry.beresforddiaz@mercadolibre.com.mx" style="color:#888;">larry.beresforddiaz@mercadolibre.com.mx</a>.</div>
 </aside>
 
 <div class="mobile-nav-backdrop" onclick="closeMobileNav()"></div>
@@ -948,14 +948,14 @@
           <div class="tool-card-text"><div class="tool-card-title">Generador de Slide Ejecutivo</div><div class="tool-card-sub">Arma el slide de status de un proyecto Lean (KPIs, fases, obstáculos) y expórtalo listo para la junta.</div></div>
           <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
         </a>
-        <a class="tool-card wide" href="#" onclick="go('senaletica', document.getElementById('navSenaletica')); openGroupFor('navExpansiones'); return false;">
+        <a class="tool-card wide" href="#" onclick="go('senaletica', document.getElementById('navSenaletica')); openGroupFor('navManagement'); return false;">
           <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-6 9 6v11a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z"/></svg></div>
           <div class="tool-card-text"><div class="tool-card-title">Señalética de Aperturas</div><div class="tool-card-sub">Arma el carrito de señalética para un sitio nuevo (SVC) y exporta la orden de compra lista para el proveedor.</div></div>
           <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
         </a>
         <a class="tool-card wide" href="#" onclick="go('flujoiniciativas', null); openGroupFor('navManagement'); setTimeout(()=>fiTab('bigrocks'),0); return false;">
           <div class="tool-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="16" height="12" rx="2"/><path d="M9 7V5a3 3 0 0 1 6 0v2M9 13h.01M15 13h.01"/></svg></div>
-          <div class="tool-card-text"><div class="tool-card-title">Slip Robots (Big Rocks · FirstMile)</div><div class="tool-card-sub">Scorecard de priorización de rutas LH Ground para despliegue de robots (Multiplicadores/Optimizadores/Tácticos/Estáticos).</div></div>
+          <div class="tool-card-text"><div class="tool-card-title">Slip Robots (Big Rocks · FM + XD + SC + TOM)</div><div class="tool-card-sub">Scorecard de priorización de rutas LH Ground para despliegue de robots (Multiplicadores/Optimizadores/Tácticos/Estáticos).</div></div>
           <div class="tool-card-link">Abrir herramienta <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
         </a>
       </div>
@@ -985,6 +985,7 @@
     </div>
 
     <div class="page" id="page-flujoiniciativas">
+          <button class="page-back" onclick="go('inicio', null)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Volver a Inicio</button>
           <div class="page-header">
             <div class="page-eyebrow">Gestión <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
             <div class="page-title">Flujo de Iniciativas Locales <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
@@ -994,7 +995,8 @@
           <div class="routine-tabs fi-tabs">
             <button class="routine-tab fi-tab active" id="fitab-proyectos" onclick="fiTab('proyectos')">Actualización de Proyectos</button>
             <button class="routine-tab fi-tab" id="fitab-indicadores" onclick="fiTab('indicadores')">Indicadores</button>
-            <button class="routine-tab fi-tab" id="fitab-iniciativas" onclick="fiTab('iniciativas')">Iniciativas Locales</button>
+            <button class="routine-tab fi-tab" id="fitab-regionales" onclick="fiTab('regionales')">Iniciativas Regionales</button>
+            <button class="routine-tab fi-tab" id="fitab-locales" onclick="fiTab('locales')">Iniciativas Locales</button>
             <button class="routine-tab fi-tab" id="fitab-bigrocks" onclick="fiTab('bigrocks')">Big Rocks</button>
           </div>
 
@@ -1026,16 +1028,15 @@
             </div>
           </div>
 
-          <div class="routine-panel fi-panel" id="fipanel-iniciativas">
-        
+          <div class="routine-panel fi-panel" id="fipanel-regionales">
           <div class="page-header">
             <div class="page-eyebrow">Gestión <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
-            <div class="page-title">Iniciativas <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
-            <div class="page-desc">Backlog Continuo e Iniciativas Locales — cómo una idea se convierte en iniciativa o proyecto.</div>
+            <div class="page-title">Iniciativas Regionales <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
+            <div class="page-desc">Backlog Continuo — cómo una idea se convierte en iniciativa con alcance regional.</div>
           </div>
 
           <div class="section-title">Backlog Continuo <span style="color:#bbb;font-weight:600;">· Iniciativas regionales</span></div>
-          <p style="font-size:13px;color:#555;margin-bottom:10px;">Así se convierte una idea en una iniciativa formal con alcance <b>regional</b>, evaluada en dos mesas antes de pasar a la Tribu.</p>
+          <p class="flow-intro" style="font-size:13px;color:#555;margin-bottom:10px;">Así se convierte una idea en una iniciativa formal con alcance <b>regional</b>, evaluada en dos mesas antes de pasar a la Tribu.</p>
           <div class="flow">
             <div class="flow-step gestion"><div class="flow-tag">Gestión</div><div class="flow-title">1er y 2do recordatorio</div><div class="flow-desc">5 y 3 días antes de la fecha límite</div></div>
             <div class="flow-arrow">→</div>
@@ -1050,9 +1051,17 @@
             <div class="flow-step gestion"><div class="flow-tag">Gestión</div><div class="flow-title">Tablero de iniciativas</div><div class="flow-desc">Sube la iniciativa al tablero.</div></div>
           </div>
           <div class="branch-card"><b>Nota:</b> el equipo de Gestión comparte a inicios de mes el estatus de todas las iniciativas generadas, a todo OE MLM, para conocimiento y seguimiento.</div>
+          </div>
 
-          <div class="section-title" style="margin-top:30px">Iniciativas Locales <span style="color:#bbb;font-weight:600;">· Alcance local</span></div>
-          <p style="font-size:13px;color:#555;margin-bottom:10px;">Mismo arranque que el Backlog Continuo, pero si la mesa local aprueba, la iniciativa se convierte directo en <b>proyecto</b> — sin subir a mesa regional ni a Tribu.</p>
+          <div class="routine-panel fi-panel" id="fipanel-locales">
+          <div class="page-header">
+            <div class="page-eyebrow">Gestión <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
+            <div class="page-title">Iniciativas Locales <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
+            <div class="page-desc">Backlog Continuo — cómo una idea se convierte en iniciativa o proyecto con alcance local.</div>
+          </div>
+
+          <div class="section-title">Iniciativas Locales <span style="color:#bbb;font-weight:600;">· Alcance local</span></div>
+          <p class="flow-intro" style="font-size:13px;color:#555;margin-bottom:10px;">Mismo arranque que el Backlog Continuo, pero si la mesa local aprueba, la iniciativa se convierte directo en <b>proyecto</b> — sin subir a mesa regional ni a Tribu.</p>
           <div class="flow">
             <div class="flow-step gestion"><div class="flow-tag">Gestión</div><div class="flow-title">1er y 2do recordatorio</div><div class="flow-desc">5 y 3 días antes de la fecha límite</div></div>
             <div class="flow-arrow">→</div>
@@ -1070,7 +1079,7 @@
             <div class="bigrocks-wrap">
             <div class="bigrocks-area" id="bigrocks-firstmile">
               <button class="bigrocks-area-hdr" onclick="toggleBigRocksArea('firstmile')">
-                <span class="bigrocks-area-title">FirstMile (FM + XD + SC + TOM)</span>
+                <span class="bigrocks-area-title">FM + XD + SC + TOM</span>
                 <span class="nav-chevron bigrocks-chevron"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
               </button>
               <div class="bigrocks-area-body">
@@ -1083,18 +1092,18 @@
                 <div class="section-title" style="margin-top:22px">Grids estratégicos</div>
                 <div class="empty-state">
                   <div class="e-title">Todavía no hay Grids cargados para esta área</div>
-                  <div class="e-sub">Aquí van a vivir los Grids estratégicos de FirstMile como repositorio.</div>
+                  <div class="e-sub">Aquí van a vivir los Grids estratégicos de FM + XD + SC + TOM como repositorio.</div>
                 </div></div>
             </div>
             <div class="bigrocks-area" id="bigrocks-servicecenter">
               <button class="bigrocks-area-hdr" onclick="toggleBigRocksArea('servicecenter')">
-                <span class="bigrocks-area-title">ServiceCenter (SVC + Last Mile)</span>
+                <span class="bigrocks-area-title">SVC + Last Mile</span>
                 <span class="nav-chevron bigrocks-chevron"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
               </button>
               <div class="bigrocks-area-body">
                 <div class="empty-state">
                   <div class="e-title">Sin Big Rocks definidos todavía</div>
-                  <div class="e-sub">En cuanto ServiceCenter defina cuáles son sus proyectos más importantes, van a aparecer aquí.</div>
+                  <div class="e-sub">En cuanto SVC + Last Mile defina cuáles son sus proyectos más importantes, van a aparecer aquí.</div>
                 </div></div>
             </div>
             <div class="bigrocks-area" id="bigrocks-quality">
@@ -1125,6 +1134,7 @@
 
 
     <div class="page" id="page-rutinas">
+      <button class="page-back" onclick="go('inicio', null)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Volver a Inicio</button>
       <div class="page-header">
         <div class="page-eyebrow">Excelencia Operacional <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
         <div class="page-title">Rutinas <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
@@ -1192,7 +1202,7 @@
             <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:520px;">
               <iframe id="boletinPreviewFrame" style="width:100%; height:100%; border:none; display:block;" title="Vista previa del boletín más reciente"></iframe>
             </div>
-            <div style="margin-top:10px; font-size:11.5px; color:#999;">¿No carga aquí? <a class="i18n-link" id="bvOpenFull" href="boletines/2026-08/Boletin_FirstMile.html" target="_blank" rel="noopener" style="color:#999;">Abrir el boletín completo ↗</a></div>
+            <div style="margin-top:10px; font-size:11.5px; color:#999;"><span class="bv-open-full">¿No carga aquí?</span> <a class="i18n-link" id="bvOpenFull" href="boletines/2026-08/Boletin_FirstMile.html" target="_blank" rel="noopener" style="color:#999;">Abrir el boletín completo ↗</a></div>
           </div>
 
           <div id="bvPanelHistorico" style="display:none">
@@ -1240,6 +1250,7 @@
     </div>
 
     <div class="page" id="page-directorio">
+      <button class="page-back" onclick="go('inicio', null)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Volver a Inicio</button>
       <div class="page-header">
         <div class="page-eyebrow">Excelencia Operacional <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
         <div class="page-title">Directorio de líderes <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
@@ -1283,6 +1294,7 @@
     </div>
 
     <div class="page" id="page-organigrama">
+      <button class="page-back" onclick="go('inicio', null)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Volver a Inicio</button>
       <div class="page-header">
         <div class="page-eyebrow">Excelencia Operacional <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
         <div class="page-title">Organigrama Completo <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
@@ -1394,6 +1406,7 @@
     </div>
 
     <div class="page" id="page-slides">
+      <button class="page-back" onclick="go('inicio', null)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Volver a Inicio</button>
       <div class="page-header">
         <div class="page-eyebrow">Excelencia Operacional <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
         <div class="page-title">Generador de Slide Ejecutivo <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
@@ -1411,6 +1424,7 @@
     </div>
 
     <div class="page" id="page-senaletica">
+      <button class="page-back" onclick="go('inicio', null)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Volver a Inicio</button>
       <div class="page-header">
         <div class="page-eyebrow">Excelencia Operacional <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
         <div class="page-title">Señalética de Aperturas <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
@@ -1428,6 +1442,7 @@
     </div>
 
     <div class="page" id="page-sliprobots">
+      <button class="page-back" onclick="go('inicio', null)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Volver a Inicio</button>
       <div class="page-header">
         <div class="page-eyebrow">Excelencia Operacional <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
         <div class="page-title">Slip Robots <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
@@ -1445,6 +1460,7 @@
     </div>
 
     <div class="page" id="page-boletinesgen">
+      <button class="page-back" onclick="go('inicio', null)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Volver a Inicio</button>
       <div class="page-header">
         <div class="page-eyebrow">Gestión <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
         <div class="page-title">Generador de Boletines <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
@@ -1462,6 +1478,7 @@
     </div>
 
     <div class="page" id="page-aprendizaje">
+      <button class="page-back" onclick="go('inicio', null)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Volver a Inicio</button>
       <div class="page-header">
         <div class="page-eyebrow">Excelencia Operacional <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
         <div class="page-title">Aprendizaje Continuo <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
@@ -1513,9 +1530,9 @@
 </main>
 
 <script>
-  const LABELS    = { inicio:'Inicio', flujoiniciativas:'Gestión · Flujo de Iniciativas Locales', rutinas:'Rutinas', directorio:'Directorio', organigrama:'Directorio · Organigrama', slides:'Gestión · Generador de Slides', senaletica:'Expansiones · Señalética de Aperturas', sliprobots:'Gestión · Big Rocks · Slip Robots', boletinesgen:'Gestión · Generador de Boletines', aprendizaje:'Aprendizaje Continuo' };
-  const LABELS_EN = { inicio:'Home',   flujoiniciativas:'Management · Local Initiatives Flow', rutinas:'Routines', directorio:'Directory', organigrama:'Directory · Full Org Chart', slides:'Management · Slide Generator', senaletica:'Expansions · Site Signage', sliprobots:'Management · Big Rocks · Slip Robots', boletinesgen:'Management · Newsletter Generator', aprendizaje:'Continuous Learning' };
-  const LABELS_PT = { inicio:'Início', flujoiniciativas:'Management · Fluxo de Iniciativas Locais', rutinas:'Rotinas', directorio:'Diretório', organigrama:'Diretório · Organograma', slides:'Management · Gerador de Slides', senaletica:'Expansões · Sinalização de Aberturas', sliprobots:'Management · Big Rocks · Slip Robots', boletinesgen:'Management · Gerador de Boletins', aprendizaje:'Aprendizado Contínuo' };
+  const LABELS    = { inicio:'Inicio', flujoiniciativas:'Gestión · Flujo de Iniciativas Locales', rutinas:'Rutinas', directorio:'Directorio', organigrama:'Directorio · Organigrama', slides:'Gestión · Generador de Slides', senaletica:'Gestión · Expansiones · Señalética de Aperturas', sliprobots:'Gestión · Big Rocks · Slip Robots', boletinesgen:'Gestión · Generador de Boletines', aprendizaje:'Aprendizaje Continuo' };
+  const LABELS_EN = { inicio:'Home',   flujoiniciativas:'Management · Local Initiatives Flow', rutinas:'Routines', directorio:'Directory', organigrama:'Directory · Full Org Chart', slides:'Management · Slide Generator', senaletica:'Management · Expansions · Site Signage', sliprobots:'Management · Big Rocks · Slip Robots', boletinesgen:'Management · Newsletter Generator', aprendizaje:'Continuous Learning' };
+  const LABELS_PT = { inicio:'Início', flujoiniciativas:'Management · Fluxo de Iniciativas Locais', rutinas:'Rotinas', directorio:'Diretório', organigrama:'Diretório · Organograma', slides:'Management · Gerador de Slides', senaletica:'Management · Expansões · Sinalização de Aberturas', sliprobots:'Management · Big Rocks · Slip Robots', boletinesgen:'Management · Gerador de Boletins', aprendizaje:'Aprendizado Contínuo' };
 
   function toggleSidebar() {
     document.body.classList.toggle('sidebar-collapsed');
@@ -1549,9 +1566,11 @@
   const NAV_DESTINATIONS = [
     { label: 'Inicio', hint: 'Pagina principal del Hub', go: function () { go('inicio', null); } },
     { label: 'Gestión · Flujo de Iniciativas Locales', hint: 'Actualización de proyectos, indicadores, iniciativas y Big Rocks', go: function () { go('flujoiniciativas', null); openGroupFor('navManagement'); } },
+    { label: 'Gestión · Iniciativas Regionales', hint: 'Backlog Continuo con alcance regional', go: function () { go('flujoiniciativas', null); openGroupFor('navManagement'); setTimeout(()=>fiTab('regionales'),0); } },
+    { label: 'Gestión · Iniciativas Locales', hint: 'Backlog Continuo con alcance local', go: function () { go('flujoiniciativas', null); openGroupFor('navManagement'); setTimeout(()=>fiTab('locales'),0); } },
     { label: 'Gestión · Big Rocks', hint: 'Proyectos más importantes por área OE', go: function () { go('flujoiniciativas', null); openGroupFor('navManagement'); setTimeout(()=>fiTab('bigrocks'),0); } },
     { label: 'Gestión · Generador de Slides', hint: 'Slide de status ejecutivo para juntas', go: function () { go('slides', document.getElementById('navSlides')); openGroupFor('navManagement'); } },
-    { label: 'Expansiones · Señalética de Aperturas', hint: 'Carrito de señalética + orden de compra en Excel', go: function () { go('senaletica', document.getElementById('navSenaletica')); openGroupFor('navExpansiones'); } },
+    { label: 'Gestión · Expansiones · Señalética de Aperturas', hint: 'Carrito de señalética + orden de compra en Excel', go: function () { go('senaletica', document.getElementById('navSenaletica')); openGroupFor('navManagement'); } },
     { label: 'Gestión · Big Rocks · Slip Robots', hint: 'Scorecard de priorización de rutas LH Ground', go: function () { go('flujoiniciativas', null); openGroupFor('navManagement'); setTimeout(()=>fiTab('bigrocks'),0); } },
     { label: 'Gestión · Generador de Boletines', hint: 'Arma los 4 newsletters desde Excel, con corrector e historial', go: function () { go('boletinesgen', document.getElementById('navBoletinesGen')); openGroupFor('navManagement'); } },
     { label: 'Rutinas · BBR', hint: 'Entrega bisemanal de resultados', go: function () { go('rutinas', null); openGroupFor('navRutinas'); routineTab('bbr'); } },
@@ -1815,20 +1834,18 @@
   }
 
   function getOEDatesMonth(year, month) {
+    // Solo se muestran los dos hitos de cara al equipo (fechas internas de revisión
+    // ya no se listan aquí, por feedback de Ricardo: el calendario es para el equipo,
+    // no para trackear el proceso interno de Gestión).
     var focales = lastWeekdayOfMonth(year, month, 1);
-    var supervisores = nthWeekdayOfMonth(year, month, 3, 1);
-    var managers = nthWeekdayOfMonth(year, month, 5, 1);
     var miguel = nthWeekdayOfMonth(year, month, 2, 2);
     var pub = new Date(year, month, miguel);
     pub.setDate(pub.getDate() + 1);
     var out = [
-      { day: focales, color: 'oe', label: 'Focales actualizan su proyecto (y MELI Axis) — último lunes del mes' },
-      { day: supervisores, color: 'oe', label: 'Supervisores cargan el Form — primer miércoles del mes' },
-      { day: managers, color: 'oe', label: 'Managers revisan y autorizan — primer viernes del mes' },
-      { day: miguel, color: 'oe', label: 'Miguel da la autorización final — segundo martes del mes' }
+      { day: focales, color: 'oe', label: 'Actualización de proyectos en MeliAxis' }
     ];
     if (pub.getMonth() === month) {
-      out.push({ day: pub.getDate(), color: 'oe', label: 'Se publica a todo MLM (día siguiente a la autorización)' });
+      out.push({ day: pub.getDate(), color: 'oe', label: 'Publicación nacional de newsletter' });
     }
     return out;
   }
@@ -1846,17 +1863,19 @@
     'Navidad': { en: 'Christmas', pt: 'Natal' }
   };
   var CAL_OE_LABELS = {
-    'Focales actualizan su proyecto (y MELI Axis) — último lunes del mes': { en: 'Focals update their project (and MELI Axis) — last Monday of the month', pt: 'Focais atualizam seu projeto (e MELI Axis) — última segunda-feira do mês' },
-    'Supervisores cargan el Form — primer miércoles del mes': { en: 'Supervisors submit the Form — first Wednesday of the month', pt: 'Supervisores enviam o Form — primeira quarta-feira do mês' },
-    'Managers revisan y autorizan — primer viernes del mes': { en: 'Managers review and approve — first Friday of the month', pt: 'Managers revisam e aprovam — primeira sexta-feira do mês' },
-    'Miguel da la autorización final — segundo martes del mes': { en: 'Miguel gives the final approval — second Tuesday of the month', pt: 'Miguel dá a aprovação final — segunda terça-feira do mês' },
-    'Se publica a todo MLM (día siguiente a la autorización)': { en: 'Published to all of MLM (the day after approval)', pt: 'Publicado para todo o MLM (no dia seguinte à aprovação)' }
+    'Actualización de proyectos en MeliAxis': { en: 'Project updates in MeliAxis', pt: 'Atualização de projetos no MeliAxis' },
+    'Publicación nacional de newsletter': { en: 'National newsletter publication', pt: 'Publicação nacional do newsletter' }
   };
+  var CAL_COMMEMORATIVE_PREFIX = { es: 'Fecha conmemorativa: ', en: 'Commemorative date: ', pt: 'Data comemorativa: ' };
   function calT(text) {
     var cl = (typeof currentLang === 'function') ? currentLang() : 'es';
     if (cl === 'es') return text;
     var d = CAL_HOLIDAY_LABELS[text] || CAL_OE_LABELS[text];
     return (d && d[cl]) ? d[cl] : text;
+  }
+  function calTHoliday(text) {
+    var cl = (typeof currentLang === 'function') ? currentLang() : 'es';
+    return (CAL_COMMEMORATIVE_PREFIX[cl] || CAL_COMMEMORATIVE_PREFIX.es) + calT(text);
   }
 
   function renderCalendar() {
@@ -1874,18 +1893,28 @@
     var oeDates = getOEDatesMonth(y, m);
     var today = new Date();
 
+    // "Eventos en Puerta": se leen en vivo de TODOS los boletines ya publicados
+    // (un boletin de agosto puede anunciar un evento de septiembre, por ejemplo),
+    // y se filtran por el mes que se esta mostrando. Areas sin esa seccion en su
+    // boletin simplemente no aportan eventos ese mes.
+    if (ALL_EVENTOS_PUERTA === null) loadAllEventosPuerta();
+    var eventos = (ALL_EVENTOS_PUERTA || [])
+      .filter(function (ev) { return ev.year === y && ev.month === m; })
+      .map(function (ev) { return { day: ev.day, color: 'evento', label: (BOLETIN_AREA_LABELS[ev.area] || ev.area) + ' — ' + ev.title }; });
+    var markers = oeDates.concat(eventos);
+
     var cellsHtml = '';
     for (var i = 0; i < startOffset; i++) cellsHtml += '<div class="cal-cell empty"></div>';
     for (var d = 1; d <= daysInMonth; d++) {
       var hol = null;
       for (var hi = 0; hi < holidays.length; hi++) { if (holidays[hi].day === d) { hol = holidays[hi]; break; } }
-      var oeToday = oeDates.filter(function (o) { return o.day === d; });
+      var todayMarkers = markers.filter(function (o) { return o.day === d; });
       var cls = 'cal-cell';
       if (hol) cls += ' cal-holiday';
-      else if (oeToday.length && oeToday[0].color) cls += ' cal-oe-' + oeToday[0].color;
+      else if (todayMarkers.length && todayMarkers[0].color) cls += ' cal-oe-' + todayMarkers[0].color;
       if (today.getFullYear() === y && today.getMonth() === m && today.getDate() === d) cls += ' cal-today';
-      var dots = oeToday.map(function (o) { return '<span class="cal-dot ' + (o.color || '') + '"></span>'; }).join('');
-      cellsHtml += '<div class="' + cls + '" title="' + (hol ? calT(hol.label).replace(/"/g, '&quot;') : '') + '">'
+      var dots = todayMarkers.map(function (o) { return '<span class="cal-dot ' + (o.color || '') + '"></span>'; }).join('');
+      cellsHtml += '<div class="' + cls + '" title="' + (hol ? calTHoliday(hol.label).replace(/"/g, '&quot;') : '') + '">'
         + '<span class="cal-daynum">' + d + '</span>'
         + (dots ? '<span class="cal-dots">' + dots + '</span>' : '')
         + '</div>';
@@ -1893,8 +1922,8 @@
     document.getElementById('calGrid').innerHTML = cellsHtml;
 
     var items = [];
-    holidays.forEach(function (h) { items.push({ day: h.day, text: calT(h.label), chipClass: 'date-chip cal-holiday-chip', rowClass: 'row-holiday' }); });
-    oeDates.forEach(function (o) { items.push({ day: o.day, text: calT(o.label), chipClass: 'date-chip ' + (o.color || ''), rowClass: o.color ? 'row-' + o.color : '' }); });
+    holidays.forEach(function (h) { items.push({ day: h.day, text: calTHoliday(h.label), chipClass: 'date-chip cal-holiday-chip', rowClass: 'row-holiday' }); });
+    markers.forEach(function (o) { items.push({ day: o.day, text: calT(o.label), chipClass: 'date-chip ' + (o.color || ''), rowClass: o.color ? 'row-' + o.color : '' }); });
     items.sort(function (a, b) { return a.day - b.day; });
     var monAbbr = monthNames[m].slice(0, 3).toUpperCase();
     var hdrLabel = (cl === 'en' ? 'Dates in ' : (cl === 'pt' ? 'Datas em ' : 'Fechas de ')) + monthNames[m] + (items.length ? ' (' + items.length + ')' : '');
@@ -1903,6 +1932,102 @@
     }).join('');
     var emptyMsg = cl === 'en' ? 'No dates for this month.' : (cl === 'pt' ? 'Sem datas para este mês.' : 'Sin fechas registradas este mes.');
     document.getElementById('calSide').innerHTML = items.length ? sideHtml : ('<div class="cal-side-hdr">' + hdrLabel + '</div><div class="cal-side-empty">' + emptyMsg + '</div>');
+  }
+
+  // ── Eventos en Puerta: extraidos en vivo de todos los boletines ya publicados ──
+  var ALL_EVENTOS_PUERTA = null; // null = aun no cargado; luego [{year,month,day,area,title}, ...]
+  var eventosPuertaLoading = false;
+  var CAL_MONTH_ABBR_ES = { Ene: 0, Feb: 1, Mar: 2, Abr: 3, May: 4, Jun: 5, Jul: 6, Ago: 7, Sep: 8, Oct: 9, Nov: 10, Dic: 11 };
+
+  // Los boletines de distintos meses no siempre comparten el mismo marcado HTML
+  // (el generador de newsletters ha cambiado de plantilla con el tiempo), asi que
+  // en vez de asumir una estructura fija de tags/clases, se detecta el patron
+  // "numero de dia" seguido de "abreviatura de mes en espanol" entre los nodos
+  // de texto final (sin hijos) del documento -- eso identifica el chip de fecha
+  // sin importar cuantos divs/tablas envuelvan cada plantilla.
+  function eventosLeafTextNodes(root) {
+    var out = [];
+    root.querySelectorAll('*').forEach(function (el) {
+      if (el.children.length === 0 && el.textContent.trim()) out.push(el);
+    });
+    return out;
+  }
+  function eventosLooksLikeContainer(el) {
+    var leaves = eventosLeafTextNodes(el);
+    for (var i = 0; i < leaves.length - 1; i++) {
+      var t1 = leaves[i].textContent.trim();
+      var t2 = leaves[i + 1].textContent.trim();
+      if (/^\d{1,2}$/.test(t1) && CAL_MONTH_ABBR_ES.hasOwnProperty(t2)) return true;
+    }
+    return false;
+  }
+  function eventosFindContainer(headerSpan) {
+    var anc = headerSpan;
+    for (var level = 0; level < 6 && anc; level++) {
+      var sib = anc.nextElementSibling;
+      if (sib && eventosLooksLikeContainer(sib)) return sib;
+      anc = anc.parentElement;
+    }
+    return null;
+  }
+
+  function parseEventosPuertaHtml(html) {
+    try {
+      var doc = new DOMParser().parseFromString(html, 'text/html');
+      var spans = doc.querySelectorAll('span');
+      var headerSpan = null;
+      for (var i = 0; i < spans.length; i++) {
+        if (spans[i].textContent.trim() === 'Eventos en Puerta') { headerSpan = spans[i]; break; }
+      }
+      if (!headerSpan) return [];
+      var container = eventosFindContainer(headerSpan);
+      if (!container) return [];
+      var leaves = eventosLeafTextNodes(container);
+      var out = [];
+      var i = 0;
+      while (i < leaves.length) {
+        var t1 = leaves[i].textContent.trim();
+        if (/^\d{1,2}$/.test(t1) && i + 2 < leaves.length) {
+          var t2 = leaves[i + 1].textContent.trim();
+          if (CAL_MONTH_ABBR_ES.hasOwnProperty(t2)) {
+            var title = leaves[i + 2].textContent.trim();
+            if (title) { out.push({ day: parseInt(t1, 10), month: CAL_MONTH_ABBR_ES[t2], title: title }); i += 3; continue; }
+          }
+        }
+        i++;
+      }
+      return out;
+    } catch (e) { return []; }
+  }
+
+  function loadAllEventosPuerta() {
+    // Se carga UNA sola vez (para todos los meses de boletines ya publicados) y
+    // se cachea en memoria; renderCalendar() filtra por año+mes al pintar.
+    if (ALL_EVENTOS_PUERTA !== null || eventosPuertaLoading) return;
+    eventosPuertaLoading = true;
+    var jobs = [];
+    BOLETIN_MONTHS.forEach(function (bm) {
+      var year = parseInt(bm.key.split('-')[0], 10);
+      Object.keys(bm.files).forEach(function (area) {
+        jobs.push(
+          fetch(bm.files[area]).then(function (r) { return r.ok ? r.text() : ''; })
+            .then(function (html) {
+              if (!html) return [];
+              return parseEventosPuertaHtml(html).map(function (ev) {
+                return { year: year, month: ev.month, day: ev.day, area: area, title: ev.title };
+              });
+            })
+            .catch(function () { return []; })
+        );
+      });
+    });
+    Promise.all(jobs).then(function (results) {
+      var merged = [];
+      results.forEach(function (list) { merged = merged.concat(list); });
+      ALL_EVENTOS_PUERTA = merged;
+      eventosPuertaLoading = false;
+      renderCalendar();
+    });
   }
 
   function calNav(delta) {
@@ -2456,6 +2581,112 @@
     // Auditoria i18n (sep-2026): faltantes detectadas por script automatico
     'Actualización de proyectos regionales':'Regional projects update',
     'Proyectos Locales':'Local Projects',
+    'Iniciativas Regionales':'Regional Initiatives',
+    'Backlog Continuo — cómo una idea se convierte en iniciativa con alcance regional.':'Continuous Backlog — how an idea becomes an initiative with regional scope.',
+    'Backlog Continuo — cómo una idea se convierte en iniciativa o proyecto con alcance local.':'Continuous Backlog — how an idea becomes an initiative or project with local scope.',
+    'Volver a Inicio':'Back to Home',
+
+    // Flujo de Iniciativas / Actualizacion de Proyectos / Newsletter: pasos de flow-tag/flow-title/flow-desc
+    'Focal CIE':'Focal CIE', 'Supervisor / Manager':'Supervisor / Manager',
+    'Mesa local':'Local committee', 'Mesa regional':'Regional committee', 'Tribu':'Tribe',
+    'Gestión + Focal CIE':'Management + Focal CIE', 'Focal':'Focal', 'Sr. Manager':'Sr. Manager',
+    'Publicación':'Publication',
+    '1er recordatorio':'1st reminder', '2do recordatorio':'2nd reminder',
+    'Actualización':'Update', 'Revisión':'Review', 'Actualiza tablero':'Updates the board',
+    '1er y 2do recordatorio':'1st and 2nd reminder', 'Crear iniciativa':'Create initiative',
+    'Revisión local':'Local review', 'Revisión regional':'Regional review',
+    'Evaluación Tribu':'Tribe evaluation', 'Tablero de iniciativas':'Initiatives board',
+    'Crear proyecto':'Create project', 'Actualizar proyecto':'Update project',
+    'Capturar Form':'Submit the Form', 'Revisión Managers':'Managers review',
+    'Revisión Sr. Manager':'Sr. Manager review', 'Sale a todo MLM':'Goes out to all of MLM',
+    '5 días antes de la fecha límite':'5 days before the deadline',
+    '3 días antes de la fecha límite':'3 days before the deadline',
+    'Ingresa a Meli Axis, revisa el portafolio y sus actividades asignadas, comenta avances y actualiza el estatus.':'Logs into Meli Axis, reviews the portfolio and their assigned activities, comments on progress and updates the status.',
+    'Revisa lo actualizado por su Focal CIE.':'Reviews what their Focal CIE updated.',
+    'Actualiza el tablero de proyectos con lo cargado.':'Updates the project board with what was submitted.',
+    '5 y 3 días antes de la fecha límite':'5 and 3 days before the deadline',
+    'Construye el one page: propuesta de valor de la iniciativa.':'Builds the one-pager: the initiative\'s value proposition.',
+    'Supervisores y Manager evalúan la viabilidad de la iniciativa.':'Supervisors and Manager assess the initiative\'s feasibility.',
+    'Si la mesa local aprueba, sube vía Meli Axis a la mesa regional.':'If the local committee approves, it moves up via Meli Axis to the regional committee.',
+    'Discusión y priorización de Q, si la mesa regional aprobó.':'Discussion and quarter prioritization, if the regional committee approved.',
+    'Sube la iniciativa al tablero.':'Uploads the initiative to the board.',
+    'Si la mesa local aprobó, se sube a Meli Axis como proyecto nuevo, listo para ejecución.':'If the local committee approved, it\'s uploaded to Meli Axis as a new project, ready for execution.',
+    'Último lunes del mes (incluye MELI Axis).':'Last Monday of the month (includes MELI Axis).',
+    'Fecha límite: primer miércoles del mes.':'Deadline: first Wednesday of the month.',
+    'Fecha límite: primer viernes del mes.':'Deadline: first Friday of the month.',
+    'Fecha límite: segundo martes del mes.':'Deadline: second Tuesday of the month.',
+    'Al día siguiente de la autorización del Sr. Manager.':'The day after the Sr. Manager\'s approval.',
+
+    // Cadencia / Nota (frases con una palabra en negritas a mitad de oracion)
+    'Cadencia:':'Cadence:',
+    'se repite 2 veces al mes — del 10 al 15 y del 25 al 30 — actualizando los proyectos asignados en':'repeats twice a month — from the 10th to the 15th and from the 25th to the 30th — updating the assigned projects in',
+    'Nota:':'Note:',
+    'el equipo de Gestión comparte a inicios de mes el estatus de todas las iniciativas generadas, a todo OE MLM, para conocimiento y seguimiento.':'the Management team shares the status of all generated initiatives at the start of the month, with all of OE MLM, for awareness and follow-up.',
+
+    // Intro de Iniciativas Regionales / Locales (parrafos con palabra en negritas)
+    'Así se convierte una idea en una iniciativa formal con alcance':'This is how an idea becomes a formal initiative with',
+    'regional':'regional',
+    ', evaluada en dos mesas antes de pasar a la Tribu.':' scope, evaluated in two committees before moving to the Tribe.',
+    'Mismo arranque que el Backlog Continuo, pero si la mesa local aprueba, la iniciativa se convierte directo en':'Same starting point as the Continuous Backlog, but if the local committee approves, the initiative directly becomes a',
+    'proyecto':'project',
+    '— sin subir a mesa regional ni a Tribu.':'— without going up to a regional committee or the Tribe.',
+
+    // Big Rocks: empty-states y titulos de area
+    'Todavía no hay Grids cargados para esta área':'No Grids uploaded for this area yet',
+    'Sin Big Rocks definidos todavía':'No Big Rocks defined yet',
+    'Aquí van a vivir los Grids estratégicos de FM + XD + SC + TOM como repositorio.':'This is where FM + XD + SC + TOM\'s strategic Grids will live as a repository.',
+    'En cuanto SVC + Last Mile defina cuáles son sus proyectos más importantes, van a aparecer aquí.':'As soon as SVC + Last Mile defines its most important projects, they\'ll appear here.',
+    'En cuanto Quality defina cuáles son sus proyectos más importantes, van a aparecer aquí.':'As soon as Quality defines its most important projects, they\'ll appear here.',
+    'En cuanto Gestión defina cuáles son sus proyectos más importantes, van a aparecer aquí.':'As soon as Management defines its most important projects, they\'ll appear here.',
+
+    // Auditoria i18n (sep-2026, ronda 2): faltantes detectadas con verificacion automatizada real (jsdom)
+    'Flujo de Iniciativas Locales':'Local Initiatives Flow',
+    'Expansiones · Señalética de Aperturas':'Expansions · Site Signage',
+    'Glosario MeLi':'MeLi Glossary',
+    'Documentos de interés':'Documents of interest',
+    'larry.beresforddiaz@mercadolibre.com.mx':'larry.beresforddiaz@mercadolibre.com.mx',
+    'XD benefició con 262k USD de saving en el mes':'XD delivered $262K USD in savings this month',
+    'Manga Pallet MLM':'Manga Pallet MLM',
+    'De picos de 12K a menos de 600 SHPs: control nacional de paquetes sin STEP en SC01':'From peaks of 12K to under 600 SHPs: national control of packages without STEP at SC01',
+    'Estamos en Beta continuo':'We\'re in continuous Beta',
+    'SVC · Last Mile':'SVC · Last Mile',
+    '95% de sitios con Stage zones lo están utilizando.':'95% of sites with Stage Zones are already using it.',
+    'Stage zones rumbo a picking sistémico.':'Stage Zones headed toward systemic picking.',
+    'Nuevo método de inducción de manga pallets':'New induction method for manga pallets',
+    'La productividad y la seguridad van de la mano':'Productivity and safety go hand in hand',
+    'Señalética de Aperturas':'Site Signage',
+    'Arma el carrito de señalética para un sitio nuevo (SVC) y exporta la orden de compra lista para el proveedor.':'Builds the signage cart for a new site (SVC) and exports the purchase order ready for the supplier.',
+    'Slip Robots (Big Rocks · FM + XD + SC + TOM)':'Slip Robots (Big Rocks · FM + XD + SC + TOM)',
+    'Scorecard de priorización de rutas LH Ground para despliegue de robots (Multiplicadores/Optimizadores/Tácticos/Estáticos).':'Prioritization scorecard for LH Ground routes for robot rollout (Multipliers/Optimizers/Tactical/Static).',
+    'Actualización de proyectos, indicadores, iniciativas y Big Rocks por área de OE.':'Project updates, indicators, initiatives and Big Rocks by OE area.',
+    'Actualización de Proyectos':'Project Updates',
+    'Big Rocks':'Big Rocks',
+    'Meli Axis':'Meli Axis',
+    '· Iniciativas regionales':'· Regional initiatives',
+    '· Alcance local':'· Local scope',
+    'Big Rocks por área':'Big Rocks by area',
+    'Slip Robots':'Slip Robots',
+    'Scorecard de priorización de rutas LH Ground.':'Prioritization scorecard for LH Ground routes.',
+    'Grids estratégicos':'Strategic Grids',
+    'Arma el carrito de señalética para la apertura de un sitio SVC (fijos + variables + opcionales) y genera la orden de compra en Excel lista para el proveedor.':'Builds the signage cart for an SVC site opening (fixed + variable + optional items) and generates the Excel purchase order ready for the supplier.',
+    'Scorecard de priorización de rutas Line Haul Ground para despliegue de Slip Robots — de Martín Winkler.':'Prioritization scorecard for Line Haul Ground routes for Slip Robots rollout — by Martín Winkler.',
+    'Guía paso a paso para Focales y Supervisores: cómo llenar el Form y cómo corre el proceso mensual del Newsletter.':'Step-by-step guide for Focals and Supervisors: how to fill out the Form and how the Newsletter\'s monthly process runs.',
+
+    // Success Stories: estadisticas (story-summary li)
+    'Máximo saving en manga pallet: Agosto es el mes con mayor saving resultado del encendido de XDs y destinos SVC.':'Maximum savings in manga pallet: August is the month with the highest savings as a result of the XDs and SVC destinations go-live.',
+    'Saving: 262 k USD':'Savings: $262K USD',
+    '-90% vs promedio histórico: El volumen semanal de paquetes sin step sistémico bajó de un promedio histórico de ~6,000 SHPs (con picos de hasta 12,000) a un promedio de ~850 SHPs desde que el monitoreo y los planes de acción están activos, cerrando la semana más reciente en 572.':'-90% vs. historical average: the weekly volume of packages without a systemic step dropped from a historical average of ~6,000 SHPs (with peaks of up to 12,000) to an average of ~850 SHPs since monitoring and action plans have been active, closing the most recent week at 572.',
+    'Pico histórico de SHPs/semana (previo al control): 12000':'Historical peak of SHPs/week (before controls): 12,000',
+    'Adopción de herramienta: 95%':'Tool adoption: 95%',
+    'Rate etiquetado: Hasta más de 800 shps/hr.':'Labeling rate: Up to more than 800 shps/hr.',
+    'Más ergonomía para nuestros inductores.':'More ergonomics for our inductors.',
+
+    // Calendario: encabezados de dia de la semana
+    'Lun':'Mon', 'Mar':'Tue', 'Mié':'Wed', 'Jue':'Thu', 'Vie':'Fri', 'Sáb':'Sat', 'Dom':'Sun',
+
+    // Boletines: aviso de "no carga"
+    '¿No carga aquí?':'Not loading here?',
+
     'Generar Proyecto Local':'Create Local Project',
     'Insights de Portafolio — Proyectos':'Portfolio Insights — Projects',
     'Insights de Portafolio — Indicadores':'Portfolio Insights — Indicators',
@@ -2741,6 +2972,112 @@
     // Auditoria i18n (sep-2026): faltantes detectadas por script automatico
     'Actualización de proyectos regionales':'Atualização de projetos regionais',
     'Proyectos Locales':'Projetos Locais',
+    'Iniciativas Regionales':'Iniciativas Regionais',
+    'Backlog Continuo — cómo una idea se convierte en iniciativa con alcance regional.':'Backlog Contínuo — como uma ideia se transforma em iniciativa com alcance regional.',
+    'Backlog Continuo — cómo una idea se convierte en iniciativa o proyecto con alcance local.':'Backlog Contínuo — como uma ideia se transforma em iniciativa ou projeto com alcance local.',
+    'Volver a Inicio':'Voltar ao Início',
+
+    // Flujo de Iniciativas / Actualizacion de Proyectos / Newsletter: pasos de flow-tag/flow-title/flow-desc
+    'Focal CIE':'Focal CIE', 'Supervisor / Manager':'Supervisor / Manager',
+    'Mesa local':'Comitê local', 'Mesa regional':'Comitê regional', 'Tribu':'Tribo',
+    'Gestión + Focal CIE':'Management + Focal CIE', 'Focal':'Focal', 'Sr. Manager':'Sr. Manager',
+    'Publicación':'Publicação',
+    '1er recordatorio':'1º lembrete', '2do recordatorio':'2º lembrete',
+    'Actualización':'Atualização', 'Revisión':'Revisão', 'Actualiza tablero':'Atualiza o quadro',
+    '1er y 2do recordatorio':'1º e 2º lembrete', 'Crear iniciativa':'Criar iniciativa',
+    'Revisión local':'Revisão local', 'Revisión regional':'Revisão regional',
+    'Evaluación Tribu':'Avaliação da Tribo', 'Tablero de iniciativas':'Quadro de iniciativas',
+    'Crear proyecto':'Criar projeto', 'Actualizar proyecto':'Atualizar projeto',
+    'Capturar Form':'Enviar o Form', 'Revisión Managers':'Revisão dos Managers',
+    'Revisión Sr. Manager':'Revisão do Sr. Manager', 'Sale a todo MLM':'Sai para todo o MLM',
+    '5 días antes de la fecha límite':'5 dias antes do prazo',
+    '3 días antes de la fecha límite':'3 dias antes do prazo',
+    'Ingresa a Meli Axis, revisa el portafolio y sus actividades asignadas, comenta avances y actualiza el estatus.':'Acessa o Meli Axis, revisa o portfólio e suas atividades atribuídas, comenta os avanços e atualiza o status.',
+    'Revisa lo actualizado por su Focal CIE.':'Revisa o que foi atualizado pelo seu Focal CIE.',
+    'Actualiza el tablero de proyectos con lo cargado.':'Atualiza o quadro de projetos com o que foi carregado.',
+    '5 y 3 días antes de la fecha límite':'5 e 3 dias antes do prazo',
+    'Construye el one page: propuesta de valor de la iniciativa.':'Constrói o one page: proposta de valor da iniciativa.',
+    'Supervisores y Manager evalúan la viabilidad de la iniciativa.':'Supervisores e Manager avaliam a viabilidade da iniciativa.',
+    'Si la mesa local aprueba, sube vía Meli Axis a la mesa regional.':'Se o comitê local aprovar, sobe via Meli Axis para o comitê regional.',
+    'Discusión y priorización de Q, si la mesa regional aprobó.':'Discussão e priorização do trimestre, se o comitê regional aprovou.',
+    'Sube la iniciativa al tablero.':'Sobe a iniciativa para o quadro.',
+    'Si la mesa local aprobó, se sube a Meli Axis como proyecto nuevo, listo para ejecución.':'Se o comitê local aprovou, é carregado no Meli Axis como um novo projeto, pronto para execução.',
+    'Último lunes del mes (incluye MELI Axis).':'Última segunda-feira do mês (inclui o MELI Axis).',
+    'Fecha límite: primer miércoles del mes.':'Prazo: primeira quarta-feira do mês.',
+    'Fecha límite: primer viernes del mes.':'Prazo: primeira sexta-feira do mês.',
+    'Fecha límite: segundo martes del mes.':'Prazo: segunda terça-feira do mês.',
+    'Al día siguiente de la autorización del Sr. Manager.':'No dia seguinte à aprovação do Sr. Manager.',
+
+    // Cadencia / Nota (frases con una palabra en negritas a mitad de oracion)
+    'Cadencia:':'Cadência:',
+    'se repite 2 veces al mes — del 10 al 15 y del 25 al 30 — actualizando los proyectos asignados en':'se repete 2 vezes por mês — do dia 10 ao 15 e do 25 ao 30 — atualizando os projetos atribuídos no',
+    'Nota:':'Nota:',
+    'el equipo de Gestión comparte a inicios de mes el estatus de todas las iniciativas generadas, a todo OE MLM, para conocimiento y seguimiento.':'a equipe de Gestão compartilha no início do mês o status de todas as iniciativas geradas, com todo o OE MLM, para conhecimento e acompanhamento.',
+
+    // Intro de Iniciativas Regionales / Locales (parrafos con palabra en negritas)
+    'Así se convierte una idea en una iniciativa formal con alcance':'É assim que uma ideia se transforma em uma iniciativa formal com alcance',
+    'regional':'regional',
+    ', evaluada en dos mesas antes de pasar a la Tribu.':', avaliada em duas mesas antes de passar para a Tribo.',
+    'Mismo arranque que el Backlog Continuo, pero si la mesa local aprueba, la iniciativa se convierte directo en':'Mesmo início do Backlog Contínuo, mas se o comitê local aprovar, a iniciativa se transforma direto em',
+    'proyecto':'projeto',
+    '— sin subir a mesa regional ni a Tribu.':'— sem subir para um comitê regional nem para a Tribo.',
+
+    // Big Rocks: empty-states y titulos de area
+    'Todavía no hay Grids cargados para esta área':'Ainda não há Grids carregados para esta área',
+    'Sin Big Rocks definidos todavía':'Ainda sem Big Rocks definidos',
+    'Aquí van a vivir los Grids estratégicos de FM + XD + SC + TOM como repositorio.':'Aqui vão viver os Grids estratégicos de FM + XD + SC + TOM como repositório.',
+    'En cuanto SVC + Last Mile defina cuáles son sus proyectos más importantes, van a aparecer aquí.':'Assim que SVC + Last Mile definir quais são seus projetos mais importantes, eles vão aparecer aqui.',
+    'En cuanto Quality defina cuáles son sus proyectos más importantes, van a aparecer aquí.':'Assim que Quality definir quais são seus projetos mais importantes, eles vão aparecer aqui.',
+    'En cuanto Gestión defina cuáles son sus proyectos más importantes, van a aparecer aquí.':'Assim que a Gestão definir quais são seus projetos mais importantes, eles vão aparecer aqui.',
+
+    // Auditoria i18n (sep-2026, ronda 2): faltantes detectadas con verificacion automatizada real (jsdom)
+    'Flujo de Iniciativas Locales':'Fluxo de Iniciativas Locais',
+    'Expansiones · Señalética de Aperturas':'Expansões · Sinalização de Aberturas',
+    'Glosario MeLi':'Glossário MeLi',
+    'Documentos de interés':'Documentos de interesse',
+    'larry.beresforddiaz@mercadolibre.com.mx':'larry.beresforddiaz@mercadolibre.com.mx',
+    'XD benefició con 262k USD de saving en el mes':'XD gerou US$ 262 mil em economia no mês',
+    'Manga Pallet MLM':'Manga Pallet MLM',
+    'De picos de 12K a menos de 600 SHPs: control nacional de paquetes sin STEP en SC01':'De picos de 12 mil para menos de 600 SHPs: controle nacional de pacotes sem STEP na SC01',
+    'Estamos en Beta continuo':'Estamos em Beta contínuo',
+    'SVC · Last Mile':'SVC · Last Mile',
+    '95% de sitios con Stage zones lo están utilizando.':'95% dos sites com Stage Zones já estão utilizando.',
+    'Stage zones rumbo a picking sistémico.':'Stage Zones rumo ao picking sistêmico.',
+    'Nuevo método de inducción de manga pallets':'Novo método de indução de manga pallets',
+    'La productividad y la seguridad van de la mano':'Produtividade e segurança andam juntas',
+    'Señalética de Aperturas':'Sinalização de Aberturas',
+    'Arma el carrito de señalética para un sitio nuevo (SVC) y exporta la orden de compra lista para el proveedor.':'Monta o carrinho de sinalização para um site novo (SVC) e exporta o pedido de compra pronto para o fornecedor.',
+    'Slip Robots (Big Rocks · FM + XD + SC + TOM)':'Slip Robots (Big Rocks · FM + XD + SC + TOM)',
+    'Scorecard de priorización de rutas LH Ground para despliegue de robots (Multiplicadores/Optimizadores/Tácticos/Estáticos).':'Scorecard de priorização de rotas LH Ground para implantação de robôs (Multiplicadores/Otimizadores/Táticos/Estáticos).',
+    'Actualización de proyectos, indicadores, iniciativas y Big Rocks por área de OE.':'Atualização de projetos, indicadores, iniciativas e Big Rocks por área de OE.',
+    'Actualización de Proyectos':'Atualização de Projetos',
+    'Big Rocks':'Big Rocks',
+    'Meli Axis':'Meli Axis',
+    '· Iniciativas regionales':'· Iniciativas regionais',
+    '· Alcance local':'· Alcance local',
+    'Big Rocks por área':'Big Rocks por área',
+    'Slip Robots':'Slip Robots',
+    'Scorecard de priorización de rutas LH Ground.':'Scorecard de priorização de rotas LH Ground.',
+    'Grids estratégicos':'Grids estratégicos',
+    'Arma el carrito de señalética para la apertura de un sitio SVC (fijos + variables + opcionales) y genera la orden de compra en Excel lista para el proveedor.':'Monta o carrinho de sinalização para a abertura de um site SVC (fixos + variáveis + opcionais) e gera o pedido de compra em Excel pronto para o fornecedor.',
+    'Scorecard de priorización de rutas Line Haul Ground para despliegue de Slip Robots — de Martín Winkler.':'Scorecard de priorização de rotas Line Haul Ground para implantação de Slip Robots — de Martín Winkler.',
+    'Guía paso a paso para Focales y Supervisores: cómo llenar el Form y cómo corre el proceso mensual del Newsletter.':'Guia passo a passo para Focais e Supervisores: como preencher o Form e como funciona o processo mensal do Newsletter.',
+
+    // Success Stories: estadisticas (story-summary li)
+    'Máximo saving en manga pallet: Agosto es el mes con mayor saving resultado del encendido de XDs y destinos SVC.':'Máxima economia em manga pallet: agosto é o mês com maior economia resultado do lançamento dos XDs e destinos SVC.',
+    'Saving: 262 k USD':'Economia: US$ 262 mil',
+    '-90% vs promedio histórico: El volumen semanal de paquetes sin step sistémico bajó de un promedio histórico de ~6,000 SHPs (con picos de hasta 12,000) a un promedio de ~850 SHPs desde que el monitoreo y los planes de acción están activos, cerrando la semana más reciente en 572.':'-90% vs. média histórica: o volume semanal de pacotes sem etapa sistêmica caiu de uma média histórica de ~6.000 SHPs (com picos de até 12.000) para uma média de ~850 SHPs desde que o monitoramento e os planos de ação estão ativos, fechando a semana mais recente em 572.',
+    'Pico histórico de SHPs/semana (previo al control): 12000':'Pico histórico de SHPs/semana (antes do controle): 12.000',
+    'Adopción de herramienta: 95%':'Adoção da ferramenta: 95%',
+    'Rate etiquetado: Hasta más de 800 shps/hr.':'Taxa de etiquetagem: Até mais de 800 shps/h.',
+    'Más ergonomía para nuestros inductores.':'Mais ergonomia para nossos indutores.',
+
+    // Calendario: encabezados de dia de la semana
+    'Lun':'Seg', 'Mar':'Ter', 'Mié':'Qua', 'Jue':'Qui', 'Vie':'Sex', 'Sáb':'Sáb', 'Dom':'Dom',
+
+    // Boletines: aviso de "no carga"
+    '¿No carga aquí?':'Não carrega aqui?',
+
     'Generar Proyecto Local':'Gerar Projeto Local',
     'Insights de Portafolio — Proyectos':'Insights de Portfólio — Projetos',
     'Insights de Portafolio — Indicadores':'Insights de Portfólio — Indicadores',
@@ -2821,7 +3158,11 @@
     '.learn-card-title', '.learn-card-sub', '.i18n-link',
     '.bib-section-title', '.bib-note', '.bib-table thead th', '.bib-open',
     '.btn-fs-label',
-    '#sugArea option', '#sugTipo option'
+    '#sugArea option', '#sugTipo option',
+    '.page-back', '.flow-tag', '.flow-title', '.flow-desc', '.flow-intro',
+    '.cadence', '.branch-card',
+    '.e-title', '.e-sub', '.bigrocks-area-title',
+    '.story-summary li', '.cal-weekdays div', '.bv-open-full'
   ].join(', ');
 
   function applyLang(lang) {
@@ -2838,14 +3179,16 @@
       if (el.dataset.i18nOrig === undefined) { el.dataset.i18nOrig = el.innerHTML; }
       var orig = el.dataset.i18nOrig;
       if (lang === 'es' || !dict) { el.innerHTML = orig; return; }
-      var m = orig.match(/^(\s*)([^<]+)([\s\S]*)$/);
-      if (!m) return;
-      var lead = m[1], text = m[2], rest = m[3];
-      var key = text.trim();
-      if (dict.hasOwnProperty(key)) {
-        var trailingSpace = /\s$/.test(text) ? ' ' : '';
-        el.innerHTML = lead + dict[key] + trailingSpace + rest;
-      }
+      // Traduce CADA corrida de texto entre tags (no solo la primera), para que
+      // frases con una palabra en negritas a mitad de oracion (ej. "<b>Nota:</b> el
+      // equipo...") tambien se traduzcan por completo y no solo el pedazo inicial.
+      el.innerHTML = orig.replace(/(^|>)([^<]+)/g, function (full, prefix, text) {
+        var key = text.trim();
+        if (!key || !dict.hasOwnProperty(key)) return full;
+        var lead = text.match(/^\s*/)[0];
+        var trail = text.match(/\s*$/)[0];
+        return prefix + lead + dict[key] + trail;
+      });
     });
 
     var sugDesc = document.getElementById('sugDesc');
