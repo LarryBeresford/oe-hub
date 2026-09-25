@@ -185,11 +185,33 @@ details .body div::before{content:'—';position:absolute;left:0;color:#CCC}
 
 <!-- ══ TAB BAR ══ -->
 <div class="tabbar">
+  <button class="tab" onclick="switchTab('migrar',this)" data-i18n="tabMigrar">Migrar fotos</button>
   <button class="tab on" onclick="switchTab('generar',this)" data-i18n="tabGenerar">Generar</button>
   <button class="tab" onclick="switchTab('historial',this)" data-i18n="tabHistorial">Historial</button>
 </div>
 
 <div class="wrap">
+
+  <!-- ══ PANEL: MIGRAR FOTOS ══ -->
+  <div class="panel" id="p-migrar">
+    <div class="section-title" data-i18n="sectionMigrar">Paso previo y separado -- migra las fotos de Drive/Imgur a ImgBB</div>
+    <div class="empty-state" style="text-align:left;align-items:flex-start;padding:20px 24px;margin-bottom:18px">
+      <div class="txt" style="text-align:left;max-width:none">
+        Sube aquí el/los Excel <b>recién bajados del Apps Script</b> (con fotos en Google Drive o en Imgur).
+        Este paso migra esas fotos a ImgBB y te regresa el mismo Excel listo para usarse en la pestaña "Generar".
+        Es un paso <b>independiente</b>: si algo falla aquí, no afecta la generación de boletines.
+      </div>
+    </div>
+    <label class="dropzone" id="dz_migrar" style="max-width:520px">
+      <input type="file" accept=".xlsx" multiple onchange="onMigrarFileChange(this)"/>
+      <div class="dz-icon">&#128193;</div>
+      <div class="dz-text" id="dzTextMigrar" data-i18n="dzTextMigrar">Arrastra uno o más Excel aquí o haz clic para elegir</div>
+    </label>
+    <div style="margin-top:16px">
+      <button class="btn" id="btnMigrar" onclick="migrarFotos()" disabled data-i18n="btnMigrar">Migrar fotos a ImgBB</button>
+    </div>
+    <div id="migrarResultados" style="margin-top:22px"></div>
+  </div>
 
   <!-- ══ PANEL: GENERAR ══ -->
   <div class="panel on" id="p-generar">
@@ -218,7 +240,17 @@ var I18N = {
   es: {
     hdrTitle: 'Boletines OE',
     hdrSub: 'Newsletter mensual · Excelencia Operativa · México',
-    tabGenerar: 'Generar', tabHistorial: 'Historial',
+    tabGenerar: 'Generar', tabHistorial: 'Historial', tabMigrar: 'Migrar fotos',
+    sectionMigrar: 'Paso previo y separado -- migra las fotos de Drive/Imgur a ImgBB',
+    migrarExplicacion: 'Sube aquí el/los Excel <b>recién bajados del Apps Script</b> (con fotos en Google Drive o en Imgur). Este paso migra esas fotos a ImgBB y te regresa el mismo Excel listo para usarse en la pestaña "Generar". Es un paso <b>independiente</b>: si algo falla aquí, no afecta la generación de boletines.',
+    dzTextMigrar: 'Arrastra uno o más Excel aquí o haz clic para elegir',
+    btnMigrar: 'Migrar fotos a ImgBB',
+    migrarProcesando: 'Migrando {archivo}...',
+    migrarSinCambios: 'no había nada que migrar (vacío o ya todo en ImgBB)',
+    migrarListo: '{n} foto(s) migrada(s)',
+    migrarDescargar: 'Descargar {archivo}',
+    migrarError: 'no se pudo procesar ({error})',
+    migrarFaltaApiKey: 'Falta IMGBB_API_KEY configurada en Vercel (Settings → Environment Variables de este proyecto).',
     sectionUpload: 'Sube el Excel de cada área (mismo modelo de siempre: Config / Proyectos / Secciones / Eventos / NuevosIngresos / KPIs)',
     sectionHistorial: 'Boletines generados (persisten en este navegador)',
     excelDe: 'Excel de {area}',
@@ -641,6 +673,220 @@ function applyLang(lang) {
 window.addEventListener('message', function (e) {
   if (e && e.data && e.data.type === 'oeHubLang') applyLang(e.data.lang);
 });
+
+// ---------------------------------------------------------------
+// Migrar fotos (Drive/Imgur -> ImgBB) -- equivalente en el navegador de
+// scripts/fotos/drive_a_imgbb.py (motor-oe-v2). La descarga/subida real la
+// hace la funcion serverless api/migrar-imagen.js (Google Drive bloquea
+// CORS, asi que no se puede hacer solo con fetch() del navegador; ver
+// commit que agrego esto para el detalle). Aqui solo se orquesta: leer el
+// Excel con SheetJS, decidir que celdas migrar, llamar al endpoint una por
+// una, y reescribir el Excel para descargar.
+// ---------------------------------------------------------------
+var YA_EN_IMGBB = ["i.ibb.co", "ibb.co"];
+var ORIGEN_IMGUR = ["i.imgur.com", "imgur.com"];
+var ORIGEN_DRIVE = ["drive.google.com"];
+var migrarArchivos = [];
+
+function clasificarUrl(url) {
+  if (!url) return null;
+  url = String(url).trim();
+  if (!url) return null;
+  if (YA_EN_IMGBB.some(function (h) { return url.indexOf(h) !== -1; })) return "imgbb";
+  if (ORIGEN_DRIVE.some(function (h) { return url.indexOf(h) !== -1; }) ||
+      ORIGEN_IMGUR.some(function (h) { return url.indexOf(h) !== -1; })) return "migrar";
+  return null;
+}
+
+function onMigrarFileChange(input) {
+  migrarArchivos = input.files ? Array.prototype.slice.call(input.files) : [];
+  var dz = document.getElementById("dz_migrar");
+  var dzText = document.getElementById("dzTextMigrar");
+  var btn = document.getElementById("btnMigrar");
+  if (migrarArchivos.length) {
+    dz.classList.add("has-file");
+    dzText.textContent = migrarArchivos.length === 1 ? migrarArchivos[0].name : migrarArchivos.length + " archivos seleccionados";
+    btn.disabled = false;
+  } else {
+    dz.classList.remove("has-file");
+    dzText.textContent = t('dzTextMigrar');
+    btn.disabled = true;
+  }
+}
+
+function leerConfigHoja(wb) {
+  var cfg = {};
+  if (wb.SheetNames.indexOf("Config") === -1) return cfg;
+  var rows = XLSX.utils.sheet_to_json(wb.Sheets["Config"], { header: 1, defval: null });
+  for (var i = 1; i < rows.length; i++) {
+    if (rows[i] && rows[i][0]) cfg[rows[i][0]] = rows[i][1];
+  }
+  return cfg;
+}
+
+function slugMigrar(texto) {
+  return String(texto).replace(/[^\w\s-]/gu, "").trim().replace(/[\s-]+/g, "_");
+}
+
+// NOTA IMPORTANTE: la migracion escribe celda por celda con direccion exacta
+// (fila/columna), NUNCA reconstruyendo la hoja via sheet_to_json+sheet_add_json
+// -- ese camino se probo primero y resulto tener un bug real: sheet_to_json
+// COMPACTA filas en blanco intercaladas (las omite del arreglo), asi que al
+// reescribir con sheet_add_json todo se recorre una posicion y la ultima fila
+// original queda duplicada/huerfana con datos viejos. Escribir por celda
+// (mismo criterio que motor-oe-v2/scripts/fotos/drive_a_imgbb.py con
+// openpyxl) evita esto por completo: solo se toca la celda que cambia, el
+// resto del archivo (incluyendo filas en blanco) queda intacto.
+
+function mapaEncabezados(ws, range) {
+  var headers = {};
+  for (var c = range.s.c; c <= range.e.c; c++) {
+    var cell = ws[XLSX.utils.encode_cell({ r: range.s.r, c: c })];
+    if (cell && cell.v !== undefined && cell.v !== null && cell.v !== "") headers[String(cell.v)] = c;
+  }
+  return headers;
+}
+function leerCelda(ws, r, c) {
+  var cell = ws[XLSX.utils.encode_cell({ r: r, c: c })];
+  return cell ? cell.v : null;
+}
+function escribirCelda(ws, r, c, valor) {
+  ws[XLSX.utils.encode_cell({ r: r, c: c })] = { t: "s", v: valor };
+}
+
+async function migrarValorCelda(url, identificador, log) {
+  var estado = clasificarUrl(url);
+  if (estado === null) return null;
+  if (estado === "imgbb") {
+    log.push({ ok: true, skip: true, ident: identificador, msg: "ya está en ImgBB, no se toca" });
+    return null;
+  }
+  try {
+    var resp = await fetch("/api/migrar-imagen", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url: url, nombre: slugMigrar(identificador) })
+    });
+    var data = await resp.json();
+    if (data.error) {
+      log.push({ ok: false, ident: identificador, msg: data.error });
+      return null;
+    }
+    if (data.skip) {
+      log.push({ ok: true, skip: true, ident: identificador, msg: data.razon || "sin cambios" });
+      return null;
+    }
+    log.push({ ok: true, ident: identificador, msg: data.url });
+    return data.url;
+  } catch (e) {
+    log.push({ ok: false, ident: identificador, msg: String(e) });
+    return null;
+  }
+}
+
+async function procesarNuevosIngresosJS(ws, area, mes, log) {
+  if (!ws || !ws["!ref"]) return 0;
+  var range = XLSX.utils.decode_range(ws["!ref"]);
+  var headers = mapaEncabezados(ws, range);
+  if (!(headers.hasOwnProperty("Nombre") && headers.hasOwnProperty("FotoURL"))) return 0;
+  var total = 0;
+  for (var r = range.s.r + 1; r <= range.e.r; r++) {
+    var nombre = leerCelda(ws, r, headers["Nombre"]);
+    var foto = leerCelda(ws, r, headers["FotoURL"]);
+    if (!nombre || !foto) continue;
+    var ident = nombre + "_" + area + "_" + mes;
+    var nuevo = await migrarValorCelda(foto, ident, log);
+    if (nuevo) { escribirCelda(ws, r, headers["FotoURL"], nuevo); total++; }
+  }
+  return total;
+}
+
+async function procesarSeccionesJS(ws, area, mes, log) {
+  if (!ws || !ws["!ref"]) return 0;
+  var range = XLSX.utils.decode_range(ws["!ref"]);
+  var headers = mapaEncabezados(ws, range);
+  if (!headers.hasOwnProperty("ImagenURL")) return 0;
+  var total = 0;
+  for (var r = range.s.r + 1; r <= range.e.r; r++) {
+    var imagen = leerCelda(ws, r, headers["ImagenURL"]);
+    if (!imagen) continue;
+    var etiqueta = (headers.hasOwnProperty("Titulo") && leerCelda(ws, r, headers["Titulo"])) ||
+                   (headers.hasOwnProperty("Seccion") && leerCelda(ws, r, headers["Seccion"])) ||
+                   ("fila" + (r + 1));
+    var ident = etiqueta + "_" + area + "_" + mes;
+    var nuevo = await migrarValorCelda(imagen, ident, log);
+    if (nuevo) { escribirCelda(ws, r, headers["ImagenURL"], nuevo); total++; }
+  }
+  return total;
+}
+
+async function migrarWorkbook(wb, log) {
+  var cfg = leerConfigHoja(wb);
+  var area = cfg["Area"] || cfg["area"] || "";
+  var mes = cfg["Mes"] || cfg["mes"] || "";
+  var total = 0;
+
+  if (wb.SheetNames.indexOf("NuevosIngresos") !== -1) {
+    total += await procesarNuevosIngresosJS(wb.Sheets["NuevosIngresos"], area, mes, log);
+  }
+
+  if (wb.SheetNames.indexOf("Secciones") !== -1) {
+    total += await procesarSeccionesJS(wb.Sheets["Secciones"], area, mes, log);
+  }
+
+  return total;
+}
+
+function migrarResultBoxHtml(archivo, total, log, blobUrl, nombreSalida) {
+  var itemsHtml = log.map(function (item) {
+    var icono = item.ok ? (item.skip ? "⏭️" : "✅") : "⚠️";
+    return '<div>' + icono + ' [' + escapeHtml(item.ident) + '] ' + escapeHtml(item.msg) + '</div>';
+  }).join("");
+  var cuerpoHtml = total > 0
+    ? ('<div style="color:#16a34a;font-weight:700;margin-bottom:10px">' + t('migrarListo', { n: total }) + '</div>'
+       + '<a class="btn small" href="' + blobUrl + '" download="' + nombreSalida + '">' + t('migrarDescargar', { archivo: nombreSalida }) + '</a>')
+    : ('<div style="color:#888;margin-bottom:6px">' + t('migrarSinCambios') + '</div>');
+  return '<div class="result">'
+    + '<div class="result-h"><div><div class="result-title">' + escapeHtml(archivo) + '</div></div></div>'
+    + cuerpoHtml
+    + (log.length ? '<details style="margin-top:12px"><summary>Detalle</summary><div class="body">' + itemsHtml + '</div></details>' : '')
+    + '</div>';
+}
+
+async function migrarFotos() {
+  var btn = document.getElementById("btnMigrar");
+  var cont = document.getElementById("migrarResultados");
+  cont.innerHTML = "";
+  btn.disabled = true;
+  var textoOriginal = btn.textContent;
+  for (var i = 0; i < migrarArchivos.length; i++) {
+    var archivo = migrarArchivos[i];
+    btn.textContent = t('migrarProcesando', { archivo: archivo.name });
+    var box = document.createElement("div");
+    box.innerHTML = '<div class="result"><div class="result-title">' + escapeHtml(archivo.name) + '</div><div style="color:#999;margin-top:6px">Procesando...</div></div>';
+    cont.appendChild(box);
+    try {
+      var buf = await leerArrayBuffer(archivo);
+      var wb = XLSX.read(new Uint8Array(buf), { type: "array" });
+      var log = [];
+      var total = await migrarWorkbook(wb, log);
+      var blobUrl = "", nombreSalida = "";
+      if (total > 0) {
+        var outArr = XLSX.write(wb, { type: "array", bookType: "xlsx" });
+        var blob = new Blob([outArr], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+        blobUrl = URL.createObjectURL(blob);
+        var partes = archivo.name.split(".");
+        var ext = partes.length > 1 ? "." + partes.pop() : ".xlsx";
+        nombreSalida = partes.join(".") + "_imgbb" + ext;
+      }
+      box.innerHTML = migrarResultBoxHtml(archivo.name, total, log, blobUrl, nombreSalida);
+    } catch (e) {
+      box.innerHTML = '<div class="err-box">' + escapeHtml(archivo.name) + ': ' + t('migrarError', { error: String(e) }) + '</div>';
+    }
+  }
+  btn.textContent = textoOriginal;
+  btn.disabled = !migrarArchivos.length;
+}
 
 buildAreaCards();
 </script>
@@ -1131,12 +1377,12 @@ function loadWorkbook(wb) {
 }
 
 // ---- lint (avisos de revisión, no bloquean nada) ----
-var _HOSTS_FOTO_OK = ["imgur.com", "drive.google.com", "googleusercontent.com"];
+var _HOSTS_FOTO_OK = ["imgur.com", "drive.google.com", "googleusercontent.com", "ibb.co"];
 function _fotoAviso(url) {
   var u = esc(url);
   if (!u) return null;
   if (u.indexOf("http") !== 0) return 'no empieza con "http" -- probablemente no es un link valido, va a salir en blanco.';
-  if (!_HOSTS_FOTO_OK.some(function (h) { return u.indexOf(h) !== -1; })) return 'no parece ser un link de imgur ni de Google Drive -- revisar que sea el link DIRECTO a la imagen (no a un album/carpeta), o puede salir en blanco.';
+  if (!_HOSTS_FOTO_OK.some(function (h) { return u.indexOf(h) !== -1; })) return 'no parece ser un link de ImgBB, Imgur ni Google Drive -- revisar que sea el link DIRECTO a la imagen (no a un album/carpeta), o puede salir en blanco.';
   return null;
 }
 function lintData(data) {

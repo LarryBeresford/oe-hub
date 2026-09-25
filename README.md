@@ -15,12 +15,16 @@ final ya no pasa por Streamlit** — motor-oe-v2 se mantiene como generador
 de referencia / CLI / respaldo, pero el Hub es autosuficiente para producir
 los boletines mensuales.
 
-**No hay backend ni build step.** Todo corre en el navegador de quien lo
-usa: lectura/escritura de Excel con SheetJS (`lib/xlsx.full.min.js`) o
-ExcelJS (`lib/exceljs.min.js`, necesaria para incrustar imágenes en el
-Excel exportado), gráficas con Chart.js (`lib/chart.umd.js`) — todo
-vendorizado localmente en `herramientas/lib/`, sin CDN, para que funcione
-sin bloqueos de red corporativos.
+**Prácticamente no hay backend ni build step.** Casi todo corre en el navegador
+de quien lo usa: lectura/escritura de Excel con SheetJS (`lib/xlsx.full.min.js`)
+o ExcelJS (`lib/exceljs.min.js`, necesaria para incrustar imágenes en el Excel
+exportado), gráficas con Chart.js (`lib/chart.umd.js`) — todo vendorizado
+localmente en `herramientas/lib/`, sin CDN, para que funcione sin bloqueos de
+red corporativos. La única excepción es `api/migrar-imagen.js` (ver detalle
+abajo): una función serverless de Vercel, porque Google Drive bloquea por CORS
+que se lea un archivo suyo desde JavaScript de otro sitio -- ese único paso sí
+necesita correr del lado del servidor. Vercel la despliega sola al hacer
+`git push`, sin build step manual ni Node instalado en la laptop de nadie.
 
 ## Estructura real del repo
 
@@ -46,6 +50,9 @@ oe-hub/
 │       ├── sliprobots/*.xlsx           # datos de Slip Robots (un solo Excel multi-hoja, editable por no técnicos)
 │       └── boletines/directorio_oe.json # directorio OE (organigrama) que se pega al final de los 4 boletines
 ├── apps-script/           # .gs de Google Apps Script usados por el Hub (Sugerencias; ver detalle abajo)
+├── api/                   # funciones serverless de Vercel (la UNICA parte con "backend" del Hub)
+│   └── migrar-imagen.js    # descarga una foto de Drive/Imgur y la re-sube a ImgBB -- usada por
+│                           # la pestaña "Migrar fotos" de boletines_oe.html (ver detalle abajo)
 ├── media/                 # imágenes y video usados en Inicio
 └── NOMENCLATURA_OE.md     # referencia rápida de cómo se llama cada área (FM+XD+SC+TOM, SVC+Last Mile, Quality, Gestión)
 ```
@@ -120,7 +127,25 @@ con acento amarillo `#FFD001`/`#FFE600`, sin build ni dependencias de CDN.
   en vez de fallar en silencio. **Importante:** hay DOS implementaciones de
   la misma lógica de negocio (`motor.py` y `motor.js`) — cualquier cambio
   de regla/KPI/formato debe replicarse en ambos o se desalinean con el
-  tiempo.
+  tiempo. El fix de `_HOSTS_FOTO_OK` (reconocer `ibb.co` como host valido de
+  foto) debe replicarse igual en ambos si se toca.
+  **Pestaña "Migrar fotos"** (dentro de la misma herramienta, junto a
+  "Generar"/"Historial"): paso previo y separado -- se sube el Excel recien
+  bajado del Apps Script (con fotos de Drive/Imgur) y se descarga el mismo
+  Excel con esas fotos ya migradas a ImgBB, listo para la pestaña "Generar".
+  Usa SheetJS para leer/escribir el Excel **celda por celda por direccion
+  exacta** (nunca reconstruyendo la hoja via `sheet_to_json`+`sheet_add_json`
+  compactados en un arreglo) -- se probo ese camino primero y tenia un bug
+  real: `sheet_to_json` omite filas en blanco intercaladas, asi que al
+  reescribir con `sheet_add_json` todo se recorre una posicion y la ultima
+  fila original queda duplicada con datos viejos. Ver
+  `mapaEncabezados`/`leerCelda`/`escribirCelda` en el script de
+  `boletines_oe.html`. La descarga/subida real de cada foto la hace
+  `api/migrar-imagen.js` (ver arriba): Imgur si se puede leer directo desde el
+  navegador (permite CORS), pero Google Drive no, asi que ambos casos pasan
+  por esa funcion serverless para no duplicar logica segun el origen. La API
+  key de ImgBB vive SOLO ahi (variable de entorno `IMGBB_API_KEY` en Vercel),
+  nunca se manda al navegador.
 - **`senaletica_aperturas.html` — Señalética de Aperturas.** Wizard de 3
   pasos: **1) Datos del sitio** → **2) Artículos** (135 artículos: 93
   fijos + 16 variables + 26 opcionales, cada uno con su imagen de
@@ -204,10 +229,18 @@ por si el `fetch()` del JSON falla). Cada persona es un objeto con `n`
 (nombre), `niv` (`Sr Manager` / `Manager` / `Supervisor` — esto es lo único
 que se muestra en su tarjeta), `rama` (el nombre de la columna donde
 aparece — debe coincidir exactamente con la nomenclatura oficial de área),
-`mail` y `foto` (URL, hoy son links de Imgur — **pendiente: Larry va a
-subir las fotos reales del equipo** para reemplazar esas URLs). Para
-actualizar a alguien o agregar/quitar personas, edita ambos archivos
-(JSON + respaldo) y mantenlos idénticos.
+`mail` y `foto` (URL directa de **ImgBB**, `https://i.ibb.co/CODE/archivo.jpg`
+— las fotos reales del equipo ya se subieron). Para actualizar a alguien o
+agregar/quitar personas, edita ambos archivos (JSON + respaldo) y mantenlos
+idénticos. **Ojo:** `motor-oe-v2` (repo separado) tiene su PROPIA copia de
+este mismo directorio en `directorio_oe.json` (raíz de ese repo) + su propio
+respaldo embebido en `motor.py` — si cambias una foto o un dato de alguien,
+hay que replicarlo en los DOS repos (4 lugares en total) o se desalinean.
+Si necesitas volver a subir una foto (por ejemplo porque alguien la borró
+por error de la galería de ImgBB, lo cual rompe el link al instante), usa
+`motor-oe-v2/scripts/fotos/imgbb_upload.py` o la pestaña "Migrar fotos" de
+`boletines_oe.html` — ver el README de `motor-oe-v2` para el detalle
+completo del pipeline de fotos.
 
 ## Correr en local
 
@@ -218,7 +251,21 @@ ni dependencias:
 python3 -m http.server 8000
 ```
 
-y entrar a `http://localhost:8000`.
+y entrar a `http://localhost:8000`. **Ojo:** la pestaña "Migrar fotos" de
+`boletines_oe.html` necesita `api/migrar-imagen.js`, que solo corre bajo
+`vercel dev` (o ya desplegado en Vercel) -- con `http.server` esa pestaña no
+va a funcionar (el resto del sitio si).
+
+## Variables de entorno (Vercel)
+
+Este proyecto es 100% estático salvo por `api/migrar-imagen.js` (ver detalle
+en "Herramientas satélite" arriba), que necesita:
+
+- `IMGBB_API_KEY` -- API key de ImgBB (misma que usa `motor-oe-v2` para sus
+  scripts de fotos). Configúrala en el dashboard de Vercel del proyecto:
+  **Settings → Environment Variables**. Sin esto, la pestaña "Migrar fotos"
+  de `boletines_oe.html` responde con error pero el resto del Hub sigue
+  funcionando normal.
 
 ## Nomenclatura de áreas (importante)
 
@@ -241,8 +288,6 @@ en el menú.
   planta para armar un checklist visual, exportable a PDF. Pausado a
   propósito — solo se construye cuando David/Larry pidan la propuesta de
   diseño.
-- **Fotos del equipo**: Larry va a subir fotos reales para reemplazar las
-  URLs de Imgur en `directorio_oe.json`.
 - **Campaña de comunicación del Hub** (Ricardo): falta definir alcance
   (audiencia, tono, canal).
 - **Imágenes de señalética en mejor resolución**: pendiente de que David
