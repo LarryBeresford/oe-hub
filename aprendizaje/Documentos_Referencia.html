@@ -50,7 +50,12 @@
 
   .bib-section-title { font-size:13px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; color:#999; margin:26px 0 10px; }
   .bib-section-title:first-of-type { margin-top:0; }
-  .bib-table-wrap { background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:auto; }
+  .bib-table-wrap { background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:visible; }
+  /* Antes se usaba con style="max-height:640px" inline, lo que generaba un scroll
+     interno dentro del scroll general de la pagina ("scroll dentro de scroll"). Ahora
+     la tabla crece a su alto natural y la pagina (o el iframe que la embebe en el Hub)
+     scrollea una sola vez. overflow:visible (no hidden/auto) es a proposito: para que
+     el encabezado siga fijo (position:sticky) contra el scroll real de la pagina. */
   .bib-table { width:100%; border-collapse:collapse; font-size:12.5px; }
   .bib-table thead th { position:sticky; top:0; background:var(--light-bg); text-align:left; padding:10px 14px; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:#999; z-index:1; }
   .bib-table td { padding:9px 14px; border-top:1px solid var(--border); vertical-align:top; }
@@ -85,7 +90,7 @@
 
     <div class="bib-section-title" id="secTitleDocs">Documentos de interés</div>
     <input type="text" id="bibSearch" class="bib-search" placeholder="Buscar documento..." oninput="filterDocs()">
-    <div class="bib-table-wrap" style="max-height:640px;">
+    <div class="bib-table-wrap">
       <table class="bib-table">
         <thead><tr><th id="thDocumento">Documento</th><th id="thQueConsulta">Qué consulta</th><th style="text-align:right;" id="thAccion">Acción</th></tr></thead>
         <tbody id="docsTbody">
@@ -223,7 +228,7 @@
 
     <div class="bib-section-title" id="secTitleReg">Nueva Regionalización TTE MLM · Sitios y su nueva región</div>
     <input type="text" id="regSearch" class="bib-search" placeholder="Buscar sitio, región o subregión..." oninput="filterSites()">
-    <div class="bib-table-wrap" style="max-height:640px;">
+    <div class="bib-table-wrap">
       <table class="bib-table">
         <thead>
           <tr>

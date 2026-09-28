@@ -30,6 +30,10 @@
     color: var(--dark);
     display: flex;
     min-height: 100vh;
+    overflow-x: hidden; /* red de seguridad: evita scroll horizontal de pagina completa
+      si algun elemento interno (video, tabla, tarjeta) intenta imponer un ancho minimo
+      mayor al viewport. Las areas que si necesitan scroll horizontal propio (ej. tablas
+      con overflow:auto) siguen funcionando igual, son regiones scrolleables aparte. */
   }
 
   .sidebar {
@@ -189,7 +193,7 @@
   }
   .bulletin-grid, .tool-grid, .story-grid {
     display:grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(220px,100%),1fr));
     gap:14px;
   }
   .bulletin-card, .tool-card {
@@ -252,12 +256,12 @@
     border-left: 5px solid var(--yellow);
     display:flex; gap:28px; align-items:center; flex-wrap:wrap;
   }
-  .home-hero-text { flex: 1 1 320px; }
+  .home-hero-text { flex: 1 1 320px; min-width: 0; }
   .home-hero-eyebrow { font-size:10px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--yellow); margin-bottom:8px; }
   .home-hero-title { font-size:26px; font-weight:900; color:var(--white); line-height:1.15; margin-bottom:8px; }
   .home-hero-sub { font-size:13px; color:#999; line-height:1.6; }
   .home-hero-video {
-    flex: 1 1 420px; max-width:520px; aspect-ratio: 16/9; background:#0d0d0d;
+    flex: 1 1 420px; max-width:520px; min-width: 0; aspect-ratio: 16/9; background:#0d0d0d;
     border-radius:10px; border:1px solid #333; overflow:hidden;
   }
   .home-hero-video video { width:100%; height:100%; display:block; object-fit:cover; border-radius:10px; }
@@ -267,6 +271,10 @@
     color:#999; margin: 30px 0 12px;
   }
   .section-title:first-of-type { margin-top:0; }
+  .section-title-date {
+    font-size:11px; font-weight:600; letter-spacing:0; text-transform:none;
+    color:#bbb; margin-left:6px;
+  }
 
   .quick-grid {
     display:grid;
@@ -361,7 +369,7 @@
   .novedades-close:hover { color: var(--dark); }
   .novedades-card.hidden { display: none; }
 
-  .story-grid { grid-template-columns: repeat(auto-fill, minmax(360px,1fr)); gap:22px; }
+  .story-grid { grid-template-columns: repeat(auto-fill, minmax(min(360px,100%),1fr)); gap:22px; }
   .story-card {
     background: var(--white); border:1px solid var(--border); border-radius:14px; overflow:hidden;
     transition: box-shadow 0.18s, transform 0.18s;
@@ -442,7 +450,7 @@
   .bulletin-card.soon:hover { box-shadow:none; transform:none; }
   .soon-chip { display:inline-block; font-size:9px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:#999; background:var(--light-bg); padding:2px 7px; border-radius:4px; margin-bottom:6px; }
 
-  .gestion-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; }
+  .gestion-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr)); gap:16px; }
   .gestion-card {
     background:var(--white); border:1px solid var(--border); border-top:3px solid var(--yellow); border-radius:14px;
     padding:26px; cursor:pointer; text-align:left;
@@ -540,13 +548,13 @@
   .orgfull-role { font-size:9px; color:#999; margin-top:1px; line-height:1.25; }
   .orgfull-connector { width:2px; height:10px; background:var(--yellow); margin:0 auto; }
 
-  .learn-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+  .learn-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr)); gap:14px; }
   .learn-card { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:20px; }
   a.learn-card { display:block; text-decoration:none; color:inherit; transition:box-shadow .15s, transform .15s; }
   a.learn-card:hover { box-shadow:0 6px 20px rgba(0,0,0,0.08); transform:translateY(-2px); }
   .learn-card-title { font-size:14px; font-weight:800; margin-bottom:6px; color:var(--dark); }
   .learn-card-sub { font-size:12px; color:#999; line-height:1.5; }
-  .video-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(420px,1fr)); gap:16px; }
+  .video-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr)); gap:16px; }
   .video-embed { position:relative; padding-top:56.25%; min-height:280px; border-radius:8px; overflow:hidden; border:1px solid var(--border); background:#000; margin-top:12px; }
   .video-embed iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:0; }
 
@@ -575,6 +583,15 @@
 
   @media(max-width:800px){
     .sidebar-toggle { display:none; }
+
+    /* El hero de Inicio (texto + video) se apila a ancho completo en vez de
+       intentar caber lado a lado en una pantalla angosta. */
+    .home-hero { padding: 22px 20px; }
+    .home-hero-video { flex-basis: 100%; max-width: 100%; }
+
+    /* Menos padding lateral en el contenido para aprovechar mejor el ancho
+       disponible en pantallas chicas. */
+    .content { padding: 18px 16px; }
 
     .mobile-nav-toggle {
       display:flex; align-items:center; justify-content:center;
@@ -871,7 +888,7 @@
       </div>
 
       <!-- BEGIN SUCCESS STORIES (auto-generado por build_success_stories.py) -->
-      <div class="section-title">Success stories</div>
+      <div class="section-title">Success stories <span class="section-title-date">· actualizado: Agosto 2026</span></div>
       <div class="story-grid">
         <div class="story-card tag-fm">
           <img class="story-photo" src="https://i.imgur.com/hg4jdIR.png" alt="Foto ilustrativa: XD benefició con 262k USD de saving en el mes"/>
