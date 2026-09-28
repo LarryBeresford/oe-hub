@@ -1,0 +1,75 @@
+# Plan de Comunicación — Lanzamiento del OE MLM Hub
+
+**Fecha:** 25 de septiembre de 2026 (actualizado 28 de septiembre de 2026, tras retroalimentación de Ricardo Almanza)
+**Responsable:** Larry Beresford Díaz
+**Patrocinador:** Ricardo Almanza
+
+## 1. Objetivo
+
+Anunciar formalmente a **toda Mercado Libre México** (no solo al equipo de OE) que el **OE MLM Hub** ([oe-hub-mu.vercel.app](https://oe-hub-mu.vercel.app/)) es la herramienta oficial y centralizada de Excelencia Operacional, y posicionarlo como el modelo de cómo estandarizar procesos y dar seguimiento con transparencia. El comunicado debe responder explícitamente dos preguntas desde el inicio: **¿por qué se creó el Hub?** y **¿para qué le sirve a quien lo lee?** — no asumir que el valor se infiere solo.
+
+## 2. Audiencia
+
+**Todo MLM México desde el primer envío**, no como fase 2: rango de **Coordinador hasta Director**, incluyendo gerencia. Dentro de OE, cubre a Focales CIE, Supervisores, Managers y Sr. Manager de las cuatro áreas (FM + XD + SC + TOM, SVC + Last Mile, Quality, Gestión); fuera de OE, a cualquier coordinador, manager o director de otras áreas de MLM.
+
+*(Pendiente, en espera de retroalimentación de Mónica: si se puede prometer que el Hub cubre proyectos/iniciativas de todas las áreas de MLM, o solo de OE — depende de confirmar el alcance real de los datos que exporta MELI Axis. No se incluye en el mensaje hasta confirmarlo.)*
+
+## 3. Mensajes clave
+
+1. **Por qué existe:** la información de OE vivía repartida entre correos, Drive y WhatsApp — el Hub la centralizó en un solo lugar, actualizado cada mes.
+2. **Para qué sirve:** dar seguimiento a proyectos, consultar indicadores, encontrar al líder correcto y aprender el proceso sin perseguir a nadie.
+3. **Es la fuente oficial:** reemplaza copias sueltas y versiones desactualizadas en Drive o correo.
+4. **Está vivo, no es un documento estático:** se actualiza cada mes con los newsletters, indicadores y eventos en puerta de cada área.
+5. **Funciona en español, inglés y portugués**, pensando en la expansión a otras geografías.
+6. **Cualquier duda, sugerencia o fix se puede reportar directo** — hay un canal de contacto visible en el propio Hub.
+
+## 4. Pieza central: correo de lanzamiento
+
+Un correo HTML (`Correo_Lanzamiento_OE_Hub_v2.html`, versión vigente), enviado a todo MLM México, con:
+- El "por qué" y "para qué" del Hub, explícitos desde el primer párrafo.
+- Un recorrido rápido de sus secciones principales (Inicio, Gestión, Rutinas, Directorio, Aprendizaje Continuo).
+- El link directo y una invitación a explorarlo esta semana.
+- La invitación a la sesión de presentación en vivo (ver sección 5).
+- A quién escribirle con dudas o sugerencias (Larry).
+
+## 5. Sesión de presentación del Hub (retroalimentación de Ricardo)
+
+No es una capacitación extensa, es una **presentación de 30 minutos**, enfocada en responder "¿por qué se creó?" y "¿para qué me sirve?", más un recorrido de navegación y espacio para preguntas.
+
+**Cómo definir fecha y horarios, paso a paso:**
+1. **Elegir una semana objetivo** (idealmente la semana después de que Ricardo/Mónica den luz verde a la versión final del correo).
+2. **Ricardo agenda 4 horarios** de esa semana (ej. dos en la mañana, dos en la tarde, en días distintos) para cubrir distintos turnos/zonas — cada uno un evento de 30 min en el calendario de Ricardo o de Larry.
+3. **Generar el link de cada sesión** (Meet/Teams, lo que use el equipo) y decidir si es inscripción libre (cualquiera entra al horario que le acomode) o con registro previo (formulario corto) — Ricardo no especificó cuál prefiere, hay que confirmarlo con él.
+4. **Meter las 4 fechas/horarios y sus links al correo v2**, sustituyendo el texto genérico actual ("te compartimos fechas y liga en los próximos días") por las fechas reales.
+5. **Ricardo agenda el lanzamiento como punto de agenda en la próxima MBR de líderes**, para darle exposure adicional fuera del correo.
+6. **Grabar la sesión** (o una de las 4) para producir después el video tutorial de uso que pidió Ricardo, a compartir post-sesiones y a enlazar desde el propio Hub.
+
+*Bloqueante actual: falta que Ricardo defina la semana y confirme el mecanismo de registro (paso 3) antes de poder avanzar a los pasos 4-6.*
+
+## 6. Cronograma / cadencia
+
+| Cuándo | Acción | Canal |
+|---|---|---|
+| Antes del lanzamiento | Ricardo define semana, 4 horarios y mecanismo de registro de la sesión de presentación | Ricardo + Larry |
+| Semana 1 (lanzamiento) | Envío del correo de lanzamiento a todo MLM México, con fechas reales de la sesión | Correo |
+| Semana 1-2 | 4 sesiones de presentación en vivo (30 min c/u), una de ellas grabada | Videollamada |
+| Semana 1-2 | Punto de agenda en la MBR de líderes | Reunión MBR |
+| Semana 2-3 | Compartir el video tutorial de uso (una vez grabado y editado) | Correo/Hub |
+| Mes 1 | Mención del Hub en el newsletter mensual de cada área, con el link de acceso | Newsletter |
+| Mes 1-2 | Recolectar feedback informal sobre qué falta o qué se puede mejorar | Reunión |
+
+## 7. Roles
+
+- **Larry:** dueño del contenido, envío del correo, soporte técnico y de contenido, producción del video tutorial.
+- **Ricardo:** patrocinador — define fechas/horarios de la sesión, co-presenta, la lleva a la MBR de líderes y valida la adopción con Managers y Directores.
+- **Managers/Supervisores/Directores:** motores de adopción con sus equipos — usarlo en sus propias reuniones y referenciarlo en vez de mandar documentos sueltos.
+
+## 8. Refuerzo (reemplaza métricas de analytics)
+
+Por decisión explícita de Larry, no se usa un enfoque de "medición de éxito" tipo analytics. El mecanismo de refuerzo es la sesión en vivo: Ricardo y Larry navegan el Hub con la audiencia, enseñan el proceso y comparten los principales insights que se le pueden sacar, más el video tutorial post-sesión como material de consulta permanente.
+
+## 9. Siguientes pasos
+
+- Confirmar con Ricardo semana, horarios y mecanismo de registro (sección 5).
+- Una vez confirmado, actualizar el correo v2 con fechas reales y reenviar a Ricardo/Mónica para aprobación final antes del envío masivo.
+- En paralelo, resolver con Ricardo/Axis el alcance real de datos que pidió Mónica (sección 2) — no bloquea el lanzamiento, pero si se confirma, se puede sumar como mensaje clave adicional.
