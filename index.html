@@ -200,6 +200,8 @@
     background: var(--white); border:1px solid var(--border); border-top:3px solid var(--yellow);
     border-radius:12px; padding:22px; text-decoration:none; display:block;
     transition: box-shadow 0.15s, transform 0.15s;
+    min-width: 0; /* son items de grid -- sin esto podrian, en teoria, no encogerse
+      por debajo de su contenido minimo y salirse de su columna en movil. */
   }
   .bulletin-card:hover, .tool-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.08); transform: translateY(-2px); }
   .bulletin-card-icon svg, .tool-card-icon svg { width:24px; height:24px; stroke: var(--yellow-dark); margin-bottom:12px; }
@@ -214,10 +216,13 @@
   .tool-grid.wide { grid-template-columns: 1fr; gap:10px; }
   .tool-card.wide {
     display:flex; align-items:center; gap:18px; padding:20px 24px;
+    min-width: 0; /* sin esto, el item de grid no se encoge por debajo del ancho
+      minimo de su contenido (icono + link sin wrap), y se sale de su columna en
+      pantallas angostas -- mismo patron que .home-hero-video, ver notas ahi. */
   }
   .tool-card.wide .tool-card-icon { margin-bottom:0; flex-shrink:0; width:44px; height:44px; border-radius:10px; background:var(--yellow-bg); display:flex; align-items:center; justify-content:center; }
   .tool-card.wide .tool-card-icon svg { width:22px; height:22px; margin-bottom:0; }
-  .tool-card.wide .tool-card-text { flex:1; }
+  .tool-card.wide .tool-card-text { flex:1; min-width: 0; }
   .tool-card.wide .tool-card-title { margin-bottom:2px; }
   .tool-card.wide .tool-card-sub { margin-bottom:0; }
   .tool-card.wide .tool-card-link { flex-shrink:0; white-space:nowrap; }
@@ -225,10 +230,11 @@
   .bulletin-grid.wide { grid-template-columns: 1fr; gap:10px; }
   .bulletin-card.wide {
     display:flex; align-items:center; gap:18px; padding:20px 24px;
+    min-width: 0; /* ver nota en .tool-card.wide -- mismo patron. */
   }
   .bulletin-card.wide .bulletin-card-icon { margin-bottom:0; flex-shrink:0; width:44px; height:44px; border-radius:10px; background:var(--yellow-bg); display:flex; align-items:center; justify-content:center; }
   .bulletin-card.wide .bulletin-card-icon svg { width:22px; height:22px; margin-bottom:0; }
-  .bulletin-card.wide .bulletin-card-text { flex:1; }
+  .bulletin-card.wide .bulletin-card-text { flex:1; min-width: 0; }
   .bulletin-card.wide .bulletin-card-title { margin-bottom:2px; }
   .bulletin-card.wide .bulletin-card-sub { margin-bottom:0; }
   .bulletin-card.wide .bulletin-card-link { flex-shrink:0; white-space:nowrap; }
@@ -287,6 +293,7 @@
     background: var(--white); border:1px solid var(--border); border-top:4px solid var(--yellow); border-radius:16px;
     padding:38px 30px; cursor:pointer; transition: box-shadow 0.15s, transform 0.15s; text-align:left;
     min-height:190px; display:flex; flex-direction:column; justify-content:flex-start;
+    min-width: 0;
   }
   .quick-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.10); transform: translateY(-3px); }
   .quick-card-icon { margin-bottom:20px; width:56px; height:56px; border-radius:12px; display:flex; align-items:center; justify-content:center; background: var(--yellow-bg); }
@@ -373,6 +380,7 @@
   .story-card {
     background: var(--white); border:1px solid var(--border); border-radius:14px; overflow:hidden;
     transition: box-shadow 0.18s, transform 0.18s;
+    min-width: 0;
   }
   .story-card:hover { box-shadow: 0 10px 28px rgba(0,0,0,0.10); transform: translateY(-3px); }
   .story-photo { width:100%; height:230px; object-fit:cover; display:block; background:#eee; }
@@ -454,6 +462,7 @@
   .gestion-card {
     background:var(--white); border:1px solid var(--border); border-top:3px solid var(--yellow); border-radius:14px;
     padding:26px; cursor:pointer; text-align:left;
+    min-width: 0;
   }
   .gestion-card:hover { box-shadow:0 6px 20px rgba(0,0,0,.08); }
   .gestion-card-title { font-size:16px; font-weight:800; margin-bottom:6px; }
@@ -549,7 +558,7 @@
   .orgfull-connector { width:2px; height:10px; background:var(--yellow); margin:0 auto; }
 
   .learn-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr)); gap:14px; }
-  .learn-card { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:20px; }
+  .learn-card { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:20px; min-width: 0; }
   a.learn-card { display:block; text-decoration:none; color:inherit; transition:box-shadow .15s, transform .15s; }
   a.learn-card:hover { box-shadow:0 6px 20px rgba(0,0,0,0.08); transform:translateY(-2px); }
   .learn-card-title { font-size:14px; font-weight:800; margin-bottom:6px; color:var(--dark); }
