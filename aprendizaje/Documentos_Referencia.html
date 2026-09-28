@@ -75,19 +75,19 @@
 <div class="wrap">
 
   <div class="hdr">
-    <div class="hdr-eyebrow">Mercado Libre · OE Transportes MLM</div>
-    <div class="hdr-title">Documentos de referencia</div>
-    <div class="hdr-sub">Documentos de interés del Master File OE 2026, más el resumen de sitios de la Nueva Regionalización TTE MLM.</div>
-    <a class="back-link" href="../index.html">&#8592; Volver a Aprendizaje Continuo</a>
+    <div class="hdr-eyebrow" id="hdrEyebrow">Mercado Libre · OE Transportes MLM</div>
+    <div class="hdr-title" id="hdrTitle">Documentos de referencia</div>
+    <div class="hdr-sub" id="hdrSub">Documentos de interés del Master File OE 2026, más el resumen de sitios de la Nueva Regionalización TTE MLM.</div>
+    <a class="back-link" id="backLink" href="../index.html">&#8592; Volver a Aprendizaje Continuo</a>
   </div>
 
   <div class="content">
 
-    <div class="bib-section-title">Documentos de interés</div>
+    <div class="bib-section-title" id="secTitleDocs">Documentos de interés</div>
     <input type="text" id="bibSearch" class="bib-search" placeholder="Buscar documento..." oninput="filterDocs()">
     <div class="bib-table-wrap" style="max-height:640px;">
       <table class="bib-table">
-        <thead><tr><th>Documento</th><th>Qué consulta</th><th style="text-align:right;">Acción</th></tr></thead>
+        <thead><tr><th id="thDocumento">Documento</th><th id="thQueConsulta">Qué consulta</th><th style="text-align:right;" id="thAccion">Acción</th></tr></thead>
         <tbody id="docsTbody">
               <tr><td class="bib-td-name">Formato Plan de Desarrollo Individual _Template</td><td class="bib-td-desc">&mdash;</td><td class="bib-td-link"><a href="https://docs.google.com/spreadsheets/d/1b0NzB2OlTxyCDTnyp1F7M55iLlB4sz7FM4FY1dLPvsY/edit?gid=1068911411" target="_blank" rel="noopener" class="bib-open">Abrir &#8599;</a></td></tr>
               <tr><td class="bib-td-name">OE Lean 2025 Cierre Proyectos</td><td class="bib-td-desc">&mdash;</td><td class="bib-td-link"><a href="https://docs.google.com/spreadsheets/d/1FJdmbshLTdNZ-1uqWocxtyUb93JzoAO1tLlc9WQdv7Y/edit?pli=1&amp;gid=1743849122" target="_blank" rel="noopener" class="bib-open">Abrir &#8599;</a></td></tr>
@@ -221,17 +221,17 @@
     </div>
     <div class="bib-count" id="docsCount">126 documentos</div>
 
-    <div class="bib-section-title">Nueva Regionalización TTE MLM · Sitios y su nueva región</div>
+    <div class="bib-section-title" id="secTitleReg">Nueva Regionalización TTE MLM · Sitios y su nueva región</div>
     <input type="text" id="regSearch" class="bib-search" placeholder="Buscar sitio, región o subregión..." oninput="filterSites()">
     <div class="bib-table-wrap" style="max-height:640px;">
       <table class="bib-table">
         <thead>
           <tr>
-            <th>Zona</th>
-            <th>Región</th>
-            <th>Subregión</th>
-            <th>Sitio</th>
-            <th>Ops Excellence / OE</th>
+            <th id="thZona">Zona</th>
+            <th id="thRegion">Región</th>
+            <th id="thSubregion">Subregión</th>
+            <th id="thSitio">Sitio</th>
+            <th id="thOE">Ops Excellence / OE</th>
           </tr>
         </thead>
         <tbody id="regTbody">
@@ -381,18 +381,105 @@
       </table>
     </div>
     <div class="bib-count" id="regCount">142 sitios</div>
-    <div class="bib-note">Listado completo de sitios (código SVC/XD) con su nueva zona, región y subregión, más el contacto de Ops Excellence / OE de esa macro-región para saber con quién dirigirse según la necesidad.</div>
+    <div class="bib-note" id="bibNote">Listado completo de sitios (código SVC/XD) con su nueva zona, región y subregión, más el contacto de Ops Excellence / OE de esa macro-región para saber con quién dirigirse según la necesidad.</div>
 
   </div>
 
   <div class="footer">
-    <div class="f-title">Aprendizaje Continuo · Documentos de referencia</div>
-    <div class="f-sub">OE Transportes MLM</div>
+    <div class="f-title" id="footerTitle">Aprendizaje Continuo · Documentos de referencia</div>
+    <div class="f-sub" id="footerSub">OE Transportes MLM</div>
   </div>
 
 </div>
 
 <script>
+  var DOC_DESC_TRANSLATIONS = {"OTR Delivery Success": {"en": "OTR Delivery Success", "pt": "OTR Delivery Success (Sucesso na Entrega)"}, "Diseños de layouts de proyectos trabajados para expansió - Apertura.": {"en": "Layout designs for projects worked on for expansion - Opening.", "pt": "Desenhos de layouts de projetos trabalhados para expansão - Abertura."}, "Lugar donde puedes correr las query (codigos que te dan datos para analisis)": {"en": "Place where you can run queries (code that gives you data for analysis).", "pt": "Local onde você pode rodar as queries (códigos que fornecem dados para análise)."}, "Detalles de BPP MLM": {"en": "BPP MLM details.", "pt": "Detalhes do BPP MLM."}, "PPT / Toolkit para templates y logos presentaciones": {"en": "PPT / Toolkit for presentation templates and logos.", "pt": "PPT / Toolkit para templates e logos de apresentações."}, "Listado de personas que tienen certificacion registrada": {"en": "List of people with a registered certification.", "pt": "Lista de pessoas com certificação registrada."}, "% de cierre automático de contenedor": {"en": "% of automatic container closure.", "pt": "% de fechamento automático de contêiner."}, "Muestra la clasificacion de cada facility (small, big, very big)": {"en": "Shows the classification of each facility (small, big, very big).", "pt": "Mostra a classificação de cada facility (small, big, very big)."}, "Portal para ordenar comida en Melitlán": {"en": "Portal to order food at Melitlán.", "pt": "Portal para pedir comida em Melitlán."}, "Dashboard para coberturas de SVCs Last Mile (Zonas, extendidas, geolocalización, polígonos, etc)": {"en": "Dashboard for Last Mile SVC coverage (zones, extended areas, geolocation, polygons, etc.).", "pt": "Dashboard para coberturas de SVCs de Last Mile (zonas, estendidas, geolocalização, polígonos, etc.)."}, "Entrenamientos del equipo de Data Science MELI": {"en": "Trainings from the MELI Data Science team.", "pt": "Treinamentos da equipe de Data Science da MELI."}, "Directorio de puntos de contacto para Last Mile MLM": {"en": "Directory of contact points for Last Mile MLM.", "pt": "Diretório de pontos de contato para Last Mile MLM."}, "Resultados de divergencias detectadas en auditorias y aduanas, detalle por ruta y REP": {"en": "Results of discrepancies found in audits and customs, broken down by route and REP.", "pt": "Resultados de divergências detectadas em auditorias e alfândega, detalhado por rota e REP."}, "Portal para asistencia a empleados (Prestación Meli)": {"en": "Employee assistance portal (Meli benefit).", "pt": "Portal de assistência a funcionários (benefício Meli)."}, "Manual de entrenamiento brindado a nuevos drivers de Last Mile": {"en": "Training manual given to new Last Mile drivers.", "pt": "Manual de treinamento fornecido aos novos drivers de Last Mile."}, "Proceso para crear/ actualizar una Instrucción de trabajo Local": {"en": "Process to create/update a Local Work Instruction.", "pt": "Processo para criar/atualizar uma Instrução de Trabalho Local."}, "Revisar historicos de volumen programado, asi como reprocesos": {"en": "Review scheduled volume history, as well as reprocesses.", "pt": "Revisar históricos de volume programado, assim como reprocessamentos."}, "Forms para aplicar al programa de green y black belt en lean squad": {"en": "Form to apply to the Lean Squad green belt/black belt program.", "pt": "Formulário para se candidatar ao programa green belt/black belt do Lean Squad."}, "Forms para registrarte en el programa de Lean Squad": {"en": "Form to register for the Lean Squad program.", "pt": "Formulário para se registrar no programa Lean Squad."}, "Formato para plan de desarrollo indivudual": {"en": "Individual development plan template.", "pt": "Modelo de plano de desenvolvimento individual."}, "Entrenamiento sobre las metricas GGP y GNP": {"en": "Training on the GGP and GNP metrics.", "pt": "Treinamento sobre as métricas GGP e GNP."}, "Glosario con diversos terminos de transporte / data science": {"en": "Glossary with various transportation / data science terms.", "pt": "Glossário com diversos termos de transporte / data science."}, "Guia para un feedback efectivo": {"en": "Guide for effective feedback.", "pt": "Guia para um feedback eficaz."}, "Gantt hoshin kanri 2026": {"en": "2026 Hoshin Kanri Gantt chart.", "pt": "Gantt do hoshin kanri 2026."}, "Presentacion hoshinkanri 2026": {"en": "2026 Hoshin Kanri presentation.", "pt": "Apresentação do hoshin kanri 2026."}, "Iconos para presentaciones": {"en": "Icons for presentations.", "pt": "Ícones para apresentações."}, "% de apego a inventarios": {"en": "% inventory adherence.", "pt": "% de aderência aos inventários."}, "Bot con IA para cualquier consulta relacionada al Ops Clock vigente de un SVC": {"en": "AI bot for any question related to an SVC's current Ops Clock.", "pt": "Bot com IA para qualquer dúvida relacionada ao Ops Clock vigente de um SVC."}, "PPT con información general del programa Lean Squad": {"en": "PPT with general information about the Lean Squad program.", "pt": "PPT com informações gerais sobre o programa Lean Squad."}, "Portal de entrenamientos Meli": {"en": "Meli training portal.", "pt": "Portal de treinamentos da Meli."}, "Compilado de todas las Wis y WIL que existen en Mercadolibre transportes": {"en": "Compilation of all the WIs and WILs that exist in Mercado Libre Transportation.", "pt": "Compilado de todas as WIs e WILs que existem em Mercado Livre Transportes."}, "Sitio oficial donde se hacen las operaciones sitemicas": {"en": "Official site where systemic operations are carried out.", "pt": "Site oficial onde são realizadas as operações sistêmicas."}, "Gestión de proyectos OE": {"en": "OE project management.", "pt": "Gestão de projetos de OE."}, "Inteligencia artificial de mercado libre": {"en": "Mercado Libre's artificial intelligence.", "pt": "Inteligência artificial do Mercado Livre."}, "Portal para gestión de tarjeta crédito Mendel": {"en": "Portal to manage the Mendel credit card.", "pt": "Portal para gestão do cartão de crédito Mendel."}, "Metros cuadrados de cada nave y links a Layouts": {"en": "Square meters of each building and links to layouts.", "pt": "Metros quadrados de cada galpão e links para layouts."}, "Portal para consulta de dashboards, bots, Gen IA, tutoriales, base de conicimiento y biblioteca del MLM Data Science": {"en": "Portal to check dashboards, bots, GenAI, tutorials, the knowledge base, and the MLM Data Science library.", "pt": "Portal para consultar dashboards, bots, GenIA, tutoriais, base de conhecimento e biblioteca do MLM Data Science."}, "Consulta siniestros OTR MLM": {"en": "Check OTR MLM incidents.", "pt": "Consulta de sinistros OTR MLM."}, "Cumplimiento al Opsclock MLM a nivel subregion": {"en": "MLM Opsclock compliance at the sub-region level.", "pt": "Cumprimento do Opsclock MLM a nível de sub-região."}, "Cumplimiento al Opsclock regional": {"en": "Regional Opsclock compliance.", "pt": "Cumprimento do Opsclock regional."}, "Cierre de proyectos del 2025": {"en": "2025 project closeout.", "pt": "Fechamento de projetos de 2025."}, "Taller de acuerdos efectivos": {"en": "Effective agreements workshop.", "pt": "Workshop de acordos eficazes."}, "Plan 2026 OE": {"en": "2026 OE plan.", "pt": "Plano 2026 de OE."}, "Políticas para el programa de idiomas MELI": {"en": "Policies for the MELI language program.", "pt": "Políticas do programa de idiomas da MELI."}, "Nomenclarura de las etiquetas": {"en": "Label naming convention.", "pt": "Nomenclatura das etiquetas."}, "Productividad de etiquetado, contenerizado y volumen.": {"en": "Labeling, containerization, and volume productivity.", "pt": "Produtividade de etiquetagem, contêinerização e volume."}, "Portal para ver compensación persolan, Bono, Beneficios (Indicador del negocio para pago de Bono Anual)": {"en": "Portal to view personal compensation, bonus, and benefits (the business indicator used for the annual bonus payment).", "pt": "Portal para consultar compensação pessoal, bônus, benefícios (indicador do negócio para pagamento do bônus anual)."}, "Correccion de pesos y medidas de algun paquete que llega mal dimensionado": {"en": "Correction of weight and measurements for a package that arrives with the wrong dimensions.", "pt": "Correção de pesos e medidas de algum pacote que chega com dimensões erradas."}, "Playbook con informacion basica de que es un place": {"en": "Playbook with basic information about what a 'place' is.", "pt": "Playbook com informações básicas sobre o que é um 'place'."}, "consulta la productividad de onebip": {"en": "Check One Bip productivity.", "pt": "Consulta a produtividade do One Bip."}, "Consulta la adherencia al OOT y el Opsclock": {"en": "Check adherence to OOT and the Opsclock.", "pt": "Consulta a aderência ao OOT e ao Opsclock."}, "Consulta el Backlog": {"en": "Check the Backlog.", "pt": "Consulta o Backlog."}, "Consulta los IDs descontenerizados": {"en": "Check decontainerized IDs.", "pt": "Consulta os IDs descontêinerizados."}, "Consulta PYMES declaradas del SHP ID": {"en": "Check declared weight/measurements (PYMES) for the SHP ID.", "pt": "Consulta peso e medidas (PYMES) declarados do SHP ID."}, "Connsulta la fecha promesa de los SHP IDs": {"en": "Check the promised date for SHP IDs.", "pt": "Consulta a data prometida dos SHP IDs."}, "Consulta si un SHP ID es catalogado como H&amp;B": {"en": "Check whether an SHP ID is classified as H&amp;B.", "pt": "Consulta se um SHP ID é classificado como H&amp;B."}, "Consulta si un ID  fue inventareado, la fecha,  en que zona y si fue registro manual o por escaneo QR": {"en": "Check whether an ID was inventoried, the date, the zone, and whether it was a manual entry or a QR scan.", "pt": "Consulta se um ID foi inventariado, a data, em qual zona e se foi registro manual ou por leitura de QR."}, "Consulta el ultimo status de los SHP IDs": {"en": "Check the latest status of SHP IDs.", "pt": "Consulta o último status dos SHP IDs."}, "Consulta la productividad de LMS": {"en": "Check LMS productivity.", "pt": "Consulta a produtividade do LMS."}, "Consulta Ola negra": {"en": "Check the 'Black Wave'.", "pt": "Consulta a 'Onda Negra'."}, "Metrica de OOT": {"en": "OOT metric.", "pt": "Métrica de OOT."}, "Consulta cuantos paquetes fueron procesados con Onebip": {"en": "Check how many packages were processed with One Bip.", "pt": "Consulta quantos pacotes foram processados com One Bip."}, "Consulta de la planeacion el status de los IDs": {"en": "Check the planning status of the IDs.", "pt": "Consulta do planejamento, o status dos IDs."}, "Consulta TMEC": {"en": "Check TMEC.", "pt": "Consulta TMEC."}, "Consulta si es v2,v3,v4": {"en": "Check whether it's v2, v3, or v4.", "pt": "Consulta se é v2, v3 ou v4."}, "Paquetes disponibles, rutas planificadas, estimado de paquetes por origen, SHP HV": {"en": "Available packages, planned routes, estimated packages by origin, SHP HV.", "pt": "Pacotes disponíveis, rotas planejadas, estimativa de pacotes por origem, SHP HV."}, "Codigos para consultar diversos datos de LP (bpp, dañados, etc)": {"en": "Code to check various LP data (BPP, damaged, etc.).", "pt": "Códigos para consultar diversos dados de LP (BPP, danificados, etc.)."}, "Datos generales de last mile": {"en": "General Last Mile data.", "pt": "Dados gerais de last mile."}, "IDs multibultos": {"en": "Multi-package IDs.", "pt": "IDs multibultos."}, "2025 Queremos escucharte OE": {"en": "2025 'We Want to Hear You' OE.", "pt": "2025 'Queremos Ouvir Você' OE."}, "Consulta de Clock In y Clock Out": {"en": "Clock In and Clock Out check.", "pt": "Consulta de Clock In e Clock Out."}, "Validación estatus RTO": {"en": "RTO status validation.", "pt": "Validação de status RTO."}, "Retreat Agosto 2025": {"en": "August 2025 Retreat.", "pt": "Retreat de agosto de 2025."}, "Acuerdos para Reuniones efectivas": {"en": "Agreements for effective meetings.", "pt": "Acordos para reuniões eficazes."}, "Expansiones 2026 Roadmap": {"en": "2026 Expansions Roadmap.", "pt": "Roadmap de Expansões 2026."}, "Tablero para consultar en tiempo real el FCST": {"en": "Dashboard to check the forecast (FCST) in real time.", "pt": "Painel para consultar em tempo real o FCST."}, "Portal para gestión de Gastos Médicos Menores": {"en": "Portal to manage minor medical expenses.", "pt": "Portal para gestão de despesas médicas menores."}, "Ticket para solicitar un cambio a una WI": {"en": "Ticket to request a change to a WI.", "pt": "Ticket para solicitar uma alteração em uma WI."}, "ICQA Scorecard de calidad": {"en": "ICQA quality scorecard.", "pt": "Scorecard de qualidade ICQA."}, "Portal para conje de boletos gratuitos para uso de empleados Meli": {"en": "Portal to redeem free tickets for Meli employees to use.", "pt": "Portal para resgate de passagens gratuitas para uso dos funcionários da Meli."}, "Portal para solicitar tickets a flow para cambios de Ops Clock": {"en": "Portal to request tickets to Flow for Ops Clock changes.", "pt": "Portal para solicitar tickets ao Flow para alterações de Ops Clock."}, "Tiempos medios estadia en XD Y SVC": {"en": "Average dwell times at XD and SVC.", "pt": "Tempos médios de permanência em XD e SVC."}, "Politicas para gestión de viajes y gastos Meli": {"en": "Policies for managing Meli travel and expenses.", "pt": "Políticas para gestão de viagens e despesas da Meli."}, "Portal para recibos de nómina": {"en": "Portal for payroll receipts.", "pt": "Portal para recibos de folha de pagamento."}, "Taller de reuniones efectivas": {"en": "Effective meetings workshop.", "pt": "Workshop de reuniões eficazes."}, "Tipos de presonalidad": {"en": "Personality types.", "pt": "Tipos de personalidade."}, "Ticket  para problemas  en las estaciones": {"en": "Ticket for station issues.", "pt": "Ticket para problemas nas estações."}, "Tickets para FM": {"en": "Tickets for FM.", "pt": "Tickets para FM."}, "Tickets para  LH": {"en": "Tickets for LH.", "pt": "Tickets para LH."}, "Tickets para LM": {"en": "Tickets for LM.", "pt": "Tickets para LM."}, "Tickets para MELI AIR": {"en": "Tickets for MELI AIR.", "pt": "Tickets para MELI AIR."}, "Tickets para FOS": {"en": "Tickets for FOS.", "pt": "Tickets para FOS."}, "Tickets para SVC": {"en": "Tickets for SVC.", "pt": "Tickets para SVC."}, "Tickets para Driver / Vehiculos": {"en": "Tickets for Driver / Vehicles.", "pt": "Tickets para Driver / Veículos."}, "Tickets para Soporte Shipping": {"en": "Tickets for Shipping Support.", "pt": "Tickets para Suporte de Shipping."}, "Tickets para Baterías y HH dañadas": {"en": "Tickets for damaged batteries and handhelds.", "pt": "Tickets para baterias e HH danificados."}, "Ticket - Infowow Tickets Problemas Shipping": {"en": "Ticket - Infowow Tickets, Shipping Issues.", "pt": "Ticket - Infowow Tickets, Problemas de Shipping."}, "Ticket - Infowow Tickets OCC (Ops Clock Flow)": {"en": "Ticket - Infowow Tickets OCC (Ops Clock Flow).", "pt": "Ticket - Infowow Tickets OCC (Ops Clock Flow)."}, "Tickets para Problemas en FOS": {"en": "Tickets for FOS Issues.", "pt": "Tickets para problemas no FOS."}, "Tickets para  HH con problemas (dañado, falta de conectividad)": {"en": "Tickets for handhelds with issues (damaged, no connectivity).", "pt": "Tickets para HH com problemas (danificado, falta de conectividade)."}, "Tablero para consultar todos los LDAP cargados a un site": {"en": "Dashboard to check all the LDAPs assigned to a site.", "pt": "Painel para consultar todos os LDAPs atribuídos a um site."}, "Sitio donde se consultan las WI  y procesos operativos": {"en": "Site where WIs and operating processes are checked.", "pt": "Site onde são consultadas as WIs e os processos operacionais."}, "Motivos por los cuales no cierra el contenedor": {"en": "Reasons why the container doesn't close.", "pt": "Motivos pelos quais o contêiner não fecha."}, "Bot con IA que tiene acceso a TODA la biblioteca de WIs en Meli.": {"en": "AI bot with access to the ENTIRE library of WIs at Meli.", "pt": "Bot com IA que tem acesso a TODA a biblioteca de WIs na Meli."}, "Nueva Macro regionalización TTE H2 2026": {"en": "New TTE macro-regionalization, H2 2026.", "pt": "Nova macrorregionalização de TTE H2 2026."}, "Estructura OE": {"en": "OE structure.", "pt": "Estrutura de OE."}, "Conoce que SVC estan configurados como SP XPT o XVP": {"en": "Find out which SVCs are configured as SP, XPT, or XVP.", "pt": "Saiba quais SVCs estão configurados como SP, XPT ou XVP."}};
+  var OE_CELL_TRANSLATIONS = {"Pablo Daniel Gallegos inbound y sortero, Galindo Garcia Tiempos y movimientos, Manga Air, vacante despacho, Eduardo Garcia Supervisor MRN XD, SC y FM, Jonatan Yair Juarez Pymes MLM, Patricia Benavides FM MLM; Quality MLM: Karen Stephanie Holguin, David Lumbreras,Jesus Eduardo Novelo y Jose Eduardo Hernandez": {"en": "Pablo Daniel Gallegos – Inbound and Sorting; Galindo Garcia – Time and Motion; Manga Air; vacant – Dispatch; Eduardo Garcia – MRN XD, SC & FM Supervisor; Jonatan Yair Juarez – MLM Weights & Measures; Patricia Benavides – FM MLM. Quality MLM: Karen Stephanie Holguin, David Lumbreras, Jesus Eduardo Novelo, and Jose Eduardo Hernandez.", "pt": "Pablo Daniel Gallegos – Inbound e Triagem; Galindo Garcia – Tempos e movimentos; Manga Air; vaga – Despacho; Eduardo Garcia – Supervisor MRN XD, SC e FM; Jonatan Yair Juarez – Pesos e Medidas MLM; Patricia Benavides – FM MLM. Quality MLM: Karen Stephanie Holguin, David Lumbreras, Jesus Eduardo Novelo e Jose Eduardo Hernandez."}, "Roberto Guerrero Salinas Recibo y etiquetado, Itzel Gorospe Sorteo y despacho, Miguel Romero Last Mile, Jorge Gerardo Ruiz H&amp;B end to end oversize; Vacante Supervisor MRN SVC + LM, Leana Raul Estandarización de patios, Leticia SalinasRSC, Rodolfo Salazar BPP; Quality MLM Karen Stephanie Holguin, Jesus Eduardo Novelo, Jose Eduardo Hernandez y David Lumbreras": {"en": "Roberto Guerrero Salinas – Receiving and Labeling; Itzel Gorospe – Sorting and Dispatch; Miguel Romero – Last Mile; Jorge Gerardo Ruiz – H&B end-to-end, oversize. Vacant – MRN SVC + LM Supervisor; Leana Raul – Yard Standardization; Leticia Salinas – RSC; Rodolfo Salazar – BPP. Quality MLM: Karen Stephanie Holguin, Jesus Eduardo Novelo, Jose Eduardo Hernandez, and David Lumbreras.", "pt": "Roberto Guerrero Salinas – Recebimento e Etiquetagem; Itzel Gorospe – Triagem e Despacho; Miguel Romero – Last Mile; Jorge Gerardo Ruiz – H&B end-to-end, oversize. Vaga – Supervisor MRN SVC + LM; Leana Raul – Padronização de pátios; Leticia Salinas – RSC; Rodolfo Salazar – BPP. Quality MLM: Karen Stephanie Holguin, Jesus Eduardo Novelo, Jose Eduardo Hernandez e David Lumbreras."}, "Roberto Guerrero Salinas Recibo y etiquetado, Itzel Gorospe Sorteo y despacho, Miguel Romero Last Mile, Jorge Gerardo Ruiz H&amp;B end to end oversize; Vacante Supervisor MRN SVC + LM": {"en": "Roberto Guerrero Salinas – Receiving and Labeling; Itzel Gorospe – Sorting and Dispatch; Miguel Romero – Last Mile; Jorge Gerardo Ruiz – H&B end-to-end, oversize. Vacant – MRN SVC + LM Supervisor.", "pt": "Roberto Guerrero Salinas – Recebimento e Etiquetagem; Itzel Gorospe – Triagem e Despacho; Miguel Romero – Last Mile; Jorge Gerardo Ruiz – H&B end-to-end, oversize. Vaga – Supervisor MRN SVC + LM."}, "Oscar Manuel Pina Recibo y Etiquetado, Luis Ivan Villegas Sorteo y Despacho, Esthela Valdez Last Mile y Johanna Zambrano Sandoval, H&amp;B End to end para Large, Ana Xitlaly Vargas Supervisor Macro region Sur SVC + LM; Leana Raul Estandarización de patios, Leticia Salinas RSC, Rodolfo Salazar Dañados. ; Quality MLM Karen Stephanie Holguin, Jesus Eduardo Novelo, David Lumbreras y Jose Eduardo Hernandez": {"en": "Oscar Manuel Pina – Receiving and Labeling; Luis Ivan Villegas – Sorting and Dispatch; Esthela Valdez – Last Mile, and Johanna Zambrano Sandoval – H&B end-to-end for Large; Ana Xitlaly Vargas – South Macro-Region SVC + LM Supervisor. Leana Raul – Yard Standardization; Leticia Salinas – RSC; Rodolfo Salazar – Damaged Goods. Quality MLM: Karen Stephanie Holguin, Jesus Eduardo Novelo, David Lumbreras, and Jose Eduardo Hernandez.", "pt": "Oscar Manuel Pina – Recebimento e Etiquetagem; Luis Ivan Villegas – Triagem e Despacho; Esthela Valdez – Last Mile, e Johanna Zambrano Sandoval – H&B end-to-end para Large; Ana Xitlaly Vargas – Supervisora da Macrorregião Sul SVC + LM. Leana Raul – Padronização de pátios; Leticia Salinas – RSC; Rodolfo Salazar – Danificados. Quality MLM: Karen Stephanie Holguin, Jesus Eduardo Novelo, David Lumbreras e Jose Eduardo Hernandez."}, "German Gonzalo Ramirez Supervisor MRS XD, FM &amp; SC, Abdeel Andres H&amp;B end to end, Zita Valdez SC y Blanca Daniela Inzunza Problem solver y mesa de ayuda; Jonatan Yair Juarez Pymes MLM, Patricia Benavides FM, Quality MLM , Karen Stephanie Holguin, Jesus Eduardo Novelo, David Lumbreras y Jose Eduardo Hernandez": {"en": "German Gonzalo Ramirez – MRS XD, FM & SC Supervisor; Abdeel Andres – H&B end-to-end; Zita Valdez – SC, and Blanca Daniela Inzunza – Problem Solver and Help Desk. Jonatan Yair Juarez – MLM Weights & Measures; Patricia Benavides – FM. Quality MLM: Karen Stephanie Holguin, Jesus Eduardo Novelo, David Lumbreras, and Jose Eduardo Hernandez.", "pt": "German Gonzalo Ramirez – Supervisor MRS XD, FM e SC; Abdeel Andres – H&B end-to-end; Zita Valdez – SC, e Blanca Daniela Inzunza – Problem Solver e mesa de ajuda. Jonatan Yair Juarez – Pesos e Medidas MLM; Patricia Benavides – FM. Quality MLM: Karen Stephanie Holguin, Jesus Eduardo Novelo, David Lumbreras e Jose Eduardo Hernandez."}};
+  var UI_TEXT = {"es": {"hdrEyebrow": "Mercado Libre · OE Transportes MLM", "hdrTitle": "Documentos de referencia", "hdrSub": "Documentos de interés del Master File OE 2026, más el resumen de sitios de la Nueva Regionalización TTE MLM.", "backLink": "← Volver a Aprendizaje Continuo", "secTitleDocs": "Documentos de interés", "bibSearchPlaceholder": "Buscar documento...", "thDocumento": "Documento", "thQueConsulta": "Qué consulta", "thAccion": "Acción", "bibOpen": "Abrir ↗", "docsCountSingular": " documento", "docsCountPlural": " documentos", "secTitleReg": "Nueva Regionalización TTE MLM · Sitios y su nueva región", "regSearchPlaceholder": "Buscar sitio, región o subregión...", "thZona": "Zona", "thRegion": "Región", "thSubregion": "Subregión", "thSitio": "Sitio", "thOE": "Ops Excellence / OE", "regCountSingular": " sitio", "regCountPlural": " sitios", "bibNote": "Listado completo de sitios (código SVC/XD) con su nueva zona, región y subregión, más el contacto de Ops Excellence / OE de esa macro-región para saber con quién dirigirse según la necesidad.", "footerTitle": "Aprendizaje Continuo · Documentos de referencia", "footerSub": "OE Transportes MLM"}, "en": {"hdrEyebrow": "Mercado Libre · OE Transportation MLM", "hdrTitle": "Reference Documents", "hdrSub": "Documents of interest from the OE 2026 Master File, plus a summary of sites from the New TTE MLM Regionalization.", "backLink": "← Back to Continuous Learning", "secTitleDocs": "Documents of Interest", "bibSearchPlaceholder": "Search document...", "thDocumento": "Document", "thQueConsulta": "What it's for", "thAccion": "Action", "bibOpen": "Open ↗", "docsCountSingular": " document", "docsCountPlural": " documents", "secTitleReg": "New TTE MLM Regionalization · Sites and their new region", "regSearchPlaceholder": "Search site, region, or sub-region...", "thZona": "Zone", "thRegion": "Region", "thSubregion": "Sub-region", "thSitio": "Site", "thOE": "Ops Excellence / OE", "regCountSingular": " site", "regCountPlural": " sites", "bibNote": "Complete list of sites (SVC/XD code) with their new zone, region, and sub-region, plus the Ops Excellence / OE contact for that macro-region so you know who to reach out to.", "footerTitle": "Continuous Learning · Reference Documents", "footerSub": "OE Transportation MLM"}, "pt": {"hdrEyebrow": "Mercado Livre · OE Transportes MLM", "hdrTitle": "Documentos de referência", "hdrSub": "Documentos de interesse do Master File OE 2026, além do resumo de sites da Nova Regionalização TTE MLM.", "backLink": "← Voltar para Aprendizado Contínuo", "secTitleDocs": "Documentos de interesse", "bibSearchPlaceholder": "Buscar documento...", "thDocumento": "Documento", "thQueConsulta": "Para que serve", "thAccion": "Ação", "bibOpen": "Abrir ↗", "docsCountSingular": " documento", "docsCountPlural": " documentos", "secTitleReg": "Nova Regionalização TTE MLM · Sites e sua nova região", "regSearchPlaceholder": "Buscar site, região ou sub-região...", "thZona": "Zona", "thRegion": "Região", "thSubregion": "Sub-região", "thSitio": "Site", "thOE": "Ops Excellence / OE", "regCountSingular": " site", "regCountPlural": " sites", "bibNote": "Lista completa de sites (código SVC/XD) com sua nova zona, região e sub-região, além do contato de Ops Excellence / OE dessa macrorregião para saber a quem recorrer conforme a necessidade.", "footerTitle": "Aprendizado Contínuo · Documentos de referência", "footerSub": "OE Transportes MLM"}};
+  var CURRENT_DOCS_LANG = 'es';
+  var ORIGINAL_DESCS = null;
+  var ORIGINAL_OE_CELLS = null;
+
+  function cacheOriginalDocs() {
+    if (ORIGINAL_DESCS) return;
+    ORIGINAL_DESCS = [];
+    document.querySelectorAll('#docsTbody tr').forEach(function (tr) {
+      var td = tr.querySelector('td.bib-td-desc');
+      ORIGINAL_DESCS.push(td ? td.innerHTML : null);
+    });
+    ORIGINAL_OE_CELLS = [];
+    document.querySelectorAll('#regTbody tr').forEach(function (tr) {
+      var td = tr.querySelector('td.reg-oe-cell');
+      ORIGINAL_OE_CELLS.push(td ? td.innerHTML : null);
+    });
+  }
+
+  function applyDocsLang(lang) {
+    CURRENT_DOCS_LANG = (lang === 'en' || lang === 'pt') ? lang : 'es';
+    cacheOriginalDocs();
+    var t = UI_TEXT[CURRENT_DOCS_LANG] || UI_TEXT.es;
+
+    var byId = function (id, text) { var el = document.getElementById(id); if (el) el.textContent = text; };
+    byId('hdrEyebrow', t.hdrEyebrow);
+    byId('hdrTitle', t.hdrTitle);
+    byId('hdrSub', t.hdrSub);
+    byId('backLink', t.backLink);
+    byId('secTitleDocs', t.secTitleDocs);
+    byId('thDocumento', t.thDocumento);
+    byId('thQueConsulta', t.thQueConsulta);
+    byId('thAccion', t.thAccion);
+    byId('secTitleReg', t.secTitleReg);
+    byId('thZona', t.thZona);
+    byId('thRegion', t.thRegion);
+    byId('thSubregion', t.thSubregion);
+    byId('thSitio', t.thSitio);
+    byId('thOE', t.thOE);
+    byId('bibNote', t.bibNote);
+    byId('footerTitle', t.footerTitle);
+    byId('footerSub', t.footerSub);
+
+    var bibSearch = document.getElementById('bibSearch');
+    if (bibSearch) bibSearch.setAttribute('placeholder', t.bibSearchPlaceholder);
+    var regSearch = document.getElementById('regSearch');
+    if (regSearch) regSearch.setAttribute('placeholder', t.regSearchPlaceholder);
+
+    document.querySelectorAll('.bib-open').forEach(function (a) { a.textContent = t.bibOpen; });
+
+    document.querySelectorAll('#docsTbody tr').forEach(function (tr, i) {
+      var td = tr.querySelector('td.bib-td-desc');
+      if (!td) return;
+      var original = ORIGINAL_DESCS[i];
+      if (original === null || original === undefined) return;
+      if (CURRENT_DOCS_LANG === 'es') {
+        td.innerHTML = original;
+        return;
+      }
+      var plain = original.replace(/<[^>]*>/g, '').trim();
+      var tr_ = DOC_DESC_TRANSLATIONS[plain] || DOC_DESC_TRANSLATIONS[original];
+      td.innerHTML = tr_ ? tr_[CURRENT_DOCS_LANG] : original;
+    });
+
+    document.querySelectorAll('#regTbody tr').forEach(function (tr, i) {
+      var td = tr.querySelector('td.reg-oe-cell');
+      if (!td) return;
+      var original = ORIGINAL_OE_CELLS[i];
+      if (original === null || original === undefined) return;
+      if (CURRENT_DOCS_LANG === 'es') {
+        td.innerHTML = original;
+        return;
+      }
+      var tr_ = OE_CELL_TRANSLATIONS[original];
+      td.innerHTML = tr_ ? tr_[CURRENT_DOCS_LANG] : original;
+    });
+
+    filterDocs();
+    filterSites();
+  }
+
+  window.addEventListener('message', function (ev) {
+    if (ev && ev.data && ev.data.type === 'oeHubLang') { applyDocsLang(ev.data.lang); }
+  });
+
   function filterDocs() {
     var input = document.getElementById('bibSearch');
     if (!input) return;
@@ -406,7 +493,8 @@
       if (show) visible++;
     });
     var countEl = document.getElementById('docsCount');
-    if (countEl) countEl.textContent = visible + (visible === 1 ? ' documento' : ' documentos');
+    var t = UI_TEXT[CURRENT_DOCS_LANG] || UI_TEXT.es;
+    if (countEl) countEl.textContent = visible + (visible === 1 ? t.docsCountSingular : t.docsCountPlural);
   }
   function filterSites() {
     var input = document.getElementById('regSearch');
@@ -421,7 +509,8 @@
       if (show) visible++;
     });
     var countEl = document.getElementById('regCount');
-    if (countEl) countEl.textContent = visible + (visible === 1 ? ' sitio' : ' sitios');
+    var t = UI_TEXT[CURRENT_DOCS_LANG] || UI_TEXT.es;
+    if (countEl) countEl.textContent = visible + (visible === 1 ? t.regCountSingular : t.regCountPlural);
   }
 </script>
 </body>

@@ -1537,7 +1537,7 @@
       <div class="routine-panel learn-panel" id="learnpanel-documentos">
         <div class="learn-panel-link"><a class="i18n-link" href="aprendizaje/Documentos_Referencia.html" target="_blank" rel="noopener">Abrir página completa ↗</a></div>
         <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:640px;">
-          <iframe data-src="aprendizaje/Documentos_Referencia.html" style="width:100%; height:100%; border:none; display:block;" title="Vista previa — Documentos de interés"></iframe>
+          <iframe id="documentosFrame" data-src="aprendizaje/Documentos_Referencia.html" style="width:100%; height:100%; border:none; display:block;" title="Vista previa — Documentos de interés" onload="if (window.syncFrameLang) syncFrameLang('documentosFrame')"></iframe>
         </div>
       </div>
     </div>
@@ -3273,10 +3273,12 @@
     // contenido 100% en espanol, sin diccionario TEXT_EN/TEXT_PT ni listener de
     // postMessage('oeHubLang') propio, asi que sincronizar el idioma no cambiaria nada
     // visible. aprendizaje/Glosario_OE.html SI tiene su propio diccionario y listener
-    // desde sep-2026: primeros 69 de 352 terminos (seccion de KPIs/metricas) ya traducidos
-    // EN+PT via DEF_TRANSLATIONS; el resto (jerga interna, indices 69-351) sigue pendiente --
-    // ver "Traduccion ES/EN/PT" en el README. Documentos_Referencia.html tambien pendiente.
-    ['insightsFrameFlujo', 'slidesFrame', 'senaleticaFrame', 'sliprobotsFrame', 'boletinesGenFrame', 'glosarioFrame'].forEach(function (id) {
+    // desde sep-2026: los 352/352 terminos ya estan traducidos EN+PT via DEF_TRANSLATIONS.
+    // aprendizaje/Documentos_Referencia.html tambien tiene su propio diccionario y listener
+    // desde sep-2026: columna "Que consulta" (107 descripciones unicas) y columna
+    // "Ops Excellence / OE" (5 bloques unicos) traducidas EN+PT; nombres de documento,
+    // codigos de sitio y zona/region/subregion se dejan sin traducir (son identificadores).
+    ['insightsFrameFlujo', 'slidesFrame', 'senaleticaFrame', 'sliprobotsFrame', 'boletinesGenFrame', 'glosarioFrame', 'documentosFrame'].forEach(function (id) {
       var frame = document.getElementById(id);
       if (frame && frame.contentWindow) {
         try { frame.contentWindow.postMessage({ type: 'oeHubLang', lang: lang }, '*'); } catch (e) {}
