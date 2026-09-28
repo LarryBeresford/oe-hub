@@ -36,15 +36,26 @@ Un correo HTML (`Correo_Lanzamiento_OE_Hub_v2.html`, versión vigente), enviado 
 
 No es una capacitación extensa, es una **presentación de 30 minutos**, enfocada en responder "¿por qué se creó?" y "¿para qué me sirve?", más un recorrido de navegación y espacio para preguntas.
 
-**Cómo definir fecha y horarios, paso a paso:**
-1. **Elegir una semana objetivo** (idealmente la semana después de que Ricardo/Mónica den luz verde a la versión final del correo).
-2. **Ricardo agenda 4 horarios** de esa semana (ej. dos en la mañana, dos en la tarde, en días distintos) para cubrir distintos turnos/zonas — cada uno un evento de 30 min en el calendario de Ricardo o de Larry.
-3. **Generar el link de cada sesión** (Meet/Teams, lo que use el equipo) y decidir si es inscripción libre (cualquiera entra al horario que le acomode) o con registro previo (formulario corto) — Ricardo no especificó cuál prefiere, hay que confirmarlo con él.
-4. **Meter las 4 fechas/horarios y sus links al correo v2**, sustituyendo el texto genérico actual ("te compartimos fechas y liga en los próximos días") por las fechas reales.
-5. **Ricardo agenda el lanzamiento como punto de agenda en la próxima MBR de líderes**, para darle exposure adicional fuera del correo.
-6. **Grabar la sesión** (o una de las 4) para producir después el video tutorial de uso que pidió Ricardo, a compartir post-sesiones y a enlazar desde el propio Hub.
+**Fecha y horarios definidos (2026-09-28):**
 
-*Bloqueante actual: falta que Ricardo defina la semana y confirme el mecanismo de registro (paso 3) antes de poder avanzar a los pasos 4-6.*
+Semana objetivo: **lunes 12 al viernes 16 de octubre de 2026**. Cuatro sesiones idénticas de 30 min, mismo contenido, para que cada quien entre al horario que le acomode — **entrada libre, un solo link por horario** (sin registro previo):
+
+| Día | Fecha | Hora (CDMX) |
+|---|---|---|
+| Lunes | 12 de octubre | 10:00 am |
+| Martes | 13 de octubre | 1:00 pm |
+| Miércoles | 14 de octubre | 4:00 pm |
+| Jueves | 15 de octubre | 6:00 pm |
+
+(Viernes 16 queda libre como colchón por si se necesita una quinta sesión o se reagenda alguna.)
+
+**Pasos restantes:**
+1. Ricardo crea las 4 invitaciones de calendario (30 min c/u, entrada libre) con el link de la videollamada — pendiente de que Ricardo las genere.
+2. Meter las 4 fechas/horarios y sus links al correo v2, sustituyendo el texto genérico actual ("te compartimos fechas y liga en los próximos días") por la tabla de arriba con los links reales.
+3. Ricardo agenda el lanzamiento como punto de agenda en la próxima MBR de líderes, para darle exposure adicional fuera del correo.
+4. Grabar una de las 4 sesiones para producir después el video tutorial de uso que pidió Ricardo, a compartir post-sesiones y a enlazar desde el propio Hub.
+
+*Bloqueante actual: falta que Ricardo genere los 4 links de videollamada (paso 1) antes de poder meterlos al correo (paso 2).*
 
 ## 6. Cronograma / cadencia
 
