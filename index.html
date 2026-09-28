@@ -85,6 +85,17 @@
     transition: all 0.15s;
   }
   .nav-direct:hover { color: var(--white); background: rgba(255,255,255,0.04); }
+  .sidebar-tutorial-btn { border-top: 1px solid #2a2a2a; margin-top: 8px; }
+  .sidebar-tutorial-btn .nav-icon svg { stroke: var(--yellow); }
+  .oe-toast {
+    position: fixed; left: 16px; bottom: 16px; z-index: 500;
+    background: var(--dark); color: var(--white); border: 1px solid var(--yellow);
+    border-radius: 10px; padding: 12px 16px; font-size: 12.5px; line-height: 1.5;
+    max-width: 280px; box-shadow: 0 8px 24px rgba(0,0,0,.25);
+    opacity: 0; transform: translateY(8px); transition: opacity .2s ease, transform .2s ease;
+    pointer-events: none;
+  }
+  .oe-toast.show { opacity: 1; transform: translateY(0); }
   .nav-direct.active { color: var(--white); border-left-color: var(--yellow); background: rgba(255,255,255,0.06); }
   .nav-icon { width: 17px; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
   .nav-icon svg { width:16px; height:16px; stroke: currentColor; }
@@ -767,8 +778,13 @@
       <button class="nav-sub-item" onclick="go('aprendizaje', this); setTimeout(()=>learnTab('documentos'),0)"><span>Documentos de interés</span></button>
     </div>
   </nav>
+  <button class="nav-direct sidebar-tutorial-btn" id="navTutorialUso" onclick="showTutorialComingSoon()">
+    <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="14" height="14" rx="2"/><path d="M16.5 9.5 21 6.5v11l-4.5-3"/></svg></span>
+    <span>Tutorial de uso</span>
+  </button>
   <div class="sidebar-footer">¿Dudas sobre el funcionamiento de la página, desarrollo UX o la comunidad de OE? Escríbele a <a href="mailto:larry.beresforddiaz@mercadolibre.com.mx" style="color:#888;">larry.beresforddiaz@mercadolibre.com.mx</a>.</div>
 </aside>
+<div class="oe-toast" id="oeToast"></div>
 
 <div class="mobile-nav-backdrop" onclick="closeMobileNav()"></div>
 
@@ -1514,7 +1530,7 @@
       <div class="routine-panel learn-panel" id="learnpanel-glosario">
         <div class="learn-panel-link"><a class="i18n-link" href="aprendizaje/Glosario_OE.html" target="_blank" rel="noopener">Abrir página completa ↗</a></div>
         <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:520px;">
-          <iframe data-src="aprendizaje/Glosario_OE.html" style="width:100%; height:100%; border:none; display:block;" title="Vista previa — Glosario MeLi"></iframe>
+          <iframe id="glosarioFrame" data-src="aprendizaje/Glosario_OE.html" style="width:100%; height:100%; border:none; display:block;" title="Vista previa — Glosario MeLi" onload="if (window.syncFrameLang) syncFrameLang('glosarioFrame')"></iframe>
         </div>
       </div>
 
@@ -1673,6 +1689,21 @@
   function currentLang() {
     var l = document.documentElement.lang;
     return (l === 'en' || l === 'pt') ? l : 'es';
+  }
+
+  var TUTORIAL_COMING_SOON_MSG = {
+    es: 'El video tutorial de uso del Hub está en producción — muy pronto estará disponible aquí.',
+    en: 'The Hub usage tutorial video is in production — it will be available here very soon.',
+    pt: 'O vídeo tutorial de uso do Hub está em produção — em breve estará disponível aqui.'
+  };
+  var oeToastTimer = null;
+  function showTutorialComingSoon() {
+    var toast = document.getElementById('oeToast');
+    if (!toast) return;
+    toast.textContent = TUTORIAL_COMING_SOON_MSG[currentLang()] || TUTORIAL_COMING_SOON_MSG.es;
+    toast.classList.add('show');
+    if (oeToastTimer) clearTimeout(oeToastTimer);
+    oeToastTimer = setTimeout(function () { toast.classList.remove('show'); }, 4000);
   }
 
   // 02-sep-2026: el equipo probo el Hub en 3 computadoras distintas, dando clic
@@ -2366,6 +2397,7 @@
     'Inicio':'Home', 'Gestión':'Management', 'Rutinas':'Routines', 'Directorio':'Directory',
     'Organigrama Completo':'Full Org Chart', 'Generador de Slides':'Slide Generator',
     'Aprendizaje Continuo':'Continuous Learning', 'Proyectos':'Projects', 'Indicadores':'Indicators',
+    'Tutorial de uso':'Usage tutorial',
 
     // Home hero
     'Excelencia Operacional · MLM':'Operational Excellence · MLM',
@@ -2756,6 +2788,7 @@
     'Inicio':'Início', 'Gestión':'Management', 'Rutinas':'Rotinas', 'Directorio':'Diretório',
     'Organigrama Completo':'Organograma Completo', 'Generador de Slides':'Gerador de Slides',
     'Aprendizaje Continuo':'Aprendizado Contínuo', 'Proyectos':'Projetos', 'Indicadores':'Indicadores',
+    'Tutorial de uso':'Tutorial de uso',
 
     // Home hero
     'Excelencia Operacional · MLM':'Excelência Operacional · MLM',
@@ -3236,11 +3269,14 @@
     // Sincroniza el idioma con los iframes de herramientas (Insights de Portafolio, etc.)
     // que tienen su propio traductor local (mismo origen, escuchan postMessage).
     window.__oeHubLang = lang;
-    // Nota: playbooks/Playbook_Supervisores_NL.html y aprendizaje/Glosario_OE.html
-    // NO se incluyen aqui a proposito: son contenido 100% en espanol, sin diccionario
-    // TEXT_EN/TEXT_PT ni listener de postMessage('oeHubLang') propio, asi que sincronizar
-    // el idioma no cambiaria nada visible. Traducirlos es un trabajo aparte (ya en el backlog).
-    ['insightsFrameFlujo', 'slidesFrame', 'senaleticaFrame', 'sliprobotsFrame', 'boletinesGenFrame'].forEach(function (id) {
+    // Nota: playbooks/Playbook_Supervisores_NL.html NO se incluye aqui a proposito: es
+    // contenido 100% en espanol, sin diccionario TEXT_EN/TEXT_PT ni listener de
+    // postMessage('oeHubLang') propio, asi que sincronizar el idioma no cambiaria nada
+    // visible. aprendizaje/Glosario_OE.html SI tiene su propio diccionario y listener
+    // desde sep-2026: primeros 69 de 352 terminos (seccion de KPIs/metricas) ya traducidos
+    // EN+PT via DEF_TRANSLATIONS; el resto (jerga interna, indices 69-351) sigue pendiente --
+    // ver "Traduccion ES/EN/PT" en el README. Documentos_Referencia.html tambien pendiente.
+    ['insightsFrameFlujo', 'slidesFrame', 'senaleticaFrame', 'sliprobotsFrame', 'boletinesGenFrame', 'glosarioFrame'].forEach(function (id) {
       var frame = document.getElementById(id);
       if (frame && frame.contentWindow) {
         try { frame.contentWindow.postMessage({ type: 'oeHubLang', lang: lang }, '*'); } catch (e) {}
