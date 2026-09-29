@@ -27,6 +27,16 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
+  /* Enlace de accesibilidad: invisible hasta que se enfoca con Tab (usuarios de
+     teclado/lector de pantalla), para saltar el sidebar e ir directo al contenido. */
+  .skip-link {
+    position: absolute; top: -100px; left: 8px; z-index: 9999;
+    background: var(--dark); color: var(--white); font-weight: 700; font-size: 13px;
+    padding: 10px 16px; border-radius: 0 0 8px 8px; text-decoration: none;
+    transition: top .15s ease;
+  }
+  .skip-link:focus { top: 0; }
+
   body {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     background: var(--light-bg);
@@ -742,6 +752,8 @@
 </head>
 <body>
 
+<a class="skip-link" href="#main-content">Saltar al contenido</a>
+
 <aside class="sidebar">
   <button class="sidebar-logo" onclick="go('inicio', this)">
     <div class="logo-mark">OE</div>
@@ -846,14 +858,14 @@
     </div>
   </div>
 
-  <div class="content">
+  <div class="content" id="main-content" tabindex="-1">
 
     <div class="page active" id="page-inicio">
 
       <div class="home-hero">
         <div class="home-hero-text">
           <div class="home-hero-eyebrow">Excelencia Operacional · MLM</div>
-          <div class="home-hero-title">Qué es OE <svg width="15" height="11" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
+          <h1 class="home-hero-title">Qué es OE <svg width="15" height="11" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></h1>
           <div class="home-hero-sub">Estandarizamos procesos, damos seguimiento a proyectos e indicadores, y construimos una cultura de excelencia en FM, XD, SVC, TOM y Quality.</div>
         </div>
         <div class="home-hero-video">
@@ -1033,7 +1045,7 @@
           <button class="page-back" onclick="go('inicio', null)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Volver a Inicio</button>
           <div class="page-header">
             <div class="page-eyebrow">Gestión <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
-            <div class="page-title">Flujo de Iniciativas Locales <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
+            <h1 class="page-title">Flujo de Iniciativas Locales <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></h1>
             <div class="page-desc">Actualización de proyectos, indicadores, iniciativas y Big Rocks por área de OE.</div>
           </div>
 
@@ -1076,7 +1088,7 @@
           <div class="routine-panel fi-panel" id="fipanel-regionales">
           <div class="page-header">
             <div class="page-eyebrow">Gestión <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
-            <div class="page-title">Iniciativas Regionales <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
+            <h1 class="page-title">Iniciativas Regionales <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></h1>
             <div class="page-desc">Backlog Continuo — cómo una idea se convierte en iniciativa con alcance regional.</div>
           </div>
 
@@ -1101,7 +1113,7 @@
           <div class="routine-panel fi-panel" id="fipanel-locales">
           <div class="page-header">
             <div class="page-eyebrow">Gestión <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
-            <div class="page-title">Iniciativas Locales <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
+            <h1 class="page-title">Iniciativas Locales <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></h1>
             <div class="page-desc">Backlog Continuo — cómo una idea se convierte en iniciativa o proyecto con alcance local.</div>
           </div>
 
@@ -1182,7 +1194,7 @@
       <button class="page-back" onclick="go('inicio', null)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Volver a Inicio</button>
       <div class="page-header">
         <div class="page-eyebrow">Excelencia Operacional <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
-        <div class="page-title">Rutinas <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
+        <h1 class="page-title">Rutinas <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></h1>
         <div class="page-desc">BBR, MBR y el Newsletter (NL) mensual del equipo.</div>
       </div>
 
@@ -1298,7 +1310,7 @@
       <button class="page-back" onclick="go('inicio', null)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Volver a Inicio</button>
       <div class="page-header">
         <div class="page-eyebrow">Excelencia Operacional <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
-        <div class="page-title">Directorio de líderes <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
+        <h1 class="page-title">Directorio de líderes <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></h1>
         <div class="page-desc">Equipo de Excelencia Operacional MLM, con correo directo.</div>
       </div>
       <input type="text" id="dirSearch" class="bib-search" placeholder="Buscar por nombre, rol o área..." oninput="filterDirectorio()">
@@ -1343,7 +1355,7 @@
       <button class="page-back" onclick="go('inicio', null)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Volver a Inicio</button>
       <div class="page-header">
         <div class="page-eyebrow">Excelencia Operacional <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
-        <div class="page-title">Organigrama Completo <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
+        <h1 class="page-title">Organigrama Completo <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></h1>
         <div class="page-desc">Estructura de equipo 2026 · Transportation | Operational Excellence.</div>
       </div>
       <input type="text" id="orgFullSearch" class="bib-search" placeholder="Buscar por nombre, rol o área..." oninput="filterOrgFull()">
@@ -1456,7 +1468,7 @@
       <button class="page-back" onclick="go('inicio', null)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Volver a Inicio</button>
       <div class="page-header">
         <div class="page-eyebrow">Excelencia Operacional <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
-        <div class="page-title">Generador de Slide Ejecutivo <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
+        <h1 class="page-title">Generador de Slide Ejecutivo <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></h1>
         <div class="page-desc">Arma el slide de status de un proyecto Lean (KPIs con tendencia, fases, obstáculos, decisión requerida) y expórtalo listo para la junta.</div>
       </div>
       <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
@@ -1474,7 +1486,7 @@
       <button class="page-back" onclick="go('inicio', null)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Volver a Inicio</button>
       <div class="page-header">
         <div class="page-eyebrow">Excelencia Operacional <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
-        <div class="page-title">Señalética de Aperturas <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
+        <h1 class="page-title">Señalética de Aperturas <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></h1>
         <div class="page-desc">Arma el carrito de señalética para la apertura de un sitio SVC (fijos + variables + opcionales) y genera la orden de compra en Excel lista para el proveedor.</div>
       </div>
       <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
@@ -1492,7 +1504,7 @@
       <button class="page-back" onclick="go('inicio', null)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Volver a Inicio</button>
       <div class="page-header">
         <div class="page-eyebrow">Excelencia Operacional <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
-        <div class="page-title">Slip Robots <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
+        <h1 class="page-title">Slip Robots <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></h1>
         <div class="page-desc">Scorecard de priorización de rutas Line Haul Ground para despliegue de Slip Robots — de Martín Winkler.</div>
       </div>
       <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
@@ -1510,7 +1522,7 @@
       <button class="page-back" onclick="go('inicio', null)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Volver a Inicio</button>
       <div class="page-header">
         <div class="page-eyebrow">Gestión <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
-        <div class="page-title">Generador de Boletines <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
+        <h1 class="page-title">Generador de Boletines <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></h1>
         <div class="page-desc">Arma los 4 newsletters (FM + XD + SC + TOM, SVC + Last Mile, Quality, Gestión) a partir de los Excel del equipo — corrector ortográfico, avisos de revisión e historial incluidos.</div>
       </div>
       <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
@@ -1528,7 +1540,7 @@
       <button class="page-back" onclick="go('inicio', null)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Volver a Inicio</button>
       <div class="page-header">
         <div class="page-eyebrow">Excelencia Operacional <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
-        <div class="page-title">Aprendizaje Continuo <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
+        <h1 class="page-title">Aprendizaje Continuo <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></h1>
         <div class="page-desc">Guías, cursos y material de referencia para el equipo de OE.</div>
       </div>
 
@@ -1825,6 +1837,17 @@
     if (f.parentNode) f.parentNode.appendChild(box);
   }
 
+  // El <title> de la pestana quedaba siempre fijo en "OE MLM Hub" sin importar
+  // la seccion activa -- se nota cuando hay varias pestanas del Hub abiertas.
+  // Reusa el mismo LABELS/LABELS_EN/LABELS_PT que ya alimenta el breadcrumb
+  // (bcCurrent), asi que no inventa ningun texto nuevo.
+  function updatePageTitle(pageId) {
+    const cl = currentLang();
+    const map = cl === 'en' ? LABELS_EN : (cl === 'pt' ? LABELS_PT : LABELS);
+    const label = pageId === 'inicio' ? null : (map[pageId] || null);
+    document.title = label ? (label + ' · OE MLM Hub') : 'OE MLM Hub';
+  }
+
   function go(pageId, btn) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const el = document.getElementById('page-' + pageId);
@@ -1863,6 +1886,7 @@
     const cl = currentLang();
     const map = cl === 'en' ? LABELS_EN : (cl === 'pt' ? LABELS_PT : LABELS);
     document.getElementById('bcCurrent').textContent = map[pageId] || pageId;
+    updatePageTitle(pageId);
 
     // La barra lateral ya no se contrae/expande sola al navegar (feedback de Rich:
     // se sentía poco organica y ocultaba contenido a media navegacion). Se deja fija
@@ -2675,6 +2699,7 @@
     'Estandarización Pymes | Capacidades':'Weigh & Measure Standardization | Capabilities',
     'Portafolio MLM':'MLM Portfolio',
     'Expansiones':'Expansions',
+    'Saltar al contenido':'Skip to content',
 
     // Slides
     'Arma el slide de status de un proyecto Lean (KPIs con tendencia, fases, obstáculos, decisión requerida) y expórtalo listo para la junta.':'Builds the status slide for a Lean project (KPIs with trend, phases, obstacles, decision required) and exports it ready for the meeting.',
@@ -3067,6 +3092,7 @@
     'Estandarización Pymes | Capacidades':'Padronização Pymes | Capacidades',
     'Portafolio MLM':'Portfólio MLM',
     'Expansiones':'Expansões',
+    'Saltar al contenido':'Pular para o conteúdo',
 
     // Slides
     'Arma el slide de status de un proyecto Lean (KPIs con tendencia, fases, obstáculos, decisión requerida) y expórtalo listo para la junta.':'Monta o slide de status de um projeto Lean (KPIs com tendência, fases, obstáculos, decisão necessária) e exporta pronto para a reunião.',
@@ -3335,12 +3361,15 @@
     '.page-back', '.flow-tag', '.flow-title', '.flow-desc', '.flow-intro',
     '.cadence', '.branch-card',
     '.e-title', '.e-sub', '.bigrocks-area-title',
-    '.story-summary li', '.cal-weekdays div', '.bv-open-full'
+    '.story-summary li', '.cal-weekdays div', '.bv-open-full', '.skip-link'
   ].join(', ');
 
   function applyLang(lang) {
     document.documentElement.lang = lang;
-    document.title = 'OE MLM Hub';
+    // El titulo de pestana depende de la pagina activa (ver updatePageTitle);
+    // aqui solo se refresca para que quede en el idioma correcto tras el cambio.
+    const activePageEl = document.querySelector('.page.active');
+    updatePageTitle(activePageEl ? activePageEl.id.replace('page-', '') : 'inicio');
     document.getElementById('langEs').classList.toggle('active', lang === 'es');
     document.getElementById('langEn').classList.toggle('active', lang === 'en');
     document.getElementById('langPt').classList.toggle('active', lang === 'pt');
