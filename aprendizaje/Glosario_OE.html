@@ -15,6 +15,7 @@
   html.embedded .hdr, html.embedded .footer, html.embedded .oe-contact { display:none; }
   html.embedded .content { padding-top:16px; }
   :root {
+    --muted: #767676;
     --yellow: #FFD001;
     --yellow-dark: #E6BB00;
     --yellow-bg: #FFFBEA;
@@ -38,7 +39,7 @@
   .note { background:var(--yellow-bg); border-left:3px solid var(--yellow-dark); border-radius:8px; padding:12px 16px; font-size:12.5px; color:#555; margin-bottom:22px; }
 
 
-  .section-title { font-size:13px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; color:#999; margin:34px 0 12px; }
+  .section-title { font-size:13px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); margin:34px 0 12px; }
   .section-title:first-of-type { margin-top:0; }
   .kpi-filters { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
   .kpi-filter-btn { border:1px solid var(--border); background:var(--white); color:#666; font-size:11.5px; font-weight:700; padding:6px 12px; border-radius:20px; cursor:pointer; font-family:inherit; }
@@ -52,11 +53,11 @@
      real de la pagina -- overflow:hidden/auto en este contenedor cortaria esa cadena
      y el sticky dejaria de funcionar. */
   .kpi-table { width:100%; border-collapse:collapse; font-size:12.5px; }
-  .kpi-table thead th { position:sticky; top:0; background:var(--light-bg); text-align:left; padding:10px 14px; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:#999; z-index:1; }
+  .kpi-table thead th { position:sticky; top:0; background:var(--light-bg); text-align:left; padding:10px 14px; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); z-index:1; }
   .kpi-table td { padding:9px 14px; border-top:1px solid var(--border); vertical-align:top; }
   .kpi-table tr:hover td { background:var(--light-bg); }
   .kpi-td-cat { font-size:10.5px; font-weight:800; letter-spacing:.03em; color:var(--yellow-dark); white-space:nowrap; }
-  .kpi-td-sub { font-size:11px; color:#999; white-space:nowrap; }
+  .kpi-td-sub { font-size:11px; color:var(--muted); white-space:nowrap; }
   .kpi-td-name { font-weight:800; color:var(--dark); white-space:nowrap; }
   .kpi-td-alias { font-size:11.5px; color:#666; white-space:nowrap; }
   .kpi-td-desc { color:#555; }
@@ -65,7 +66,7 @@
   .dict-search:focus { outline:none; border-color:var(--yellow-dark); }
   .dict-td-term { font-weight:800; color:var(--dark); white-space:nowrap; }
   .dict-td-def { color:#555; }
-  .dict-count { font-size:11px; color:#999; margin-top:8px; }
+  .dict-count { font-size:11px; color:var(--muted); margin-top:8px; }
 
   .footer { background: var(--yellow); padding: 16px 40px; margin-top: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
   .footer .f-title { font-size: 13px; font-weight: 900; color: var(--dark); }

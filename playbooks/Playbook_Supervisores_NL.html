@@ -15,6 +15,7 @@
   html.embedded .hdr, html.embedded .footer, html.embedded .oe-contact { display:none; }
   html.embedded .content { padding-top:16px; }
   :root {
+    --muted: #767676;
     --yellow: #FFD001;
     --yellow-dark: #E6BB00;
     --yellow-bg: #FFFBEA;
@@ -43,7 +44,7 @@
     font-weight: 800; font-size: 11.5px; letter-spacing: 0.04em; text-transform: uppercase;
     padding: 8px 16px; border-radius: 20px;
   }
-  .hdr-ver { font-size: 12.5px; color: #999; margin-top: 14px; }
+  .hdr-ver { font-size: 12.5px; color: var(--muted); margin-top: 14px; }
 
   .content { padding: 32px 40px 10px; }
   .section { margin-bottom: 40px; }
@@ -75,7 +76,7 @@
   }
   .flow-step.you { background: var(--dark); border-color: var(--dark); }
   .flow-step .tag {
-    font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #999; margin-bottom: 6px;
+    font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
   }
   .flow-step.you .tag { color: var(--yellow); }
   .flow-step .title { font-size: 15px; font-weight: 800; color: var(--dark); margin-bottom: 8px; }
@@ -425,7 +426,7 @@
                   <div class="gv-black">
                     <div style="font:700 9px/1 inherit;letter-spacing:2px;text-transform:uppercase;color:#FFD001;margin-bottom:8px">Mercado Libre · OE MLM</div>
                     <div style="font:900 24px/1.05 inherit;color:#fff;margin-bottom:6px">FM | XD | SC | TOM</div>
-                    <div><span class="gv-badge">1</span><span style="font:700 24px/1 'Courier New',monospace;color:#FFD001">Ago</span> <span style="font:400 12px/1 'Courier New',monospace;color:#999">2026</span></div>
+                    <div><span class="gv-badge">1</span><span style="font:700 24px/1 'Courier New',monospace;color:#FFD001">Ago</span> <span style="font:400 12px/1 'Courier New',monospace;color:var(--muted)">2026</span></div>
                   </div>
                   <div style="background:#FFD001;padding:8px 16px"><span class="gv-badge">2</span><span style="font:600 10.5px/1.5 inherit;color:#111">Este mes seguimos avanzando en la automatización del picking...</span></div>
                 </div></div>
@@ -490,7 +491,7 @@
                     <div class="gv-met"><b><span class="gv-badge" style="background:#fff">6</span>98%</b><span><span class="gv-badge" style="background:#fff">7</span>Exactitud de picking</span></div>
                     <div class="gv-bul"><span class="gv-badge">8</span>22 de 24 turnos con cero incidencias</div>
                     <div class="gv-paso"><span style="color:#FFD001;font-weight:900">→</span><span class="gv-badge">9</span>Replicar el proceso en Cross Dock</div>
-                    <div style="text-align:center;margin-top:8px"><div style="height:50px;background:#eee;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#999"><span class="gv-badge">10</span>&nbsp;imagen</div><div style="font:italic 400 9.5px/1.4 inherit;color:#888;margin-top:3px"><span class="gv-badge">11</span>Pie de foto</div></div>
+                    <div style="text-align:center;margin-top:8px"><div style="height:50px;background:#eee;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--muted)"><span class="gv-badge">10</span>&nbsp;imagen</div><div style="font:italic 400 9.5px/1.4 inherit;color:#888;margin-top:3px"><span class="gv-badge">11</span>Pie de foto</div></div>
                     <div style="margin-top:6px"><span class="gv-badge">12</span><span class="gv-btn">Ver detalle</span></div>
                     <div class="gv-nota"><span class="gv-badge">13</span>Nota al pie</div>
                   </div>
@@ -564,7 +565,7 @@
                   <div class="gv-black">
                     <div style="font:700 9px/1 inherit;letter-spacing:2px;text-transform:uppercase;color:#FFD001;margin-bottom:8px">Mercado Libre · OE MLM</div>
                     <div style="font:900 24px/1.05 inherit;color:#fff;margin-bottom:6px">SVC + Last Mile</div>
-                    <div><span class="gv-badge">1</span><span style="font:700 24px/1 'Courier New',monospace;color:#FFD001">Ago</span> <span style="font:400 12px/1 'Courier New',monospace;color:#999">2026</span></div>
+                    <div><span class="gv-badge">1</span><span style="font:700 24px/1 'Courier New',monospace;color:#FFD001">Ago</span> <span style="font:400 12px/1 'Courier New',monospace;color:var(--muted)">2026</span></div>
                   </div>
                   <div style="background:#FFD001;padding:8px 16px"><span class="gv-badge">2</span><span style="font:600 10.5px/1.5 inherit;color:#111">Este mes mejoramos los tiempos de entrega en Last Mile...</span></div>
                 </div></div>
@@ -629,7 +630,7 @@
                     <div class="gv-met"><b><span class="gv-badge" style="background:#fff">6</span>12%</b><span><span class="gv-badge" style="background:#fff">7</span>Reducción de incidencias</span></div>
                     <div class="gv-bul"><span class="gv-badge">8</span>Checklist reforzado en los 2 turnos</div>
                     <div class="gv-paso"><span style="color:#FFD001;font-weight:900">→</span><span class="gv-badge">9</span>Replicar en el resto de las rutas</div>
-                    <div style="text-align:center;margin-top:8px"><div style="height:50px;background:#eee;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#999"><span class="gv-badge">10</span>&nbsp;imagen</div><div style="font:italic 400 9.5px/1.4 inherit;color:#888;margin-top:3px"><span class="gv-badge">11</span>Pie de foto</div></div>
+                    <div style="text-align:center;margin-top:8px"><div style="height:50px;background:#eee;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--muted)"><span class="gv-badge">10</span>&nbsp;imagen</div><div style="font:italic 400 9.5px/1.4 inherit;color:#888;margin-top:3px"><span class="gv-badge">11</span>Pie de foto</div></div>
                     <div style="margin-top:6px"><span class="gv-badge">12</span><span class="gv-btn">Ver checklist</span></div>
                     <div class="gv-nota"><span class="gv-badge">13</span>Nota al pie</div>
                   </div>
@@ -703,7 +704,7 @@
                   <div class="gv-black">
                     <div style="font:700 9px/1 inherit;letter-spacing:2px;text-transform:uppercase;color:#FFD001;margin-bottom:8px">Mercado Libre · OE MLM</div>
                     <div style="font:900 24px/1.05 inherit;color:#fff;margin-bottom:6px">Quality</div>
-                    <div><span class="gv-badge">1</span><span style="font:700 24px/1 'Courier New',monospace;color:#FFD001">Ago</span> <span style="font:400 12px/1 'Courier New',monospace;color:#999">2026</span></div>
+                    <div><span class="gv-badge">1</span><span style="font:700 24px/1 'Courier New',monospace;color:#FFD001">Ago</span> <span style="font:400 12px/1 'Courier New',monospace;color:var(--muted)">2026</span></div>
                   </div>
                   <div style="background:#FFD001;padding:8px 16px"><span class="gv-badge">2</span><span style="font:600 10.5px/1.5 inherit;color:#111">Este mes cerramos agosto con buenos resultados en auditorías de SHE...</span></div>
                 </div></div>
@@ -766,7 +767,7 @@
                     <div class="gv-met"><b><span class="gv-badge" style="background:#fff">6</span>53%</b><span><span class="gv-badge" style="background:#fff">7</span>% de operaciones clasificadas</span></div>
                     <div class="gv-bul"><span class="gv-badge">8</span>22 de 24 operaciones Prioridad 2 cubiertas</div>
                     <div class="gv-paso"><span style="color:#FFD001;font-weight:900">→</span><span class="gv-badge">9</span>Dar seguimiento al plan de acción</div>
-                    <div style="text-align:center;margin-top:8px"><div style="height:50px;background:#eee;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#999"><span class="gv-badge">10</span>&nbsp;imagen</div><div style="font:italic 400 9.5px/1.4 inherit;color:#888;margin-top:3px"><span class="gv-badge">11</span>Pie de foto</div></div>
+                    <div style="text-align:center;margin-top:8px"><div style="height:50px;background:#eee;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--muted)"><span class="gv-badge">10</span>&nbsp;imagen</div><div style="font:italic 400 9.5px/1.4 inherit;color:#888;margin-top:3px"><span class="gv-badge">11</span>Pie de foto</div></div>
                     <div style="margin-top:6px"><span class="gv-badge">12</span><span class="gv-btn">Cierre Q3 2026</span></div>
                     <div class="gv-nota"><span class="gv-badge">13</span>Nota al pie</div>
                   </div>
@@ -840,7 +841,7 @@
                   <div class="gv-black">
                     <div style="font:700 9px/1 inherit;letter-spacing:2px;text-transform:uppercase;color:#FFD001;margin-bottom:8px">Mercado Libre · OE MLM</div>
                     <div style="font:900 24px/1.05 inherit;color:#fff;margin-bottom:6px">Gestión</div>
-                    <div><span class="gv-badge">1</span><span style="font:700 24px/1 'Courier New',monospace;color:#FFD001">Ago</span> <span style="font:400 12px/1 'Courier New',monospace;color:#999">2026</span></div>
+                    <div><span class="gv-badge">1</span><span style="font:700 24px/1 'Courier New',monospace;color:#FFD001">Ago</span> <span style="font:400 12px/1 'Courier New',monospace;color:var(--muted)">2026</span></div>
                   </div>
                   <div style="background:#FFD001;padding:8px 16px"><span class="gv-badge">2</span><span style="font:600 10.5px/1.5 inherit;color:#111">Este mes seguimos fortaleciendo el seguimiento de iniciativas y el Backlog Continuo del equipo...</span></div>
                 </div></div>
@@ -905,7 +906,7 @@
                     <div class="gv-met"><b><span class="gv-badge" style="background:#fff">6</span>12</b><span><span class="gv-badge" style="background:#fff">7</span>Iniciativas activas este mes</span></div>
                     <div class="gv-bul"><span class="gv-badge">8</span>3 iniciativas pasaron a proyecto este mes</div>
                     <div class="gv-paso"><span style="color:#FFD001;font-weight:900">→</span><span class="gv-badge">9</span>Dar seguimiento en la próxima Mesa regional</div>
-                    <div style="text-align:center;margin-top:8px"><div style="height:50px;background:#eee;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#999"><span class="gv-badge">10</span>&nbsp;imagen</div><div style="font:italic 400 9.5px/1.4 inherit;color:#888;margin-top:3px"><span class="gv-badge">11</span>Pie de foto</div></div>
+                    <div style="text-align:center;margin-top:8px"><div style="height:50px;background:#eee;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--muted)"><span class="gv-badge">10</span>&nbsp;imagen</div><div style="font:italic 400 9.5px/1.4 inherit;color:#888;margin-top:3px"><span class="gv-badge">11</span>Pie de foto</div></div>
                     <div style="margin-top:6px"><span class="gv-badge">12</span><span class="gv-btn">Ver tablero</span></div>
                     <div class="gv-nota"><span class="gv-badge">13</span>Nota al pie</div>
                   </div>

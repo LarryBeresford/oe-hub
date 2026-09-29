@@ -8,6 +8,7 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
+    --muted: #767676;
   --yellow: #FFD001; --black: #111; --white: #FFF;
   --gray: #555; --gray-light: #F4F4F4; --gray-border: #E0E0E0;
   --gray2: #333; --gray3: #222; --darkbg: #1A1A1A;
@@ -37,7 +38,7 @@ body { font-family: var(--font); background: #1C1C1C; color: var(--black); min-h
   display: flex; flex-direction: column; gap: 6px;
   padding: 12px 18px; border-bottom: 3px solid var(--yellow);
 }
-.proj-bar label { color: #999; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin: 4px 0 0; }
+.proj-bar label { color: var(--muted); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin: 4px 0 0; }
 .proj-bar label:first-child { margin-top: 0; }
 .proj-bar select {
   background: #222; color: #FFF; border: 1px solid #3A3A3A; border-radius: 5px;
@@ -115,7 +116,7 @@ textarea { min-height: 52px; }
 .bullet-row textarea { flex: 1; min-height: 36px; font-size: 11px; padding: 5px 8px; }
 .remove-btn { background: none; border: 1px solid #DDD; border-radius: 4px; width: 26px; height: 26px; cursor: pointer; font-size: 13px; color: #AAA; flex-shrink: 0; transition: all 0.15s; }
 .remove-btn:hover { border-color: var(--red); color: var(--red); }
-.add-btn { background: none; border: 1px dashed #CCC; border-radius: 5px; padding: 5px 10px; font-size: 11px; color: #999; cursor: pointer; width: 100%; text-align: left; margin-top: 3px; transition: all 0.15s; font-family: var(--font); }
+.add-btn { background: none; border: 1px dashed #CCC; border-radius: 5px; padding: 5px 10px; font-size: 11px; color: var(--muted); cursor: pointer; width: 100%; text-align: left; margin-top: 3px; transition: all 0.15s; font-family: var(--font); }
 .add-btn:hover { border-color: var(--yellow); color: #555; }
 
 /* KPI TABLE */
@@ -127,7 +128,7 @@ textarea { min-height: 52px; }
 .kpi-table td:first-child { font-weight: 700; background: #FAFAFA; padding: 3px 6px; }
 .kpi-table td input { border: none; padding: 3px 4px; font-size: 10px; width: 100%; text-align: center; background: transparent; font-family: var(--font); }
 .kpi-table td input:focus { outline: 1px solid var(--yellow); }
-.add-kpi-btn { width: 100%; margin-top: 5px; padding: 5px; font-size: 10px; background: none; border: 1px dashed #CCC; border-radius: 4px; color: #999; cursor: pointer; font-family: var(--font); }
+.add-kpi-btn { width: 100%; margin-top: 5px; padding: 5px; font-size: 10px; background: none; border: 1px dashed #CCC; border-radius: 4px; color: var(--muted); cursor: pointer; font-family: var(--font); }
 .add-kpi-btn:hover { border-color: var(--yellow); }
 
 /* PHASES */
@@ -190,7 +191,7 @@ textarea { min-height: 52px; }
 
 .sl-col-title {
   font-size: 8px; font-weight: 800; text-transform: uppercase;
-  letter-spacing: 1.5px; color: #999;
+  letter-spacing: 1.5px; color: var(--muted);
   border-bottom: 1.5px solid var(--yellow); padding-bottom: 5px;
 }
 
@@ -204,7 +205,7 @@ textarea { min-height: 52px; }
 .sl-kpi-card.bad  { border-left-color: var(--red); }
 .kc-top  { display: flex; justify-content: space-between; align-items: flex-start; }
 .kc-name { font-size: 9px; font-weight: 700; color: #333; }
-.kc-refs { font-size: 8px; color: #999; margin-top: 1px; }
+.kc-refs { font-size: 8px; color: var(--muted); margin-top: 1px; }
 .kc-val  { font-size: 20px; font-weight: 900; line-height: 1; text-align: right; }
 .kc-delta { font-size: 8px; font-weight: 700; padding: 1px 6px; border-radius: 8px; margin-top: 2px; display: inline-block; }
 .kc-delta.up   { background: #E6F9EE; color: var(--green); }
@@ -254,7 +255,7 @@ textarea { min-height: 52px; }
 .sl-saving-title { font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--green); margin-bottom: 2px; }
 .sl-saving-num   { font-size: 22px; font-weight: 900; color: var(--green); line-height: 1; }
 .sl-saving-sub   { font-size: 8px; color: #555; margin-top: 2px; }
-.sl-saving-vs    { font-size: 7px; color: #999; margin-top: 1px; }
+.sl-saving-vs    { font-size: 7px; color: var(--muted); margin-top: 1px; }
 
 /* STEPS TABLE */
 .sl-steps { width: 100%; border-collapse: collapse; font-size: 8px; }
@@ -281,7 +282,7 @@ textarea { min-height: 52px; }
 .img-drop:hover, .img-drop.over { border-color: var(--yellow); background: #FFFCE0; }
 .img-drop input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
 .img-drop .img-icon { font-size: 22px; margin-bottom: 4px; }
-.img-drop p { font-size: 11px; color: #999; }
+.img-drop p { font-size: 11px; color: var(--muted); }
 .img-drop .img-hint { font-size: 10px; color: #CCC; margin-top: 2px; }
 .img-preview-wrap { position: relative; margin-top: 8px; border-radius: 6px; overflow: hidden; border: 1px solid #DDD; background: #F0F0F0; }
 .img-preview-wrap img { width: 100%; height: auto; object-fit: contain; display: block; }
@@ -402,7 +403,7 @@ textarea { min-height: 52px; }
   <!-- FASES -->
   <div class="form-section">
     <div class="form-section-title" data-i18n="secFases">Fases del Proyecto</div>
-    <p style="font-size:10px;color:#999;margin-bottom:8px;" data-i18n="hintFases">Clic para cambiar: pendiente → completado → activo → pendiente</p>
+    <p style="font-size:10px;color:var(--muted);margin-bottom:8px;" data-i18n="hintFases">Clic para cambiar: pendiente → completado → activo → pendiente</p>
     <div id="fases-editor"></div>
   </div>
 
@@ -436,7 +437,7 @@ textarea { min-height: 52px; }
   <!-- IMAGEN -->
   <div class="form-section">
     <div class="form-section-title" data-i18n="secImagen">🖼 Imagen / Gráfica (opcional)</div>
-    <p style="font-size:10px;color:#999;margin-bottom:6px;" data-i18n="hintImagen">Aparece en la columna derecha, encima de los obstáculos. Ideal para dashboards, gráficas o tablas de análisis.</p>
+    <p style="font-size:10px;color:var(--muted);margin-bottom:6px;" data-i18n="hintImagen">Aparece en la columna derecha, encima de los obstáculos. Ideal para dashboards, gráficas o tablas de análisis.</p>
     <div class="img-drop" id="img-drop">
       <input type="file" accept="image/*" onchange="handleImage(this)">
       <div class="img-icon">📊</div>

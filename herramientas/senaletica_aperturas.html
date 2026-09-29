@@ -15,6 +15,7 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
+    --muted: #767676;
   --yellow: #FFD001; --black: #111; --white: #FFF;
   --gray: #555; --gray-light: #F4F4F4; --gray-border: #E0E0E0;
   --gray2: #333; --gray3: #222; --darkbg: #1A1A1A;
@@ -32,7 +33,7 @@ body { font-family: var(--font); background: #1C1C1C; color: var(--black); min-h
 }
 .app-bar .logo { background: var(--yellow); color: #000; font-weight: 900; font-size: 12px; padding: 4px 10px; border-radius: 4px; letter-spacing: 0.5px; }
 .app-bar h1 { font-size: 14px; font-weight: 600; }
-.app-bar .sub { font-size: 11px; color: #999; margin-left: 4px; }
+.app-bar .sub { font-size: 11px; color: var(--muted); margin-left: 4px; }
 .app-bar .actions { margin-left: auto; display: flex; gap: 8px; align-items: center; }
 .btn-primary { background: var(--yellow); color: #000; border: none; padding: 9px 20px; border-radius: 6px; font-weight: 800; font-size: 12px; cursor: pointer; letter-spacing: 0.3px; transition: opacity 0.15s; font-family: var(--font); }
 .btn-primary:hover { opacity: 0.85; }
@@ -75,7 +76,7 @@ body { font-family: var(--font); background: #1C1C1C; color: var(--black); min-h
 }
 .form-section-title .ttl { display:flex; align-items:center; gap:6px; }
 .form-section-title .ttl::before { content: ''; display: inline-block; width: 3px; height: 13px; background: var(--yellow); border-radius: 2px; }
-.form-section-title .count { color: #999; font-weight: 700; text-transform: none; letter-spacing: 0; font-size: 10.5px; }
+.form-section-title .count { color: var(--muted); font-weight: 700; text-transform: none; letter-spacing: 0; font-size: 10.5px; }
 label { display: block; font-size: 10px; font-weight: 700; color: #666; margin: 8px 0 3px; text-transform: uppercase; letter-spacing: 0.5px; }
 label:first-of-type { margin-top: 0; }
 input[type=text], input[type=date], input[type=email], textarea, select {
@@ -97,7 +98,7 @@ textarea { min-height: 52px; }
 .zone-head .zname { font-size:11.5px; font-weight:700; color:#222; display:flex; align-items:center; gap:8px; }
 .zone-head .zbadge { background:#EEE; color:#666; font-size:9.5px; font-weight:800; padding: 2px 7px; border-radius: 10px; }
 .zone-head .zbadge.on { background: var(--yellow); color:#000; }
-.zone-head .chev { transition: transform 0.15s; color:#999; }
+.zone-head .chev { transition: transform 0.15s; color:var(--muted); }
 .zone-group.open .chev { transform: rotate(90deg); }
 .zone-body { display:none; padding: 4px 10px 8px; }
 .zone-group.open .zone-body { display:block; }
@@ -117,8 +118,8 @@ textarea { min-height: 52px; }
 .item-card-body { padding:10px 12px 11px; display:flex; flex-direction:column; gap:7px; flex:1; }
 .item-card-name { font-size:12.5px; font-weight:700; color:#222; line-height:1.32; }
 .items-grid.compact .item-card-name { font-size:11px; }
-.item-card-meta { font-size:10px; color:#999; }
-.item-card-comment label { font-size:9px; font-weight:700; color:#999; text-transform:uppercase; letter-spacing:0.3px; display:block; margin-bottom:2px; }
+.item-card-meta { font-size:10px; color:var(--muted); }
+.item-card-comment label { font-size:9px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.3px; display:block; margin-bottom:2px; }
 .item-card-comment.required label { color:var(--red); }
 .item-card-comment .comment-input { width:100%; border:1px solid #DDD; border-radius:5px; padding:5px 8px; font-size:11px; font-family:var(--font); }
 .item-card-comment.required .comment-input { border-color:#F3B9B9; }
@@ -141,7 +142,7 @@ textarea { min-height: 52px; }
 .cart-stats { display:flex; gap:10px; }
 .stat-chip { background:#FFF; border:1px solid #E0E0E0; border-radius:8px; padding:8px 14px; text-align:center; min-width:70px; }
 .stat-chip .num { font-size:18px; font-weight:900; color:#111; }
-.stat-chip .lbl { font-size:9px; text-transform:uppercase; color:#999; letter-spacing:0.4px; font-weight:700; }
+.stat-chip .lbl { font-size:9px; text-transform:uppercase; color:var(--muted); letter-spacing:0.4px; font-weight:700; }
 
 .cart-table-wrap { background:#FFF; border-radius:10px; border:1px solid #E2E2E2; overflow:hidden; flex:1; display:flex; flex-direction:column; min-height:200px; }
 .cart-table-scroll { overflow-y:auto; flex:1; }
