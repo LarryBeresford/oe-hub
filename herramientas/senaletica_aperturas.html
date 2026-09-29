@@ -22,14 +22,19 @@
   --green: #00A650; --orange: #FF8C00; --red: #D62828;
   --font: 'Segoe UI', Arial, sans-serif;
 }
-body { font-family: var(--font); background: #1C1C1C; color: var(--black); min-height: 100vh; display: flex; flex-direction: column; }
+body { font-family: var(--font); background: var(--gray-light); color: var(--black); min-height: 100vh; display: flex; flex-direction: column; }
 
-/* ── APP HEADER ── */
+/* ── APP HEADER ──
+   Antes: fondo negro solido (#000). Feedback de Raquel (UX/UI) + Larry: muchas
+   zonas oscuras compitiendo con el fondo claro del Hub, no se sabe a donde
+   voltear. Se aclara a blanco/gris claro -- reversible con solo estos dos
+   bloques de CSS (app-bar + wizard-bar) si no convence. */
 .app-bar {
-  background: #000; color: var(--white);
+  background: var(--white); color: var(--black);
   display: flex; align-items: center; gap: 14px;
   padding: 10px 20px; position: sticky; top: 0; z-index: 200;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+  border-bottom: 1px solid var(--gray-border);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 .app-bar .logo { background: var(--yellow); color: #000; font-weight: 900; font-size: 12px; padding: 4px 10px; border-radius: 4px; letter-spacing: 0.5px; }
 .app-bar h1 { font-size: 14px; font-weight: 600; }
@@ -38,19 +43,19 @@ body { font-family: var(--font); background: #1C1C1C; color: var(--black); min-h
 .btn-primary { background: var(--yellow); color: #000; border: none; padding: 9px 20px; border-radius: 6px; font-weight: 800; font-size: 12px; cursor: pointer; letter-spacing: 0.3px; transition: opacity 0.15s; font-family: var(--font); }
 .btn-primary:hover { opacity: 0.85; }
 .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
-.btn-secondary { background: transparent; color: #AAA; border: 1px solid #444; padding: 8px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.15s; font-family: var(--font); }
-.btn-secondary:hover { border-color: var(--yellow); color: var(--yellow); }
+.btn-secondary { background: transparent; color: var(--gray); border: 1px solid var(--gray-border); padding: 8px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.15s; font-family: var(--font); }
+.btn-secondary:hover { border-color: var(--yellow); color: #000; }
 
-/* ── WIZARD (3 pasos) ── */
-.wizard-bar { background:#000; display:flex; align-items:center; justify-content:center; gap:0; padding:14px 20px; border-bottom:1px solid #2A2A2A; }
+/* ── WIZARD (3 pasos) -- mismo criterio que .app-bar arriba ── */
+.wizard-bar { background:var(--white); display:flex; align-items:center; justify-content:center; gap:0; padding:14px 20px; border-bottom:1px solid var(--gray-border); }
 .wizard-step { display:flex; align-items:center; gap:9px; cursor:pointer; opacity:0.55; transition:opacity .15s; }
 .wizard-step.active, .wizard-step.done { opacity:1; }
 .wizard-step:hover { opacity:1; }
-.wz-num { width:26px; height:26px; border-radius:50%; background:#333; color:#AAA; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; }
+.wz-num { width:26px; height:26px; border-radius:50%; background:var(--gray-light); color:var(--gray); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; flex-shrink:0; }
 .wizard-step.active .wz-num { background:var(--yellow); color:#000; }
-.wizard-step.done .wz-num { background:#3A3A3A; color:var(--yellow); }
-.wz-lbl { font-size:12px; font-weight:700; color:#DDD; white-space:nowrap; }
-.wizard-line { width:48px; height:1px; background:#333; margin:0 12px; }
+.wizard-step.done .wz-num { background:#FFF3B0; color:#8A6D00; }
+.wz-lbl { font-size:12px; font-weight:700; color:var(--gray2); white-space:nowrap; }
+.wizard-line { width:48px; height:1px; background:var(--gray-border); margin:0 12px; }
 @media (max-width: 640px) { .wz-lbl { display:none; } .wizard-line { width:20px; margin:0 6px; } }
 
 .wizard-body { background:#F0F0F0; min-height: calc(100vh - 53px - 57px); }

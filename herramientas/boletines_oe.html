@@ -6,7 +6,16 @@
 <title>Boletines OE — Newsletter</title>
 <link rel="icon" type="image/svg+xml" href="../media/favicon.svg">
 <script src="lib/xlsx.full.min.js"></script>
+<script>
+  // Cuando esta pagina vive dentro de un iframe del Hub, ocultamos su propio
+  // header (seria redundante con el titulo que ya pone el Hub arriba) sin
+  // afectar en nada la version standalone (abierta directo en una pestaña).
+  // Reversible: si no convence, basta con quitar esta etiqueta <script> y la
+  // regla "html.embedded .hdr" de abajo.
+  if (window.self !== window.top) { document.documentElement.classList.add('embedded'); }
+</script>
 <style>
+html.embedded .hdr { display:none; }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#F5F5F5;color:#1A1A1A}
 

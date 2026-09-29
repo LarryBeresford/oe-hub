@@ -15,38 +15,45 @@
   --green: #00A650; --orange: #FF8C00; --red: #D62828;
   --font: 'Segoe UI', Arial, sans-serif;
 }
-body { font-family: var(--font); background: #1C1C1C; color: var(--black); min-height: 100vh; display: flex; flex-direction: column; }
+body { font-family: var(--font); background: var(--gray-light); color: var(--black); min-height: 100vh; display: flex; flex-direction: column; }
 
-/* ── APP HEADER ── */
+/* ── APP HEADER ──
+   Antes: fondo negro solido (#000). Feedback de Raquel (UX/UI) + Larry: muchas
+   zonas oscuras compitiendo con el fondo claro del Hub. Se aclara a blanco --
+   reversible con solo este bloque + el de .proj-bar de abajo si no convence.
+   (El header/footer del slide EXPORTADO, mas abajo en este mismo archivo, se
+   deja negro a proposito -- es el diseño real de la diapositiva, no UI del
+   editor.) */
 .app-bar {
-  background: #000; color: var(--white);
+  background: var(--white); color: var(--black);
   display: flex; align-items: center; gap: 14px;
   padding: 10px 20px; position: sticky; top: 0; z-index: 200;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+  border-bottom: 1px solid var(--gray-border);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 .app-bar .logo { background: var(--yellow); color: #000; font-weight: 900; font-size: 12px; padding: 4px 10px; border-radius: 4px; letter-spacing: 0.5px; }
 .app-bar h1 { font-size: 14px; font-weight: 600; }
 .app-bar .actions { margin-left: auto; display: flex; gap: 8px; align-items: center; }
 .btn-primary { background: var(--yellow); color: #000; border: none; padding: 8px 20px; border-radius: 6px; font-weight: 800; font-size: 12px; cursor: pointer; letter-spacing: 0.3px; transition: opacity 0.15s; }
 .btn-primary:hover { opacity: 0.85; }
-.btn-secondary { background: transparent; color: #AAA; border: 1px solid #444; padding: 7px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.15s; font-family: var(--font); }
-.btn-secondary:hover { border-color: var(--yellow); color: var(--yellow); }
+.btn-secondary { background: transparent; color: var(--gray); border: 1px solid var(--gray-border); padding: 7px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.15s; font-family: var(--font); }
+.btn-secondary:hover { border-color: var(--yellow); color: #000; }
 
-/* ── PROJECT / HISTORY BAR (dentro del form-panel) ── */
+/* ── PROJECT / HISTORY BAR (dentro del form-panel) -- mismo criterio ── */
 .proj-bar {
-  background: #161616; color: #FFF;
+  background: var(--white); color: var(--black);
   display: flex; flex-direction: column; gap: 6px;
   padding: 12px 18px; border-bottom: 3px solid var(--yellow);
 }
 .proj-bar label { color: var(--muted); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin: 4px 0 0; }
 .proj-bar label:first-child { margin-top: 0; }
 .proj-bar select {
-  background: #222; color: #FFF; border: 1px solid #3A3A3A; border-radius: 5px;
+  background: var(--white); color: var(--black); border: 1px solid var(--gray-border); border-radius: 5px;
   padding: 7px 10px; font-size: 12px; font-family: var(--font); cursor: pointer; width: 100%;
 }
 .proj-bar select:focus { outline: none; border-color: var(--yellow); }
-.proj-status { font-size: 10px; color: #777; display: flex; align-items: center; gap: 6px; margin-top: 4px; }
-.proj-status .dot { width: 6px; height: 6px; border-radius: 50%; background: #555; }
+.proj-status { font-size: 10px; color: var(--muted); display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+.proj-status .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gray-border); }
 .proj-status.saved .dot { background: var(--green); }
 .proj-status.unsaved .dot { background: var(--orange); }
 

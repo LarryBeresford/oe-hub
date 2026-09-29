@@ -11,20 +11,24 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#ffffff;color:#1e293b}
 
-/* HEADER (idéntico patrón "app-bar" de señalética/slides: negro dominante, amarillo
-   solo de acento, logo+título+subtítulo en una sola línea con la misma tipografía) */
+/* HEADER -- antes negro dominante (#000), igual que señalética/slides.
+   Feedback de Raquel (UX/UI) + Larry: muchas zonas oscuras compitiendo con el
+   fondo claro del Hub. A diferencia de esas otras herramientas, aquí el header
+   SÍ trae datos reales (las estadísticas de la derecha), así que no se oculta,
+   solo se aclara el fondo conservando todo el contenido. Reversible con solo
+   este bloque de CSS si no convence. */
 .hdr{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;
-  background:#000;box-shadow:0 2px 12px rgba(0,0,0,.5);flex-shrink:0;position:relative;z-index:200}
+  background:#fff;border-bottom:1px solid #E2E2E2;box-shadow:0 1px 4px rgba(0,0,0,.06);flex-shrink:0;position:relative;z-index:200}
 .hdr-l{display:flex;align-items:baseline;gap:14px}
 .logo{background:#FFD001;color:#000;font-weight:900;font-size:12px;padding:4px 10px;border-radius:4px;letter-spacing:.5px}
-.hdr-title{font-size:14px;font-weight:600;letter-spacing:normal;color:#fff;margin:0}
+.hdr-title{font-size:14px;font-weight:600;letter-spacing:normal;color:#1A1A1A;margin:0}
 .hdr-sub{font-size:11px;color:#767676;letter-spacing:normal;text-transform:none}
-.hdr-updated{font-size:10px;color:#777;letter-spacing:normal}
+.hdr-updated{font-size:10px;color:#767676;letter-spacing:normal}
 .hdr-r{display:flex;align-items:center;gap:18px}
 .hdr-stat{text-align:right}
-.hdr-stat-v{font-size:17px;font-weight:800;line-height:1;color:#FFD001}
+.hdr-stat-v{font-size:17px;font-weight:800;line-height:1;color:#1A1A1A}
 .hdr-stat-l{font-size:8.5px;color:#767676;text-transform:uppercase;letter-spacing:.5px;margin-top:1px;font-weight:600}
-.hdiv{width:1px;height:26px;background:rgba(255,255,255,.15)}
+.hdiv{width:1px;height:26px;background:#E2E2E2}
 
 /* TABS */
 .tabbar{height:36px;display:flex;align-items:center;padding:0 22px;gap:4px;

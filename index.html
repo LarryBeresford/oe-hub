@@ -396,7 +396,12 @@
     min-width: 0;
   }
   .story-card:hover { box-shadow: 0 10px 28px rgba(0,0,0,0.10); transform: translateY(-3px); }
-  .story-photo { width:100%; height:230px; object-fit:cover; display:block; background:#eee; }
+  /* Feedback de Raquel (UX/UI) + Larry: la foto/gráfica de cada Success Story
+     quedaba a "sangre" (borde a borde con la tarjeta), lo que se veía crudo
+     porque cada imagen ya trae su propio fondo/ejes. Se le da un marco (margen +
+     esquinas redondeadas) para que se lea como una foto "contenida", no como un
+     screenshot pegado al borde. */
+  .story-photo { display:block; width:calc(100% - 28px); height:210px; margin:14px 14px 14px; border-radius:10px; object-fit:cover; background:#eee; }
   .story-body { padding:22px 24px 26px; border-top:4px solid var(--yellow); }
   .story-card.tag-quality .story-body { border-top-color: var(--tag-quality); }
   .story-card.tag-fm .story-body { border-top-color: var(--tag-fm); }
