@@ -901,8 +901,8 @@
       <span class="nav-chevron"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
     </button>
     <div class="nav-sub">
+      <button class="nav-sub-item" id="navRegistroIniciativas" onclick="go('iniciativaslocales', this)"><span>Registro de Iniciativas</span></button>
       <button class="nav-sub-item" onclick="go('flujoiniciativas', this)"><span>Flujo de Iniciativas Locales</span></button>
-      <button class="nav-sub-item" id="navRegistroIniciativas" onclick="go('flujoiniciativas', this); setTimeout(openRegistroIniciativas,0)"><span>Registro de Iniciativas</span></button>
       <button class="nav-sub-item" id="navSlides" onclick="go('slides', this)"><span>Generador de Slides</span></button>
       <button class="nav-sub-item" id="navBoletinesGen" onclick="go('boletinesgen', this)"><span>Generador de Boletines</span></button>
       <button class="nav-sub-item" id="navSenaletica" onclick="go('senaletica', this)"><span>Expansiones</span></button>
@@ -1011,6 +1011,11 @@
 
       <div class="section-title">Accesos rápidos</div>
       <div class="quick-grid">
+        <button class="quick-card c-mgmt" style="background:#FFD001;border-top-color:#1A1A1A;grid-column:1/-1;display:flex;flex-direction:row;justify-content:flex-start;align-items:center;gap:20px;min-height:0;text-align:left;" onclick="go('iniciativaslocales', document.getElementById('navRegistroIniciativas')); openGroupFor('navManagement')">
+          <div class="quick-card-icon" style="background:#1A1A1A;margin:0;flex-shrink:0;"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke:#FFD001"><path d="M12 5v14M5 12h14"/></svg></div>
+          <div><div class="quick-card-title" style="margin:0 0 4px;">Registrar una iniciativa</div>
+          <div class="quick-card-sub" style="color:#3d3500;">Registra una iniciativa local y consulta el dashboard y el reporte del portafolio.</div></div>
+        </button>
         <button class="quick-card c-mgmt" onclick="go('flujoiniciativas', null); openGroupFor('navManagement')">
           <div class="quick-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7Z"/></svg></div>
           <div class="quick-card-title">Gestión</div>
@@ -1252,16 +1257,9 @@
           </div>
           <div class="branch-card"><b>Nota:</b> el equipo de Gestión comparte a inicios de mes el estatus de todas las iniciativas generadas, a todo OE MLM, para conocimiento y seguimiento.</div>
 
-          <div class="section-title" id="registroIniciativasAnchor" style="margin-top:22px;">Registro y seguimiento</div>
-          <p class="flow-intro" style="font-size:13px;color:#555;margin-bottom:10px;">Registra una iniciativa nueva (mismos campos del one page) y consulta el embudo del flujo, las métricas y el reporte.</p>
-          <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
-            <button onclick="fullscreenIframe('iniciativasLocalesFrame')" aria-label="Ver en pantalla completa" style="display:flex; align-items:center; gap:6px; background:var(--dark); color:var(--white); border:none; border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:inherit;">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke="currentColor"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
-              <span class="btn-fs-label">Pantalla completa</span>
-            </button>
-          </div>
-          <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 260px); min-height:620px;">
-            <iframe id="iniciativasLocalesFrame" data-src="herramientas/iniciativas_locales.html" style="width:100%; height:100%; border:none; display:block;" title="Iniciativas Locales — Registro y seguimiento" onload="if (window.syncFrameLang) syncFrameLang('iniciativasLocalesFrame')"></iframe>
+          <div class="branch-card" style="background:#FFD001;border:none;margin-top:18px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;">
+            <span><b>Registro y seguimiento:</b> registra una iniciativa nueva y consulta el dashboard y el reporte.</span>
+            <button onclick="go('iniciativaslocales', document.getElementById('navRegistroIniciativas'))" style="background:#1A1A1A;color:#FFD001;border:none;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;">Ir a Registro de Iniciativas →</button>
           </div>
           </div>
 
@@ -1616,6 +1614,24 @@
       </div>
     </div>
 
+    <div class="page" id="page-iniciativaslocales">
+      <button class="page-back" onclick="go('inicio', null)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Volver a Inicio</button>
+      <div class="page-header">
+        <div class="page-eyebrow">Gestión <svg width="12" height="9" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></div>
+        <h1 class="page-title">Registro de Iniciativas <svg width="14" height="10" viewBox="0 0 3 2" style="vertical-align:-1px;border-radius:1px;box-shadow:0 0 0 0.5px rgba(0,0,0,.15)"><rect width="1" height="2" fill="#006341"/><rect width="1" height="2" x="1" fill="#fff"/><rect width="1" height="2" x="2" fill="#ce1126"/><circle cx="1.5" cy="1" r="0.22" fill="#8b5e3c"/></svg></h1>
+        <div class="page-desc">Registra una iniciativa local (mismos campos del one page) y consulta el dashboard y el reporte del portafolio.</div>
+      </div>
+      <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
+        <button onclick="fullscreenIframe('iniciativasLocalesFrame')" aria-label="Ver en pantalla completa" style="display:flex; align-items:center; gap:6px; background:var(--dark); color:var(--white); border:none; border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:inherit;">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke="currentColor"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+          <span class="btn-fs-label">Pantalla completa</span>
+        </button>
+      </div>
+      <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 230px); min-height:620px;">
+        <iframe id="iniciativasLocalesFrame" data-src="herramientas/iniciativas_locales.html" style="width:100%; height:100%; border:none; display:block;" title="Registro de Iniciativas" onload="if (window.syncFrameLang) syncFrameLang('iniciativasLocalesFrame')"></iframe>
+      </div>
+    </div>
+
     <div class="page" id="page-senaletica">
       <button class="page-back" onclick="go('inicio', null)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Volver a Inicio</button>
       <div class="page-header">
@@ -1723,9 +1739,9 @@
 </main>
 
 <script>
-  const LABELS    = { inicio:'Inicio', flujoiniciativas:'Gestión · Flujo de Iniciativas Locales', rutinas:'Rutinas', directorio:'Directorio', organigrama:'Directorio · Organigrama', slides:'Gestión · Generador de Slides', senaletica:'Gestión · Expansiones · Señalética de Aperturas', sliprobots:'Gestión · Big Rocks · Slip Robots', boletinesgen:'Gestión · Generador de Boletines', aprendizaje:'Aprendizaje Continuo' };
-  const LABELS_EN = { inicio:'Home',   flujoiniciativas:'Management · Local Initiatives Flow', rutinas:'Routines', directorio:'Directory', organigrama:'Directory · Full Org Chart', slides:'Management · Slide Generator', senaletica:'Management · Expansions · Site Signage', sliprobots:'Management · Big Rocks · Slip Robots', boletinesgen:'Management · Newsletter Generator', aprendizaje:'Continuous Learning' };
-  const LABELS_PT = { inicio:'Início', flujoiniciativas:'Management · Fluxo de Iniciativas Locais', rutinas:'Rotinas', directorio:'Diretório', organigrama:'Diretório · Organograma', slides:'Management · Gerador de Slides', senaletica:'Management · Expansões · Sinalização de Aberturas', sliprobots:'Management · Big Rocks · Slip Robots', boletinesgen:'Management · Gerador de Boletins', aprendizaje:'Aprendizado Contínuo' };
+  const LABELS    = { inicio:'Inicio', flujoiniciativas:'Gestión · Flujo de Iniciativas Locales', iniciativaslocales:'Gestión · Registro de Iniciativas', rutinas:'Rutinas', directorio:'Directorio', organigrama:'Directorio · Organigrama', slides:'Gestión · Generador de Slides', senaletica:'Gestión · Expansiones · Señalética de Aperturas', sliprobots:'Gestión · Big Rocks · Slip Robots', boletinesgen:'Gestión · Generador de Boletines', aprendizaje:'Aprendizaje Continuo' };
+  const LABELS_EN = { inicio:'Home',   flujoiniciativas:'Management · Local Initiatives Flow', iniciativaslocales:'Management · Initiatives Registry', rutinas:'Routines', directorio:'Directory', organigrama:'Directory · Full Org Chart', slides:'Management · Slide Generator', senaletica:'Management · Expansions · Site Signage', sliprobots:'Management · Big Rocks · Slip Robots', boletinesgen:'Management · Newsletter Generator', aprendizaje:'Continuous Learning' };
+  const LABELS_PT = { inicio:'Início', flujoiniciativas:'Management · Fluxo de Iniciativas Locais', iniciativaslocales:'Management · Registro de Iniciativas', rutinas:'Rotinas', directorio:'Diretório', organigrama:'Diretório · Organograma', slides:'Management · Gerador de Slides', senaletica:'Management · Expansões · Sinalização de Aberturas', sliprobots:'Management · Big Rocks · Slip Robots', boletinesgen:'Management · Gerador de Boletins', aprendizaje:'Aprendizado Contínuo' };
 
   function toggleSidebar() {
     document.body.classList.toggle('sidebar-collapsed');
@@ -1760,7 +1776,7 @@
     { label: 'Inicio', hint: 'Pagina principal del Hub', go: function () { go('inicio', null); } },
     { label: 'Gestión · Flujo de Iniciativas Locales', hint: 'Actualización de proyectos, indicadores, iniciativas y Big Rocks', go: function () { go('flujoiniciativas', null); openGroupFor('navManagement'); } },
     { label: 'Gestión · Iniciativas Regionales', hint: 'Backlog Continuo con alcance regional', go: function () { go('flujoiniciativas', null); openGroupFor('navManagement'); setTimeout(()=>fiTab('regionales'),0); } },
-    { label: 'Gestión · Registro de Iniciativas', hint: 'Registrar una iniciativa local y ver dashboard y reporte', go: function () { go('flujoiniciativas', null); openGroupFor('navManagement'); setTimeout(openRegistroIniciativas,0); } },
+    { label: 'Gestión · Registro de Iniciativas', hint: 'Registrar una iniciativa local y ver dashboard y reporte', go: function () { go('iniciativaslocales', document.getElementById('navRegistroIniciativas')); openGroupFor('navManagement'); } },
     { label: 'Gestión · Iniciativas Locales', hint: 'Backlog Continuo con alcance local', go: function () { go('flujoiniciativas', null); openGroupFor('navManagement'); setTimeout(()=>fiTab('locales'),0); } },
     { label: 'Gestión · Big Rocks', hint: 'Proyectos más importantes por área OE', go: function () { go('flujoiniciativas', null); openGroupFor('navManagement'); setTimeout(()=>fiTab('bigrocks'),0); } },
     { label: 'Gestión · Generador de Slides', hint: 'Slide de status ejecutivo para juntas', go: function () { go('slides', document.getElementById('navSlides')); openGroupFor('navManagement'); } },
@@ -1990,7 +2006,7 @@
 
     // Paginas sin sub-pestanas: su unico iframe vive directo dentro de .page,
     // asi que se puede cargar apenas la pagina se activa.
-    if (el && (pageId === 'slides' || pageId === 'senaletica' || pageId === 'sliprobots' || pageId === 'boletinesgen')) {
+    if (el && (pageId === 'slides' || pageId === 'senaletica' || pageId === 'sliprobots' || pageId === 'boletinesgen' || pageId === 'iniciativaslocales')) {
       lazyLoadIframe(el);
     }
     // Rutinas/Aprendizaje tienen sub-pestanas (routine-panel/learn-panel) que se
@@ -2053,13 +2069,6 @@
     const panel = document.getElementById('fipanel-' + which);
     panel.classList.add('active');
     lazyLoadIframe(panel);
-  }
-
-  // Atajo del menu lateral "Registro de Iniciativas": abre la pestana Locales y baja a la herramienta.
-  function openRegistroIniciativas() {
-    fiTab('locales');
-    var a = document.getElementById('registroIniciativasAnchor');
-    if (a) a.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function toggleBigRocksArea(key) {
@@ -2969,7 +2978,12 @@
     'Mismo arranque que el Backlog Continuo, pero si la mesa local aprueba, la iniciativa se convierte directo en':'Same starting point as the Continuous Backlog, but if the local committee approves, the initiative directly becomes a',
     'proyecto':'project',
     '— sin subir a mesa regional ni a Tribu.':'— without going up to a regional committee or the Tribe.',
-    'Registro y seguimiento':'Registration and tracking', 'Registro de Iniciativas':'Initiatives Registry',
+    'Registro y seguimiento':'Registration and tracking',
+    'Registro de Iniciativas':'Initiatives Registry',
+    'Registrar una iniciativa':'Register an initiative',
+    'Registra una iniciativa local y consulta el dashboard y el reporte del portafolio.':'Register a local initiative and check the portfolio dashboard and report.',
+    'Registra una iniciativa local (mismos campos del one page) y consulta el dashboard y el reporte del portafolio.':'Register a local initiative (same fields as the one page) and check the portfolio dashboard and report.',
+    'Ir a Registro de Iniciativas →':'Go to Initiatives Registry →',
     'Registra una iniciativa nueva (mismos campos del one page) y consulta el embudo del flujo, las métricas y el reporte.':'Register a new initiative (same fields as the one page) and check the flow funnel, metrics and report.',
 
     // Big Rocks: empty-states y titulos de area
@@ -3364,7 +3378,12 @@
     'Mismo arranque que el Backlog Continuo, pero si la mesa local aprueba, la iniciativa se convierte directo en':'Mesmo início do Backlog Contínuo, mas se o comitê local aprovar, a iniciativa se transforma direto em',
     'proyecto':'projeto',
     '— sin subir a mesa regional ni a Tribu.':'— sem subir para um comitê regional nem para a Tribo.',
-    'Registro y seguimiento':'Registro e acompanhamento', 'Registro de Iniciativas':'Registro de Iniciativas',
+    'Registro y seguimiento':'Registro e acompanhamento',
+    'Registro de Iniciativas':'Registro de Iniciativas',
+    'Registrar una iniciativa':'Registrar uma iniciativa',
+    'Registra una iniciativa local y consulta el dashboard y el reporte del portafolio.':'Registre uma iniciativa local e consulte o painel e o relatório do portfólio.',
+    'Registra una iniciativa local (mismos campos del one page) y consulta el dashboard y el reporte del portafolio.':'Registre uma iniciativa local (mesmos campos do one page) e consulte o painel e o relatório do portfólio.',
+    'Ir a Registro de Iniciativas →':'Ir para Registro de Iniciativas →',
     'Registra una iniciativa nueva (mismos campos del one page) y consulta el embudo del flujo, las métricas y el reporte.':'Registre uma nova iniciativa (mesmos campos do one page) e consulte o funil do fluxo, as métricas e o relatório.',
 
     // Big Rocks: empty-states y titulos de area
