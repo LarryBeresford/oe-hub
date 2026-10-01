@@ -234,6 +234,9 @@ table.cart-table tr:last-child td { border-bottom:none; }
 .sembrado-count-total { font-size:11.5px; font-weight:800; color:#222; margin-bottom:6px; }
 .sembrado-count-row { display:flex; justify-content:space-between; font-size:11px; color:#444; padding:3px 0; border-bottom:1px dashed #EEE; }
 .sembrado-count-row .n { font-weight:800; color:#8A6D00; }
+.sembrado-count-row i { color:#999; font-style:normal; font-size:9.5px; }
+.sembrado-count-ok { color:var(--green); font-weight:800; margin-left:5px; }
+.sembrado-count-warn { color:var(--red); font-weight:800; margin-left:5px; font-size:9.5px; }
 .sembrado-count-empty { font-size:11px; color:#AAA; }
 
 /* ── EXPANSIONES · LANDING (3 flujos) ── */
@@ -249,6 +252,7 @@ table.cart-table tr:last-child td { border-bottom:none; }
 .exp-card p { font-size:11px; color:#777; line-height:1.4; }
 .exp-card.disabled { cursor:default; opacity:0.75; }
 .exp-card .tag { display:inline-block; margin-top:8px; font-size:9.5px; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; padding:3px 8px; border-radius:10px; background:#FFF3B0; color:#8A6D00; }
+.exp-card-status { margin-top:10px; font-size:10.5px; font-weight:800; color:#8A6D00; min-height:13px; }
 .exp-back { display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:700; color:#777; cursor:pointer; padding:10px 20px 0; }
 .exp-back:hover { color:#000; }
 .exp-nodos-placeholder { max-width:680px; margin:40px auto; text-align:center; background:#FFF; border:1px solid #E2E2E2; border-radius:12px; padding:36px 26px; }
@@ -263,6 +267,9 @@ table.cart-table tr:last-child td { border-bottom:none; }
   <div class="logo">MELI</div>
   <h1>Señalética de Aperturas<span class="sub">SVC Transportes</span></h1>
   <div class="actions">
+    <button class="btn-secondary" onclick="document.getElementById('loadProjectInput').click()">Cargar proyecto</button>
+    <input type="file" id="loadProjectInput" accept="application/json,.json" style="display:none" onchange="loadProjectFile(event)">
+    <button class="btn-secondary" onclick="downloadProjectFile()">Guardar proyecto</button>
     <button class="btn-secondary" onclick="resetAll()">Nuevo requerimiento</button>
     <button class="btn-primary" id="btnExport" onclick="exportExcel()">Generar orden de compra (Excel)</button>
   </div>
@@ -287,11 +294,13 @@ table.cart-table tr:last-child td { border-bottom:none; }
           <div class="ico">📋</div>
           <h3>Levantamientos y Señalética</h3>
           <p>Captura los datos del sitio, elige los artículos y genera la orden de compra en Excel.</p>
+          <div class="exp-card-status" id="expStatusLevantamiento"></div>
         </button>
         <button class="exp-card" onclick="goStep(4)">
           <div class="ico">🗺️</div>
           <h3>Sembrado</h3>
           <p>Sube el layout del sitio y coloca la señalética sobre el plano para armar la guía de instalación. No necesita que hayas llenado el levantamiento antes.</p>
+          <div class="exp-card-status" id="expStatusSembrado"></div>
         </button>
         <button class="exp-card disabled" onclick="goStep(5)">
           <div class="ico">🌳</div>
@@ -494,6 +503,7 @@ table.cart-table tr:last-child td { border-bottom:none; }
         </div>
         <div class="sembrado-actions">
           <button class="btn-secondary" id="btnSembradoLock" onclick="toggleSembradoLock()">Marcar como listo</button>
+          <button class="btn-secondary" onclick="exportSembradoData()">Descargar datos (JSON)</button>
           <button class="btn-primary" onclick="exportSembradoPNG()">Descargar guía (PNG)</button>
         </div>
         <div class="sembrado-count-panel" id="sembradoCountPanel"></div>
@@ -2754,6 +2764,7 @@ function renderFlatSection(containerId, items, tipo) {
 
 function setComment(id, val) {
   cart[id].comentario = val;
+  saveProjectToLocalStorage();
 }
 
 function openLightbox(src, name) {
@@ -2792,6 +2803,7 @@ function goStep(n) {
   }
   const bar = document.getElementById('wizardBarMain');
   if (bar) bar.style.display = (n >= 1 && n <= 3) ? 'flex' : 'none';
+  if (n === 0) updateLandingStatus();
   if (n === 3) renderCart();
   if (n === 4) { renderSembradoTray(); applySembradoZoom(); }
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2870,6 +2882,7 @@ function renderCart() {
   const code = document.getElementById('siteCode').value || '(sin código)';
   const type = document.getElementById('siteType').value || '';
   document.getElementById('cartSiteLine').textContent = type ? `${code} · ${type}` : code;
+  saveProjectToLocalStorage();
 }
 
 function stepQtyGlobal(id, delta) {
@@ -2890,11 +2903,32 @@ function removeItem(id) {
 }
 
 function resetAll() {
-  if (!confirm('¿Reiniciar el requerimiento? Se perderá lo capturado.')) return;
+  if (!confirm('¿Reiniciar el requerimiento? Se perderá lo capturado, incluido el sembrado.')) return;
   document.querySelectorAll('#formPanel input[type=text], #formPanel input[type=date], #formPanel input[type=email], #formPanel textarea').forEach(el => el.value = '');
   document.querySelectorAll('#formPanel select').forEach(el => el.selectedIndex = 0);
   initCatalog();
   renderAll();
+  sembradoPins = [];
+  layoutImg = null;
+  layoutImgURL = null;
+  sembradoLocked = false;
+  pinSeq = 0;
+  const board = document.getElementById('sembradoBoard');
+  if (board) {
+    board.style.backgroundImage = '';
+    board.style.width = '100%';
+    board.classList.remove('has-image', 'locked');
+  }
+  const empty = document.getElementById('sembradoBoardEmpty');
+  if (empty) empty.style.display = 'flex';
+  const lockBtn = document.getElementById('btnSembradoLock');
+  if (lockBtn) lockBtn.textContent = 'Marcar como listo';
+  const lockMsg = document.getElementById('sembradoLockMsg');
+  if (lockMsg) lockMsg.style.display = 'none';
+  sembradoZoom = 1;
+  renderSembradoPins();
+  try { localStorage.removeItem(AUTOSAVE_KEY); } catch (e) {}
+  updateLandingStatus();
 }
 
 function renderAll() {
@@ -3238,17 +3272,30 @@ function renderSembradoPins() {
 function renderSembradoCount() {
   const panel = document.getElementById('sembradoCountPanel');
   if (!panel) return;
-  if (!sembradoPins.length) {
+  const counts = {};
+  sembradoPins.forEach(p => { counts[p.itemId] = (counts[p.itemId] || 0) + 1; });
+  const pedidoIds = Object.keys(cart).filter(id => cart[id].checked && cart[id].cantidad > 0);
+  const allIds = new Set([...Object.keys(counts), ...pedidoIds]);
+  if (!allIds.size) {
     panel.innerHTML = '<div class="sembrado-count-empty">Aún no hay piezas sembradas.</div>';
     return;
   }
-  const counts = {};
-  sembradoPins.forEach(p => { counts[p.itemId] = (counts[p.itemId] || 0) + 1; });
-  const rows = Object.entries(counts)
-    .map(([id, n]) => ({ nombre: (findItemById(id) || {}).nombre || id, n }))
-    .sort((a, b) => b.n - a.n);
+  const rows = [...allIds].map(id => {
+    const it = findItemById(id);
+    const nombre = it ? it.nombre : id;
+    const sembrado = counts[id] || 0;
+    const esperado = pedidoIds.includes(id) ? cart[id].cantidad : null;
+    let flag = '';
+    if (esperado !== null) {
+      if (sembrado === esperado) flag = '<span class="sembrado-count-ok">✓</span>';
+      else if (sembrado < esperado) flag = `<span class="sembrado-count-warn">faltan ${esperado - sembrado}</span>`;
+      else flag = `<span class="sembrado-count-warn">sobran ${sembrado - esperado}</span>`;
+    }
+    return { nombre, sembrado, esperado, flag };
+  }).sort((a, b) => b.sembrado - a.sembrado);
   panel.innerHTML = `<div class="sembrado-count-total">Total piezas sembradas: <b>${sembradoPins.length}</b></div>` +
-    rows.map(r => `<div class="sembrado-count-row"><span>${r.nombre}</span><span class="n">${r.n}</span></div>`).join('');
+    rows.map(r => `<div class="sembrado-count-row"><span>${r.nombre}${r.esperado !== null ? ` <i>(pedido: ${r.esperado})</i>` : ''}</span><span class="n">${r.sembrado}${r.flag}</span></div>`).join('');
+  saveProjectToLocalStorage();
 }
 
 let sembradoZoom = 1;
@@ -3322,6 +3369,30 @@ function toggleSembradoLock() {
   renderSembradoPins();
 }
 
+function exportSembradoData() {
+  if (!sembradoPins.length) { showToast('No hay piezas sembradas todavía.'); return; }
+  const siteCode = (document.getElementById('siteCode') || {}).value || 'SITE';
+  const data = {
+    site: siteCode,
+    exportedAt: new Date().toISOString(),
+    totalPins: sembradoPins.length,
+    pins: sembradoPins.map(p => ({
+      itemId: p.itemId,
+      nombre: (findItemById(p.itemId) || {}).nombre || p.itemId,
+      xPct: p.xPct,
+      yPct: p.yPct
+    }))
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Sembrado_datos_${siteCode}_${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Datos del sembrado descargados.');
+}
+
 async function exportSembradoPNG() {
   if (!layoutImg) { showToast('Primero sube el layout del sitio.'); return; }
   const canvas = document.createElement('canvas');
@@ -3361,6 +3432,146 @@ async function exportSembradoPNG() {
   showToast('Guía de sembrado descargada.');
 }
 
+// ═══════════════════ PERSISTENCIA (Guardar/Cargar proyecto + autosave) ═══════════════════
+const SITE_FIELD_IDS = ['siteCode','siteType','siteSize','siteCity','siteRegion','siteAddress','siteGoLive','siteInstall','siteOwner','siteEmail'];
+const AUTOSAVE_KEY = 'senaletica_oe_hub_autosave_v1';
+
+function serializeProject(includeImage) {
+  const site = {};
+  SITE_FIELD_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) site[id] = el.value;
+  });
+  const cartData = {};
+  Object.keys(cart).forEach(id => {
+    cartData[id] = { cantidad: cart[id].cantidad, checked: cart[id].checked, comentario: cart[id].comentario || '' };
+  });
+  return {
+    version: 1,
+    savedAt: new Date().toISOString(),
+    site,
+    cart: cartData,
+    sembrado: {
+      pins: sembradoPins,
+      locked: sembradoLocked,
+      layoutImgURL: includeImage ? layoutImgURL : null
+    }
+  };
+}
+
+function applyProject(data) {
+  if (!data) return;
+  if (data.site) {
+    SITE_FIELD_IDS.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && data.site[id] !== undefined) el.value = data.site[id];
+    });
+  }
+  if (data.cart) {
+    Object.keys(data.cart).forEach(id => {
+      if (cart[id]) {
+        cart[id].cantidad = data.cart[id].cantidad;
+        cart[id].checked = !!data.cart[id].checked;
+        cart[id].comentario = data.cart[id].comentario || '';
+      }
+    });
+  }
+  renderAll();
+  if (data.sembrado) {
+    sembradoPins = Array.isArray(data.sembrado.pins) ? data.sembrado.pins : [];
+    pinSeq = sembradoPins.reduce((max, p) => {
+      const n = parseInt(String(p.id).replace('pin', ''), 10);
+      return isNaN(n) ? max : Math.max(max, n + 1);
+    }, 0);
+    sembradoLocked = !!data.sembrado.locked;
+    if (data.sembrado.layoutImgURL) {
+      setLayoutImageFromURL(data.sembrado.layoutImgURL);
+    } else if (sembradoPins.length) {
+      showToast('Recuperamos los pines del sembrado, pero necesitas volver a subir el layout para verlos sobre el plano.');
+    }
+    const board = document.getElementById('sembradoBoard');
+    if (board) board.classList.toggle('locked', sembradoLocked);
+    const lockBtn = document.getElementById('btnSembradoLock');
+    if (lockBtn) lockBtn.textContent = sembradoLocked ? 'Editar de nuevo' : 'Marcar como listo';
+    const lockMsg = document.getElementById('sembradoLockMsg');
+    if (lockMsg) lockMsg.style.display = sembradoLocked ? 'inline' : 'none';
+    renderSembradoPins();
+  }
+  updateLandingStatus();
+}
+
+let _autosaveTimer = null;
+function saveProjectToLocalStorage() {
+  clearTimeout(_autosaveTimer);
+  _autosaveTimer = setTimeout(() => {
+    try {
+      localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(serializeProject(false)));
+    } catch (e) { /* localStorage lleno o no disponible: se ignora, no es critico */ }
+  }, 400);
+  updateLandingStatus();
+}
+
+function loadAutosaveIfAny() {
+  let raw;
+  try { raw = localStorage.getItem(AUTOSAVE_KEY); } catch (e) { return; }
+  if (!raw) return;
+  let data;
+  try { data = JSON.parse(raw); } catch (e) { return; }
+  const when = data.savedAt ? new Date(data.savedAt).toLocaleString('es-MX') : 'una sesión anterior';
+  if (confirm(`Encontramos una sesión guardada automáticamente (${when}). ¿Quieres recuperarla?`)) {
+    applyProject(data);
+    showToast('Sesión recuperada.');
+  }
+}
+
+function downloadProjectFile() {
+  const data = serializeProject(true);
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const siteCode = (document.getElementById('siteCode') || {}).value || 'SITE';
+  a.download = `Proyecto_Senaletica_${siteCode}_${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Proyecto descargado.');
+}
+
+function loadProjectFile(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      applyProject(data);
+      showToast('Proyecto cargado.');
+    } catch (err) {
+      console.error('Error cargando proyecto:', err);
+      showToast('No se pudo leer ese archivo. ¿Es un proyecto exportado desde aquí?');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+function updateLandingStatus() {
+  const levEl = document.getElementById('expStatusLevantamiento');
+  if (levEl) {
+    const code = (document.getElementById('siteCode') || {}).value || '';
+    const selectedCount = Object.values(cart).filter(c => c.checked && c.cantidad > 0).length;
+    levEl.textContent = code
+      ? `✓ ${code} — ${selectedCount} artículos seleccionados`
+      : (selectedCount ? `${selectedCount} artículos seleccionados` : '');
+  }
+  const sembEl = document.getElementById('expStatusSembrado');
+  if (sembEl) {
+    sembEl.textContent = sembradoPins.length
+      ? `${sembradoPins.length} piezas sembradas${layoutImg ? '' : ' (vuelve a subir el layout)'}`
+      : '';
+  }
+}
+
 initSembradoBoard();
 
 initCatalog();
@@ -3370,6 +3581,8 @@ renderAll();
   el.addEventListener('input', renderCart);
   el.addEventListener('change', renderCart);
 });
+loadAutosaveIfAny();
+updateLandingStatus();
 </script>
 
 </body>
