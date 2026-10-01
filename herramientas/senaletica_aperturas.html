@@ -199,11 +199,14 @@ table.cart-table tr:last-child td { border-bottom:none; }
 .sembrado-board.has-image { border-style:solid; }
 .sembrado-board.locked { border-color:var(--green); }
 .sembrado-board-empty { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#AAA; font-size:12px; text-align:center; padding:20px; }
-.sembrado-pin { position:absolute; transform:translate(-50%,-100%); display:flex; flex-direction:column; align-items:center; cursor:grab; }
-.sembrado-pin-dot { width:18px; height:18px; border-radius:50%; background:#FFF; border:1.5px solid var(--yellow); box-shadow:0 1px 4px rgba(0,0,0,0.25); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.sembrado-pin { position:absolute; transform:translate(-50%,-100%); display:flex; flex-direction:column; align-items:center; cursor:grab; z-index:1; }
+.sembrado-pin:hover { z-index:10; }
+.sembrado-pin-dot { width:16px; height:16px; border-radius:50%; background:#FFF; border:1.5px solid var(--yellow); box-shadow:0 1px 3px rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center; overflow:hidden; }
 .sembrado-pin-dot img { width:100%; height:100%; object-fit:contain; }
-.sembrado-pin-label { background:#111; color:var(--yellow); font-size:7px; font-weight:700; padding:1px 4px; border-radius:4px; margin-top:2px; max-width:70px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.sembrado-pin-remove { position:absolute; top:-5px; right:-5px; width:12px; height:12px; border-radius:50%; background:var(--red); color:#FFF; font-size:8px; line-height:12px; text-align:center; cursor:pointer; }
+.sembrado-pin-tip { width:0; height:0; border-left:4px solid transparent; border-right:4px solid transparent; border-top:6px solid var(--yellow); margin-top:-2px; }
+.sembrado-pin-label { display:none; position:absolute; bottom:calc(100% + 3px); left:50%; transform:translateX(-50%); background:#111; color:var(--yellow); font-size:9px; font-weight:700; padding:2px 6px; border-radius:5px; white-space:nowrap; max-width:150px; overflow:hidden; text-overflow:ellipsis; pointer-events:none; }
+.sembrado-pin:hover .sembrado-pin-label { display:block; }
+.sembrado-pin-remove { position:absolute; top:-5px; right:-5px; width:12px; height:12px; border-radius:50%; background:var(--red); color:#FFF; font-size:8px; line-height:12px; text-align:center; cursor:pointer; z-index:3; }
 .sembrado-board.locked .sembrado-pin { cursor:default; }
 .sembrado-board.locked .sembrado-pin-remove { display:none; }
 .sembrado-actions { display:flex; justify-content:space-between; align-items:center; margin-top:14px; gap:10px; flex-wrap:wrap; }
@@ -221,7 +224,7 @@ table.cart-table tr:last-child td { border-bottom:none; }
 .sembrado-zoom-row .lbl { font-size:11px; font-weight:700; color:#666; min-width:40px; text-align:center; }
 .sembrado-board-scroll { overflow:auto; max-height:640px; border-radius:8px; }
 
-.sembrado-pin-stamp { position:absolute; top:-5px; left:-5px; width:12px; height:12px; border-radius:50%; background:#FFF; border:1px solid var(--yellow); color:#8A6D00; font-size:7px; line-height:12px; text-align:center; cursor:pointer; }
+.sembrado-pin-stamp { position:absolute; top:-5px; left:-5px; width:12px; height:12px; border-radius:50%; background:#FFF; border:1px solid var(--yellow); color:#8A6D00; font-size:7px; line-height:12px; text-align:center; cursor:pointer; z-index:3; }
 .sembrado-board.locked .sembrado-pin-stamp { display:none; }
 
 .sembrado-stamp-bar { display:none; align-items:center; gap:10px; background:#FFF8E0; border:1px solid #FFE49A; border-radius:7px; padding:8px 12px; margin-bottom:10px; font-size:11.5px; color:#8A6D00; font-weight:700; }
@@ -3223,8 +3226,9 @@ function renderSembradoPins() {
     el.innerHTML = `
       ${!sembradoLocked ? `<span class="sembrado-pin-remove" onclick="removePin('${pin.id}')">×</span>` : ''}
       ${!sembradoLocked ? `<span class="sembrado-pin-stamp" onclick="event.stopPropagation(); startStampMode('${it.id}')" title="Colocar varias veces">⧉</span>` : ''}
+      <div class="sembrado-pin-label">${it.nombre}</div>
       <div class="sembrado-pin-dot">${it.imagen ? `<img src="${it.imagen}" alt="${it.nombre}">` : ''}</div>
-      <div class="sembrado-pin-label">${it.nombre}</div>`;
+      <div class="sembrado-pin-tip"></div>`;
     el.addEventListener('dragstart', (e) => { e.dataTransfer.setData('text/plain', 'move:' + pin.id); });
     board.appendChild(el);
   });
