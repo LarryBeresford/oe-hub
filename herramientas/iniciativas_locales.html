@@ -48,14 +48,47 @@ input:focus,select:focus,textarea:focus{outline:2px solid #FFD001;border-color:#
 .fun b{display:block;color:#FFD001;font-size:26px}.fun small{display:block;color:#aaa;margin-top:3px;font-size:10.5px}
 .note{font-size:11.5px;color:#767676;margin-top:8px}
 table{width:100%;border-collapse:collapse;font-size:12px}th{text-align:left;font-size:10.5px;text-transform:uppercase;color:#767676;padding:5px 6px;border-bottom:1px solid #eee}td{padding:6px;border-bottom:1px solid #f2f2f2}
-.slide{background:#fff;border:1px solid #ddd;border-radius:8px;margin-bottom:14px;overflow:hidden;page-break-after:always}
-.slide .hd{background:#FFD001;padding:11px 22px;font-weight:800;font-size:15px;display:flex;justify-content:space-between}
-.slide .bd{padding:16px 22px;min-height:230px}
-.slide .ft{font-size:11px;color:#767676;padding:8px 22px;border-top:1px solid #eee}
-.big{font-size:34px;font-weight:800}
+/* ── REPORTE (slides 16:9 institucionales: amarillo #FFD001 / negro #1A1A1A / Segoe UI) ── */
+.sl-box{position:relative;margin:0 auto 18px;overflow:hidden;border-radius:8px;box-shadow:0 2px 14px rgba(0,0,0,.14)}
+.sl{width:1280px;height:720px;position:absolute;left:0;top:0;transform-origin:0 0;background:#fff;color:#1A1A1A;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.sl.y{background:#FFD001}.sl.g{background:#F3F3F3}
+.sl .top{position:absolute;left:56px;top:34px;font-size:15px;font-weight:500}.sl .top b{font-weight:800}
+.sl .wow{position:absolute;right:56px;top:22px;font-size:36px;font-weight:900;letter-spacing:-1.5px;line-height:1}.sl .wow i{font-style:normal;color:#FFD001}.sl.y .wow i{color:#7a7a7a}
+.sl h2{position:absolute;left:56px;top:84px;font-size:46px;font-weight:800;letter-spacing:-.5px}
+.sl .sub{position:absolute;left:56px;top:148px;font-size:18px;color:#555}.sl.y .sub{color:#3d3500}
+.sl .body{position:absolute;left:56px;right:56px;top:200px;bottom:66px}
+.sl .foot{position:absolute;left:56px;right:56px;bottom:20px;font-size:12px;color:#767676;display:flex;justify-content:space-between}.sl.y .foot{color:#4a4000}
+.cv-title{position:absolute;left:56px;top:250px;font-size:92px;font-weight:800;line-height:1.05;letter-spacing:-2px}
+.cv-pill{display:inline-block;background:#FFD001;border-radius:60px;padding:0 44px 8px 20px;margin-left:-20px}
+.cv-kick{position:absolute;left:56px;top:214px;font-size:20px}
+.cv-meta{position:absolute;left:56px;top:520px;font-size:18px;color:#555;line-height:1.7}
+.cv-circle{position:absolute;right:70px;top:90px;width:520px;height:520px;border-radius:50%;background:#1A1A1A;color:#fff;text-align:center;border:14px solid #FFD001;display:flex;flex-direction:column;justify-content:center}
+.cv-circle b{font-size:170px;line-height:1;color:#FFD001;font-weight:800}.cv-circle span{font-size:26px}
+.kp4{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.kp{background:#1A1A1A;color:#fff;border-radius:34px;padding:34px 26px;height:230px}.kp b{display:block;font-size:76px;line-height:1;color:#FFD001;font-weight:800;margin-bottom:12px}.kp span{font-size:19px;line-height:1.3;display:block}
+.insight{margin-top:26px;background:#FFD001;border-radius:34px;padding:22px 34px;font-size:22px;font-weight:600}
+.pills{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;height:100%}
+.pl{background:#2a2a2a;color:#fff;border-radius:150px;padding:56px 30px 40px;display:flex;flex-direction:column;align-items:flex-start}
+.pl .n{color:#FFD001;font-size:44px;font-weight:800}.pl .tt{font-size:22px;font-weight:700;margin:6px 0 14px;min-height:58px}.pl .ct{font-size:84px;font-weight:800;line-height:1}.pl .cv{margin-top:auto;font-size:17px;color:#d6d6d6;line-height:1.4}
+.band{position:absolute;left:0;right:0;bottom:0;background:#1A1A1A;color:#fff;border-radius:40px;padding:14px 30px;font-size:18px}.band b{color:#FFD001}
+.cols3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px;height:440px}
+.pc{background:#F3F3F3;border-radius:30px;padding:26px 28px}.pc h4{font-size:15px;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
+.rb{display:flex;align-items:center;gap:12px;margin:13px 0;font-size:17px}.rb em{font-style:normal;min-width:118px}.rb .tr{flex:1;background:#fff;border-radius:10px;height:22px;overflow:hidden}.rb i{display:block;height:100%;background:#FFD001;border-radius:10px}.rb s{text-decoration:none;font-weight:800;min-width:34px;text-align:right}
+.dn{display:flex;align-items:center;gap:18px;margin-bottom:22px}.dn .ring{width:132px;height:132px;border-radius:50%;position:relative;flex-shrink:0}.dn .ring:after{content:'';position:absolute;inset:30px;background:#F3F3F3;border-radius:50%}
+.dn div.lg{font-size:16px;line-height:1.7}.dn .dt{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:7px}
+.tm{display:flex;align-items:center;gap:22px;margin-bottom:20px}.tm .lb{width:330px;font-size:22px;font-weight:600}.tm .tk{flex:1;background:#F3F3F3;border-radius:40px;height:64px;overflow:hidden}.tm .fl{height:100%;border-radius:40px;background:#FFD001;display:flex;align-items:center;justify-content:flex-end;padding-right:22px;font-size:26px;font-weight:800;min-width:100px}.tm .fl.hot{background:#1A1A1A;color:#FFD001}
+table.dt2{width:100%;border-collapse:separate;border-spacing:0 8px;font-size:15px}table.dt2 th{text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:#555;padding:0 14px 2px}table.dt2 td{background:#F3F3F3;padding:11px 14px}table.dt2 td:first-child{border-radius:20px 0 0 20px;font-weight:700}table.dt2 td:last-child{border-radius:0 20px 20px 0}
+.chip{display:inline-block;border-radius:20px;padding:2px 12px;font-size:13px;font-weight:700;background:#1A1A1A;color:#FFD001}.chip.l{background:#FFD001;color:#1A1A1A}
+@page{size:13.333in 7.5in;margin:0}
+@media print{
+ html,body{background:#fff!important;height:auto!important;overflow:visible!important}
+ .hdr,.tabbar,.noprint,.flt{display:none!important}.panel{display:none!important}
+ #p-reporte{display:block!important;padding:0!important;max-width:none!important;margin:0!important}
+ .sl-box{width:1280px!important;height:720px!important;margin:0!important;border-radius:0!important;box-shadow:none!important;break-after:page;page-break-after:always;overflow:hidden}
+ .sl{transform:none!important}
+}
 #loadMsg{padding:20px;text-align:center;color:#767676}
 @media(max-width:640px){.kpis{grid-template-columns:1fr 1fr}.g2,.f2,.f3,.fun{grid-template-columns:1fr}.tabbar{overflow-x:auto}}
-@media print{.hdr,.tabbar,.noprint,.flt{display:none!important}.panel{display:none!important}#p-reporte{display:block!important;padding:0}body{background:#fff}.slide{border:0;border-radius:0}}
 </style>
 </head>
 <body>
@@ -115,7 +148,7 @@ table{width:100%;border-collapse:collapse;font-size:12px}th{text-align:left;font
 <!-- REPORTE -->
 <div class="panel" id="p-reporte">
  <div class="noprint" style="margin-bottom:10px"><button class="btn" style="margin:0" onclick="window.print()" data-i18n="print">Imprimir / Guardar como PDF</button>
- <span class="note" data-i18n="repNote" style="margin-left:8px">Usa los filtros del Dashboard.</span></div>
+ <span class="note" data-i18n="printHint" style="margin-left:8px">En el diálogo de impresión elige «Guardar como PDF» y activa «Gráficos de fondo».</span></div>
  <div id="repContent"></div>
 </div>
 
@@ -131,7 +164,7 @@ var D = { rows: [], info: {} };
 var LANG = 'es';
 
 var I18N = {
- es:{title:'Iniciativas Locales',sub:'Registro y seguimiento · OE MLM',tabReg:'Registrar',tabDash:'Dashboard',tabRep:'Reporte',
+ es:{kicker:'Rutinas de Gestión | OE MLM',cvL1:'Iniciativas',cvL2:'Locales',generated:'Generado el',repExec:'Resumen ejecutivo',repExecSub:'Estado del flujo de iniciativas locales',repFlow:'Flujo de iniciativas locales',ofPrev:'del paso anterior',repDetail:'Iniciativas destacadas',colName:'Iniciativa',colStatus:'Estatus',more:'iniciativas más en el tablero',printHint:'En el diálogo de impresión elige «Guardar como PDF» y activa «Gráficos de fondo».',title:'Iniciativas Locales',sub:'Registro y seguimiento · OE MLM',tabReg:'Registrar',tabDash:'Dashboard',tabRep:'Reporte',
   s1:'1) Identificación general',s2:'2) Problema y contexto operacional',s3:'3) Impacto y alcance regional',s4:'4) Propuesta y documentación',
   fNombre:'Nombre de la iniciativa',fOwner:'Owner',fLider:'Líder / sponsor',fPais:'País',fSitio:'Sitio',fTech:'¿Mejora tech o no tech?',fTipo:'¿Mejora continua o cambio estructural?',
   fProb:'Descripción del problema y diferencias con el proceso actual',fCtx:'Contexto (¿por qué?)',fFac:'Tipo de facility / proceso',fWow:'¿Sigue el estándar WOW?',
@@ -145,7 +178,7 @@ var I18N = {
   tech:'Tech',notech:'No tech',local:'Local',regional:'Regional',bottleneck:'Cuello de botella:',none:'sin datos',
   repTitle:'Iniciativas Locales · Resumen',repFunnel:'Embudo',repInsight:'Insight',repBy:'Distribución',errLoad:'No se pudo cargar el archivo de datos',errHelp:'Verifica que exista data/iniciativas/iniciativas_locales.xlsx con la hoja "Iniciativas". Si persiste, escribe a Larry Beresford Díaz.',
   t12:'Registro → Gestión',t23:'Gestión → Mesa local',t34:'Mesa local → Proyecto',drops:'Despriorizadas',projects:'ya son proyecto'},
- en:{title:'Local Initiatives',sub:'Registration and tracking · OE MLM',tabReg:'Register',tabDash:'Dashboard',tabRep:'Report',
+ en:{kicker:'Management Routines | OE MLM',cvL1:'Local',cvL2:'Initiatives',generated:'Generated on',repExec:'Executive summary',repExecSub:'Status of the local initiatives flow',repFlow:'Local initiatives flow',ofPrev:'of previous step',repDetail:'Featured initiatives',colName:'Initiative',colStatus:'Status',more:'more initiatives on the board',printHint:'In the print dialog choose "Save as PDF" and enable "Background graphics".',title:'Local Initiatives',sub:'Registration and tracking · OE MLM',tabReg:'Register',tabDash:'Dashboard',tabRep:'Report',
   s1:'1) General identification',s2:'2) Problem and operational context',s3:'3) Impact and regional scope',s4:'4) Proposal and documentation',
   fNombre:'Initiative name',fOwner:'Owner',fLider:'Leader / sponsor',fPais:'Country',fSitio:'Site',fTech:'Tech or non-tech improvement?',fTipo:'Continuous improvement or structural change?',
   fProb:'Problem description and differences vs. current process',fCtx:'Context (why?)',fFac:'Facility / process type',fWow:'Follows the WOW standard?',
@@ -159,7 +192,7 @@ var I18N = {
   tech:'Tech',notech:'Non-tech',local:'Local',regional:'Regional',bottleneck:'Bottleneck:',none:'no data',
   repTitle:'Local Initiatives · Summary',repFunnel:'Funnel',repInsight:'Insight',repBy:'Breakdown',errLoad:'Could not load the data file',errHelp:'Check that data/iniciativas/iniciativas_locales.xlsx exists with an "Iniciativas" sheet. If it persists, contact Larry Beresford Díaz.',
   t12:'Registration → Management',t23:'Management → Local table',t34:'Local table → Project',drops:'Deprioritized',projects:'are now projects'},
- pt:{title:'Iniciativas Locais',sub:'Registro e acompanhamento · OE MLM',tabReg:'Registrar',tabDash:'Dashboard',tabRep:'Relatório',
+ pt:{kicker:'Rotinas de Gestão | OE MLM',cvL1:'Iniciativas',cvL2:'Locais',generated:'Gerado em',repExec:'Resumo executivo',repExecSub:'Status do fluxo de iniciativas locais',repFlow:'Fluxo de iniciativas locais',ofPrev:'da etapa anterior',repDetail:'Iniciativas em destaque',colName:'Iniciativa',colStatus:'Status',more:'iniciativas a mais no quadro',printHint:'Na janela de impressão escolha "Salvar como PDF" e ative "Gráficos de plano de fundo".',title:'Iniciativas Locais',sub:'Registro e acompanhamento · OE MLM',tabReg:'Registrar',tabDash:'Dashboard',tabRep:'Relatório',
   s1:'1) Identificação geral',s2:'2) Problema e contexto operacional',s3:'3) Impacto e alcance regional',s4:'4) Proposta e documentação',
   fNombre:'Nome da iniciativa',fOwner:'Owner',fLider:'Líder / sponsor',fPais:'País',fSitio:'Site',fTech:'Melhoria tech ou não tech?',fTipo:'Melhoria contínua ou mudança estrutural?',
   fProb:'Descrição do problema e diferenças com o processo atual',fCtx:'Contexto (por quê?)',fFac:'Tipo de facility / processo',fWow:'Segue o padrão WOW?',
@@ -189,6 +222,7 @@ function sw(id, btn){
   var map = {registrar:0, dash:1, reporte:2};
   document.querySelectorAll('.tab').forEach(function(b, i){ b.classList.toggle('on', i === map[id]); });
   window.scrollTo(0, 0);
+  if(id === 'reporte') fitSlides();
 }
 
 // ── REGISTRO ────────────────────────────────────────────────────
@@ -319,22 +353,75 @@ function render(){
 }
 function pct(list, key, n){ var f = list.filter(function(x){ return x[0] === key; })[0]; return n && f ? Math.round(100 * f[1] / n) + '%' : '0%'; }
 
+function esc(x){ return String(x == null ? '' : x).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+function rbars(list){
+  if(!list.length) return '<div style="font-size:15px;color:#767676">' + t('none') + '</div>';
+  var mx = Math.max.apply(null, list.map(function(x){ return x[1]; })) || 1;
+  return list.map(function(x){ return '<div class="rb"><em>' + esc(x[0]) + '</em><div class="tr"><i style="width:' + (100 * x[1] / mx) + '%"></i></div><s>' + x[1] + '</s></div>'; }).join('');
+}
+function donut(list, keyA, labA, labB, n){
+  var a = list.filter(function(x){ return x[0] === keyA; })[0], va = a ? a[1] : 0, pa = n ? Math.round(100 * va / n) : 0;
+  return '<div class="dn"><div class="ring" style="background:conic-gradient(#FFD001 0 ' + pa + '%,#1A1A1A ' + pa + '% 100%)"></div><div class="lg"><span class="dt" style="background:#FFD001"></span>' + labA + ' <b>' + pa + '%</b><br><span class="dt" style="background:#1A1A1A"></span>' + labB + ' <b>' + (n ? 100 - pa : 0) + '%</b></div></div>';
+}
+function slideShell(cls, title, sub, body, n, scope, extra){
+  return '<div class="sl-box"><div class="sl ' + cls + '"><div class="top"><b>' + t('kicker') + '</b></div><div class="wow">W<i>o</i>W</div>' +
+    (title ? '<h2>' + title + '</h2>' : '') + (sub ? '<div class="sub">' + sub + '</div>' : '') + (extra || '') +
+    '<div class="body">' + body + '</div><div class="foot"><span>' + esc(scope) + '</span><span>' + n + ' / 6</span></div></div></div>';
+}
 function renderReport(rows, m){
   var site = document.getElementById('fSite').value || t('allSites'), pais = document.getElementById('fPais').value || t('allCountries'), yr = document.getElementById('fYear').value || t('allYears');
-  var scope = site + ' · ' + pais + ' · ' + yr;
-  var demoTag = String(D.info.demo).toUpperCase() === 'SI' ? ' (DEMO)' : '';
-  document.getElementById('repContent').innerHTML =
-   '<div class="slide"><div class="hd"><span>' + t('repTitle') + demoTag + '</span><span>' + scope + '</span></div><div class="bd">' +
-    '<div class="g2"><div><div class="big">' + m.n + '</div><div class="note">' + t('kTotal') + '</div>' +
-    '<p style="margin-top:12px;font-size:13px;line-height:1.8">• ' + m.s4 + ' ' + t('projects') + '<br>• ' + t('kApr') + ': ' + (m.apr == null ? '—' : m.apr + '%') + '<br>• ' + t('kDays') + ': ' + fmt(m.total) + '<br>• ' + t('hDesp') + ': ' + m.desp + '</p></div>' +
-    '<div><h3 style="font-size:10.5px;text-transform:uppercase;margin-bottom:8px">' + t('repFunnel') + '</h3>' + bars([[t('st1'), m.s1], [t('st2'), m.s2], [t('st3'), m.s3], [t('st4'), m.s4]]) + '</div></div></div>' +
-    '<div class="ft">' + t('repInsight') + ': ' + (bottleneckText(m) || '—') + '</div></div>' +
-   '<div class="slide"><div class="hd"><span>' + t('repBy') + '</span><span>' + scope + '</span></div><div class="bd"><div class="g2">' +
-    '<div><h3 style="font-size:10.5px;text-transform:uppercase;margin-bottom:8px">' + t('hOkr') + '</h3>' + bars(m.okr) + '</div>' +
-    '<div><h3 style="font-size:10.5px;text-transform:uppercase;margin-bottom:8px">' + t('hPrio') + '</h3>' + bars(m.prio) + '</div></div></div>' +
-    '<div class="ft">' + t('tech') + ' ' + pct(m.tech, 'Tech', m.n) + ' · ' + t('notech') + ' ' + pct(m.tech, 'No tech', m.n) + ' · ' + t('local') + ' ' + pct(m.alc, 'Local', m.n) + ' · ' + t('regional') + ' ' + pct(m.alc, 'Regional', m.n) + '</div></div>' +
-   '<div class="slide"><div class="hd"><span>' + t('hTimes') + '</span><span>' + scope + '</span></div><div class="bd">' + timesBars(m) + '</div><div class="ft">' + bottleneckText(m) + '</div></div>';
+  var scope = site + ' · ' + pais + ' · ' + yr + (String(D.info.demo).toUpperCase() === 'SI' ? ' · DEMO' : '');
+  var today = new Date().toLocaleDateString(LANG === 'en' ? 'en-US' : (LANG === 'pt' ? 'pt-BR' : 'es-MX'), {day:'numeric', month:'long', year:'numeric'});
+  var h = '';
+  // 1 Portada
+  h += '<div class="sl-box"><div class="sl g"><div class="top"><b>' + t('kicker') + '</b></div><div class="wow">W<i>o</i>W</div>' +
+    '<div class="cv-kick">' + t('kicker') + '</div><div class="cv-title">' + t('cvL1') + '<br><span class="cv-pill">' + t('cvL2') + '</span></div>' +
+    '<div class="cv-meta">' + esc(scope) + '<br>' + t('generated') + ' ' + today + '<br>' + t('updated') + ' ' + esc(D.info.actualizado || '—') + '</div>' +
+    '<div class="cv-circle"><b>' + m.n + '</b><span>' + t('kTotal') + '</span></div></div></div>';
+  // 2 Resumen ejecutivo
+  var ins = bottleneckText(m);
+  h += slideShell('', t('repExec'), t('repExecSub'),
+    '<div class="kp4"><div class="kp"><b>' + m.n + '</b><span>' + t('kTotal') + '</span></div><div class="kp"><b>' + m.s4 + '</b><span>' + t('projects') + '</span></div>' +
+    '<div class="kp"><b>' + (m.apr == null ? '—' : m.apr + '%') + '</b><span>' + t('kApr') + '</span></div><div class="kp"><b>' + fmt(m.total) + '</b><span>' + t('kDays') + '</span></div></div>' +
+    '<div class="insight">' + (ins ? ins : '') + (m.reg ? (ins ? ' · ' : '') + m.reg + ' ' + t('kReg').toLowerCase() : '') + '</div>', 2, scope);
+  // 3 Flujo
+  var st = [[m.s1, 'st1'], [m.s2, 'st2'], [m.s3, 'st3'], [m.s4, 'st4']];
+  var pills = st.map(function(x, i){
+    var conv = i === 0 ? '' : (st[i - 1][0] ? Math.round(100 * x[0] / st[i - 1][0]) + '% ' + t('ofPrev') : '—');
+    return '<div class="pl"><div class="n">0' + (i + 1) + '.</div><div class="tt">' + t(x[1]) + '</div><div class="ct">' + x[0] + '</div><div class="cv">' + conv + '</div></div>';
+  }).join('');
+  h += slideShell('y', t('repFlow'), '', '<div style="position:absolute;inset:0 0 84px 0"><div class="pills">' + pills + '</div></div>' +
+    '<div class="band"><b>' + m.desp + '</b> ' + t('hDesp').toLowerCase() + '</div>', 3, scope);
+  // 4 Distribución
+  h += slideShell('', t('repBy'), '',
+    '<div class="cols3"><div class="pc"><h4>' + t('hOkr') + '</h4>' + rbars(m.okr) + '</div><div class="pc"><h4>' + t('hPrio') + '</h4>' + rbars(m.prio) + '</div>' +
+    '<div class="pc"><h4>' + t('hType') + '</h4>' + donut(m.tech, 'Tech', t('tech'), t('notech'), m.n) + donut(m.alc, 'Local', t('local'), t('regional'), m.n) + '</div></div>', 4, scope);
+  // 5 Tiempos
+  var tl = [['t12', m.t12], ['t23', m.t23], ['t34', m.t34]], mx = Math.max.apply(null, tl.map(function(x){ return x[1] || 0; })) || 1;
+  h += slideShell('', t('hTimes'), '',
+    tl.map(function(x){ var hot = m.bott && m.bott[0] === x[0]; return '<div class="tm"><div class="lb">' + t(x[0]) + '</div><div class="tk"><div class="fl' + (hot ? ' hot' : '') + '" style="width:' + Math.max(12, 100 * (x[1] || 0) / mx) + '%">' + fmt(x[1]) + ' d</div></div></div>'; }).join('') +
+    '<div class="insight" style="margin-top:34px">' + (ins ? ins : '—') + '</div>', 5, scope);
+  // 6 Detalle
+  var po = {'must':0,'should':1,'nice to have':2,'no priorizada':3};
+  var top = rows.filter(function(r){ return !r._desp; }).sort(function(a, b){
+    var pa = po[String(a.prioridad).toLowerCase()], pb = po[String(b.prioridad).toLowerCase()];
+    return ((pa == null ? 9 : pa) - (pb == null ? 9 : pb)) || ((b._reg || 0) - (a._reg || 0));
+  });
+  var shown = top.slice(0, 7);
+  h += slideShell('', t('repDetail'), '',
+    '<table class="dt2"><tr><th>' + t('colName') + '</th><th>' + t('fSitio') + '</th><th>' + t('fOwner') + '</th><th>OKR</th><th>' + t('colStatus') + '</th><th>' + t('fPrio') + '</th></tr>' +
+    shown.map(function(r){ return '<tr><td>' + esc(r.nombre) + '</td><td>' + esc(r.sitio) + '</td><td>' + esc(r.owner) + '</td><td>' + esc(r.okr) + '</td><td>' + esc(r.estatus) + '</td><td><span class="chip' + (String(r.prioridad).toLowerCase() === 'must' ? '' : ' l') + '">' + esc(r.prioridad) + '</span></td></tr>'; }).join('') + '</table>' +
+    (top.length > shown.length ? '<div style="font-size:14px;color:#767676;margin-top:6px">+ ' + (top.length - shown.length) + ' ' + t('more') + '</div>' : ''), 6, scope);
+  document.getElementById('repContent').innerHTML = h;
+  fitSlides();
 }
+function fitSlides(){
+  var wrap = document.getElementById('repContent'), w = wrap.clientWidth;
+  if(!w) return;
+  var s = Math.min(1, w / 1280);
+  wrap.querySelectorAll('.sl-box').forEach(function(b){ b.style.width = (1280 * s) + 'px'; b.style.height = (720 * s) + 'px'; b.firstChild.style.transform = 'scale(' + s + ')'; });
+}
+window.addEventListener('resize', fitSlides);
 </script>
 </body>
 </html>
