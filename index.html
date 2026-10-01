@@ -1250,6 +1250,18 @@
             <div class="flow-step"><div class="flow-tag">Gestión + Focal CIE</div><div class="flow-title">Crear proyecto</div><div class="flow-desc">Si la mesa local aprobó, se sube a Meli Axis como proyecto nuevo, listo para ejecución.</div></div>
           </div>
           <div class="branch-card"><b>Nota:</b> el equipo de Gestión comparte a inicios de mes el estatus de todas las iniciativas generadas, a todo OE MLM, para conocimiento y seguimiento.</div>
+
+          <div class="section-title" style="margin-top:22px;">Registro y seguimiento</div>
+          <p class="flow-intro" style="font-size:13px;color:#555;margin-bottom:10px;">Registra una iniciativa nueva (mismos campos del one page) y consulta el embudo del flujo, las métricas y el reporte.</p>
+          <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
+            <button onclick="fullscreenIframe('iniciativasLocalesFrame')" aria-label="Ver en pantalla completa" style="display:flex; align-items:center; gap:6px; background:var(--dark); color:var(--white); border:none; border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:inherit;">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" stroke="currentColor"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+              <span class="btn-fs-label">Pantalla completa</span>
+            </button>
+          </div>
+          <div style="background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; height:calc(100vh - 260px); min-height:620px;">
+            <iframe id="iniciativasLocalesFrame" data-src="herramientas/iniciativas_locales.html" style="width:100%; height:100%; border:none; display:block;" title="Iniciativas Locales — Registro y seguimiento" onload="if (window.syncFrameLang) syncFrameLang('iniciativasLocalesFrame')"></iframe>
+          </div>
           </div>
 
           <div class="routine-panel fi-panel" id="fipanel-bigrocks">
@@ -2948,6 +2960,8 @@
     'Mismo arranque que el Backlog Continuo, pero si la mesa local aprueba, la iniciativa se convierte directo en':'Same starting point as the Continuous Backlog, but if the local committee approves, the initiative directly becomes a',
     'proyecto':'project',
     '— sin subir a mesa regional ni a Tribu.':'— without going up to a regional committee or the Tribe.',
+    'Registro y seguimiento':'Registration and tracking',
+    'Registra una iniciativa nueva (mismos campos del one page) y consulta el embudo del flujo, las métricas y el reporte.':'Register a new initiative (same fields as the one page) and check the flow funnel, metrics and report.',
 
     // Big Rocks: empty-states y titulos de area
     'Todavía no hay Grids cargados para esta área':'No Grids uploaded for this area yet',
@@ -3341,6 +3355,8 @@
     'Mismo arranque que el Backlog Continuo, pero si la mesa local aprueba, la iniciativa se convierte directo en':'Mesmo início do Backlog Contínuo, mas se o comitê local aprovar, a iniciativa se transforma direto em',
     'proyecto':'projeto',
     '— sin subir a mesa regional ni a Tribu.':'— sem subir para um comitê regional nem para a Tribo.',
+    'Registro y seguimiento':'Registro e acompanhamento',
+    'Registra una iniciativa nueva (mismos campos del one page) y consulta el embudo del flujo, las métricas y el reporte.':'Registre uma nova iniciativa (mesmos campos do one page) e consulte o funil do fluxo, as métricas e o relatório.',
 
     // Big Rocks: empty-states y titulos de area
     'Todavía no hay Grids cargados para esta área':'Ainda não há Grids carregados para esta área',
@@ -3580,7 +3596,7 @@
     // desde sep-2026: columna "Que consulta" (107 descripciones unicas) y columna
     // "Ops Excellence / OE" (5 bloques unicos) traducidas EN+PT; nombres de documento,
     // codigos de sitio y zona/region/subregion se dejan sin traducir (son identificadores).
-    ['insightsFrameFlujo', 'slidesFrame', 'senaleticaFrame', 'sliprobotsFrame', 'boletinesGenFrame', 'glosarioFrame', 'documentosFrame'].forEach(function (id) {
+    ['insightsFrameFlujo', 'slidesFrame', 'senaleticaFrame', 'sliprobotsFrame', 'boletinesGenFrame', 'glosarioFrame', 'documentosFrame', 'iniciativasLocalesFrame'].forEach(function (id) {
       var frame = document.getElementById(id);
       if (frame && frame.contentWindow) {
         try { frame.contentWindow.postMessage({ type: 'oeHubLang', lang: lang }, '*'); } catch (e) {}

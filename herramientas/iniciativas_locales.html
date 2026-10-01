@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iniciativas Locales — Registro y seguimiento</title>
+<link rel="icon" type="image/svg+xml" href="../media/favicon.svg">
+<script src="lib/xlsx.full.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#F5F5F5;color:#1A1A1A}
+body{overflow-y:auto}
+.hdr{height:52px;display:flex;align-items:center;gap:14px;padding:0 24px;background:#fff;border-bottom:1px solid #E2E2E2;box-shadow:0 1px 4px rgba(0,0,0,.06);position:sticky;top:0;z-index:50}
+.logo{background:#FFD001;color:#000;font-weight:900;font-size:12px;padding:4px 10px;border-radius:4px;letter-spacing:.5px}
+.hdr-title{font-size:14px;font-weight:600}
+.hdr-sub{font-size:11px;color:#767676}
+.tabbar{display:flex;gap:4px;padding:8px 22px;border-bottom:2px solid #E2E2E2;background:#FAFAFA;position:sticky;top:52px;z-index:40}
+.tab{padding:5px 15px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;color:#1A1A1A;background:transparent;border:1.5px solid rgba(0,0,0,.25);font-family:inherit}
+.tab.on{background:#1A1A1A;color:#FFD001;border-color:#1A1A1A}
+.panel{display:none;padding:14px 18px 40px;max-width:1100px;margin:0 auto}
+.panel.on{display:block}
+.card{background:#fff;border-radius:12px;box-shadow:0 1px 6px rgba(0,0,0,.07);border:1px solid #e8edf3;padding:14px 16px;margin-bottom:12px}
+.card h3{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+.demo{background:#FFF3B0;color:#5c4a00;border:1px solid #FFD001;border-radius:8px;padding:7px 12px;font-size:12px;margin-bottom:12px;display:none}
+.sec{display:inline-block;font-size:12px;font-weight:700;background:#1A1A1A;color:#FFD001;padding:4px 12px;border-radius:6px;margin:14px 0 4px}
+.sec:first-child{margin-top:0}
+label{display:block;font-size:11.5px;color:#555;margin:9px 0 3px;font-weight:600}
+input,select,textarea{width:100%;padding:8px 10px;border:1px solid #d6d6d6;border-radius:8px;font-size:13px;font-family:inherit;background:#fff;color:#1A1A1A}
+input:focus,select:focus,textarea:focus{outline:2px solid #FFD001;border-color:#FFD001}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.f3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.btn{background:#1A1A1A;color:#FFD001;border:0;border-radius:8px;padding:9px 18px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:14px}
+.btn.alt{background:#fff;color:#1A1A1A;border:1.5px solid rgba(0,0,0,.25)}
+.msg{display:none;margin-top:12px;font-size:13px;padding:9px 12px;border-radius:8px}
+.msg.ok{background:#e8f7ef;color:#106b45}.msg.warn{background:#FFF3B0;color:#5c4a00}.msg.err{background:#fde8e8;color:#991b1b}
+.flt{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center}.flt select{width:auto;font-size:12px;padding:6px 9px}
+.pill{font-size:11px;padding:3px 10px;border-radius:10px;background:#FFF3B0;color:#5c4a00;font-weight:600}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.kpi{background:#fff;border-radius:12px;border:1px solid #e8edf3;padding:12px 14px}
+.kpi b{display:block;font-size:24px;font-weight:800}.kpi span{font-size:11px;color:#767676}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.bar{display:flex;align-items:center;gap:8px;font-size:12px;margin:6px 0}
+.bar em{font-style:normal;min-width:110px;color:#555}
+.bar .track{flex:1;background:#f0f0f0;border-radius:4px;height:11px;overflow:hidden}
+.bar i{display:block;height:100%;background:#FFD001}
+.bar s{text-decoration:none;font-weight:700;min-width:36px;text-align:right}
+.fun{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.fun div{background:#1A1A1A;color:#fff;border-radius:26px;padding:14px 8px;text-align:center;font-size:12px}
+.fun b{display:block;color:#FFD001;font-size:26px}.fun small{display:block;color:#aaa;margin-top:3px;font-size:10.5px}
+.note{font-size:11.5px;color:#767676;margin-top:8px}
+table{width:100%;border-collapse:collapse;font-size:12px}th{text-align:left;font-size:10.5px;text-transform:uppercase;color:#767676;padding:5px 6px;border-bottom:1px solid #eee}td{padding:6px;border-bottom:1px solid #f2f2f2}
+.slide{background:#fff;border:1px solid #ddd;border-radius:8px;margin-bottom:14px;overflow:hidden;page-break-after:always}
+.slide .hd{background:#FFD001;padding:11px 22px;font-weight:800;font-size:15px;display:flex;justify-content:space-between}
+.slide .bd{padding:16px 22px;min-height:230px}
+.slide .ft{font-size:11px;color:#767676;padding:8px 22px;border-top:1px solid #eee}
+.big{font-size:34px;font-weight:800}
+#loadMsg{padding:20px;text-align:center;color:#767676}
+@media(max-width:640px){.kpis{grid-template-columns:1fr 1fr}.g2,.f2,.f3,.fun{grid-template-columns:1fr}.tabbar{overflow-x:auto}}
+@media print{.hdr,.tabbar,.noprint,.flt{display:none!important}.panel{display:none!important}#p-reporte{display:block!important;padding:0}body{background:#fff}.slide{border:0;border-radius:0}}
+</style>
+</head>
+<body>
+<div class="hdr"><div class="logo">MELI</div><div class="hdr-title" data-i18n="title">Iniciativas Locales</div><div class="hdr-sub" data-i18n="sub">Registro y seguimiento · OE MLM</div></div>
+<div class="tabbar noprint">
+  <button class="tab on" onclick="sw('registrar',this)" data-i18n="tabReg">Registrar</button>
+  <button class="tab" onclick="sw('dash',this)" data-i18n="tabDash">Dashboard</button>
+  <button class="tab" onclick="sw('reporte',this)" data-i18n="tabRep">Reporte</button>
+</div>
+
+<!-- REGISTRAR -->
+<div class="panel on" id="p-registrar">
+ <div class="card">
+  <form id="regForm" onsubmit="return submitReg(event)">
+   <span class="sec" data-i18n="s1">1) Identificación general</span>
+   <div class="f2"><div><label data-i18n="fNombre">Nombre de la iniciativa</label><input name="nombre" required></div><div><label data-i18n="fOwner">Owner</label><input name="owner" required></div></div>
+   <div class="f3"><div><label data-i18n="fLider">Líder / sponsor</label><input name="lider"></div>
+     <div><label data-i18n="fPais">País</label><select name="pais"><option>México</option><option>Brasil</option><option>Argentina</option><option>Chile</option><option>Colombia</option></select></div>
+     <div><label data-i18n="fSitio">Sitio</label><input name="sitio" placeholder="SMX10" required></div></div>
+   <div class="f2"><div><label data-i18n="fTech">¿Mejora tech o no tech?</label><select name="tech"><option value="Tech">Tech</option><option value="No tech">No tech</option></select></div>
+     <div><label data-i18n="fTipo">¿Mejora continua o cambio estructural?</label><select name="tipo_mejora"><option>Mejora continua</option><option>Cambio estructural</option></select></div></div>
+   <span class="sec" data-i18n="s2">2) Problema y contexto operacional</span>
+   <label data-i18n="fProb">Descripción del problema y diferencias con el proceso actual</label><textarea name="problema" rows="3"></textarea>
+   <label data-i18n="fCtx">Contexto (¿por qué?)</label><textarea name="contexto" rows="2"></textarea>
+   <div class="f2"><div><label data-i18n="fFac">Tipo de facility / proceso</label><select name="facility"><option>Service Center</option><option>Cross Dock</option><option>Last Mile</option></select></div>
+     <div><label data-i18n="fWow">¿Sigue el estándar WOW?</label><select name="estandar_wow"><option value="Sí">Sí</option><option value="No">No</option></select></div></div>
+   <span class="sec" data-i18n="s3">3) Impacto y alcance regional</span>
+   <div class="f3"><div><label data-i18n="fOkr">OKR de negocio impactado</label><select name="okr"><option>Profitability</option><option>Scalability</option><option>Experience</option><option>New Business</option></select></div>
+     <div><label data-i18n="fKpi">KPI impactado</label><select name="kpi"><option>BPP Lost</option><option>Delay</option><option>Productividad</option><option>Safety</option></select></div>
+     <div><label data-i18n="fVal">Valor del beneficio</label><input name="valor" type="number" step="any"></div></div>
+   <div class="f2"><div><label data-i18n="fAlc">Alcance</label><select name="alcance"><option value="Local">Local</option><option value="Regional">Regional</option></select></div>
+     <div><label data-i18n="fPrio">Prioridad</label><select name="prioridad"><option>Must</option><option>Should</option><option>Nice to have</option><option>No priorizada</option></select></div></div>
+   <span class="sec" data-i18n="s4">4) Propuesta y documentación</span>
+   <label data-i18n="fProp">Propuesta de mejora (opcional)</label><textarea name="propuesta" rows="2"></textarea>
+   <label data-i18n="fLink">Links complementarios (one page, tableros, videos)</label><input name="link">
+   <button class="btn" type="submit" data-i18n="send">Enviar iniciativa</button>
+   <div class="msg" id="regMsg"></div>
+  </form>
+ </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="panel" id="p-dash">
+ <div class="demo" id="demoBar"></div>
+ <div id="loadMsg" data-i18n="loading">Cargando datos…</div>
+ <div id="errMsg" class="msg err"></div>
+ <div id="dashBody" style="display:none">
+  <div class="flt">
+   <select id="fSite" onchange="render()"></select><select id="fPais" onchange="render()"></select><select id="fYear" onchange="render()"></select>
+   <span class="pill" id="updPill"></span>
+  </div>
+  <div id="dashContent"></div>
+  <button class="btn" onclick="sw('reporte')" data-i18n="genRep">Generar reporte de lo filtrado →</button>
+ </div>
+</div>
+
+<!-- REPORTE -->
+<div class="panel" id="p-reporte">
+ <div class="noprint" style="margin-bottom:10px"><button class="btn" style="margin:0" onclick="window.print()" data-i18n="print">Imprimir / Guardar como PDF</button>
+ <span class="note" data-i18n="repNote" style="margin-left:8px">Usa los filtros del Dashboard.</span></div>
+ <div id="repContent"></div>
+</div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────
+var DATA_FILE = 'data/iniciativas/iniciativas_locales.xlsx';
+// Pegar aquí la URL /exec del Apps Script (ver data/iniciativas/apps_script_registro.gs).
+// Mientras esté vacía, el formulario corre en modo demostración (no envía nada).
+var APPS_SCRIPT_URL = '';
+
+var STAGES = ['1 Propuesta de valor','2 Compartida a Gestión','3 Evaluación mesa local','4 Proyecto creado'];
+var D = { rows: [], info: {} };
+var LANG = 'es';
+
+var I18N = {
+ es:{title:'Iniciativas Locales',sub:'Registro y seguimiento · OE MLM',tabReg:'Registrar',tabDash:'Dashboard',tabRep:'Reporte',
+  s1:'1) Identificación general',s2:'2) Problema y contexto operacional',s3:'3) Impacto y alcance regional',s4:'4) Propuesta y documentación',
+  fNombre:'Nombre de la iniciativa',fOwner:'Owner',fLider:'Líder / sponsor',fPais:'País',fSitio:'Sitio',fTech:'¿Mejora tech o no tech?',fTipo:'¿Mejora continua o cambio estructural?',
+  fProb:'Descripción del problema y diferencias con el proceso actual',fCtx:'Contexto (¿por qué?)',fFac:'Tipo de facility / proceso',fWow:'¿Sigue el estándar WOW?',
+  fOkr:'OKR de negocio impactado',fKpi:'KPI impactado',fVal:'Valor del beneficio',fAlc:'Alcance',fPrio:'Prioridad',fProp:'Propuesta de mejora (opcional)',fLink:'Links complementarios (one page, tableros, videos)',
+  send:'Enviar iniciativa',okSent:'✓ Iniciativa enviada. Queda en estatus "1 Propuesta de valor".',demoSent:'Modo demostración: el envío aún no está conectado (falta la URL del Apps Script). No se guardó nada.',sendErr:'No se pudo enviar. Intenta de nuevo o avisa a Larry Beresford.',
+  loading:'Cargando datos…',genRep:'Generar reporte de lo filtrado →',print:'Imprimir / Guardar como PDF',repNote:'Usa los filtros del Dashboard.',
+  demoBanner:'DATOS DE EJEMPLO — reemplazar iniciativas_locales.xlsx con la descarga del Sheet real.',updated:'Datos al',allSites:'Todos los sitios',allCountries:'Todos los países',allYears:'Todos los años',
+  kTotal:'Iniciativas',kApr:'Tasa de aprobación',kDays:'Días registro → proyecto',kReg:'Candidatas regionales',
+  hFunnel:'Embudo del flujo',hOkr:'Por OKR impactado',hPrio:'Por prioridad',hType:'Tipo y alcance',hTimes:'Tiempo promedio por etapa (días)',hDesp:'Despriorizadas',
+  st1:'Propuesta de valor',st2:'Compartida a Gestión',st3:'Evaluación mesa local',st4:'Proyecto creado',
+  tech:'Tech',notech:'No tech',local:'Local',regional:'Regional',bottleneck:'Cuello de botella:',none:'sin datos',
+  repTitle:'Iniciativas Locales · Resumen',repFunnel:'Embudo',repInsight:'Insight',repBy:'Distribución',errLoad:'No se pudo cargar el archivo de datos',errHelp:'Verifica que exista data/iniciativas/iniciativas_locales.xlsx con la hoja "Iniciativas". Si persiste, escribe a Larry Beresford Díaz.',
+  t12:'Registro → Gestión',t23:'Gestión → Mesa local',t34:'Mesa local → Proyecto',drops:'Despriorizadas',projects:'ya son proyecto'},
+ en:{title:'Local Initiatives',sub:'Registration and tracking · OE MLM',tabReg:'Register',tabDash:'Dashboard',tabRep:'Report',
+  s1:'1) General identification',s2:'2) Problem and operational context',s3:'3) Impact and regional scope',s4:'4) Proposal and documentation',
+  fNombre:'Initiative name',fOwner:'Owner',fLider:'Leader / sponsor',fPais:'Country',fSitio:'Site',fTech:'Tech or non-tech improvement?',fTipo:'Continuous improvement or structural change?',
+  fProb:'Problem description and differences vs. current process',fCtx:'Context (why?)',fFac:'Facility / process type',fWow:'Follows the WOW standard?',
+  fOkr:'Business OKR impacted',fKpi:'KPI impacted',fVal:'Benefit value',fAlc:'Scope',fPrio:'Priority',fProp:'Improvement proposal (optional)',fLink:'Supporting links (one page, dashboards, videos)',
+  send:'Submit initiative',okSent:'✓ Initiative submitted. Status: "1 Value proposal".',demoSent:'Demo mode: submission is not connected yet (Apps Script URL missing). Nothing was saved.',sendErr:'Could not submit. Try again or contact Larry Beresford.',
+  loading:'Loading data…',genRep:'Generate report from current filters →',print:'Print / Save as PDF',repNote:'Uses the Dashboard filters.',
+  demoBanner:'SAMPLE DATA — replace iniciativas_locales.xlsx with the real Sheet download.',updated:'Data as of',allSites:'All sites',allCountries:'All countries',allYears:'All years',
+  kTotal:'Initiatives',kApr:'Approval rate',kDays:'Days registration → project',kReg:'Regional candidates',
+  hFunnel:'Flow funnel',hOkr:'By OKR impacted',hPrio:'By priority',hType:'Type and scope',hTimes:'Average time per stage (days)',hDesp:'Deprioritized',
+  st1:'Value proposal',st2:'Shared with Management',st3:'Local table review',st4:'Project created',
+  tech:'Tech',notech:'Non-tech',local:'Local',regional:'Regional',bottleneck:'Bottleneck:',none:'no data',
+  repTitle:'Local Initiatives · Summary',repFunnel:'Funnel',repInsight:'Insight',repBy:'Breakdown',errLoad:'Could not load the data file',errHelp:'Check that data/iniciativas/iniciativas_locales.xlsx exists with an "Iniciativas" sheet. If it persists, contact Larry Beresford Díaz.',
+  t12:'Registration → Management',t23:'Management → Local table',t34:'Local table → Project',drops:'Deprioritized',projects:'are now projects'},
+ pt:{title:'Iniciativas Locais',sub:'Registro e acompanhamento · OE MLM',tabReg:'Registrar',tabDash:'Dashboard',tabRep:'Relatório',
+  s1:'1) Identificação geral',s2:'2) Problema e contexto operacional',s3:'3) Impacto e alcance regional',s4:'4) Proposta e documentação',
+  fNombre:'Nome da iniciativa',fOwner:'Owner',fLider:'Líder / sponsor',fPais:'País',fSitio:'Site',fTech:'Melhoria tech ou não tech?',fTipo:'Melhoria contínua ou mudança estrutural?',
+  fProb:'Descrição do problema e diferenças com o processo atual',fCtx:'Contexto (por quê?)',fFac:'Tipo de facility / processo',fWow:'Segue o padrão WOW?',
+  fOkr:'OKR de negócio impactado',fKpi:'KPI impactado',fVal:'Valor do benefício',fAlc:'Alcance',fPrio:'Prioridade',fProp:'Proposta de melhoria (opcional)',fLink:'Links complementares (one page, painéis, vídeos)',
+  send:'Enviar iniciativa',okSent:'✓ Iniciativa enviada. Status: "1 Proposta de valor".',demoSent:'Modo demonstração: o envio ainda não está conectado (falta a URL do Apps Script). Nada foi salvo.',sendErr:'Não foi possível enviar. Tente de novo ou avise Larry Beresford.',
+  loading:'Carregando dados…',genRep:'Gerar relatório do filtrado →',print:'Imprimir / Salvar como PDF',repNote:'Usa os filtros do Dashboard.',
+  demoBanner:'DADOS DE EXEMPLO — substituir iniciativas_locales.xlsx pelo download do Sheet real.',updated:'Dados em',allSites:'Todos os sites',allCountries:'Todos os países',allYears:'Todos os anos',
+  kTotal:'Iniciativas',kApr:'Taxa de aprovação',kDays:'Dias registro → projeto',kReg:'Candidatas regionais',
+  hFunnel:'Funil do fluxo',hOkr:'Por OKR impactado',hPrio:'Por prioridade',hType:'Tipo e alcance',hTimes:'Tempo médio por etapa (dias)',hDesp:'Despriorizadas',
+  st1:'Proposta de valor',st2:'Compartilhada com Gestão',st3:'Avaliação mesa local',st4:'Projeto criado',
+  tech:'Tech',notech:'Não tech',local:'Local',regional:'Regional',bottleneck:'Gargalo:',none:'sem dados',
+  repTitle:'Iniciativas Locais · Resumo',repFunnel:'Funil',repInsight:'Insight',repBy:'Distribuição',errLoad:'Não foi possível carregar o arquivo de dados',errHelp:'Verifique se data/iniciativas/iniciativas_locales.xlsx existe com a aba "Iniciativas". Se persistir, escreva a Larry Beresford Díaz.',
+  t12:'Registro → Gestão',t23:'Gestão → Mesa local',t34:'Mesa local → Projeto',drops:'Despriorizadas',projects:'já são projeto'}
+};
+function t(k){ return (I18N[LANG] && I18N[LANG][k]) || I18N.es[k] || k; }
+function applyLang(l){
+  if(!I18N[l]) return; LANG = l; document.documentElement.lang = l;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){ var k = el.getAttribute('data-i18n'); if(I18N[l][k]) el.textContent = I18N[l][k]; });
+  if(D.rows.length){ fillFilters(true); render(); }
+}
+window.addEventListener('message', function(e){ if(e && e.data && e.data.type === 'oeHubLang') applyLang(e.data.lang); });
+
+// ── TABS ────────────────────────────────────────────────────────
+function sw(id, btn){
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('on'); });
+  document.getElementById('p-' + id).classList.add('on');
+  var map = {registrar:0, dash:1, reporte:2};
+  document.querySelectorAll('.tab').forEach(function(b, i){ b.classList.toggle('on', i === map[id]); });
+  window.scrollTo(0, 0);
+}
+
+// ── REGISTRO ────────────────────────────────────────────────────
+function showMsg(cls, txt){ var m = document.getElementById('regMsg'); m.className = 'msg ' + cls; m.textContent = txt; m.style.display = 'block'; }
+function submitReg(ev){
+  ev.preventDefault();
+  var form = document.getElementById('regForm');
+  if(!APPS_SCRIPT_URL){ showMsg('warn', t('demoSent')); return false; }
+  // Patrón de iframe oculto (igual que "Ideas y sugerencias"): evita CORS y no requiere API key.
+  var name = 'hiddenSend' + Date.now();
+  var fr = document.createElement('iframe'); fr.name = name; fr.style.display = 'none';
+  var f2 = document.createElement('form'); f2.method = 'POST'; f2.action = APPS_SCRIPT_URL; f2.target = name; f2.style.display = 'none';
+  new FormData(form).forEach(function(v, k){ var i = document.createElement('input'); i.type = 'hidden'; i.name = k; i.value = v; f2.appendChild(i); });
+  document.body.appendChild(fr); document.body.appendChild(f2);
+  var done = false;
+  fr.onload = function(){ if(done) return; done = true; showMsg('ok', t('okSent')); form.reset(); setTimeout(function(){ fr.remove(); f2.remove(); }, 500); };
+  setTimeout(function(){ if(!done){ done = true; showMsg('err', t('sendErr')); } }, 15000);
+  f2.submit();
+  return false;
+}
+
+// ── DATOS ───────────────────────────────────────────────────────
+function toDate(v){
+  if(v === '' || v == null) return null;
+  if(v instanceof Date) return v;
+  if(typeof v === 'number'){ var d = new Date(Math.round((v - 25569) * 86400 * 1000)); return isNaN(d) ? null : d; }
+  var d2 = new Date(String(v)); return isNaN(d2) ? null : d2;
+}
+function dayDiff(a, b){ return a && b ? Math.round((b - a) / 86400000) : null; }
+function avg(arr){ arr = arr.filter(function(x){ return x != null && x >= 0; }); return arr.length ? arr.reduce(function(s, x){ return s + x; }, 0) / arr.length : null; }
+function fmt(n){ return n == null ? '—' : (Math.round(n * 10) / 10).toString(); }
+
+fetch(DATA_FILE).then(function(r){
+  if(!r.ok) throw new Error('HTTP ' + r.status);
+  return r.arrayBuffer();
+}).then(function(buf){
+  var wb = XLSX.read(new Uint8Array(buf), {type:'array', cellDates:true});
+  var ws = wb.Sheets['Iniciativas'];
+  if(!ws) throw new Error('No se encontró la pestaña "Iniciativas"');
+  D.rows = XLSX.utils.sheet_to_json(ws, {defval:''}).filter(function(r){ return r.nombre; }).map(function(r){
+    r._reg = toDate(r.fecha_registro); r._ges = toDate(r.fecha_gestion); r._mesa = toDate(r.fecha_mesa); r._proy = toDate(r.fecha_proyecto);
+    r._desp = String(r.estatus).toLowerCase().indexOf('desprioriz') === 0;
+    return r;
+  });
+  var wi = wb.Sheets['Info'];
+  if(wi) XLSX.utils.sheet_to_json(wi, {defval:''}).forEach(function(x){ D.info[x.campo] = x.valor; });
+  document.getElementById('loadMsg').style.display = 'none';
+  document.getElementById('dashBody').style.display = 'block';
+  fillFilters(false); render();
+}).catch(function(err){
+  console.error(err);
+  document.getElementById('loadMsg').style.display = 'none';
+  var e = document.getElementById('errMsg'); e.style.display = 'block';
+  e.textContent = t('errLoad') + ': ' + err.message + '. ' + t('errHelp');
+});
+
+function uniq(key){ var s = {}; D.rows.forEach(function(r){ if(r[key] !== '') s[r[key]] = 1; }); return Object.keys(s).sort(); }
+function fillFilters(keep){
+  var sels = {fSite:['sitio', t('allSites')], fPais:['pais', t('allCountries')]};
+  Object.keys(sels).forEach(function(id){
+    var el = document.getElementById(id), cur = keep ? el.value : '';
+    el.innerHTML = '<option value="">' + sels[id][1] + '</option>' + uniq(sels[id][0]).map(function(v){ return '<option>' + v + '</option>'; }).join('');
+    el.value = cur;
+  });
+  var ye = document.getElementById('fYear'), cy = keep ? ye.value : '';
+  var years = {}; D.rows.forEach(function(r){ if(r._reg) years[r._reg.getFullYear()] = 1; });
+  ye.innerHTML = '<option value="">' + t('allYears') + '</option>' + Object.keys(years).sort().map(function(y){ return '<option>' + y + '</option>'; }).join('');
+  ye.value = cy;
+  var pill = document.getElementById('updPill');
+  pill.textContent = t('updated') + ' ' + (D.info.actualizado || '—');
+  var demo = document.getElementById('demoBar');
+  if(String(D.info.demo).toUpperCase() === 'SI'){ demo.style.display = 'block'; demo.textContent = t('demoBanner'); } else demo.style.display = 'none';
+}
+function filtered(){
+  var s = document.getElementById('fSite').value, p = document.getElementById('fPais').value, y = document.getElementById('fYear').value;
+  return D.rows.filter(function(r){ return (!s || r.sitio === s) && (!p || r.pais === p) && (!y || (r._reg && String(r._reg.getFullYear()) === y)); });
+}
+
+// ── MÉTRICAS ────────────────────────────────────────────────────
+function metrics(rows){
+  var m = {n: rows.length};
+  m.s1 = rows.length;
+  m.s2 = rows.filter(function(r){ return r._ges || r._mesa || r._proy; }).length;
+  m.s3 = rows.filter(function(r){ return r._mesa || r._proy; }).length;
+  m.s4 = rows.filter(function(r){ return r._proy; }).length;
+  m.desp = rows.filter(function(r){ return r._desp; }).length;
+  m.apr = (m.s4 + m.desp) ? Math.round(100 * m.s4 / (m.s4 + m.desp)) : null;
+  m.t12 = avg(rows.map(function(r){ return dayDiff(r._reg, r._ges); }));
+  m.t23 = avg(rows.map(function(r){ return dayDiff(r._ges, r._mesa); }));
+  m.t34 = avg(rows.map(function(r){ return dayDiff(r._mesa, r._proy); }));
+  m.total = avg(rows.map(function(r){ return dayDiff(r._reg, r._proy); }));
+  m.reg = rows.filter(function(r){ return String(r.alcance).toLowerCase() === 'regional'; }).length;
+  m.okr = count(rows, 'okr'); m.prio = count(rows, 'prioridad'); m.tech = count(rows, 'tech'); m.alc = count(rows, 'alcance');
+  var times = [['t12', m.t12], ['t23', m.t23], ['t34', m.t34]].filter(function(x){ return x[1] != null; });
+  m.bott = times.length ? times.sort(function(a, b){ return b[1] - a[1]; })[0] : null;
+  return m;
+}
+function count(rows, key){ var o = {}; rows.forEach(function(r){ var v = r[key] || '—'; o[v] = (o[v] || 0) + 1; }); return Object.keys(o).map(function(k){ return [k, o[k]]; }).sort(function(a, b){ return b[1] - a[1]; }); }
+function bars(list, total, color){
+  if(!list.length) return '<div class="note">' + t('none') + '</div>';
+  var mx = Math.max.apply(null, list.map(function(x){ return x[1]; })) || 1;
+  return list.map(function(x){ return '<div class="bar"><em>' + x[0] + '</em><div class="track"><i style="width:' + (100 * x[1] / mx) + '%;' + (color ? 'background:' + color : '') + '"></i></div><s>' + x[1] + '</s></div>'; }).join('');
+}
+function funnel(m){ return '<div class="fun"><div><b>' + m.s1 + '</b>' + t('st1') + '</div><div><b>' + m.s2 + '</b>' + t('st2') + '</div><div><b>' + m.s3 + '</b>' + t('st3') + '</div><div><b>' + m.s4 + '</b>' + t('st4') + '</div></div>'; }
+function timesBars(m){
+  var l = [[t('t12'), m.t12], [t('t23'), m.t23], [t('t34'), m.t34]];
+  var mx = Math.max.apply(null, l.map(function(x){ return x[1] || 0; })) || 1;
+  return l.map(function(x, i){
+    var hot = m.bott && m.bott[0] === ['t12', 't23', 't34'][i];
+    return '<div class="bar"><em style="min-width:150px">' + x[0] + '</em><div class="track"><i style="width:' + (100 * (x[1] || 0) / mx) + '%;' + (hot ? 'background:#E24B4A' : '') + '"></i></div><s>' + fmt(x[1]) + '</s></div>';
+  }).join('');
+}
+function bottleneckText(m){ return m.bott ? t('bottleneck') + ' ' + t(m.bott[0]) + ' (' + fmt(m.bott[1]) + ' d)' : ''; }
+
+function render(){
+  var rows = filtered(), m = metrics(rows);
+  document.getElementById('dashContent').innerHTML =
+   '<div class="kpis">' +
+    '<div class="kpi"><b>' + m.n + '</b><span>' + t('kTotal') + '</span></div>' +
+    '<div class="kpi"><b>' + (m.apr == null ? '—' : m.apr + '%') + '</b><span>' + t('kApr') + '</span></div>' +
+    '<div class="kpi"><b>' + fmt(m.total) + '</b><span>' + t('kDays') + '</span></div>' +
+    '<div class="kpi"><b>' + m.reg + '</b><span>' + t('kReg') + '</span></div></div>' +
+   '<div class="card"><h3>' + t('hFunnel') + '</h3>' + funnel(m) + '<div class="note">' + t('hDesp') + ': ' + m.desp + '</div></div>' +
+   '<div class="g2"><div class="card"><h3>' + t('hOkr') + '</h3>' + bars(m.okr) + '</div>' +
+   '<div class="card"><h3>' + t('hPrio') + '</h3>' + bars(m.prio) + '<div class="note">' + t('tech') + ' ' + pct(m.tech, 'Tech', m.n) + ' · ' + t('notech') + ' ' + pct(m.tech, 'No tech', m.n) + ' · ' + t('local') + ' ' + pct(m.alc, 'Local', m.n) + ' · ' + t('regional') + ' ' + pct(m.alc, 'Regional', m.n) + '</div></div></div>' +
+   '<div class="card"><h3>' + t('hTimes') + '</h3>' + timesBars(m) + '<div class="note">' + bottleneckText(m) + '</div></div>';
+  renderReport(rows, m);
+}
+function pct(list, key, n){ var f = list.filter(function(x){ return x[0] === key; })[0]; return n && f ? Math.round(100 * f[1] / n) + '%' : '0%'; }
+
+function renderReport(rows, m){
+  var site = document.getElementById('fSite').value || t('allSites'), pais = document.getElementById('fPais').value || t('allCountries'), yr = document.getElementById('fYear').value || t('allYears');
+  var scope = site + ' · ' + pais + ' · ' + yr;
+  var demoTag = String(D.info.demo).toUpperCase() === 'SI' ? ' (DEMO)' : '';
+  document.getElementById('repContent').innerHTML =
+   '<div class="slide"><div class="hd"><span>' + t('repTitle') + demoTag + '</span><span>' + scope + '</span></div><div class="bd">' +
+    '<div class="g2"><div><div class="big">' + m.n + '</div><div class="note">' + t('kTotal') + '</div>' +
+    '<p style="margin-top:12px;font-size:13px;line-height:1.8">• ' + m.s4 + ' ' + t('projects') + '<br>• ' + t('kApr') + ': ' + (m.apr == null ? '—' : m.apr + '%') + '<br>• ' + t('kDays') + ': ' + fmt(m.total) + '<br>• ' + t('hDesp') + ': ' + m.desp + '</p></div>' +
+    '<div><h3 style="font-size:10.5px;text-transform:uppercase;margin-bottom:8px">' + t('repFunnel') + '</h3>' + bars([[t('st1'), m.s1], [t('st2'), m.s2], [t('st3'), m.s3], [t('st4'), m.s4]]) + '</div></div></div>' +
+    '<div class="ft">' + t('repInsight') + ': ' + (bottleneckText(m) || '—') + '</div></div>' +
+   '<div class="slide"><div class="hd"><span>' + t('repBy') + '</span><span>' + scope + '</span></div><div class="bd"><div class="g2">' +
+    '<div><h3 style="font-size:10.5px;text-transform:uppercase;margin-bottom:8px">' + t('hOkr') + '</h3>' + bars(m.okr) + '</div>' +
+    '<div><h3 style="font-size:10.5px;text-transform:uppercase;margin-bottom:8px">' + t('hPrio') + '</h3>' + bars(m.prio) + '</div></div></div>' +
+    '<div class="ft">' + t('tech') + ' ' + pct(m.tech, 'Tech', m.n) + ' · ' + t('notech') + ' ' + pct(m.tech, 'No tech', m.n) + ' · ' + t('local') + ' ' + pct(m.alc, 'Local', m.n) + ' · ' + t('regional') + ' ' + pct(m.alc, 'Regional', m.n) + '</div></div>' +
+   '<div class="slide"><div class="hd"><span>' + t('hTimes') + '</span><span>' + scope + '</span></div><div class="bd">' + timesBars(m) + '</div><div class="ft">' + bottleneckText(m) + '</div></div>';
+}
+</script>
+</body>
+</html>
