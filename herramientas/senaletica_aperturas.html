@@ -200,10 +200,10 @@ table.cart-table tr:last-child td { border-bottom:none; }
 .sembrado-board.locked { border-color:var(--green); }
 .sembrado-board-empty { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#AAA; font-size:12px; text-align:center; padding:20px; }
 .sembrado-pin { position:absolute; transform:translate(-50%,-100%); display:flex; flex-direction:column; align-items:center; cursor:grab; }
-.sembrado-pin-dot { width:34px; height:34px; border-radius:50%; background:#FFF; border:2px solid var(--yellow); box-shadow:0 2px 6px rgba(0,0,0,0.25); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.sembrado-pin-dot { width:18px; height:18px; border-radius:50%; background:#FFF; border:1.5px solid var(--yellow); box-shadow:0 1px 4px rgba(0,0,0,0.25); display:flex; align-items:center; justify-content:center; overflow:hidden; }
 .sembrado-pin-dot img { width:100%; height:100%; object-fit:contain; }
-.sembrado-pin-label { background:#111; color:var(--yellow); font-size:9px; font-weight:700; padding:2px 6px; border-radius:5px; margin-top:3px; max-width:100px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.sembrado-pin-remove { position:absolute; top:-6px; right:-6px; width:16px; height:16px; border-radius:50%; background:var(--red); color:#FFF; font-size:10px; line-height:16px; text-align:center; cursor:pointer; }
+.sembrado-pin-label { background:#111; color:var(--yellow); font-size:7px; font-weight:700; padding:1px 4px; border-radius:4px; margin-top:2px; max-width:70px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sembrado-pin-remove { position:absolute; top:-5px; right:-5px; width:12px; height:12px; border-radius:50%; background:var(--red); color:#FFF; font-size:8px; line-height:12px; text-align:center; cursor:pointer; }
 .sembrado-board.locked .sembrado-pin { cursor:default; }
 .sembrado-board.locked .sembrado-pin-remove { display:none; }
 .sembrado-actions { display:flex; justify-content:space-between; align-items:center; margin-top:14px; gap:10px; flex-wrap:wrap; }
@@ -221,7 +221,7 @@ table.cart-table tr:last-child td { border-bottom:none; }
 .sembrado-zoom-row .lbl { font-size:11px; font-weight:700; color:#666; min-width:40px; text-align:center; }
 .sembrado-board-scroll { overflow:auto; max-height:640px; border-radius:8px; }
 
-.sembrado-pin-stamp { position:absolute; top:-6px; left:-6px; width:16px; height:16px; border-radius:50%; background:#FFF; border:1px solid var(--yellow); color:#8A6D00; font-size:9px; line-height:16px; text-align:center; cursor:pointer; }
+.sembrado-pin-stamp { position:absolute; top:-5px; left:-5px; width:12px; height:12px; border-radius:50%; background:#FFF; border:1px solid var(--yellow); color:#8A6D00; font-size:7px; line-height:12px; text-align:center; cursor:pointer; }
 .sembrado-board.locked .sembrado-pin-stamp { display:none; }
 
 .sembrado-stamp-bar { display:none; align-items:center; gap:10px; background:#FFF8E0; border:1px solid #FFE49A; border-radius:7px; padding:8px 12px; margin-bottom:10px; font-size:11.5px; color:#8A6D00; font-weight:700; }
@@ -475,9 +475,9 @@ table.cart-table tr:last-child td { border-bottom:none; }
           <div class="fixed-note" style="margin:0;flex:1">Arrastra un artículo de la izquierda y suéltalo sobre el plano donde debe instalarse, o usa "⧉" para colocar el mismo varias veces.</div>
         </div>
         <div class="sembrado-zoom-row">
-          <button onclick="zoomSembrado(-0.25)">−</button>
+          <button onclick="zoomSembrado(-0.5)">−</button>
           <span class="lbl" id="sembradoZoomLabel">100%</span>
-          <button onclick="zoomSembrado(0.25)">+</button>
+          <button onclick="zoomSembrado(0.5)">+</button>
           <button onclick="zoomSembradoReset()" style="width:auto;padding:0 8px;font-size:10.5px;">Restablecer</button>
         </div>
         <div class="sembrado-stamp-bar" id="sembradoStampBar">
@@ -3256,7 +3256,7 @@ function applySembradoZoom() {
   if (lbl) lbl.textContent = Math.round(sembradoZoom * 100) + '%';
 }
 function zoomSembrado(delta) {
-  sembradoZoom = Math.max(0.5, Math.min(2.5, +(sembradoZoom + delta).toFixed(2)));
+  sembradoZoom = Math.max(0.5, Math.min(6, +(sembradoZoom + delta).toFixed(2)));
   applySembradoZoom();
 }
 function zoomSembradoReset() {
