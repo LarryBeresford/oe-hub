@@ -79,6 +79,23 @@ table{width:100%;border-collapse:collapse;font-size:12px}th{text-align:left;font
 .tm{display:flex;align-items:center;gap:22px;margin-bottom:20px}.tm .lb{width:330px;font-size:22px;font-weight:600}.tm .tk{flex:1;background:#F3F3F3;border-radius:40px;height:64px;overflow:hidden}.tm .fl{height:100%;border-radius:40px;background:#FFD001;display:flex;align-items:center;justify-content:flex-end;padding-right:22px;font-size:26px;font-weight:800;min-width:100px}.tm .fl.hot{background:#1A1A1A;color:#FFD001}
 table.dt2{width:100%;border-collapse:separate;border-spacing:0 8px;font-size:15px}table.dt2 th{text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:#555;padding:0 14px 2px}table.dt2 td{background:#F3F3F3;padding:11px 14px}table.dt2 td:first-child{border-radius:20px 0 0 20px;font-weight:700}table.dt2 td:last-child{border-radius:0 20px 20px 0}
 .chip{display:inline-block;border-radius:20px;padding:2px 12px;font-size:13px;font-weight:700;background:#1A1A1A;color:#FFD001}.chip.l{background:#FFD001;color:#1A1A1A}
+.sl.t .body{top:152px}.sl.t h2{font-size:40px;top:80px}
+.fm{display:flex;align-items:stretch;gap:12px;height:132px}
+.fm .tot{background:#FFD001;border-radius:26px;padding:14px 22px;width:280px}.fm .tot small{font-size:12px;font-weight:800;text-transform:uppercase;display:block}.fm .tot b{font-size:78px;line-height:1}
+.fm .op{align-self:center;font-size:30px;color:#9a9a9a;font-weight:300}
+.fm .fk{flex:1;background:#F3F3F3;border-radius:26px;padding:14px 16px;text-align:center}.fm .fk small{font-size:12px;font-weight:700;text-transform:uppercase;color:#555;display:block}.fm .fk b{font-size:54px;line-height:1.15}
+.pn2{display:grid;grid-template-columns:34% 1fr;gap:18px;margin-top:16px}
+.pbox{background:#F3F3F3;border-radius:26px;padding:16px 20px}.pbox h4{font-size:12px;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;color:#444}
+.dn2{display:flex;align-items:center;gap:16px}.dn2 .ring{border-radius:50%;position:relative;flex-shrink:0}.dn2 .ring:after{content:'';position:absolute;inset:27%;background:#F3F3F3;border-radius:50%}.dn2 .lg2{font-size:13px;line-height:1.75}
+.dt{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px}
+.sb{display:flex;align-items:center;gap:12px;margin:9px 0}.sb em{font-style:normal;min-width:122px;font-size:14px;font-weight:600}.sb em small{font-weight:400;color:#767676}
+.sbt{flex:1;display:flex;height:30px;border-radius:15px;overflow:hidden;background:#fff}.sbt i{display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:800;font-size:13px}
+.sbl{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;margin-top:6px}
+.hl{margin-top:12px;background:#E9E9E9;border-radius:22px;padding:10px 18px 10px 34px;font-size:13px;line-height:1.42;outline:none}.hl li{margin:1px 0}
+.big-c{width:190px;height:190px;border-radius:50%;background:#1A1A1A;color:#FFD001;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}.big-c b{font-size:78px;line-height:1}.big-c span{font-size:14px;color:#fff;text-align:center;line-height:1.2}
+.gen4{display:grid;grid-template-columns:200px 1fr 1fr 1.1fr;gap:16px;align-items:start}
+.pod{display:flex;align-items:flex-end;justify-content:center;gap:10px;height:190px;margin-top:6px}.pod div{width:130px;text-align:center;font-weight:800;font-size:34px;padding-top:12px;border-radius:6px 6px 0 0}.pod small{display:block;font-size:13px;font-weight:600;color:#1A1A1A;margin-top:6px}
+.pr3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.pcard{background:#FFD001;border-radius:34px;padding:26px 26px;min-height:450px;font-size:16px;line-height:1.5}.pcard h5{font-size:24px;line-height:1.15;margin-bottom:2px}.pcard .own{font-size:13px;color:#4a4000;margin-bottom:8px}.pcard .av{font-weight:800;font-size:16px;margin-bottom:8px}
 @page{size:13.333in 7.5in;margin:0}
 @media print{
  html,body{background:#fff!important;height:auto!important;overflow:visible!important}
@@ -108,6 +125,7 @@ table.dt2{width:100%;border-collapse:separate;border-spacing:0 8px;font-size:15p
    <div class="f3"><div><label data-i18n="fLider">Líder / sponsor</label><input name="lider"></div>
      <div><label data-i18n="fPais">País</label><select name="pais"><option>México</option><option>Brasil</option><option>Argentina</option><option>Chile</option><option>Colombia</option></select></div>
      <div><label data-i18n="fSitio">Sitio</label><input name="sitio" placeholder="SMX10" required></div></div>
+   <div class="f3"><div><label data-i18n="fFocal">Focal CIE que registra</label><input name="focal"></div><div><label data-i18n="fEq">Equipo</label><select name="equipo"><option>FM+XD+SC</option><option>SVC+LM</option><option>Gestión</option><option>Otro</option></select></div><div><label data-i18n="fTipoIni">Tipo de iniciativa</label><select name="tipo_iniciativa"><option>Proyecto</option><option>Cambio en WI</option></select></div></div>
    <div class="f2"><div><label data-i18n="fTech">¿Mejora tech o no tech?</label><select name="tech"><option value="Tech">Tech</option><option value="No tech">No tech</option></select></div>
      <div><label data-i18n="fTipo">¿Mejora continua o cambio estructural?</label><select name="tipo_mejora"><option>Mejora continua</option><option>Cambio estructural</option></select></div></div>
    <span class="sec" data-i18n="s2">2) Problema y contexto operacional</span>
@@ -119,6 +137,7 @@ table.dt2{width:100%;border-collapse:separate;border-spacing:0 8px;font-size:15p
    <div class="f3"><div><label data-i18n="fOkr">OKR de negocio impactado</label><select name="okr"><option>Profitability</option><option>Scalability</option><option>Experience</option><option>New Business</option></select></div>
      <div><label data-i18n="fKpi">KPI impactado</label><select name="kpi"><option>BPP Lost</option><option>Delay</option><option>Productividad</option><option>Safety</option></select></div>
      <div><label data-i18n="fVal">Valor del beneficio</label><input name="valor" type="number" step="any"></div></div>
+   <label data-i18n="fBen">Beneficios cuantitativos (KPI, impacto)</label><textarea name="beneficios" rows="2"></textarea>
    <div class="f2"><div><label data-i18n="fAlc">Alcance</label><select name="alcance"><option value="Local">Local</option><option value="Regional">Regional</option></select></div>
      <div><label data-i18n="fPrio">Prioridad</label><select name="prioridad"><option>Must</option><option>Should</option><option>Nice to have</option><option>No priorizada</option></select></div></div>
    <span class="sec" data-i18n="s4">4) Propuesta y documentación</span>
@@ -137,7 +156,7 @@ table.dt2{width:100%;border-collapse:separate;border-spacing:0 8px;font-size:15p
  <div id="errMsg" class="msg err"></div>
  <div id="dashBody" style="display:none">
   <div class="flt">
-   <select id="fSite" onchange="render()"></select><select id="fPais" onchange="render()"></select><select id="fYear" onchange="render()"></select>
+   <select id="fSite" onchange="render()"></select><select id="fPais" onchange="render()"></select><select id="fYear" onchange="render()"></select><select id="fQ" onchange="render()"></select><select id="fEq" onchange="render()"></select>
    <span class="pill" id="updPill"></span>
   </div>
   <div id="dashContent"></div>
@@ -164,7 +183,7 @@ var D = { rows: [], info: {} };
 var LANG = 'es';
 
 var I18N = {
- es:{kicker:'Rutinas de Gestión | OE MLM',cvL1:'Iniciativas',cvL2:'Locales',generated:'Generado el',repExec:'Resumen ejecutivo',repExecSub:'Estado del flujo de iniciativas locales',repFlow:'Flujo de iniciativas locales',ofPrev:'del paso anterior',repDetail:'Iniciativas destacadas',colName:'Iniciativa',colStatus:'Estatus',more:'iniciativas más en el tablero',printHint:'En el diálogo de impresión elige «Guardar como PDF» y activa «Gráficos de fondo».',title:'Iniciativas Locales',sub:'Registro y seguimiento · OE MLM',tabReg:'Registrar',tabDash:'Dashboard',tabRep:'Reporte',
+ es:{kickerPort:'Portafolio de Proyectos | OE MLM',cvRep:'Reporte',repReg:'Portafolio regional',repLoc:'Portafolio local',totReg:'Total de iniciativas regionales',totLoc:'Total de iniciativas locales',clPri:'Priorizadas',clTen:'Tentativas',clDes:'Despriorizadas',hStatus:'Estatus de ejecución',hByTeam:'Por equipo y estatus',hByTeam2:'Por equipo generador',hByType:'Por tipo de iniciativa',hByStatus:'Por estatus actual',top3:'Top 3 focales OE',top3sub:'generadores de iniciativas',genN:'iniciativas generadas',repGen:'Generación de iniciativas',repProj:'Proyectos locales',projN:'proyectos locales',hAxis:'Creación en Meli Axis',axYes:'Creados en Meli Axis',axNo:'Sin crear',axNote:'{a} proyectos no se han creado en Meli Axis · {b} en backlog',repMain:'Principales proyectos locales',avance:'Avance',dolor:'Dolor',solucion:'Solución',beneficios:'Beneficios',hlDone:'{a} de {n} iniciativas ({p}%) se finalizaron.',hlQ4:'{a} de {n} ({p}%) continuarán trabajándose el próximo trimestre.',hlBk:'{a} de {n} ({p}%) siguen en backlog o detenidas.',hlEq:'El equipo de {e} tiene {n} iniciativas; {d} finalizadas ({p}%).',allTeams:'Todos los equipos',allQuarters:'Todos los trimestres',fFocal:'Focal CIE que registra',fEq:'Equipo',fTipoIni:'Tipo de iniciativa',fBen:'Beneficios cuantitativos (KPI, impacto)',kicker:'Rutinas de Gestión | OE MLM',cvL1:'Iniciativas',cvL2:'Locales',generated:'Generado el',repExec:'Resumen ejecutivo',repExecSub:'Estado del flujo de iniciativas locales',repFlow:'Flujo de iniciativas locales',ofPrev:'del paso anterior',repDetail:'Iniciativas destacadas',colName:'Iniciativa',colStatus:'Estatus',more:'iniciativas más en el tablero',printHint:'En el diálogo de impresión elige «Guardar como PDF» y activa «Gráficos de fondo».',title:'Iniciativas Locales',sub:'Registro y seguimiento · OE MLM',tabReg:'Registrar',tabDash:'Dashboard',tabRep:'Reporte',
   s1:'1) Identificación general',s2:'2) Problema y contexto operacional',s3:'3) Impacto y alcance regional',s4:'4) Propuesta y documentación',
   fNombre:'Nombre de la iniciativa',fOwner:'Owner',fLider:'Líder / sponsor',fPais:'País',fSitio:'Sitio',fTech:'¿Mejora tech o no tech?',fTipo:'¿Mejora continua o cambio estructural?',
   fProb:'Descripción del problema y diferencias con el proceso actual',fCtx:'Contexto (¿por qué?)',fFac:'Tipo de facility / proceso',fWow:'¿Sigue el estándar WOW?',
@@ -178,7 +197,7 @@ var I18N = {
   tech:'Tech',notech:'No tech',local:'Local',regional:'Regional',bottleneck:'Cuello de botella:',none:'sin datos',
   repTitle:'Iniciativas Locales · Resumen',repFunnel:'Embudo',repInsight:'Insight',repBy:'Distribución',errLoad:'No se pudo cargar el archivo de datos',errHelp:'Verifica que exista data/iniciativas/iniciativas_locales.xlsx con la hoja "Iniciativas". Si persiste, escribe a Larry Beresford Díaz.',
   t12:'Registro → Gestión',t23:'Gestión → Mesa local',t34:'Mesa local → Proyecto',drops:'Despriorizadas',projects:'ya son proyecto'},
- en:{kicker:'Management Routines | OE MLM',cvL1:'Local',cvL2:'Initiatives',generated:'Generated on',repExec:'Executive summary',repExecSub:'Status of the local initiatives flow',repFlow:'Local initiatives flow',ofPrev:'of previous step',repDetail:'Featured initiatives',colName:'Initiative',colStatus:'Status',more:'more initiatives on the board',printHint:'In the print dialog choose "Save as PDF" and enable "Background graphics".',title:'Local Initiatives',sub:'Registration and tracking · OE MLM',tabReg:'Register',tabDash:'Dashboard',tabRep:'Report',
+ en:{kickerPort:'Project Portfolio | OE MLM',cvRep:'Report',repReg:'Regional portfolio',repLoc:'Local portfolio',totReg:'Total regional initiatives',totLoc:'Total local initiatives',clPri:'Prioritized',clTen:'Tentative',clDes:'Deprioritized',hStatus:'Execution status',hByTeam:'By team and status',hByTeam2:'By originating team',hByType:'By initiative type',hByStatus:'By current status',top3:'Top 3 OE focals',top3sub:'initiative generators',genN:'initiatives generated',repGen:'Initiative generation',repProj:'Local projects',projN:'local projects',hAxis:'Creation in Meli Axis',axYes:'Created in Meli Axis',axNo:'Not created',axNote:'{a} projects not yet created in Meli Axis · {b} in backlog',repMain:'Main local projects',avance:'Progress',dolor:'Pain',solucion:'Solution',beneficios:'Benefits',hlDone:'{a} of {n} initiatives ({p}%) were completed.',hlQ4:'{a} of {n} ({p}%) will continue next quarter.',hlBk:'{a} of {n} ({p}%) remain in backlog or on hold.',hlEq:'The {e} team has {n} initiatives; {d} completed ({p}%).',allTeams:'All teams',allQuarters:'All quarters',fFocal:'Registering CIE focal',fEq:'Team',fTipoIni:'Initiative type',fBen:'Quantitative benefits (KPI, impact)',kicker:'Management Routines | OE MLM',cvL1:'Local',cvL2:'Initiatives',generated:'Generated on',repExec:'Executive summary',repExecSub:'Status of the local initiatives flow',repFlow:'Local initiatives flow',ofPrev:'of previous step',repDetail:'Featured initiatives',colName:'Initiative',colStatus:'Status',more:'more initiatives on the board',printHint:'In the print dialog choose "Save as PDF" and enable "Background graphics".',title:'Local Initiatives',sub:'Registration and tracking · OE MLM',tabReg:'Register',tabDash:'Dashboard',tabRep:'Report',
   s1:'1) General identification',s2:'2) Problem and operational context',s3:'3) Impact and regional scope',s4:'4) Proposal and documentation',
   fNombre:'Initiative name',fOwner:'Owner',fLider:'Leader / sponsor',fPais:'Country',fSitio:'Site',fTech:'Tech or non-tech improvement?',fTipo:'Continuous improvement or structural change?',
   fProb:'Problem description and differences vs. current process',fCtx:'Context (why?)',fFac:'Facility / process type',fWow:'Follows the WOW standard?',
@@ -192,7 +211,7 @@ var I18N = {
   tech:'Tech',notech:'Non-tech',local:'Local',regional:'Regional',bottleneck:'Bottleneck:',none:'no data',
   repTitle:'Local Initiatives · Summary',repFunnel:'Funnel',repInsight:'Insight',repBy:'Breakdown',errLoad:'Could not load the data file',errHelp:'Check that data/iniciativas/iniciativas_locales.xlsx exists with an "Iniciativas" sheet. If it persists, contact Larry Beresford Díaz.',
   t12:'Registration → Management',t23:'Management → Local table',t34:'Local table → Project',drops:'Deprioritized',projects:'are now projects'},
- pt:{kicker:'Rotinas de Gestão | OE MLM',cvL1:'Iniciativas',cvL2:'Locais',generated:'Gerado em',repExec:'Resumo executivo',repExecSub:'Status do fluxo de iniciativas locais',repFlow:'Fluxo de iniciativas locais',ofPrev:'da etapa anterior',repDetail:'Iniciativas em destaque',colName:'Iniciativa',colStatus:'Status',more:'iniciativas a mais no quadro',printHint:'Na janela de impressão escolha "Salvar como PDF" e ative "Gráficos de plano de fundo".',title:'Iniciativas Locais',sub:'Registro e acompanhamento · OE MLM',tabReg:'Registrar',tabDash:'Dashboard',tabRep:'Relatório',
+ pt:{kickerPort:'Portfólio de Projetos | OE MLM',cvRep:'Relatório',repReg:'Portfólio regional',repLoc:'Portfólio local',totReg:'Total de iniciativas regionais',totLoc:'Total de iniciativas locais',clPri:'Priorizadas',clTen:'Tentativas',clDes:'Despriorizadas',hStatus:'Status de execução',hByTeam:'Por equipe e status',hByTeam2:'Por equipe geradora',hByType:'Por tipo de iniciativa',hByStatus:'Por status atual',top3:'Top 3 focais OE',top3sub:'geradores de iniciativas',genN:'iniciativas geradas',repGen:'Geração de iniciativas',repProj:'Projetos locais',projN:'projetos locais',hAxis:'Criação no Meli Axis',axYes:'Criados no Meli Axis',axNo:'Não criados',axNote:'{a} projetos ainda não criados no Meli Axis · {b} em backlog',repMain:'Principais projetos locais',avance:'Avanço',dolor:'Dor',solucion:'Solução',beneficios:'Benefícios',hlDone:'{a} de {n} iniciativas ({p}%) foram finalizadas.',hlQ4:'{a} de {n} ({p}%) continuarão no próximo trimestre.',hlBk:'{a} de {n} ({p}%) seguem em backlog ou paradas.',hlEq:'A equipe {e} tem {n} iniciativas; {d} finalizadas ({p}%).',allTeams:'Todas as equipes',allQuarters:'Todos os trimestres',fFocal:'Focal CIE que registra',fEq:'Equipe',fTipoIni:'Tipo de iniciativa',fBen:'Benefícios quantitativos (KPI, impacto)',kicker:'Rotinas de Gestão | OE MLM',cvL1:'Iniciativas',cvL2:'Locais',generated:'Gerado em',repExec:'Resumo executivo',repExecSub:'Status do fluxo de iniciativas locais',repFlow:'Fluxo de iniciativas locais',ofPrev:'da etapa anterior',repDetail:'Iniciativas em destaque',colName:'Iniciativa',colStatus:'Status',more:'iniciativas a mais no quadro',printHint:'Na janela de impressão escolha "Salvar como PDF" e ative "Gráficos de plano de fundo".',title:'Iniciativas Locais',sub:'Registro e acompanhamento · OE MLM',tabReg:'Registrar',tabDash:'Dashboard',tabRep:'Relatório',
   s1:'1) Identificação geral',s2:'2) Problema e contexto operacional',s3:'3) Impacto e alcance regional',s4:'4) Proposta e documentação',
   fNombre:'Nome da iniciativa',fOwner:'Owner',fLider:'Líder / sponsor',fPais:'País',fSitio:'Site',fTech:'Melhoria tech ou não tech?',fTipo:'Melhoria contínua ou mudança estrutural?',
   fProb:'Descrição do problema e diferenças com o processo atual',fCtx:'Contexto (por quê?)',fFac:'Tipo de facility / processo',fWow:'Segue o padrão WOW?',
@@ -281,7 +300,7 @@ fetch(DATA_FILE).then(function(r){
 
 function uniq(key){ var s = {}; D.rows.forEach(function(r){ if(r[key] !== '') s[r[key]] = 1; }); return Object.keys(s).sort(); }
 function fillFilters(keep){
-  var sels = {fSite:['sitio', t('allSites')], fPais:['pais', t('allCountries')]};
+  var sels = {fSite:['sitio', t('allSites')], fPais:['pais', t('allCountries')], fQ:['trimestre', t('allQuarters')], fEq:['equipo', t('allTeams')]};
   Object.keys(sels).forEach(function(id){
     var el = document.getElementById(id), cur = keep ? el.value : '';
     el.innerHTML = '<option value="">' + sels[id][1] + '</option>' + uniq(sels[id][0]).map(function(v){ return '<option>' + v + '</option>'; }).join('');
@@ -296,9 +315,10 @@ function fillFilters(keep){
   var demo = document.getElementById('demoBar');
   if(String(D.info.demo).toUpperCase() === 'SI'){ demo.style.display = 'block'; demo.textContent = t('demoBanner'); } else demo.style.display = 'none';
 }
-function filtered(){
-  var s = document.getElementById('fSite').value, p = document.getElementById('fPais').value, y = document.getElementById('fYear').value;
-  return D.rows.filter(function(r){ return (!s || r.sitio === s) && (!p || r.pais === p) && (!y || (r._reg && String(r._reg.getFullYear()) === y)); });
+function filtered(o){
+  o = o || {};
+  var s = document.getElementById('fSite').value, p = document.getElementById('fPais').value, y = document.getElementById('fYear').value, q = document.getElementById('fQ').value, e = document.getElementById('fEq').value;
+  return D.rows.filter(function(r){ return (o.regional || !isReg(r)) && (!s || r.sitio === s) && (!p || r.pais === p) && (!y || (r._reg && String(r._reg.getFullYear()) === y)) && (o.ignoreQ || !q || r.trimestre === q) && (!e || r.equipo === e); });
 }
 
 // ── MÉTRICAS ────────────────────────────────────────────────────
@@ -338,7 +358,7 @@ function timesBars(m){
 function bottleneckText(m){ return m.bott ? t('bottleneck') + ' ' + t(m.bott[0]) + ' (' + fmt(m.bott[1]) + ' d)' : ''; }
 
 function render(){
-  var rows = filtered(), m = metrics(rows);
+  var rows = filtered({}), m = metrics(rows);
   document.getElementById('dashContent').innerHTML =
    '<div class="kpis">' +
     '<div class="kpi"><b>' + m.n + '</b><span>' + t('kTotal') + '</span></div>' +
@@ -349,70 +369,125 @@ function render(){
    '<div class="g2"><div class="card"><h3>' + t('hOkr') + '</h3>' + bars(m.okr) + '</div>' +
    '<div class="card"><h3>' + t('hPrio') + '</h3>' + bars(m.prio) + '<div class="note">' + t('tech') + ' ' + pct(m.tech, 'Tech', m.n) + ' · ' + t('notech') + ' ' + pct(m.tech, 'No tech', m.n) + ' · ' + t('local') + ' ' + pct(m.alc, 'Local', m.n) + ' · ' + t('regional') + ' ' + pct(m.alc, 'Regional', m.n) + '</div></div></div>' +
    '<div class="card"><h3>' + t('hTimes') + '</h3>' + timesBars(m) + '<div class="note">' + bottleneckText(m) + '</div></div>';
-  renderReport(rows, m);
+  renderReport();
 }
 function pct(list, key, n){ var f = list.filter(function(x){ return x[0] === key; })[0]; return n && f ? Math.round(100 * f[1] / n) + '%' : '0%'; }
 
+// ── REPORTE tipo "Reporte Portafolio de Proyectos" (estructura del deck de Mónica) ──
+var ESTS = [['Done','#FFD001'],['Carry on Q4','#F59E0B'],['On hold','#1A1A1A'],['Q1 2027','#9CA3AF'],['Backlog','#D9D9D9'],['Cancelado','#6B6B6B']];
+var EQUIPOS = ['FM+XD+SC','SVC+LM','Gestión','Otro'];
 function esc(x){ return String(x == null ? '' : x).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
-function rbars(list){
-  if(!list.length) return '<div style="font-size:15px;color:#767676">' + t('none') + '</div>';
-  var mx = Math.max.apply(null, list.map(function(x){ return x[1]; })) || 1;
-  return list.map(function(x){ return '<div class="rb"><em>' + esc(x[0]) + '</em><div class="tr"><i style="width:' + (100 * x[1] / mx) + '%"></i></div><s>' + x[1] + '</s></div>'; }).join('');
+function ek(r){ var v = String(r.estatus_ejec || '').trim() || 'Backlog'; var f = ESTS.filter(function(x){ return x[0].toLowerCase() === v.toLowerCase(); })[0]; return f ? f[0] : v; }
+function eqOf(r){ return String(r.equipo || '').trim() || 'Otro'; }
+function isReg(r){ return String(r.ambito || '').toLowerCase() === 'regional'; }
+function orderedEquipos(rows){ var s = {}; rows.forEach(function(r){ s[eqOf(r)] = 1; }); var out = EQUIPOS.filter(function(e){ return s[e]; }); Object.keys(s).forEach(function(e){ if(out.indexOf(e) < 0) out.push(e); }); return out; }
+function groupCount(rows, fn){ var o = {}; rows.forEach(function(r){ var k = fn(r); o[k] = (o[k] || 0) + 1; }); return o; }
+function pc(a, n){ return n ? Math.round(100 * a / n) : 0; }
+function tf(key, o){ return t(key).replace(/\{(\w+)\}/g, function(_, k){ return o[k] != null ? o[k] : ''; }); }
+function clip(s, n){ s = String(s || '').trim(); return s.length > n ? s.slice(0, n - 1) + '…' : s; }
+function donutSeg(segs, size){
+  var tot = segs.reduce(function(s, x){ return s + x.val; }, 0) || 1, acc = 0, parts = [];
+  segs.forEach(function(x){ if(!x.val) return; var a = acc / tot * 100; acc += x.val; parts.push(x.color + ' ' + a + '% ' + (acc / tot * 100) + '%'); });
+  var bg = parts.length ? 'conic-gradient(' + parts.join(',') + ')' : '#e5e5e5';
+  var lg = segs.filter(function(x){ return x.val; }).map(function(x){ return '<div><span class="dt" style="background:' + x.color + '"></span>' + esc(x.label) + ' <b>' + pc(x.val, tot) + '%</b> <span style="color:#767676">(' + x.val + ')</span></div>'; }).join('');
+  return '<div class="dn2"><div class="ring" style="width:' + size + 'px;height:' + size + 'px;background:' + bg + '"></div><div class="lg2">' + lg + '</div></div>';
 }
-function donut(list, keyA, labA, labB, n){
-  var a = list.filter(function(x){ return x[0] === keyA; })[0], va = a ? a[1] : 0, pa = n ? Math.round(100 * va / n) : 0;
-  return '<div class="dn"><div class="ring" style="background:conic-gradient(#FFD001 0 ' + pa + '%,#1A1A1A ' + pa + '% 100%)"></div><div class="lg"><span class="dt" style="background:#FFD001"></span>' + labA + ' <b>' + pa + '%</b><br><span class="dt" style="background:#1A1A1A"></span>' + labB + ' <b>' + (n ? 100 - pa : 0) + '%</b></div></div>';
-}
-function slideShell(cls, title, sub, body, n, scope, extra){
-  return '<div class="sl-box"><div class="sl ' + cls + '"><div class="top"><b>' + t('kicker') + '</b></div><div class="wow">W<i>o</i>W</div>' +
-    (title ? '<h2>' + title + '</h2>' : '') + (sub ? '<div class="sub">' + sub + '</div>' : '') + (extra || '') +
-    '<div class="body">' + body + '</div><div class="foot"><span>' + esc(scope) + '</span><span>' + n + ' / 6</span></div></div></div>';
-}
-function renderReport(rows, m){
-  var site = document.getElementById('fSite').value || t('allSites'), pais = document.getElementById('fPais').value || t('allCountries'), yr = document.getElementById('fYear').value || t('allYears');
-  var scope = site + ' · ' + pais + ' · ' + yr + (String(D.info.demo).toUpperCase() === 'SI' ? ' · DEMO' : '');
-  var today = new Date().toLocaleDateString(LANG === 'en' ? 'en-US' : (LANG === 'pt' ? 'pt-BR' : 'es-MX'), {day:'numeric', month:'long', year:'numeric'});
+function estSegs(rows){ var g = groupCount(rows, ek); return ESTS.map(function(x){ return {label: x[0], val: g[x[0]] || 0, color: x[1]}; }); }
+function stackedByEquipo(rows){
   var h = '';
-  // 1 Portada
-  h += '<div class="sl-box"><div class="sl g"><div class="top"><b>' + t('kicker') + '</b></div><div class="wow">W<i>o</i>W</div>' +
-    '<div class="cv-kick">' + t('kicker') + '</div><div class="cv-title">' + t('cvL1') + '<br><span class="cv-pill">' + t('cvL2') + '</span></div>' +
-    '<div class="cv-meta">' + esc(scope) + '<br>' + t('generated') + ' ' + today + '<br>' + t('updated') + ' ' + esc(D.info.actualizado || '—') + '</div>' +
-    '<div class="cv-circle"><b>' + m.n + '</b><span>' + t('kTotal') + '</span></div></div></div>';
-  // 2 Resumen ejecutivo
-  var ins = bottleneckText(m);
-  h += slideShell('', t('repExec'), t('repExecSub'),
-    '<div class="kp4"><div class="kp"><b>' + m.n + '</b><span>' + t('kTotal') + '</span></div><div class="kp"><b>' + m.s4 + '</b><span>' + t('projects') + '</span></div>' +
-    '<div class="kp"><b>' + (m.apr == null ? '—' : m.apr + '%') + '</b><span>' + t('kApr') + '</span></div><div class="kp"><b>' + fmt(m.total) + '</b><span>' + t('kDays') + '</span></div></div>' +
-    '<div class="insight">' + (ins ? ins : '') + (m.reg ? (ins ? ' · ' : '') + m.reg + ' ' + t('kReg').toLowerCase() : '') + '</div>', 2, scope);
-  // 3 Flujo
-  var st = [[m.s1, 'st1'], [m.s2, 'st2'], [m.s3, 'st3'], [m.s4, 'st4']];
-  var pills = st.map(function(x, i){
-    var conv = i === 0 ? '' : (st[i - 1][0] ? Math.round(100 * x[0] / st[i - 1][0]) + '% ' + t('ofPrev') : '—');
-    return '<div class="pl"><div class="n">0' + (i + 1) + '.</div><div class="tt">' + t(x[1]) + '</div><div class="ct">' + x[0] + '</div><div class="cv">' + conv + '</div></div>';
-  }).join('');
-  h += slideShell('y', t('repFlow'), '', '<div style="position:absolute;inset:0 0 84px 0"><div class="pills">' + pills + '</div></div>' +
-    '<div class="band"><b>' + m.desp + '</b> ' + t('hDesp').toLowerCase() + '</div>', 3, scope);
-  // 4 Distribución
-  h += slideShell('', t('repBy'), '',
-    '<div class="cols3"><div class="pc"><h4>' + t('hOkr') + '</h4>' + rbars(m.okr) + '</div><div class="pc"><h4>' + t('hPrio') + '</h4>' + rbars(m.prio) + '</div>' +
-    '<div class="pc"><h4>' + t('hType') + '</h4>' + donut(m.tech, 'Tech', t('tech'), t('notech'), m.n) + donut(m.alc, 'Local', t('local'), t('regional'), m.n) + '</div></div>', 4, scope);
-  // 5 Tiempos
-  var tl = [['t12', m.t12], ['t23', m.t23], ['t34', m.t34]], mx = Math.max.apply(null, tl.map(function(x){ return x[1] || 0; })) || 1;
-  h += slideShell('', t('hTimes'), '',
-    tl.map(function(x){ var hot = m.bott && m.bott[0] === x[0]; return '<div class="tm"><div class="lb">' + t(x[0]) + '</div><div class="tk"><div class="fl' + (hot ? ' hot' : '') + '" style="width:' + Math.max(12, 100 * (x[1] || 0) / mx) + '%">' + fmt(x[1]) + ' d</div></div></div>'; }).join('') +
-    '<div class="insight" style="margin-top:34px">' + (ins ? ins : '—') + '</div>', 5, scope);
-  // 6 Detalle
-  var po = {'must':0,'should':1,'nice to have':2,'no priorizada':3};
-  var top = rows.filter(function(r){ return !r._desp; }).sort(function(a, b){
-    var pa = po[String(a.prioridad).toLowerCase()], pb = po[String(b.prioridad).toLowerCase()];
-    return ((pa == null ? 9 : pa) - (pb == null ? 9 : pb)) || ((b._reg || 0) - (a._reg || 0));
+  orderedEquipos(rows).forEach(function(e){
+    var rr = rows.filter(function(r){ return eqOf(r) === e; }), n = rr.length, g = groupCount(rr, ek);
+    h += '<div class="sb"><em>' + esc(e) + ' <small>(' + n + ')</small></em><div class="sbt">' + ESTS.filter(function(x){ return g[x[0]]; }).map(function(x){
+      var v = g[x[0]], dark = (x[1] === '#1A1A1A' || x[1] === '#6B6B6B');
+      return '<i style="width:' + (100 * v / n) + '%;background:' + x[1] + ';color:' + (dark ? '#fff' : '#1A1A1A') + '">' + (v / n >= 0.08 ? v : '') + '</i>';
+    }).join('') + '</div></div>';
   });
-  var shown = top.slice(0, 7);
-  h += slideShell('', t('repDetail'), '',
-    '<table class="dt2"><tr><th>' + t('colName') + '</th><th>' + t('fSitio') + '</th><th>' + t('fOwner') + '</th><th>OKR</th><th>' + t('colStatus') + '</th><th>' + t('fPrio') + '</th></tr>' +
-    shown.map(function(r){ return '<tr><td>' + esc(r.nombre) + '</td><td>' + esc(r.sitio) + '</td><td>' + esc(r.owner) + '</td><td>' + esc(r.okr) + '</td><td>' + esc(r.estatus) + '</td><td><span class="chip' + (String(r.prioridad).toLowerCase() === 'must' ? '' : ' l') + '">' + esc(r.prioridad) + '</span></td></tr>'; }).join('') + '</table>' +
-    (top.length > shown.length ? '<div style="font-size:14px;color:#767676;margin-top:6px">+ ' + (top.length - shown.length) + ' ' + t('more') + '</div>' : ''), 6, scope);
-  document.getElementById('repContent').innerHTML = h;
+  return h + '<div class="sbl">' + ESTS.map(function(x){ return '<span><span class="dt" style="background:' + x[1] + '"></span>' + x[0] + '</span>'; }).join('') + '</div>';
+}
+function hlList(items){ return '<ul class="hl" contenteditable="true" spellcheck="false">' + items.map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul>'; }
+function portfolioHl(rows){
+  var n = rows.length, g = groupCount(rows, ek), done = g['Done'] || 0, q4 = g['Carry on Q4'] || 0, bk = (g['Backlog'] || 0) + (g['On hold'] || 0);
+  var items = [tf('hlDone', {a: done, n: n, p: pc(done, n)}), tf('hlQ4', {a: q4, n: n, p: pc(q4, n)}), tf('hlBk', {a: bk, n: n, p: pc(bk, n)})];
+  orderedEquipos(rows).map(function(e){ var rr = rows.filter(function(r){ return eqOf(r) === e; }); return {e: e, n: rr.length, d: rr.filter(function(r){ return ek(r) === 'Done'; }).length}; })
+    .sort(function(a, b){ return b.n - a.n; }).slice(0, 2).forEach(function(x){ items.push(tf('hlEq', {e: esc(x.e), n: x.n, d: x.d, p: pc(x.d, x.n)})); });
+  return hlList(items);
+}
+function qKey(s){ var m = /Q(\d)\s*(\d{4})/i.exec(String(s || '')); return m ? (+m[2]) * 10 + (+m[1]) : 0; }
+function latestQ(rows){ var best = '', bk = 0; rows.forEach(function(r){ var k = qKey(r.trimestre); if(k > bk){ bk = k; best = r.trimestre; } }); return best; }
+function monthYear(){
+  if(D.info.periodo && LANG === 'es') return D.info.periodo;
+  return new Date().toLocaleDateString(LANG === 'en' ? 'en-US' : (LANG === 'pt' ? 'pt-BR' : 'es-MX'), {month: 'long', year: 'numeric'}).replace(/^./, function(c){ return c.toUpperCase(); });
+}
+function shell(cls, title, body, scope){
+  return '<div class="sl-box"><div class="sl ' + cls + '"><div class="top"><b>' + t('kicker') + '</b></div><div class="wow">W<i>o</i>W</div>' +
+    (title ? '<h2>' + title + '</h2>' : '') + '<div class="body">' + body + '</div><div class="foot"><span>' + esc(scope) + '</span><span>@@N@@ / @@T@@</span></div></div></div>';
+}
+function formula(total, label, parts){
+  return '<div class="fm"><div class="tot"><small>' + label + '</small><b>' + total + '</b></div><div class="op" style="margin:0 -2px">=</div>' +
+    parts.map(function(p, i){ return (i ? '<div class="op">+</div>' : '') + '<div class="fk"><small>' + esc(p[0]) + '</small><b>' + p[1] + '</b></div>'; }).join('') + '</div>';
+}
+function renderReport(){
+  var rowsAll = filtered({regional: true}), loc = rowsAll.filter(function(r){ return !isReg(r); }), reg = rowsAll.filter(isReg);
+  var flow = filtered({}), m = metrics(flow);
+  var site = document.getElementById('fSite').value || t('allSites'), pais = document.getElementById('fPais').value || t('allCountries');
+  var qv = document.getElementById('fQ').value, qSel = qv || latestQ(filtered({regional: true, ignoreQ: true}));
+  var scope = site + ' · ' + pais + ' · ' + (qv || t('allQuarters')) + (String(D.info.demo).toUpperCase() === 'SI' ? ' · DEMO' : '');
+  var S = [];
+  // Portada
+  S.push('<div class="sl-box"><div class="sl g"><div class="top"><b>' + t('kicker') + '</b></div><div class="wow">W<i>o</i>W</div>' +
+    '<div class="cv-kick">' + t('kickerPort') + '</div><div class="cv-title">' + t('cvRep') + '<br><span class="cv-pill" style="font-size:54px">' + esc(monthYear()) + '</span></div>' +
+    '<div class="cv-meta">' + esc(scope) + '<br>' + t('updated') + ' ' + esc(D.info.actualizado || '—') + '</div>' +
+    '<div class="cv-circle"><b>' + rowsAll.length + '</b><span>' + t('kTotal') + '</span></div></div></div>');
+  // Portafolio regional
+  if(reg.length){
+    var cl = groupCount(reg, function(r){ return String(r.clasificacion || '').trim().toLowerCase(); });
+    S.push(shell('t', t('repReg') + ' · ' + esc(qv || t('allQuarters')),
+      formula(reg.length, t('totReg'), [[t('clPri'), cl['priorizada'] || 0], [t('clTen'), cl['tentativa'] || 0], [t('clDes'), cl['despriorizada'] || 0]]) +
+      '<div class="pn2"><div class="pbox"><h4>' + t('hStatus') + '</h4>' + donutSeg(estSegs(reg), 120) + '</div><div class="pbox"><h4>' + t('hByTeam') + '</h4>' + stackedByEquipo(reg) + '</div></div>' + portfolioHl(reg), scope));
+  }
+  // Portafolio local
+  var eqL = orderedEquipos(loc);
+  S.push(shell('t', t('repLoc') + ' · ' + esc(qv || t('allQuarters')),
+    formula(loc.length, t('totLoc'), eqL.slice(0, 4).map(function(e){ return [e, loc.filter(function(r){ return eqOf(r) === e; }).length]; })) +
+    '<div class="pn2"><div class="pbox"><h4>' + t('hStatus') + '</h4>' + donutSeg(estSegs(loc), 120) + '</div><div class="pbox"><h4>' + t('hByTeam') + '</h4>' + stackedByEquipo(loc) + '</div></div>' + portfolioHl(loc), scope));
+  // Generación de iniciativas en el trimestre
+  var gen = filtered({regional: true, ignoreQ: true}).filter(function(r){ return !qSel || r.trimestre === qSel; });
+  var gt = groupCount(gen, function(r){ return String(r.tipo_iniciativa || 'Proyecto'); }), ge = groupCount(gen, eqOf);
+  var gs = groupCount(gen, function(r){ return ek(r); });
+  var fo = {}; gen.forEach(function(r){ var f = String(r.focal || r.owner || '').trim(); if(f) fo[f] = (fo[f] || 0) + 1; });
+  var top3 = Object.keys(fo).map(function(k){ return [k, fo[k]]; }).sort(function(a, b){ return b[1] - a[1]; }).slice(0, 3);
+  var order = top3.length === 3 ? [top3[1], top3[0], top3[2]] : top3, hts = top3.length === 3 ? [110, 150, 80] : [150, 120, 90], cols = top3.length === 3 ? ['#C9C9C9', '#FFD001', '#B08D57'] : ['#FFD001', '#C9C9C9', '#B08D57'];
+  var gbars = function(o){ var k = Object.keys(o).sort(function(a, b){ return o[b] - o[a]; }), mx = Math.max.apply(null, k.map(function(x){ return o[x]; })) || 1;
+    return k.map(function(x){ return '<div class="rb"><em style="min-width:100px;font-size:14px">' + esc(x) + '</em><div class="tr"><i style="width:' + (100 * o[x] / mx) + '%;background:#1A1A1A"></i></div><s>' + o[x] + '</s></div>'; }).join(''); };
+  S.push(shell('t', t('repGen') + ' · ' + esc(qSel || '—'),
+    '<div class="gen4"><div class="big-c"><b>' + gen.length + '</b><span>' + t('genN') + '</span></div>' +
+    '<div class="pbox"><h4>' + t('hByType') + '</h4>' + donutSeg(Object.keys(gt).map(function(k, i){ return {label: k, val: gt[k], color: i ? '#1A1A1A' : '#FFD001'}; }), 96) + '</div>' +
+    '<div class="pbox"><h4>' + t('hByTeam2') + '</h4>' + gbars(ge) + '</div><div class="pbox"><h4>' + t('hByStatus') + '</h4>' + gbars(gs) + '</div></div>' +
+    '<div style="margin-top:14px;font-weight:800;font-size:20px">' + t('top3') + ' <span style="font-weight:400;font-size:13px;color:#767676">· ' + t('top3sub') + '</span></div>' +
+    '<div class="pod">' + order.map(function(x, i){ return '<div style="height:' + hts[i] + 'px;background:' + cols[i] + '">' + x[1] + '<small>' + esc(x[0]) + '</small></div>'; }).join('') + '</div>', scope));
+  // Proyectos locales
+  var axSi = loc.filter(function(r){ return String(r.meli_axis || '').toLowerCase().indexOf('s') === 0; }).length, bkl = loc.filter(function(r){ return ek(r) === 'Backlog'; }).length;
+  S.push(shell('t', t('repProj') + ' · ' + esc(qv || t('allQuarters')),
+    '<div style="display:flex;gap:22px;align-items:flex-start"><div class="big-c"><b>' + loc.length + '</b><span>' + t('projN') + '</span></div>' +
+    '<div class="pbox" style="width:300px"><h4>' + t('hAxis') + '</h4>' + donutSeg([{label: t('axYes'), val: axSi, color: '#FFD001'}, {label: t('axNo'), val: loc.length - axSi, color: '#1A1A1A'}], 110) +
+    '<div style="font-size:13px;margin-top:10px;color:#444">' + tf('axNote', {a: loc.length - axSi, b: bkl}) + '</div></div>' +
+    '<div class="pbox" style="flex:1"><h4>' + t('hByTeam') + '</h4>' + stackedByEquipo(loc) + '</div></div>' + portfolioHl(loc), scope));
+  // Principales proyectos
+  var cand = loc.filter(function(r){ return String(r.meli_axis || '').toLowerCase().indexOf('s') === 0 && +r.avance > 0; }).sort(function(a, b){ return (+b.avance) - (+a.avance); }).slice(0, 3);
+  if(cand.length) S.push(shell('t', t('repMain') + ' ' + esc(qSel || ''),
+    '<div class="pr3">' + cand.map(function(r, i){ return '<div class="pcard"><h5>' + (i + 1) + '. ' + esc(r.nombre) + '</h5><div class="own">' + esc(r.focal || r.owner) + ' · ' + esc(r.sitio) + '</div><div class="av">' + t('avance') + ': ' + (+r.avance) + '%</div>' +
+      '<p><b>' + t('dolor') + ':</b> ' + esc(clip(r.problema, 210)) + '</p><p style="margin-top:6px"><b>' + t('solucion') + ':</b> ' + esc(clip(r.propuesta, 170)) + '</p><p style="margin-top:6px"><b>' + t('beneficios') + ':</b> ' + esc(clip(r.beneficios, 170)) + '</p></div>'; }).join('') + '</div>', scope));
+  // Flujo + tiempos (embudo propio del Hub)
+  var st = [[m.s1, 'st1'], [m.s2, 'st2'], [m.s3, 'st3'], [m.s4, 'st4']];
+  S.push(shell('y', t('repFlow'), '<div style="position:absolute;inset:0 0 84px 0"><div class="pills">' + st.map(function(x, i){
+      var conv = i === 0 ? '' : (st[i - 1][0] ? pc(x[0], st[i - 1][0]) + '% ' + t('ofPrev') : '—');
+      return '<div class="pl"><div class="n">0' + (i + 1) + '.</div><div class="tt">' + t(x[1]) + '</div><div class="ct">' + x[0] + '</div><div class="cv">' + conv + '</div></div>'; }).join('') +
+    '</div></div><div class="band"><b>' + m.desp + '</b> ' + t('hDesp').toLowerCase() + '</div>', scope));
+  var tl = [['t12', m.t12], ['t23', m.t23], ['t34', m.t34]], mx = Math.max.apply(null, tl.map(function(x){ return x[1] || 0; })) || 1, ins = bottleneckText(m);
+  S.push(shell('t', t('hTimes'), tl.map(function(x){ var hot = m.bott && m.bott[0] === x[0]; return '<div class="tm"><div class="lb">' + t(x[0]) + '</div><div class="tk"><div class="fl' + (hot ? ' hot' : '') + '" style="width:' + Math.max(12, 100 * (x[1] || 0) / mx) + '%">' + fmt(x[1]) + ' d</div></div></div>'; }).join('') +
+    '<div class="insight" style="margin-top:30px">' + (ins || '—') + '</div>', scope));
+  var total = S.length;
+  document.getElementById('repContent').innerHTML = S.map(function(h, i){ return h.replace('@@N@@', i + 1).replace('@@T@@', total); }).join('');
   fitSlides();
 }
 function fitSlides(){
