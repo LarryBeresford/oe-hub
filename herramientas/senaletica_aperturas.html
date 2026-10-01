@@ -208,6 +208,50 @@ table.cart-table tr:last-child td { border-bottom:none; }
 .sembrado-board.locked .sembrado-pin-remove { display:none; }
 .sembrado-actions { display:flex; justify-content:space-between; align-items:center; margin-top:14px; gap:10px; flex-wrap:wrap; }
 .sembrado-lock-msg { font-size:11px; color:var(--green); font-weight:700; }
+
+.sembrado-tray-search { width:100%; border:1px solid #DDD; border-radius:6px; padding:6px 8px; font-size:11px; margin-bottom:8px; font-family:var(--font); }
+.sembrado-tray-note { font-size:10px; color:#A67C00; background:#FFF8E0; border:1px solid #FFE49A; border-radius:6px; padding:6px 8px; margin-bottom:8px; line-height:1.35; }
+.sembrado-tray-item { position:relative; padding-right:26px; }
+.sembrado-tray-stamp { position:absolute; top:5px; right:5px; width:18px; height:18px; border:1px solid #DDD; background:#FFF; border-radius:4px; font-size:10px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#666; }
+.sembrado-tray-stamp:hover { border-color:var(--yellow); color:#000; }
+
+.sembrado-zoom-row { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+.sembrado-zoom-row button { width:26px; height:26px; border:1px solid #DDD; background:#FFF; border-radius:5px; font-size:14px; font-weight:800; cursor:pointer; color:#444; }
+.sembrado-zoom-row button:hover { border-color:var(--yellow); }
+.sembrado-zoom-row .lbl { font-size:11px; font-weight:700; color:#666; min-width:40px; text-align:center; }
+.sembrado-board-scroll { overflow:auto; max-height:640px; border-radius:8px; }
+
+.sembrado-pin-stamp { position:absolute; top:-6px; left:-6px; width:16px; height:16px; border-radius:50%; background:#FFF; border:1px solid var(--yellow); color:#8A6D00; font-size:9px; line-height:16px; text-align:center; cursor:pointer; }
+.sembrado-board.locked .sembrado-pin-stamp { display:none; }
+
+.sembrado-stamp-bar { display:none; align-items:center; gap:10px; background:#FFF8E0; border:1px solid #FFE49A; border-radius:7px; padding:8px 12px; margin-bottom:10px; font-size:11.5px; color:#8A6D00; font-weight:700; }
+.sembrado-stamp-bar button { margin-left:auto; }
+
+.sembrado-count-panel { margin-top:14px; border-top:1px solid #EEE; padding-top:10px; }
+.sembrado-count-total { font-size:11.5px; font-weight:800; color:#222; margin-bottom:6px; }
+.sembrado-count-row { display:flex; justify-content:space-between; font-size:11px; color:#444; padding:3px 0; border-bottom:1px dashed #EEE; }
+.sembrado-count-row .n { font-weight:800; color:#8A6D00; }
+.sembrado-count-empty { font-size:11px; color:#AAA; }
+
+/* ── EXPANSIONES · LANDING (3 flujos) ── */
+.exp-landing { max-width:920px; margin:0 auto; padding:40px 22px; }
+.exp-landing h2 { font-size:18px; font-weight:800; color:#111; margin-bottom:6px; }
+.exp-landing .sub { font-size:12px; color:#777; margin-bottom:26px; }
+.exp-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+@media (max-width:760px) { .exp-cards { grid-template-columns:1fr; } }
+.exp-card { background:#FFF; border:1px solid #E2E2E2; border-radius:12px; padding:20px; cursor:pointer; text-align:left; transition:border-color .15s, transform .15s; }
+.exp-card:hover { border-color:var(--yellow); transform:translateY(-2px); }
+.exp-card .ico { font-size:26px; margin-bottom:10px; }
+.exp-card h3 { font-size:13.5px; font-weight:800; color:#111; margin-bottom:6px; }
+.exp-card p { font-size:11px; color:#777; line-height:1.4; }
+.exp-card.disabled { cursor:default; opacity:0.75; }
+.exp-card .tag { display:inline-block; margin-top:8px; font-size:9.5px; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; padding:3px 8px; border-radius:10px; background:#FFF3B0; color:#8A6D00; }
+.exp-back { display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:700; color:#777; cursor:pointer; padding:10px 20px 0; }
+.exp-back:hover { color:#000; }
+.exp-nodos-placeholder { max-width:680px; margin:40px auto; text-align:center; background:#FFF; border:1px solid #E2E2E2; border-radius:12px; padding:36px 26px; }
+.exp-nodos-placeholder .ico { font-size:34px; margin-bottom:12px; }
+.exp-nodos-placeholder h2 { font-size:15px; font-weight:800; color:#111; margin-bottom:8px; }
+.exp-nodos-placeholder p { font-size:12px; color:#777; line-height:1.5; }
 </style>
 </head>
 <body>
@@ -221,19 +265,43 @@ table.cart-table tr:last-child td { border-bottom:none; }
   </div>
 </div>
 
-<div class="wizard-bar">
-  <div class="wizard-step active" id="wzStep1" data-step="1" onclick="goStep(1)"><span class="wz-num">1</span><span class="wz-lbl">Datos del sitio</span></div>
+<div class="wizard-bar" id="wizardBarMain" style="display:none">
+  <div class="wizard-step" id="wzStep1" data-step="1" onclick="goStep(1)"><span class="wz-num">1</span><span class="wz-lbl">Datos del sitio</span></div>
   <div class="wizard-line"></div>
   <div class="wizard-step" id="wzStep2" data-step="2" onclick="goStep(2)"><span class="wz-num">2</span><span class="wz-lbl">Artículos</span></div>
   <div class="wizard-line"></div>
   <div class="wizard-step" id="wzStep3" data-step="3" onclick="goStep(3)"><span class="wz-num">3</span><span class="wz-lbl">Vista previa</span></div>
-  <div class="wizard-line"></div>
-  <div class="wizard-step" id="wzStep4" data-step="4" onclick="goStep(4)"><span class="wz-num">4</span><span class="wz-lbl">Sembrado</span></div>
 </div>
 
 <div class="wizard-body" id="formPanel">
 
-  <div class="step-panel active" id="stepPanel1">
+  <div class="step-panel active" id="stepPanel0">
+    <div class="exp-landing">
+      <h2>Expansiones</h2>
+      <div class="sub">Elige qué quieres hacer — cada flujo funciona por su cuenta.</div>
+      <div class="exp-cards">
+        <button class="exp-card" onclick="goStep(1)">
+          <div class="ico">📋</div>
+          <h3>Levantamientos y Señalética</h3>
+          <p>Captura los datos del sitio, elige los artículos y genera la orden de compra en Excel.</p>
+        </button>
+        <button class="exp-card" onclick="goStep(4)">
+          <div class="ico">🗺️</div>
+          <h3>Sembrado</h3>
+          <p>Sube el layout del sitio y coloca la señalética sobre el plano para armar la guía de instalación. No necesita que hayas llenado el levantamiento antes.</p>
+        </button>
+        <button class="exp-card disabled" onclick="goStep(5)">
+          <div class="ico">🌳</div>
+          <h3>Nodos Estándar y Árbol de Decisiones</h3>
+          <p>Identifica qué señalética se activa según las reglas de cada unidad de negocio.</p>
+          <span class="tag">Próximamente</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-panel" id="stepPanel1">
+    <div class="exp-back" onclick="goStep(0)">← Expansiones</div>
 
     <div class="form-section">
       <div class="form-section-title"><span class="ttl">Datos del sitio</span></div>
@@ -378,12 +446,13 @@ table.cart-table tr:last-child td { border-bottom:none; }
 
     <div class="wizard-nav">
       <button class="btn-secondary" onclick="goStep(2)">← Atrás</button>
-      <button class="btn-primary" onclick="goStep(4)">Siguiente: Sembrado →</button>
+      <button class="btn-primary" onclick="goStep(4)">Ir a Sembrado →</button>
     </div>
   </div>
   </div>
 
   <div class="step-panel step-panel-wide" id="stepPanel4">
+    <div class="exp-back" onclick="goStep(0)">← Expansiones</div>
     <div class="step2-hdr">
       <h2>Sembrado del layout</h2>
       <span class="sembrado-lock-msg" id="sembradoLockMsg" style="display:none">✓ Sembrado marcado como listo</span>
@@ -391,7 +460,11 @@ table.cart-table tr:last-child td { border-bottom:none; }
 
     <div class="sembrado-layout">
       <div class="sembrado-tray-wrap">
-        <div class="sembrado-tray-title">Artículos seleccionados</div>
+        <div class="sembrado-tray-title">Artículos</div>
+        <input type="text" class="sembrado-tray-search" id="sembradoTraySearch" placeholder="Buscar artículo..." oninput="renderSembradoTray()">
+        <label style="display:flex;align-items:center;gap:6px;font-size:10.5px;color:#666;margin-bottom:8px;">
+          <input type="checkbox" id="sembradoOnlyCart" onchange="renderSembradoTray()"> Solo lo seleccionado en el paso 2
+        </label>
         <div id="sembradoTray"></div>
       </div>
 
@@ -399,21 +472,43 @@ table.cart-table tr:last-child td { border-bottom:none; }
         <div class="sembrado-upload-row">
           <input type="file" id="sembradoUpload" accept="image/*,.pdf,application/pdf" onchange="onLayoutUpload(event)">
           <button class="btn-secondary" onclick="clearSembradoPins()">Limpiar pines</button>
-          <div class="fixed-note" style="margin:0;flex:1">Arrastra un artículo de la izquierda y suéltalo sobre el plano donde debe instalarse. Puedes repetir el mismo artículo varias veces.</div>
+          <div class="fixed-note" style="margin:0;flex:1">Arrastra un artículo de la izquierda y suéltalo sobre el plano donde debe instalarse, o usa "⧉" para colocar el mismo varias veces.</div>
         </div>
-        <div class="sembrado-board" id="sembradoBoard">
-          <div class="sembrado-board-empty" id="sembradoBoardEmpty">Sube el layout del sitio (JPG, PNG o PDF) para empezar a sembrar la señalética.</div>
+        <div class="sembrado-zoom-row">
+          <button onclick="zoomSembrado(-0.25)">−</button>
+          <span class="lbl" id="sembradoZoomLabel">100%</span>
+          <button onclick="zoomSembrado(0.25)">+</button>
+          <button onclick="zoomSembradoReset()" style="width:auto;padding:0 8px;font-size:10.5px;">Restablecer</button>
+        </div>
+        <div class="sembrado-stamp-bar" id="sembradoStampBar">
+          <span id="sembradoStampLabel">Colocando...</span>
+          <button class="btn-secondary" onclick="stopStampMode()">Terminar</button>
+        </div>
+        <div class="sembrado-board-scroll" id="sembradoBoardScroll">
+          <div class="sembrado-board" id="sembradoBoard">
+            <div class="sembrado-board-empty" id="sembradoBoardEmpty">Sube el layout del sitio (JPG, PNG o PDF) para empezar a sembrar la señalética.</div>
+          </div>
         </div>
         <div class="sembrado-actions">
           <button class="btn-secondary" id="btnSembradoLock" onclick="toggleSembradoLock()">Marcar como listo</button>
           <button class="btn-primary" onclick="exportSembradoPNG()">Descargar guía (PNG)</button>
         </div>
+        <div class="sembrado-count-panel" id="sembradoCountPanel"></div>
       </div>
     </div>
 
     <div class="wizard-nav">
-      <button class="btn-secondary" onclick="goStep(3)">← Atrás</button>
       <span></span>
+      <span></span>
+    </div>
+  </div>
+
+  <div class="step-panel" id="stepPanel5">
+    <div class="exp-back" onclick="goStep(0)">← Expansiones</div>
+    <div class="exp-nodos-placeholder">
+      <div class="ico">🌳</div>
+      <h2>Nodos Estándar y Árbol de Decisiones</h2>
+      <p>Este flujo está en definición junto con David: falta acordar qué es un "nodo" (tipo de zona o tipo de sitio) y las reglas de activación de señalética por unidad de negocio. En cuanto quede definido, aquí vivirá el árbol de decisiones paso a paso.</p>
     </div>
   </div>
 
@@ -2681,17 +2776,21 @@ function setImgSize(compact) {
 }
 
 function goStep(n) {
-  for (let i = 1; i <= 4; i++) {
+  for (let i = 0; i <= 5; i++) {
     const panel = document.getElementById('stepPanel' + i);
-    const ind = document.getElementById('wzStep' + i);
     if (panel) panel.classList.toggle('active', i === n);
+  }
+  for (let i = 1; i <= 3; i++) {
+    const ind = document.getElementById('wzStep' + i);
     if (ind) {
       ind.classList.toggle('active', i === n);
-      ind.classList.toggle('done', i < n);
+      ind.classList.toggle('done', i < n && n <= 3);
     }
   }
+  const bar = document.getElementById('wizardBarMain');
+  if (bar) bar.style.display = (n >= 1 && n <= 3) ? 'flex' : 'none';
   if (n === 3) renderCart();
-  if (n === 4) renderSembradoTray();
+  if (n === 4) { renderSembradoTray(); applySembradoZoom(); }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -3010,15 +3109,25 @@ function findItemById(id) {
 function renderSembradoTray() {
   const allItems = [...CATALOG.fijos, ...CATALOG.variables, ...CATALOG.opcionales];
   const selected = allItems.filter(it => cart[it.id].checked && cart[it.id].cantidad > 0);
+  const onlyCartEl = document.getElementById('sembradoOnlyCart');
+  const onlyCart = onlyCartEl ? onlyCartEl.checked : false;
+  let list = onlyCart ? selected : allItems;
+  const searchEl = document.getElementById('sembradoTraySearch');
+  const q = searchEl ? searchEl.value.trim().toLowerCase() : '';
+  if (q) list = list.filter(it => it.nombre.toLowerCase().includes(q));
   const tray = document.getElementById('sembradoTray');
-  if (!selected.length) {
-    tray.innerHTML = '<div class="sembrado-tray-empty">Aún no hay artículos seleccionados en el paso 2.</div>';
+  const note = onlyCart
+    ? ''
+    : '<div class="sembrado-tray-note">Mostrando el catálogo completo (135 artículos) — el Sembrado funciona sin depender del carrito. Marca la casilla de abajo para ver solo lo que seleccionaste en el paso 2.</div>';
+  if (!list.length) {
+    tray.innerHTML = note + '<div class="sembrado-tray-empty">Sin resultados.</div>';
     return;
   }
-  tray.innerHTML = selected.map(it => `
+  tray.innerHTML = note + list.map(it => `
     <div class="sembrado-tray-item" draggable="true" ondragstart="event.dataTransfer.setData('text/plain','new:${it.id}')" title="${it.nombre}">
       ${it.imagen ? `<img src="${it.imagen}" alt="${it.nombre}">` : ''}
       <span>${it.nombre}</span>
+      <button class="sembrado-tray-stamp" onclick="event.stopPropagation(); startStampMode('${it.id}')" title="Colocar varias veces">⧉</button>
     </div>`).join('');
 }
 
@@ -3113,11 +3222,63 @@ function renderSembradoPins() {
     el.title = it.nombre;
     el.innerHTML = `
       ${!sembradoLocked ? `<span class="sembrado-pin-remove" onclick="removePin('${pin.id}')">×</span>` : ''}
+      ${!sembradoLocked ? `<span class="sembrado-pin-stamp" onclick="event.stopPropagation(); startStampMode('${it.id}')" title="Colocar varias veces">⧉</span>` : ''}
       <div class="sembrado-pin-dot">${it.imagen ? `<img src="${it.imagen}" alt="${it.nombre}">` : ''}</div>
       <div class="sembrado-pin-label">${it.nombre}</div>`;
     el.addEventListener('dragstart', (e) => { e.dataTransfer.setData('text/plain', 'move:' + pin.id); });
     board.appendChild(el);
   });
+  renderSembradoCount();
+}
+
+function renderSembradoCount() {
+  const panel = document.getElementById('sembradoCountPanel');
+  if (!panel) return;
+  if (!sembradoPins.length) {
+    panel.innerHTML = '<div class="sembrado-count-empty">Aún no hay piezas sembradas.</div>';
+    return;
+  }
+  const counts = {};
+  sembradoPins.forEach(p => { counts[p.itemId] = (counts[p.itemId] || 0) + 1; });
+  const rows = Object.entries(counts)
+    .map(([id, n]) => ({ nombre: (findItemById(id) || {}).nombre || id, n }))
+    .sort((a, b) => b.n - a.n);
+  panel.innerHTML = `<div class="sembrado-count-total">Total piezas sembradas: <b>${sembradoPins.length}</b></div>` +
+    rows.map(r => `<div class="sembrado-count-row"><span>${r.nombre}</span><span class="n">${r.n}</span></div>`).join('');
+}
+
+let sembradoZoom = 1;
+function applySembradoZoom() {
+  const board = document.getElementById('sembradoBoard');
+  if (!board) return;
+  board.style.width = (sembradoZoom * 100) + '%';
+  const lbl = document.getElementById('sembradoZoomLabel');
+  if (lbl) lbl.textContent = Math.round(sembradoZoom * 100) + '%';
+}
+function zoomSembrado(delta) {
+  sembradoZoom = Math.max(0.5, Math.min(2.5, +(sembradoZoom + delta).toFixed(2)));
+  applySembradoZoom();
+}
+function zoomSembradoReset() {
+  sembradoZoom = 1;
+  applySembradoZoom();
+}
+
+let stampItemId = null;
+function startStampMode(itemId) {
+  if (sembradoLocked) return;
+  stampItemId = itemId;
+  const it = findItemById(itemId);
+  const bar = document.getElementById('sembradoStampBar');
+  const label = document.getElementById('sembradoStampLabel');
+  if (label) label.textContent = 'Colocando: ' + (it ? it.nombre : itemId) + ' — haz clic en el plano las veces que necesites.';
+  if (bar) bar.style.display = 'flex';
+  if (!layoutImg) showToast('Sube primero el layout del sitio para poder colocar piezas.');
+}
+function stopStampMode() {
+  stampItemId = null;
+  const bar = document.getElementById('sembradoStampBar');
+  if (bar) bar.style.display = 'none';
 }
 
 function initSembradoBoard() {
@@ -3136,10 +3297,20 @@ function initSembradoBoard() {
     if (action === 'new') addPin(refId, xPct, yPct);
     else if (action === 'move') movePin(refId, xPct, yPct);
   });
+  board.addEventListener('click', (e) => {
+    if (!stampItemId || sembradoLocked) return;
+    if (e.target.closest('.sembrado-pin')) return;
+    if (!layoutImg) { showToast('Primero sube el layout del sitio.'); return; }
+    const rect = board.getBoundingClientRect();
+    const xPct = ((e.clientX - rect.left) / rect.width) * 100;
+    const yPct = ((e.clientY - rect.top) / rect.height) * 100;
+    addPin(stampItemId, xPct, yPct);
+  });
 }
 
 function toggleSembradoLock() {
   sembradoLocked = !sembradoLocked;
+  if (sembradoLocked) stopStampMode();
   const board = document.getElementById('sembradoBoard');
   board.classList.toggle('locked', sembradoLocked);
   document.getElementById('btnSembradoLock').textContent = sembradoLocked ? 'Editar de nuevo' : 'Marcar como listo';
