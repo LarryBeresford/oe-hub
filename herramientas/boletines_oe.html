@@ -180,6 +180,15 @@ details .body div::before{content:'—';position:absolute;left:0;color:#CCC}
   .hist-actions .btn{flex:1}
 }
 </style>
+<style id="ux-polish-v2">
+/* UX/UI polish v2 (2026-10-01) -- solo presentacion; borrar este bloque revierte. */
+body { -webkit-font-smoothing: antialiased; }
+button, .btn-primary, .btn-secondary, .btn, .exp-card, select, input, textarea { transition: background .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease, transform .15s ease, opacity .15s ease; }
+button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:focus-visible { outline: 2px solid #FFD001; outline-offset: 2px; }
+button:active:not(:disabled) { transform: translateY(1px); }
+@media (pointer: coarse) { button, .btn-primary, .btn-secondary, .btn { min-height: 40px; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+</style>
 </head>
 <body>
 
@@ -848,7 +857,7 @@ async function migrarWorkbook(wb, log) {
 
 function migrarResultBoxHtml(archivo, total, log, blobUrl, nombreSalida) {
   var itemsHtml = log.map(function (item) {
-    var icono = item.ok ? (item.skip ? "⏭️" : "✅") : "⚠️";
+    var icono = item.ok ? (item.skip ? "–" : "✓") : "⚠";
     return '<div>' + icono + ' [' + escapeHtml(item.ident) + '] ' + escapeHtml(item.msg) + '</div>';
   }).join("");
   var cuerpoHtml = total > 0

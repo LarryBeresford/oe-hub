@@ -247,7 +247,7 @@ table.cart-table tr:last-child td { border-bottom:none; }
 @media (max-width:760px) { .exp-cards { grid-template-columns:1fr; } }
 .exp-card { background:#FFF; border:1px solid #E2E2E2; border-radius:12px; padding:20px; cursor:pointer; text-align:left; transition:border-color .15s, transform .15s; }
 .exp-card:hover { border-color:var(--yellow); transform:translateY(-2px); }
-.exp-card .ico { font-size:26px; margin-bottom:10px; }
+.exp-card .ico { color:#8A6D00; margin-bottom:12px; line-height:0; }
 .exp-card h3 { font-size:13.5px; font-weight:800; color:#111; margin-bottom:6px; }
 .exp-card p { font-size:11px; color:#777; line-height:1.4; }
 .exp-card.disabled { cursor:default; opacity:0.75; }
@@ -256,9 +256,18 @@ table.cart-table tr:last-child td { border-bottom:none; }
 .exp-back { display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:700; color:#777; cursor:pointer; padding:10px 20px 0; }
 .exp-back:hover { color:#000; }
 .exp-nodos-placeholder { max-width:680px; margin:40px auto; text-align:center; background:#FFF; border:1px solid #E2E2E2; border-radius:12px; padding:36px 26px; }
-.exp-nodos-placeholder .ico { font-size:34px; margin-bottom:12px; }
+.exp-nodos-placeholder .ico { color:#8A6D00; margin-bottom:14px; line-height:0; display:flex; justify-content:center; }
 .exp-nodos-placeholder h2 { font-size:15px; font-weight:800; color:#111; margin-bottom:8px; }
 .exp-nodos-placeholder p { font-size:12px; color:#777; line-height:1.5; }
+</style>
+<style id="ux-polish-v2">
+/* UX/UI polish v2 (2026-10-01) -- solo presentacion; borrar este bloque revierte. */
+body { -webkit-font-smoothing: antialiased; }
+button, .btn-primary, .btn-secondary, .btn, .exp-card, select, input, textarea { transition: background .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease, transform .15s ease, opacity .15s ease; }
+button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:focus-visible { outline: 2px solid #FFD001; outline-offset: 2px; }
+button:active:not(:disabled) { transform: translateY(1px); }
+@media (pointer: coarse) { button, .btn-primary, .btn-secondary, .btn { min-height: 40px; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
 </style>
 </head>
 <body>
@@ -291,19 +300,19 @@ table.cart-table tr:last-child td { border-bottom:none; }
       <div class="sub">Elige qué quieres hacer — cada flujo funciona por su cuenta.</div>
       <div class="exp-cards">
         <button class="exp-card" onclick="goStep(1)">
-          <div class="ico">📋</div>
+          <div class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3h6v1M9 11h6M9 15h6"/></svg></div>
           <h3>Levantamientos y Señalética</h3>
           <p>Captura los datos del sitio, elige los artículos y genera la orden de compra en Excel.</p>
           <div class="exp-card-status" id="expStatusLevantamiento"></div>
         </button>
         <button class="exp-card" onclick="goStep(4)">
-          <div class="ico">🗺️</div>
+          <div class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg></div>
           <h3>Sembrado</h3>
           <p>Sube el layout del sitio y coloca la señalética sobre el plano para armar la guía de instalación. No necesita que hayas llenado el levantamiento antes.</p>
           <div class="exp-card-status" id="expStatusSembrado"></div>
         </button>
         <button class="exp-card disabled" onclick="goStep(5)">
-          <div class="ico">🌳</div>
+          <div class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/><path d="M12 7v5M12 12 6 17M12 12l6 5"/></svg></div>
           <h3>Nodos Estándar y Árbol de Decisiones</h3>
           <p>Identifica qué señalética se activa según las reglas de cada unidad de negocio.</p>
           <span class="tag">Próximamente</span>
@@ -519,7 +528,7 @@ table.cart-table tr:last-child td { border-bottom:none; }
   <div class="step-panel" id="stepPanel5">
     <div class="exp-back" onclick="goStep(0)">← Expansiones</div>
     <div class="exp-nodos-placeholder">
-      <div class="ico">🌳</div>
+      <div class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/><path d="M12 7v5M12 12 6 17M12 12l6 5"/></svg></div>
       <h2>Nodos Estándar y Árbol de Decisiones</h2>
       <p>Este flujo está en definición junto con David: falta acordar qué es un "nodo" (tipo de zona o tipo de sitio) y las reglas de activación de señalética por unidad de negocio. En cuanto quede definido, aquí vivirá el árbol de decisiones paso a paso.</p>
     </div>

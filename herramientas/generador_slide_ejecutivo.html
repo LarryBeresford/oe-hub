@@ -113,6 +113,11 @@ textarea { min-height: 52px; }
   background: var(--white); transition: all 0.15s; font-family: var(--font);
 }
 .status-btn:hover { border-color: #BBB; }
+.status-btn::before { content:''; display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:7px; background:#BBB; }
+.status-btns .status-btn:nth-child(1)::before { background: var(--green); }
+.status-btns .status-btn:nth-child(2)::before { background: var(--orange); }
+.status-btns .status-btn:nth-child(3)::before { background: var(--red); }
+
 .status-btn.sel-green  { border-color: var(--green);  background: #E8F9F1; color: var(--green); }
 .status-btn.sel-orange { border-color: var(--orange); background: #FFF4E8; color: var(--orange); }
 .status-btn.sel-red    { border-color: var(--red);    background: #FDECEA; color: var(--red); }
@@ -308,6 +313,15 @@ textarea { min-height: 52px; }
     outline: 2px solid var(--yellow); outline-offset: 2px; border-radius: 4px;
   }
 </style>
+<style id="ux-polish-v2">
+/* UX/UI polish v2 (2026-10-01) -- solo presentacion; borrar este bloque revierte. */
+body { -webkit-font-smoothing: antialiased; }
+button, .btn-primary, .btn-secondary, .btn, .exp-card, select, input, textarea { transition: background .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease, transform .15s ease, opacity .15s ease; }
+button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:focus-visible { outline: 2px solid #FFD001; outline-offset: 2px; }
+button:active:not(:disabled) { transform: translateY(1px); }
+@media (pointer: coarse) { button, .btn-primary, .btn-secondary, .btn { min-height: 40px; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+</style>
 </head>
 <body>
 
@@ -339,7 +353,7 @@ textarea { min-height: 52px; }
       <option value="" data-i18n="optMesActual">— Mes actual (sin guardar) —</option>
     </select>
 
-    <button class="btn-primary" style="padding:6px 16px;font-size:11px;width:100%;" data-i18n="btnGuardarMes" onclick="guardarMesActual()">💾 Guardar este mes</button>
+    <button class="btn-primary" style="padding:6px 16px;font-size:11px;width:100%;" data-i18n="btnGuardarMes" onclick="guardarMesActual()">Guardar este mes</button>
 
     <div class="proj-status" id="proj-status">
       <div class="dot"></div><span data-i18n="statusSinGuardar">Sin guardar</span>
@@ -371,9 +385,9 @@ textarea { min-height: 52px; }
     </div>
     <label data-i18n="lblEstadoGeneral">Estado General</label>
     <div class="status-btns" id="status-btns">
-      <button class="status-btn sel-green" data-i18n="statusGreen" onclick="setStatus('green',this)">🟢 On Track</button>
-      <button class="status-btn" data-i18n="statusOrange" onclick="setStatus('orange',this)">🟡 En Riesgo</button>
-      <button class="status-btn" data-i18n="statusRed" onclick="setStatus('red',this)">🔴 Off Track</button>
+      <button class="status-btn sel-green" data-i18n="statusGreen" onclick="setStatus('green',this)">On Track</button>
+      <button class="status-btn" data-i18n="statusOrange" onclick="setStatus('orange',this)">En Riesgo</button>
+      <button class="status-btn" data-i18n="statusRed" onclick="setStatus('red',this)">Off Track</button>
     </div>
   </div>
 
@@ -416,21 +430,21 @@ textarea { min-height: 52px; }
 
   <!-- LO QUE PASÓ -->
   <div class="form-section">
-    <div class="form-section-title" data-i18n="secLoQuePaso">⚡ Lo que pasó este mes</div>
+    <div class="form-section-title" data-i18n="secLoQuePaso">Lo que pasó este mes</div>
     <div class="bullet-list" id="paso-editor"></div>
     <button class="add-btn" data-i18n="btnAgregarPunto" onclick="addBullet('paso-editor')">+ Agregar punto</button>
   </div>
 
   <!-- PRÓXIMOS PASOS -->
   <div class="form-section">
-    <div class="form-section-title" data-i18n="secProximosPasos">🎯 Próximos pasos</div>
+    <div class="form-section-title" data-i18n="secProximosPasos">Próximos pasos</div>
     <div class="bullet-list" id="pasos-editor"></div>
     <button class="add-btn" data-i18n="btnAgregarPaso" onclick="addBullet('pasos-editor')">+ Agregar paso</button>
   </div>
 
   <!-- SAVING (opcional) -->
   <div class="form-section">
-    <div class="form-section-title" data-i18n="secSaving">💰 Saving / Impacto (opcional)</div>
+    <div class="form-section-title" data-i18n="secSaving">Saving / Impacto (opcional)</div>
     <div class="row-2">
       <div><label data-i18n="lblTituloBox">Título del box</label><input type="text" id="f-saving-title" value="META ANUAL LH SAVING" oninput="render()"></div>
       <div><label data-i18n="lblNumeroGrande">Número grande</label><input type="text" id="f-saving-num" value="US$3.3M" oninput="render()"></div>
@@ -443,11 +457,11 @@ textarea { min-height: 52px; }
 
   <!-- IMAGEN -->
   <div class="form-section">
-    <div class="form-section-title" data-i18n="secImagen">🖼 Imagen / Gráfica (opcional)</div>
+    <div class="form-section-title" data-i18n="secImagen">Imagen / Gráfica (opcional)</div>
     <p style="font-size:10px;color:var(--muted);margin-bottom:6px;" data-i18n="hintImagen">Aparece en la columna derecha, encima de los obstáculos. Ideal para dashboards, gráficas o tablas de análisis.</p>
     <div class="img-drop" id="img-drop">
       <input type="file" accept="image/*" onchange="handleImage(this)">
-      <div class="img-icon">📊</div>
+      <div class="img-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div>
       <p data-i18n="dropText">Arrastra aquí o haz clic para subir</p>
       <p class="img-hint" data-i18n="dropHint">PNG, JPG, GIF — captura de dashboard, gráfica, tabla</p>
     </div>
@@ -465,7 +479,7 @@ textarea { min-height: 52px; }
 
   <!-- DECISIÓN -->
   <div class="form-section">
-    <div class="form-section-title" data-i18n="secDecision">💬 Se requiere del Head</div>
+    <div class="form-section-title" data-i18n="secDecision">Se requiere del Head</div>
     <textarea id="f-decision" rows="3" oninput="render()">Ampliar ventana de cumplimiento Adherencia a W32, considerando instalación CONLIDA y semanas atípicas por eventos deportivos.</textarea>
   </div>
 
@@ -493,7 +507,7 @@ const TOOL_I18N = {
     btnCrearProyecto: '+ Crear nuevo proyecto',
     lblHistorial: 'Historial',
     optMesActual: '— Mes actual (sin guardar) —',
-    btnGuardarMes: '💾 Guardar este mes',
+    btnGuardarMes: 'Guardar este mes',
     statusSinGuardar: 'Sin guardar',
     statusGuardado: 'Guardado',
     statusCambiosSinGuardar: 'Cambios sin guardar',
@@ -504,7 +518,7 @@ const TOOL_I18N = {
     optTipoMVP: 'MVP', optTipoDiscovery: 'Discovery', optTipoImplement: 'Implement', optTipoPOC: 'POC', optTipoEstrategico: 'Estrategico',
     lblUltimoUpdate: 'Último Update',
     lblEstadoGeneral: 'Estado General',
-    statusGreen: '🟢 On Track', statusOrange: '🟡 En Riesgo', statusRed: '🔴 Off Track',
+    statusGreen: 'On Track', statusOrange: 'En Riesgo', statusRed: 'Off Track',
     secEquipo: 'Equipo',
     lblOE: 'OE', lblCIC: 'CIC / PMO',
     lblAvance: 'Avance % (barra)',
@@ -514,16 +528,16 @@ const TOOL_I18N = {
     btnAgregarKPI: '+ Agregar KPI',
     secFases: 'Fases del Proyecto',
     hintFases: 'Clic para cambiar: pendiente → completado → activo → pendiente',
-    secLoQuePaso: '⚡ Lo que pasó este mes',
+    secLoQuePaso: 'Lo que pasó este mes',
     btnAgregarPunto: '+ Agregar punto',
-    secProximosPasos: '🎯 Próximos pasos',
+    secProximosPasos: 'Próximos pasos',
     btnAgregarPaso: '+ Agregar paso',
-    secSaving: '💰 Saving / Impacto (opcional)',
+    secSaving: 'Saving / Impacto (opcional)',
     lblTituloBox: 'Título del box',
     lblNumeroGrande: 'Número grande',
     lblSubtituloSaving: 'Subtítulo',
     lblReferenciaAdicional: 'Referencia adicional (opcional)',
-    secImagen: '🖼 Imagen / Gráfica (opcional)',
+    secImagen: 'Imagen / Gráfica (opcional)',
     hintImagen: 'Aparece en la columna derecha, encima de los obstáculos. Ideal para dashboards, gráficas o tablas de análisis.',
     dropText: 'Arrastra aquí o haz clic para subir',
     dropHint: 'PNG, JPG, GIF — captura de dashboard, gráfica, tabla',
@@ -531,7 +545,7 @@ const TOOL_I18N = {
     phPieImagen: 'Ej: Mismatch Operacional — W18 a W27',
     secObstaculos: '⚠ Obstáculos',
     btnAgregarObstaculo: '+ Agregar obstáculo',
-    secDecision: '💬 Se requiere del Head',
+    secDecision: 'Se requiere del Head',
     previewLabel: 'Vista Previa del Slide',
     kpiNombreLbl: 'Nombre del KPI',
     kpiRefLbl: 'Referencia (Base · Target)',
@@ -545,12 +559,12 @@ const TOOL_I18N = {
     slUltimoUpdate: 'Último update',
     slEstadoGeneral: 'Estado general',
     slSituacion: 'Situación / Dolor',
-    slKpisTitle: '📊 KPIs — Tendencia mensual',
-    slFaseTitle: '📍 Fase actual',
-    slLoquePaso: '⚡ Lo que pasó este mes',
-    slProximosPasos: '🎯 Próximos pasos',
+    slKpisTitle: 'KPIs — Tendencia mensual',
+    slFaseTitle: 'Fase actual',
+    slLoquePaso: 'Lo que pasó este mes',
+    slProximosPasos: 'Próximos pasos',
     slObstaculos: '⚠ Obstáculos activos',
-    slDecision: '💬 Se requiere del Head',
+    slDecision: 'Se requiere del Head',
     slOE: 'OE', slCIC: 'CIC / PMO', slAvance: 'Avance',
     warnMarcar: 'Marcar como advertencia',
     quitarImagen: 'Quitar imagen',
@@ -560,12 +574,12 @@ const TOOL_I18N = {
     modalErrorCargando: '⚠ Error cargando el proyecto: ',
     modalEtiquetaGuardado: 'Etiqueta para este guardado (ej: "Jul 2026")',
     modalPrimeroProyecto: 'Primero selecciona o crea un proyecto arriba.',
-    modalGuardadoOk: '✅ Guardado: ',
-    modalErrorGuardar: '❌ Error al guardar: ',
+    modalGuardadoOk: 'Guardado: ',
+    modalErrorGuardar: 'Error al guardar: ',
     modalLimpiarConfirm: '¿Limpiar todo el formulario?',
     modalCancelar: 'Cancelar', modalAceptar: 'Aceptar', modalEntendido: 'Entendido', modalConfirmar: 'Confirmar',
     noticeLocalOnly: '⚠ Historial guardado solo en este navegador (no compartido con el equipo). Para historial compartido, abre este generador dentro de Claude.ai.',
-    noticeLocalBlocked: '❌ Este navegador está bloqueando el guardado local (localStorage deshabilitado). Es probable que una política de seguridad corporativa lo impida. Prueba en otro navegador o en modo normal (no incógnito).',
+    noticeLocalBlocked: 'Este navegador está bloqueando el guardado local (localStorage deshabilitado). Es probable que una política de seguridad corporativa lo impida. Prueba en otro navegador o en modo normal (no incógnito).',
   },
   en: {
     appTitle: 'Executive Slide Generator — Lean Projects',
@@ -576,7 +590,7 @@ const TOOL_I18N = {
     btnCrearProyecto: '+ Create new project',
     lblHistorial: 'History',
     optMesActual: '— Current month (unsaved) —',
-    btnGuardarMes: '💾 Save this month',
+    btnGuardarMes: 'Save this month',
     statusSinGuardar: 'Not saved',
     statusGuardado: 'Saved',
     statusCambiosSinGuardar: 'Unsaved changes',
@@ -587,7 +601,7 @@ const TOOL_I18N = {
     optTipoMVP: 'MVP', optTipoDiscovery: 'Discovery', optTipoImplement: 'Implement', optTipoPOC: 'POC', optTipoEstrategico: 'Strategic',
     lblUltimoUpdate: 'Last Update',
     lblEstadoGeneral: 'Overall Status',
-    statusGreen: '🟢 On Track', statusOrange: '🟡 At Risk', statusRed: '🔴 Off Track',
+    statusGreen: 'On Track', statusOrange: 'At Risk', statusRed: 'Off Track',
     secEquipo: 'Team',
     lblOE: 'OE', lblCIC: 'CIC / PMO',
     lblAvance: 'Progress % (bar)',
@@ -597,16 +611,16 @@ const TOOL_I18N = {
     btnAgregarKPI: '+ Add KPI',
     secFases: 'Project Phases',
     hintFases: 'Click to change: pending → completed → active → pending',
-    secLoQuePaso: '⚡ What happened this month',
+    secLoQuePaso: 'What happened this month',
     btnAgregarPunto: '+ Add point',
-    secProximosPasos: '🎯 Next steps',
+    secProximosPasos: 'Next steps',
     btnAgregarPaso: '+ Add step',
-    secSaving: '💰 Saving / Impact (optional)',
+    secSaving: 'Saving / Impact (optional)',
     lblTituloBox: 'Box title',
     lblNumeroGrande: 'Large number',
     lblSubtituloSaving: 'Subtitle',
     lblReferenciaAdicional: 'Additional reference (optional)',
-    secImagen: '🖼 Image / Chart (optional)',
+    secImagen: 'Image / Chart (optional)',
     hintImagen: 'Appears in the right column, above the obstacles. Ideal for dashboards, charts or analysis tables.',
     dropText: 'Drag here or click to upload',
     dropHint: 'PNG, JPG, GIF — dashboard, chart or table screenshot',
@@ -614,7 +628,7 @@ const TOOL_I18N = {
     phPieImagen: 'E.g.: Operational Mismatch — W18 to W27',
     secObstaculos: '⚠ Obstacles',
     btnAgregarObstaculo: '+ Add obstacle',
-    secDecision: '💬 Needed from the Head',
+    secDecision: 'Needed from the Head',
     previewLabel: 'Slide Preview',
     kpiNombreLbl: 'KPI Name',
     kpiRefLbl: 'Reference (Base · Target)',
@@ -628,12 +642,12 @@ const TOOL_I18N = {
     slUltimoUpdate: 'Last update',
     slEstadoGeneral: 'Overall status',
     slSituacion: 'Situation / Pain Point',
-    slKpisTitle: '📊 KPIs — Monthly trend',
-    slFaseTitle: '📍 Current phase',
-    slLoquePaso: '⚡ What happened this month',
-    slProximosPasos: '🎯 Next steps',
+    slKpisTitle: 'KPIs — Monthly trend',
+    slFaseTitle: 'Current phase',
+    slLoquePaso: 'What happened this month',
+    slProximosPasos: 'Next steps',
     slObstaculos: '⚠ Active obstacles',
-    slDecision: '💬 Needed from the Head',
+    slDecision: 'Needed from the Head',
     slOE: 'OE', slCIC: 'CIC / PMO', slAvance: 'Progress',
     warnMarcar: 'Mark as warning',
     quitarImagen: 'Remove image',
@@ -643,12 +657,12 @@ const TOOL_I18N = {
     modalErrorCargando: '⚠ Error loading the project: ',
     modalEtiquetaGuardado: 'Label for this save (e.g.: "Jul 2026")',
     modalPrimeroProyecto: 'First select or create a project above.',
-    modalGuardadoOk: '✅ Saved: ',
-    modalErrorGuardar: '❌ Error saving: ',
+    modalGuardadoOk: 'Saved: ',
+    modalErrorGuardar: 'Error saving: ',
     modalLimpiarConfirm: 'Clear the whole form?',
     modalCancelar: 'Cancel', modalAceptar: 'Accept', modalEntendido: 'Got it', modalConfirmar: 'Confirm',
     noticeLocalOnly: '⚠ History saved only in this browser (not shared with the team). For shared history, open this generator inside Claude.ai.',
-    noticeLocalBlocked: '❌ This browser is blocking local storage (localStorage disabled). A corporate security policy is likely preventing it. Try another browser or normal (non-incognito) mode.',
+    noticeLocalBlocked: 'This browser is blocking local storage (localStorage disabled). A corporate security policy is likely preventing it. Try another browser or normal (non-incognito) mode.',
   },
   pt: {
     appTitle: 'Gerador de Slide Executivo — Lean Projects',
@@ -659,7 +673,7 @@ const TOOL_I18N = {
     btnCrearProyecto: '+ Criar novo projeto',
     lblHistorial: 'Histórico',
     optMesActual: '— Mês atual (não salvo) —',
-    btnGuardarMes: '💾 Salvar este mês',
+    btnGuardarMes: 'Salvar este mês',
     statusSinGuardar: 'Não salvo',
     statusGuardado: 'Salvo',
     statusCambiosSinGuardar: 'Alterações não salvas',
@@ -670,7 +684,7 @@ const TOOL_I18N = {
     optTipoMVP: 'MVP', optTipoDiscovery: 'Discovery', optTipoImplement: 'Implement', optTipoPOC: 'POC', optTipoEstrategico: 'Estratégico',
     lblUltimoUpdate: 'Última Atualização',
     lblEstadoGeneral: 'Status Geral',
-    statusGreen: '🟢 No Prazo', statusOrange: '🟡 Em Risco', statusRed: '🔴 Fora do Prazo',
+    statusGreen: 'No Prazo', statusOrange: 'Em Risco', statusRed: 'Fora do Prazo',
     secEquipo: 'Equipe',
     lblOE: 'OE', lblCIC: 'CIC / PMO',
     lblAvance: 'Progresso % (barra)',
@@ -680,16 +694,16 @@ const TOOL_I18N = {
     btnAgregarKPI: '+ Adicionar KPI',
     secFases: 'Fases do Projeto',
     hintFases: 'Clique para mudar: pendente → concluído → ativo → pendente',
-    secLoQuePaso: '⚡ O que aconteceu este mês',
+    secLoQuePaso: 'O que aconteceu este mês',
     btnAgregarPunto: '+ Adicionar ponto',
-    secProximosPasos: '🎯 Próximos passos',
+    secProximosPasos: 'Próximos passos',
     btnAgregarPaso: '+ Adicionar passo',
-    secSaving: '💰 Economia / Impacto (opcional)',
+    secSaving: 'Economia / Impacto (opcional)',
     lblTituloBox: 'Título do box',
     lblNumeroGrande: 'Número grande',
     lblSubtituloSaving: 'Subtítulo',
     lblReferenciaAdicional: 'Referência adicional (opcional)',
-    secImagen: '🖼 Imagem / Gráfico (opcional)',
+    secImagen: 'Imagem / Gráfico (opcional)',
     hintImagen: 'Aparece na coluna direita, acima dos obstáculos. Ideal para dashboards, gráficos ou tabelas de análise.',
     dropText: 'Arraste aqui ou clique para enviar',
     dropHint: 'PNG, JPG, GIF — captura de dashboard, gráfico ou tabela',
@@ -697,7 +711,7 @@ const TOOL_I18N = {
     phPieImagen: 'Ex.: Mismatch Operacional — W18 a W27',
     secObstaculos: '⚠ Obstáculos',
     btnAgregarObstaculo: '+ Adicionar obstáculo',
-    secDecision: '💬 Necessário do Head',
+    secDecision: 'Necessário do Head',
     previewLabel: 'Pré-visualização do Slide',
     kpiNombreLbl: 'Nome do KPI',
     kpiRefLbl: 'Referência (Base · Target)',
@@ -711,12 +725,12 @@ const TOOL_I18N = {
     slUltimoUpdate: 'Última atualização',
     slEstadoGeneral: 'Status geral',
     slSituacion: 'Situação / Dor',
-    slKpisTitle: '📊 KPIs — Tendência mensal',
-    slFaseTitle: '📍 Fase atual',
-    slLoquePaso: '⚡ O que aconteceu este mês',
-    slProximosPasos: '🎯 Próximos passos',
+    slKpisTitle: 'KPIs — Tendência mensal',
+    slFaseTitle: 'Fase atual',
+    slLoquePaso: 'O que aconteceu este mês',
+    slProximosPasos: 'Próximos passos',
     slObstaculos: '⚠ Obstáculos ativos',
-    slDecision: '💬 Necessário do Head',
+    slDecision: 'Necessário do Head',
     slOE: 'OE', slCIC: 'CIC / PMO', slAvance: 'Progresso',
     warnMarcar: 'Marcar como alerta',
     quitarImagen: 'Remover imagem',
@@ -726,12 +740,12 @@ const TOOL_I18N = {
     modalErrorCargando: '⚠ Erro ao carregar o projeto: ',
     modalEtiquetaGuardado: 'Etiqueta para este salvamento (ex.: "Jul 2026")',
     modalPrimeroProyecto: 'Primeiro selecione ou crie um projeto acima.',
-    modalGuardadoOk: '✅ Salvo: ',
-    modalErrorGuardar: '❌ Erro ao salvar: ',
+    modalGuardadoOk: 'Salvo: ',
+    modalErrorGuardar: 'Erro ao salvar: ',
     modalLimpiarConfirm: 'Limpar todo o formulário?',
     modalCancelar: 'Cancelar', modalAceptar: 'Aceitar', modalEntendido: 'Entendido', modalConfirmar: 'Confirmar',
     noticeLocalOnly: '⚠ Histórico salvo apenas neste navegador (não compartilhado com a equipe). Para histórico compartilhado, abra este gerador dentro do Claude.ai.',
-    noticeLocalBlocked: '❌ Este navegador está bloqueando o armazenamento local (localStorage desabilitado). É provável que uma política de segurança corporativa esteja impedindo isso. Tente outro navegador ou o modo normal (não anônimo).',
+    noticeLocalBlocked: 'Este navegador está bloqueando o armazenamento local (localStorage desabilitado). É provável que uma política de segurança corporativa esteja impedindo isso. Tente outro navegador ou o modo normal (não anônimo).',
   },
 };
 

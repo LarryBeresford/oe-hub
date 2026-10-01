@@ -176,30 +176,69 @@ con acento amarillo `#FFD001`/`#FFE600`, sin build ni dependencias de CDN.
   por esa funcion serverless para no duplicar logica segun el origen. La API
   key de ImgBB vive SOLO ahi (variable de entorno `IMGBB_API_KEY` en Vercel),
   nunca se manda al navegador.
-- **`senaletica_aperturas.html` — Señalética de Aperturas.** Wizard de 4
-  pasos: **1) Datos del sitio** → **2) Artículos** (135 artículos: 93
-  fijos + 16 variables + 26 opcionales, cada uno con su imagen de
-  referencia real en tarjetas grandes, con un toggle "Imágenes
-  grandes/Vista compacta", flag Estándar/Variable, artículos opcionales
-  como sección comodín, y un campo de comentario por artículo — obligatorio
-  solo en Corpóreo Letras MELI 3D y Vinilo MELI — que se incluye en el
-  Excel final; clic en la imagen abre un lightbox en pantalla para verla en
-  grande) → **3) Vista previa** de la orden de compra (líneas, piezas) +
-  exportar Excel → **4) Sembrado**: sube el layout del sitio (JPG, PNG, o
-  PDF — se convierte a imagen automáticamente en el navegador con pdf.js),
-  arrastra los artículos seleccionados como pines sobre el plano para armar
-  la guía visual de instalación, mueve/quita pines, botón "Marcar como
-  listo" para bloquear edición, y exporta la guía final como PNG (canvas
-  con los pines y su etiqueta) para el contratista instalador. Etapa 1
-  (manual, sin ML) — ver "Pendientes conocidos" para el roadmap de
-  Etapa 2/3. La exportación de Excel usa **ExcelJS** (no SheetJS) para
-  poder incrustar la imagen de cada artículo directamente en la fila de la
-  hoja "Requerimiento", replicando el diseño real de la plantilla oficial
-  de David (Carátula con estilos + Requerimiento + Observaciones). Las
-  imágenes del catálogo son nativamente de baja resolución (~90px de alto,
-  así vienen del levantamiento original) — si se necesita más nitidez hay
-  que pedirle a David el archivo fuente en mejor resolución, no se puede
-  mejorar solo re-extrayendo del Excel.
+- **`senaletica_aperturas.html` — ahora "Expansiones" en el sidebar
+  (renombrado 2026-09-30; Señalética queda como submenú visual al entrar).
+  Restructurado el 2026-09-30 de un wizard lineal de 4 pasos a una
+  **landing con 3 flujos independientes** (`stepPanel0`, función `goStep(n)`
+  con n=0 la landing): cada tarjeta funciona por su cuenta, no hay que
+  pasar por una para llegar a otra.
+  - **Flujo 1 — Levantamientos y Señalética** (los 3 pasos de siempre):
+    **1) Datos del sitio** → **2) Artículos** (135 artículos: 93 fijos + 16
+    variables + 26 opcionales, cada uno con su imagen de referencia real en
+    tarjetas grandes, toggle "Imágenes grandes/Vista compacta", flag
+    Estándar/Variable, opcionales como sección comodín, y un campo de
+    comentario por artículo — obligatorio solo en Corpóreo Letras MELI 3D y
+    Vinilo MELI — que se incluye en el Excel final; clic en la imagen abre
+    un lightbox) → **3) Vista previa** de la orden de compra (líneas,
+    piezas) + exportar Excel (ExcelJS, no SheetJS, para incrustar la imagen
+    de cada artículo directo en la fila de "Requerimiento", replicando la
+    plantilla oficial de David: Carátula + Requerimiento + Observaciones).
+  - **Flujo 2 — Sembrado** (ahora independiente, `stepPanel4`, no requiere
+    haber llenado el levantamiento antes): sube el layout del sitio (JPG,
+    PNG o PDF — se convierte a imagen con pdf.js), arrastra artículos del
+    catálogo completo (o solo lo del carrito, con el checkbox "Solo lo
+    seleccionado") como pines sobre el plano, o usa el botón "⧉" para
+    colocar el mismo artículo varias veces seguidas sin volver a
+    arrastrarlo (`startStampMode`/`stopStampMode`). Zoom de 50% a 600%
+    (`zoomSembrado`), pines con punta de precisión y nombre solo visible en
+    hover (antes siempre visible, tapaba el plano). Panel de conteo
+    (`renderSembradoCount`) que compara piezas sembradas vs. piezas
+    pedidas en el paso 2 y marca ✓ / "faltan N" / "sobran N" por artículo —
+    útil incluso si nunca se llenó el levantamiento (en ese caso solo
+    cuenta, sin comparar). "Marcar como listo" bloquea edición de pines.
+    Exporta datos crudos en JSON (`exportSembradoData`) o la guía visual
+    final en PNG con pines y etiqueta quemados (`exportSembradoPNG`) para
+    el contratista instalador. Etapa 1 (manual, sin ML) — ver "Pendientes
+    conocidos" para el roadmap de Etapa 2/3.
+  - **Flujo 3 — Nodos Estándar y Árbol de Decisiones** (`stepPanel5`):
+    todavía un placeholder ("Próximamente", tarjeta deshabilitada en la
+    landing) — está en definición con David, falta acordar qué es un
+    "nodo" y las reglas de activación de señalética por unidad de negocio.
+  - **Persistencia (nueva, 2026-09-30):** autosave a `localStorage` cada
+    vez que cambia el carrito o el sembrado (`saveProjectToLocalStorage`,
+    debounce de 400ms, clave `senaletica_oe_hub_autosave_v1`), con
+    recuperación opcional al recargar (`loadAutosaveIfAny`, pide
+    confirmación). Botones "Guardar proyecto" / "Cargar proyecto" en la
+    barra superior exportan/importan un `.json` completo
+    (`downloadProjectFile`/`loadProjectFile`, usa `serializeProject`/
+    `applyProject`) con datos del sitio, carrito y sembrado — el `.json`
+    de guardar proyecto sí incluye la imagen del layout en base64, el
+    autosave de `localStorage` no (por tamaño), así que al recuperar un
+    autosave con pines pero sin imagen pide volver a subir el layout. La
+    landing (`updateLandingStatus`) muestra el estado de cada flujo (ej.
+    "SMX10 — 12 artículos seleccionados", "8 piezas sembradas") para saber
+    de un vistazo si hay trabajo en curso sin entrar al flujo.
+  - **Nota de integración:** la barra superior (`.app-bar` con "Cargar/
+    Guardar proyecto", "Nuevo requerimiento", "Generar orden de compra") es
+    global y se ve en los 3 flujos y en la landing, incluso en Sembrado
+    puro sin levantamiento — es intencional (permite guardar/cargar desde
+    cualquier flujo), pero el botón de Excel no tiene efecto útil si no hay
+    nada en el carrito (ya muestra un toast avisando "Agrega al menos un
+    artículo").
+  - Las imágenes del catálogo son nativamente de baja resolución (~90px de
+    alto, así vienen del levantamiento original) — si se necesita más
+    nitidez hay que pedirle a David el archivo fuente en mejor resolución,
+    no se puede mejorar solo re-extrayendo del Excel.
 - **`generador_slide_ejecutivo.html` — Generador de Slide Ejecutivo.**
   Arma un slide ejecutivo de resultados para proyectos Lean. A propósito
   **abre con datos de ejemplo precargados** (no en blanco) — se intentó
@@ -403,12 +442,38 @@ espera de esa respuesta — ver "Pendientes conocidos".
   alcance de la auditoría de sep-2026 (ver "Traducción ES/EN/PT" arriba) —
   proyecto aparte si se decide hacerlo.
 - **Sembrado — Etapa 2/3** (David): la Etapa 1 (manual: subir layout
-  JPG/PNG/PDF, arrastrar pines, exportar guía PNG) ya está construida y
-  confirmada por Larry — ver paso 4 de `senaletica_aperturas.html`. Lo que
-  sigue pendiente es a futuro y sin fecha: Etapa 2 (sugerir ubicación de
-  zonas con un modelo de visión, sin entrenar nada) y Etapa 3 (detector de
-  objetos entrenado a la medida, solo si se acumula suficiente dataset de
-  sitios reales) — ninguna de las dos está agendada.
+  JPG/PNG/PDF, arrastrar pines, zoom hasta 600%, colocación múltiple con
+  "⧉", conteo cruzado vs. pedido, persistencia, exportar guía PNG o datos
+  JSON) ya está construida y confirmada por Larry — ver "Flujo 2 —
+  Sembrado" arriba. Lo que sigue pendiente es a futuro y sin fecha: Etapa 2
+  (sugerir ubicación de zonas con un modelo de visión, sin entrenar nada) y
+  Etapa 3 (detector de objetos entrenado a la medida, solo si se acumula
+  suficiente dataset de sitios reales) — ninguna de las dos está agendada.
+- **Nodos Estándar y Árbol de Decisiones** (tercer flujo de Expansiones):
+  placeholder sin fecha, en definición con David — falta acordar qué es un
+  "nodo" y las reglas de activación de señalética por unidad de negocio.
 - **Imágenes de señalética en mejor resolución**: pendiente de que David
   mande archivos fuente en mayor resolución (ver detalle en la sección de
   Señalética arriba).
+
+## Rediseño UX/UI v2 (2026-10-01) — reversible
+
+Capa **solo de presentación**, sin tocar ids, clases lógicas ni JS:
+
+- **`index.html`**: bloque `<style id="ux-polish-v2">` justo antes de `</head>`.
+  Fase 1 (tokens de sombra/radio, tarjetas con un solo lenguaje visual,
+  contraste del sidebar, estados hover/focus/active, objetivos táctiles de
+  44px, `prefers-reduced-motion`) y Fase 2 (Inicio: hero compacto y orden
+  visual Hero → Accesos rápidos → Novedades → resto, hecho con `flex` +
+  `order` y `:has()`, **sin mover HTML**; en un navegador sin `:has()` se
+  ve el orden original). **Para revertir todo: borrar ese bloque.**
+- **Herramientas (`herramientas/*.html`)**: mismo bloque `ux-polish-v2` con
+  foco/transiciones homogéneos (Boletines, Slide Ejecutivo, Expansiones,
+  Slip Robots). Revertir = borrar el bloque.
+- **Política de emojis: ninguno en el Hub.** Se quitaron de textos,
+  botones, i18n (ES/EN/PT) y del slide exportado por el Generador de Slide
+  Ejecutivo; los estados On Track / En Riesgo / Off Track usan puntos de
+  color por CSS (`.status-btn::before`) y Expansiones usa íconos SVG de
+  línea. Las flechas tipográficas (→ ← ↗) y el ✓ se conservan (son texto,
+  no emoji).
+

@@ -171,6 +171,15 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-sy
   .sv-thr{flex:1 1 30%}
 }
 </style>
+<style id="ux-polish-v2">
+/* UX/UI polish v2 (2026-10-01) -- solo presentacion; borrar este bloque revierte. */
+body { -webkit-font-smoothing: antialiased; }
+button, .btn-primary, .btn-secondary, .btn, .exp-card, select, input, textarea { transition: background .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease, transform .15s ease, opacity .15s ease; }
+button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:focus-visible { outline: 2px solid #FFD001; outline-offset: 2px; }
+button:active:not(:disabled) { transform: translateY(1px); }
+@media (pointer: coarse) { button, .btn-primary, .btn-secondary, .btn { min-height: 40px; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+</style>
 </head>
 <body>
 
@@ -221,7 +230,7 @@ html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-sy
   <!-- Pilot banner -->
   <div class="pilot-banner">
     <div>
-      <div class="pilot-tag" data-i18n="pilotTag">🤖 Pilot Activo</div>
+      <div class="pilot-tag" data-i18n="pilotTag">Pilot Activo</div>
       <div class="pilot-title" id="pilotTitle">—</div>
       <div class="pilot-sub" data-i18n="pilotSub">Circuito de Prueba de Concepto — MWH Multiwarehouse</div>
     </div>
@@ -507,7 +516,7 @@ var I18N = {
     statRutasL: 'Rutas Analizadas', statVolL: 'Vol. Mult + Opt', statCobL: 'Cobertura Target LH',
     tabResumen: 'Resumen', tabMwh: 'MWH Volumen', tabLh: 'LH Ground', tabScorecard: 'Scorecard',
     cargando: 'Cargando datos…',
-    pilotTag: '🤖 Pilot Activo', pilotSub: 'Circuito de Prueba de Concepto — MWH Multiwarehouse',
+    pilotTag: 'Pilot Activo', pilotSub: 'Circuito de Prueba de Concepto — MWH Multiwarehouse',
     pilotDwellL: 'Reducción Dwell Time', pilotViajesL: 'Viajes/Día por DFP',
     cardDonut: 'Distribución de Lanes', cardVol: 'Participación de Volumen por Categoría', cardVolBadge: '% Universo LH Ground',
     cardMwhTop: 'Top Canalizaciones MWH — Forecast 2026', cardMwhBadge: '≈80% del Volumen Total MWH', cardMwhDetalle: 'Detalle de Canalizaciones',
@@ -525,7 +534,7 @@ var I18N = {
     statRutasL: 'Lanes Analyzed', statVolL: 'Vol. Mult + Opt', statCobL: 'LH Target Coverage',
     tabResumen: 'Summary', tabMwh: 'MWH Volume', tabLh: 'LH Ground', tabScorecard: 'Scorecard',
     cargando: 'Loading data…',
-    pilotTag: '🤖 Active Pilot', pilotSub: 'Proof of Concept Circuit — MWH Multiwarehouse',
+    pilotTag: 'Active Pilot', pilotSub: 'Proof of Concept Circuit — MWH Multiwarehouse',
     pilotDwellL: 'Dwell Time Reduction', pilotViajesL: 'Trips/Day per DFP',
     cardDonut: 'Lane Distribution', cardVol: 'Volume Share by Category', cardVolBadge: '% LH Ground Universe',
     cardMwhTop: 'Top MWH Channels — 2026 Forecast', cardMwhBadge: '≈80% of Total MWH Volume', cardMwhDetalle: 'Channel Detail',
@@ -543,7 +552,7 @@ var I18N = {
     statRutasL: 'Rotas Analisadas', statVolL: 'Vol. Mult + Opt', statCobL: 'Cobertura Target LH',
     tabResumen: 'Resumo', tabMwh: 'MWH Volume', tabLh: 'LH Ground', tabScorecard: 'Scorecard',
     cargando: 'Carregando dados…',
-    pilotTag: '🤖 Piloto Ativo', pilotSub: 'Circuito de Prova de Conceito — MWH Multiwarehouse',
+    pilotTag: 'Piloto Ativo', pilotSub: 'Circuito de Prova de Conceito — MWH Multiwarehouse',
     pilotDwellL: 'Redução Dwell Time', pilotViajesL: 'Viagens/Dia por DFP',
     cardDonut: 'Distribuição de Lanes', cardVol: 'Participação de Volume por Categoria', cardVolBadge: '% Universo LH Ground',
     cardMwhTop: 'Top Canalizações MWH — Previsão 2026', cardMwhBadge: '≈80% do Volume Total MWH', cardMwhDetalle: 'Detalhe das Canalizações',

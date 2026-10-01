@@ -754,6 +754,122 @@
   }
 
 </style>
+<!-- ═══════════════════════════════════════════════════════════════════════
+     UX/UI POLISH v2 (2026-10-01) — SOLO PRESENTACION. No toca ids, clases
+     logicas ni JS. Para REVERTIR todo el rediseño: borrar este bloque
+     <style id="ux-polish-v2"> completo (de aqui hasta su cierre).
+     Fase 1: tokens, tarjetas unificadas, contraste de sidebar, foco/hover.
+     Fase 2: jerarquia de Inicio (hero compacto, accesos rapidos arriba) con
+             flex + order, sin mover nada del HTML.
+     ═══════════════════════════════════════════════════════════════════════ -->
+<style id="ux-polish-v2">
+  :root {
+    --radius-card: 14px;
+    --shadow-card: 0 1px 2px rgba(16,24,40,.05);
+    --shadow-card-hover: 0 10px 28px rgba(16,24,40,.10);
+    --ease-ui: cubic-bezier(.2,.7,.3,1);
+    --nav-muted: #9A9A9A;          /* antes #888/#555/#444 sobre #1A1A1A: no pasaba AA */
+  }
+  body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+
+  /* ── Sidebar: menos peso del borde, mejor contraste, estado activo mas claro ── */
+  .sidebar { border-right-width: 2px; }
+  .nav-label { color: var(--nav-muted); font-size: 10px; }
+  .nav-direct, .nav-sub-item { transition: background .15s var(--ease-ui), color .15s var(--ease-ui), border-color .15s var(--ease-ui); }
+  .nav-direct { min-height: 40px; }
+  .nav-sub-item { color: var(--nav-muted); min-height: 36px; }
+  .nav-direct.active, .nav-sub-item.active { background: rgba(255,208,1,.10); color: var(--white); }
+  .sidebar-footer { color: var(--nav-muted); font-size: 11px; line-height: 1.55; }
+  .sidebar-footer a { color: #C9C9C9 !important; }
+  .sidebar-footer a:hover { color: var(--yellow) !important; }
+  .sidebar-search-kbd { color: var(--nav-muted); border-color: #3a3a3a; }
+
+  /* ── Topbar / controles: objetivos de clic mas grandes (Ley de Fitts) ── */
+  .lang-btn { padding: 7px 13px; min-height: 30px; transition: background .15s var(--ease-ui), color .15s var(--ease-ui); }
+  .lang-btn:not(.active):hover { color: var(--dark); background: rgba(0,0,0,.05); }
+  .sidebar-toggle { width: 36px; height: 36px; }
+
+  /* ── Tipografia y ritmo vertical ── */
+  .page-title { font-size: 28px; letter-spacing: -0.01em; }
+  .section-title { font-size: 12px; letter-spacing: .14em; margin: 36px 0 14px; }
+
+  /* ── Tarjetas: UN solo lenguaje (radio, borde, sombra, hover) ──
+     Se retira el borde superior amarillo decorativo para que el amarillo
+     vuelva a significar "activo / accionable". */
+  .quick-card, .tool-card, .bulletin-card, .gestion-card, .story-card, .learn-card,
+  .list-card, .cal-main, .cal-side, .orgfull-col, .org-top-card {
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+  }
+  .quick-card, .tool-card, .bulletin-card, .gestion-card, .org-top-card { border-top: 1px solid var(--border); }
+  .quick-card, .tool-card, .bulletin-card, .gestion-card, .story-card, a.learn-card {
+    transition: box-shadow .18s var(--ease-ui), transform .18s var(--ease-ui), border-color .18s var(--ease-ui);
+  }
+  .quick-card:hover, .tool-card:hover, .bulletin-card:hover, .gestion-card:hover, .story-card:hover, a.learn-card:hover {
+    box-shadow: var(--shadow-card-hover); transform: translateY(-2px); border-color: #D6D6D6;
+  }
+  .quick-card:active, .tool-card:active, .gestion-card:active { transform: translateY(0); box-shadow: var(--shadow-card); }
+  .bulletin-card.soon:hover { box-shadow: var(--shadow-card); transform: none; border-color: var(--border); }
+
+  /* Accesos rapidos: mas compactos (antes 190px de alto minimo) para que
+     las 4 secciones se vean sin hacer scroll. El color de cada area lo lleva
+     el icono, ya no el borde. */
+  .quick-grid { gap: 16px; }
+  .quick-card { padding: 24px 24px 26px; min-height: 0; }
+  .quick-card-icon { width: 48px; height: 48px; margin-bottom: 16px; }
+  .quick-card-icon svg { width: 26px; height: 26px; }
+  .quick-card-title { font-size: 18px; margin-bottom: 6px; }
+  .quick-card-sub { font-size: 14px; line-height: 1.5; }
+
+  /* Success stories: el color de area ya vive en la etiqueta; se quita la barra gruesa */
+  .story-body { border-top: none; padding: 6px 24px 26px; }
+
+  /* Pestanas de Rutinas/Aprendizaje: estados claros, sin borde parcial */
+  .routine-tab { transition: background .15s var(--ease-ui), color .15s var(--ease-ui), border-color .15s var(--ease-ui); border-radius: 10px; }
+  .routine-tab:not(.active):hover { border-color: #C9C9C9; color: var(--dark); }
+  .routine-tab.active { border-bottom: 1px solid var(--dark); }
+
+  /* ── Hero: un solo bloque oscuro, mas compacto, subtitulo legible ── */
+  .home-hero { padding: 22px 28px; border-left: none; margin-bottom: 0; gap: 24px; }
+  .home-hero-title { font-size: 28px; }
+  .home-hero-sub { color: #B9B9B9; font-size: 15px; }
+  .home-hero-video { flex: 1 1 340px; max-width: 400px; }
+
+  /* Novedades: franja discreta en vez de tarjeta con barra amarilla */
+  .novedades-card { border-left: 1px solid #FFE9A8; background: var(--yellow-bg); border-color: #FFE9A8; padding: 14px 44px 14px 18px; margin: 28px 0 0; }
+  .novedades-list { line-height: 1.6; }
+  .novedades-close { min-width: 32px; min-height: 32px; border-radius: 8px; transition: background .15s; }
+  .novedades-close:hover { background: rgba(0,0,0,.06); }
+
+  /* ── FASE 2 · Jerarquia de Inicio (solo CSS: flex + order) ──
+     Orden visual: Hero → Accesos rapidos → Novedades → resto (igual que antes).
+     Si el navegador no soporta :has(), simplemente se ve el orden original. */
+  #page-inicio.active { display: flex; flex-direction: column; }
+  #page-inicio > * { order: 10; min-width: 0; }
+  #page-inicio > .home-hero { order: 1; }
+  #page-inicio > .section-title:has(+ .quick-grid) { order: 2; margin-top: 32px; }
+  #page-inicio > .quick-grid { order: 3; }
+  #page-inicio > .novedades-card { order: 4; }
+
+  /* ── Tactil: objetivos de 44px ── */
+  @media (pointer: coarse) {
+    .nav-direct, .nav-sub-item { min-height: 44px; }
+    .lang-btn { min-height: 40px; }
+    .routine-tab { min-height: 44px; }
+  }
+  @media (max-width: 800px) {
+    .home-hero { padding: 20px; }
+    .home-hero-video { max-width: 100%; }
+    .quick-card { padding: 20px; }
+  }
+
+  /* ── Accesibilidad de movimiento ── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    .quick-card:hover, .tool-card:hover, .bulletin-card:hover, .gestion-card:hover, .story-card:hover, a.learn-card:hover { transform: none; }
+  }
+</style>
+
 </head>
 <body>
 
