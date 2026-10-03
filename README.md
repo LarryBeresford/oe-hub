@@ -60,9 +60,12 @@ oe-hub/
 
 ## Contenido del Hub (secciones de `index.html`)
 
-- **Inicio** — en este orden: Accesos rápidos, Success stories, **Fechas
+- **Inicio** — en este orden: Success stories, **Fechas
   relevantes** (calendario mensual, ver detalle abajo), Repositorio de
-  proyectos, Herramientas de equipo, Ideas y sugerencias.
+  proyectos, Herramientas de equipo, Ideas y sugerencias. *(Los "Accesos
+  rápidos" se retiraron el 2026-10-03 por pedido de Ricardo: el bloque sigue
+  en `index.html` dentro de un comentario `<!-- ACCESOS RÁPIDOS RETIRADOS ... -->`;
+  para restaurarlo, borrar las dos líneas del comentario.)*
 - **Gestión** (grupo de nav) — **Flujo de Iniciativas Locales** (una sola
   página con 5 tabs: Actualización de Proyectos, Indicadores,
   **Iniciativas Regionales**, **Iniciativas Locales** y **Big Rocks** —

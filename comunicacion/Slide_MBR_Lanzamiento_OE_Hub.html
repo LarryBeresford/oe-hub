@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<title>Slide MBR — Lanzamiento OE MLM Hub</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #E9E9E9; font-family: 'Segoe UI', Arial, sans-serif; }
+  /* Lienzo fijo 1280x720 (16:9) -- pensado para tomar screenshot/captura y
+     pegarlo como imagen en el deck que ya tenga Ricardo para la MBR. */
+  .slide {
+    width: 1280px; height: 720px; margin: 20px auto;
+    background: #FFFFFF; position: relative; overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    display: flex; flex-direction: column;
+  }
+  .top-accent { height: 8px; background: #FFD001; }
+  .hdr { padding: 30px 56px 22px; }
+  .eyebrow { font-size: 13px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; color: #E6BB00; margin-bottom: 14px; }
+  .headline { font-size: 42px; font-weight: 900; color: #1A1A1A; line-height: 1.12; margin-bottom: 12px; }
+  .headline .ok { color: #1A1A1A; }
+  .sub { font-size: 18px; color: #555555; line-height: 1.5; max-width: 880px; }
+
+  .badge-live {
+    display: inline-flex; align-items: center; gap: 8px; background: #1A1A1A; color: #FFD001;
+    font-size: 12px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 7px 16px; border-radius: 20px; margin-bottom: 16px;
+  }
+  .badge-live .dot { width: 8px; height: 8px; border-radius: 50%; background: #2ECC71; }
+
+  .cards { display: flex; gap: 18px; padding: 0 56px; margin-top: 6px; }
+  .card {
+    flex: 1; background: #F5F5F5; border-radius: 14px; padding: 20px 20px 22px;
+    border-top: 4px solid #FFD001;
+  }
+  .card-title { font-size: 15px; font-weight: 800; color: #1A1A1A; margin-bottom: 8px; }
+  .card-text { font-size: 13px; color: #555555; line-height: 1.55; }
+
+  .bottom { margin-top: auto; }
+  .cta-row {
+    margin: 26px 56px 0; padding: 18px 24px; background: #FFFBEA; border: 1px solid #FFE9A8;
+    border-radius: 12px; display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  }
+  .cta-link { font-size: 20px; font-weight: 900; color: #1A1A1A; }
+  .cta-link span { color: #E6BB00; }
+  .cta-sub { font-size: 12.5px; color: #666; margin-top: 3px; }
+  .sessions { text-align: right; }
+  .sessions-lbl { font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 6px; }
+  .sessions-chips { display: flex; gap: 8px; }
+  .chip {
+    background: #1A1A1A; color: #FFD001; font-size: 11.5px; font-weight: 700;
+    padding: 6px 12px; border-radius: 8px; white-space: nowrap;
+  }
+
+  .footer {
+    margin-top: 22px; background: #1A1A1A; padding: 16px 56px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-brand { display: flex; align-items: center; gap: 12px; }
+  .logo-mark {
+    background: #FFD001; color: #1A1A1A; font-weight: 900; font-size: 14px;
+    padding: 5px 11px; border-radius: 5px; letter-spacing: 0.5px;
+  }
+  .footer-title { color: #FFFFFF; font-size: 13px; font-weight: 800; }
+  .footer-sub { color: #AAAAAA; font-size: 11px; margin-top: 1px; }
+  .footer-date { color: #FFD001; font-size: 12px; font-weight: 700; text-align: right; }
+</style>
+</head>
+<body>
+
+<div class="slide">
+  <div class="top-accent"></div>
+  <div class="hdr">
+    <div class="eyebrow">Mercado Libre &middot; Excelencia Operacional &middot; MLM</div>
+    <div class="badge-live"><span class="dot"></span> Ya está en vivo</div>
+    <div class="headline">El OE MLM Hub ya se lanzó</div>
+    <div class="sub">La fuente oficial y centralizada de Excelencia Operacional en México — un solo lugar para dar seguimiento a proyectos, consultar indicadores, encontrar al líder correcto y aprender el proceso, disponible para todo MLM México de Coordinador a Director.</div>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-title">¿Por qué se creó?</div>
+      <div class="card-text">La información de OE vivía repartida entre correos, Drive y WhatsApp. El Hub la centralizó en un solo lugar, actualizado cada mes.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">¿Para qué sirve?</div>
+      <div class="card-text">Seguimiento de proyectos e indicadores, directorio de líderes, y todo el material de aprendizaje de OE — sin perseguir a nadie.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Fuente oficial, siempre vivo</div>
+      <div class="card-text">Reemplaza copias sueltas y versiones desactualizadas. Se actualiza cada mes en español, inglés y portugués.</div>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <div class="cta-row">
+      <div>
+        <div class="cta-link">oe-hub-mu.vercel.app <span>&rarr;</span></div>
+        <div class="cta-sub">Entra hoy mismo y explóralo con tu equipo.</div>
+      </div>
+      <div class="sessions">
+        <div class="sessions-lbl">Sesiones de presentación en vivo (20 min)</div>
+        <div class="sessions-chips">
+          <span class="chip">Lun 5 &middot; 10am</span>
+          <span class="chip">Mar 6 &middot; 1pm</span>
+          <span class="chip">Mié 7 &middot; 4pm</span>
+          <span class="chip">Jue 8 &middot; 6pm</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-brand">
+        <div class="logo-mark">OE</div>
+        <div>
+          <div class="footer-title">OE MLM Hub</div>
+          <div class="footer-sub">Excelencia Operacional &middot; MLM</div>
+        </div>
+      </div>
+      <div class="footer-date">MBR de Directores &middot; Octubre 2026</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
